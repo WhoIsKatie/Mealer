@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class Cook extends User{
 	private String description;
-	private double averageRating, sum;
+	private double ratingSum;
 	private boolean suspended = false;
 	// private voidCheque
 	private int completedOrders;
@@ -22,12 +22,12 @@ public class Cook extends User{
 	}
 	
 	public double getRating() {
-		return averageRating;
+		return ratingSum/completedOrders;
 	}
 	
 	public void addRating(double x) {
 		sum += x;
-		
+		// completed orders should be taken care of elsewhere
 	}
 	
 	public void createMeal(Cook cook, float price, String description, String mealType, String cuisine, String ingredients, String allergens) {
