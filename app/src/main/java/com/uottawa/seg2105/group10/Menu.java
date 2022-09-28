@@ -1,3 +1,5 @@
+package com.uottawa.seg2105.group10;
+
 import java.util.List;
 import java.util.ArrayList;
 
