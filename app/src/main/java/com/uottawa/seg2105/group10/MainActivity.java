@@ -1,13 +1,15 @@
 package com.uottawa.seg2105.group10;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView button;
+    private Button registrationButt, signInButt;
 
 
     @Override
@@ -15,15 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = (TextView) findViewById(R.id.button);
-        button.setOnClickListener(this);
+        registrationButt = findViewById(R.id.registrationButt);
+        signInButt = findViewById(R.id.signInButt);
+
+        registrationButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, Register.class));
+            }
+        });
+
+        signInButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Login.class));
+            }
+        });
     }
 }
 
-    @Override
-    public void onCLick(View v){
-    switch (v.getId()){
-        case R.id.button:
-            startActivity(new Intent(packageContext:));
-    }
-    }
