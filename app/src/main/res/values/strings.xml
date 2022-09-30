@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Mealer</string>
     <string name="title_activity_register">Register</string>
+    <string name="registering_welcome_message">Welcome to Mealer! \n Please select your role:</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
