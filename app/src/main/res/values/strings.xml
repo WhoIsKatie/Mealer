@@ -1,11 +1,32 @@
 <resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+
+    </style>
+
     <string name="app_name">Mealer</string>
     <string name="title_activity_register">Register</string>
-    <string name="registering_welcome_message">Welcome to Mealer! \n Please select your role:</string>
+    <string name="registering_welcome_message">WELCOME</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="login">Login</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="enter_phone_number">Phone Number</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="enter_full_name">Full Name</string>
+    <string name="enter_email">Email</string>
+    <string name="next_btn">NEXT</string>
+    <string name="enter_first_name">First Name</string>
+    <string name="enter_last_name">Last Name</string>
+    <string name="register">REGISTER</string>
+    <string name="enter_address">Address</string>
+
+
 </resources>
