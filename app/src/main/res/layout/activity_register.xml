@@ -5,10 +5,11 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_yellow"
+    android:background="@color/ic_launcher_background"
     android:textAlignment="center"
     android:theme="@style/ThemeOverlay.Mealer.FullscreenContainer"
     tools:context=".Register">
+
 
     <TextView
         android:id="@+id/role_select_and_welcome"
@@ -22,53 +23,35 @@
         android:textAlignment="gravity"
         android:textColor="#000000"
         android:textIsSelectable="false"
-        android:textSize="40sp"
+        android:textSize="60sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.274" />
 
-
     <RadioGroup
         android:id="@+id/radioGroup2"
-        android:layout_width="191dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="271dp"
+        android:layout_width="295dp"
+        android:layout_height="273dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/role_select_and_welcome"
-        app:layout_constraintVertical_bias="1.0">
-
-        <RadioButton
-            android:id="@+id/cookSelect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cook"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/clientSelect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="Client"
-            android:textSize="16sp" />
-    </RadioGroup>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.713"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="232dp"
         android:fontFamily="@font/roboto"
         android:text="Please Select Your Role"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="61dp" />
+        tools:layout_editor_absoluteX="131dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
