@@ -8,6 +8,17 @@
     tools:context=".Register1">
 
     <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:text="Welcome"
+        android:textColor="#000000"
+        android:textSize="60sp"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="148dp" />
+
+    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,8 +26,17 @@
         android:text="Hello"
         android:textColor="#000000"
         android:textSize="60sp"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="88dp" />
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="91dp" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tell us who you are:"
+        android:textColor="#000000"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="275dp" />
 
     <TextView
         android:id="@+id/textView7"
@@ -27,19 +47,26 @@
         android:text="&"
         android:textColor="#000000"
         android:textSize="60sp"
-        tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="88dp" />
+        tools:layout_editor_absoluteX="208dp"
+        tools:layout_editor_absoluteY="91dp" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_black"
-        android:text="Welcome"
-        android:textColor="#000000"
-        android:textSize="60sp"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="145dp" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="141dp"
+        android:layout_height="47dp"
+        android:text="Client"
+        app:backgroundTint="#000000"
+        tools:layout_editor_absoluteX="199dp"
+        tools:layout_editor_absoluteY="323dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="142dp"
+        android:layout_height="46dp"
+        android:text="Cook"
+        app:backgroundTint="#000000"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="323dp" />
 
     <TextView
         android:id="@+id/textView9"
@@ -49,15 +76,7 @@
         android:text="First things first, let's set up your account"
         android:textColor="#000000"
         android:textSize="16sp"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="250dp" />
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="253dp" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tell us who you are:"
-        android:textColor="#000000"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="272dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
