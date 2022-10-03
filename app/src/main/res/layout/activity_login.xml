@@ -62,7 +62,8 @@
                     android:fontFamily="@font/roboto"
                     android:inputType="phone"
                     android:textColor="@color/black"
-                    android:textCursorDrawable="@null" />
+                    android:textCursorDrawable="@null"
+                    tools:ignore="TouchTargetSizeCheck" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -90,7 +91,8 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPassword"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -112,7 +114,8 @@
                     android:layout_centerVertical="true"
                     android:buttonTint="@color/black"
                     android:text="@string/remember_me"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
 
             </RelativeLayout>
