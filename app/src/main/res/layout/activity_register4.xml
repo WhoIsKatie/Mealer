@@ -144,7 +144,7 @@
                 android:text=" Please upload a picture of a void cheque"
                 android:textAlignment="textStart"
                 android:textColor="#63000000"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/signup_login_button"
