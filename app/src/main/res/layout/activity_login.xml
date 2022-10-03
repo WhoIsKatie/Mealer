@@ -61,7 +61,6 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="phone"
-                    android:text="Enter Username"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null" />
 
@@ -91,8 +90,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
-                    tools:text="Enter Password" />
+                    android:textColor="@color/black" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -115,17 +113,6 @@
                     android:buttonTint="@color/black"
                     android:text="@string/remember_me"
                     android:textColor="@color/black" />
-
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:background="#00000000"
-                    android:onClick="callForgetPassword"
-                    android:text="@string/forget_password"
-                    android:textColor="#000000" />
 
 
             </RelativeLayout>

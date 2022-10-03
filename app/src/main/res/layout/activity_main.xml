@@ -33,6 +33,7 @@
         app:srcCompat="@drawable/landing_logo" />
 
     <Button
+        android:id="@+id/registrationButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/letTheUserLogIn"
