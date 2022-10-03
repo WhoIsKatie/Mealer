@@ -39,6 +39,7 @@
         android:layout_below="@id/letTheUserLogIn"
         android:layout_centerHorizontal="true"
         android:background="#00000000"
+        android:fontFamily="@font/roboto"
         android:onClick="callSignUpFromLogin"
         android:text="Register"
         android:textColor="#000000"
