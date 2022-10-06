@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10;//import java.util.ArrayList;
+package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
 public class Meal {
 	//private Cook cook;

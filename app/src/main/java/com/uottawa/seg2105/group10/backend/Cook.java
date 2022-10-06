@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10;
+package com.uottawa.seg2105.group10.backend;
 
 public class Cook extends User{
 	// question: should these be made local variables? also what would that look like
