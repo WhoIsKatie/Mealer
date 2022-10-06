@@ -51,7 +51,7 @@
         tools:layout_editor_absoluteY="91dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/clientOption"
         android:layout_width="141dp"
         android:layout_height="47dp"
         android:text="Client"
@@ -60,7 +60,7 @@
         tools:layout_editor_absoluteY="323dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/cookOption"
         android:layout_width="142dp"
         android:layout_height="46dp"
         android:text="Cook"

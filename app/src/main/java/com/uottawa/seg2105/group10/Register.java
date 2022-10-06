@@ -101,6 +101,7 @@ public class Register extends AppCompatActivity {
             return false;
         }
     };
+
     private ActivityRegisterBinding binding;
 
     @Override
