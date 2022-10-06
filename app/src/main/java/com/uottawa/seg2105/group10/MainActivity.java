@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         registrationButt = findViewById(R.id.registrationButt);
         signInButt = findViewById(R.id.signInButt);
 
+
         registrationButt.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Login.class));
             }
         });
+
+
     }
 }
 

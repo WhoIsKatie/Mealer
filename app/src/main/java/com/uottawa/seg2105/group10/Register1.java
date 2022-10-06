@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Register1 extends AppCompatActivity {
 
     private Button cookOption, clientOption;
+    public boolean role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class Register1 extends AppCompatActivity {
 
         cookOption = findViewById(R.id.cookOption);
         cookOption.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Register1.this, Register2.class));
