@@ -36,7 +36,6 @@ public class Register1 extends AppCompatActivity {
         cookOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cook = true;
                 startActivity(new Intent(Register1.this, Register2.class));
             }
         });

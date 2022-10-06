@@ -2,24 +2,21 @@ package com.uottawa.seg2105.group10.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.uottawa.seg2105.group10.R;
 
 public class Register2 extends AppCompatActivity {
 
     //Initializing buttons
-    private Button NextButt;
-    private EditText Email;
-    private EditText Firstname;
-    private EditText Lastname;
-
-
+    private Button nextButt;
+    private TextInputEditText emailField;
+    private TextInputEditText firstNameField;
+    private TextInputEditText lastNameField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,23 +24,24 @@ public class Register2 extends AppCompatActivity {
         setContentView(R.layout.activity_register2);
 
         //creating option based of off pulled id's
-        NextButt = findViewById(R.id.signup_next_button);
+        nextButt = findViewById(R.id.signup_next_button);
 
 
-        //next button in reg2 send you to reg3 if cook is false (cook created in reg2)
-        NextButt.setOnClickListener(new View.OnClickListener() {
+        nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                Email = (EditText)findViewById(R.id.email_text);
-                Log.v("Enter Email", Email.getText().toString());
+                emailField = (TextInputEditText)findViewById(R.id.email_text);
+                String email = emailField.getText().toString();
 
-                Firstname = (EditText)findViewById(R.id.signup_fullname);
-                Log.v("Enter First name", Email.getText().toString());
+                firstNameField = (TextInputEditText)findViewById(R.id.signup_fullname);
+                String firstName = emailField.getText().toString();
 
-                Lastname = (EditText)findViewById(R.id.signup_username);
-                Log.v("Enter Last name", Email.getText().toString());
+                lastNameField = (TextInputEditText)findViewById(R.id.signup_username);
+                String lastName = emailField.getText().toString();
 
-                if (Register1.cook == false) {
+                //Directs user to step 2 of registration process
+                //If user is a cook, directs to Register3 activity. Otherwise, user is directed to Register4 activity
+                if (Register1.cook) {
                     startActivity(new Intent(Register2.this, Register3.class));
                 }
                 else{
