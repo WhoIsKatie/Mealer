@@ -37,7 +37,7 @@ public class Register2 extends AppCompatActivity {
                 String firstName = firstNameField.getText().toString();
 
                 lastNameField = (TextInputEditText)findViewById(R.id.lastName_text);
-                String lastName = emailField.getText().toString();
+                String lastName = lastNameField.getText().toString();
 
                 //Directs user to step 2 of registration process
                 //If user is a cook, directs to Register3 activity. Otherwise, user is directed to Register4 activity
