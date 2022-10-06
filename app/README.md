@@ -1,6 +1,6 @@
 # Android Project: Mealer App
 Fall 2022 | Group 10
-###### Katie Liu, Tess Harper, Elsa M. Ko, Jacob Maurice, Saranki Mahendran, Algo Woolf
+###### Katie Liu, Tess Harper, Elsa M. Ko, Jacob Maurice, Saranki Mahendran
 
 An Ottawa-based meal sharing application called “Mealer” where local cooks can sell meals to clients from their home. 
 
