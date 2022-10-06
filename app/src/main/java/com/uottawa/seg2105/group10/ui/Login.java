@@ -11,7 +11,7 @@ import com.uottawa.seg2105.group10.R;
 
 public class Login extends AppCompatActivity {
 
-    private Button registrationButt2;
+    private Button registrationButt2, letTheUserLogIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,16 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this, Register1.class));
+            }
+        });
+
+        letTheUserLogIn = findViewById(R.id.letTheUserLogIn);
+        letTheUserLogIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this, Welcome.class));
+                // finish will kill the login activity so user cannot return back here
+                //finish();
             }
         });
     }

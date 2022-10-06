@@ -9,6 +9,11 @@ import com.uottawa.seg2105.group10.R;
 public class Welcome extends AppCompatActivity {
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);

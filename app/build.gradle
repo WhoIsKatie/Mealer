@@ -7,7 +7,6 @@ plugins {
 android {
     namespace 'com.uottawa.seg2105.group10'
     compileSdk 32
-
     defaultConfig {
         applicationId "com.uottawa.seg2105.group10"
         minSdk 19
