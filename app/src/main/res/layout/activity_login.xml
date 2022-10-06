@@ -57,14 +57,14 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/login_phone_number_editText"
+                    android:id="@+id/login_username"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
-                    android:inputType="phone"
+                    android:inputType="textWebEmailAddress"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -87,13 +87,13 @@
                 app:startIconTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/login_password_editText"
+                    android:id="@+id/login_password2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPassword"
                     android:textColor="@color/black"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
