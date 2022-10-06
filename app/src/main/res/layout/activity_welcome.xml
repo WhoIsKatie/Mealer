@@ -5,28 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_yellow"
-    tools:context=".Register1">
+    tools:context=".ui.Register1">
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
         android:fontFamily="@font/roboto_black"
         android:text="Welcome"
         android:textColor="#000000"
         android:textSize="72sp"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="125dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="39dp"
         android:fontFamily="@font/roboto"
         android:text="You are currently signed in as a"
         android:textColor="#000000"
         android:textSize="16sp"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="221dp" />
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10;
+package com.uottawa.seg2105.group10.backend;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,8 +1,10 @@
-package com.uottawa.seg2105.group10;
+package com.uottawa.seg2105.group10.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.uottawa.seg2105.group10.R;
 
 public class Register3 extends AppCompatActivity {
 

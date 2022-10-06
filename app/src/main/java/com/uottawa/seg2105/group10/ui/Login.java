@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10;
+package com.uottawa.seg2105.group10.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.uottawa.seg2105.group10.R;
 
 public class Login extends AppCompatActivity {
 
