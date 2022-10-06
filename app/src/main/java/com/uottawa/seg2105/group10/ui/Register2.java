@@ -33,10 +33,10 @@ public class Register2 extends AppCompatActivity {
                 emailField = (TextInputEditText)findViewById(R.id.email_text);
                 String email = emailField.getText().toString();
 
-                firstNameField = (TextInputEditText)findViewById(R.id.signup_fullname);
-                String firstName = emailField.getText().toString();
+                firstNameField = (TextInputEditText)findViewById(R.id.firstname_text);
+                String firstName = firstNameField.getText().toString();
 
-                lastNameField = (TextInputEditText)findViewById(R.id.signup_username);
+                lastNameField = (TextInputEditText)findViewById(R.id.lastName_text);
                 String lastName = emailField.getText().toString();
 
                 //Directs user to step 2 of registration process
