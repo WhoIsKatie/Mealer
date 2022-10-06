@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "943310029038",
+    "project_id": "mealerapp-6c42d",
+    "storage_bucket": "mealerapp-6c42d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943310029038:android:a495cfc3ab1d797d52f3ff",
+        "android_client_info": {
+          "package_name": "com.uottawa.seg2105.group10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943310029038-it2fhvp58ie508i24ct00a8kvdhdbmok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-6PDhIsEcinnN1xKrjF40IqQTqAmhUro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943310029038-it2fhvp58ie508i24ct00a8kvdhdbmok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

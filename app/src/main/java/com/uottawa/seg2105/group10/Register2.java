@@ -1,10 +1,12 @@
 package com.uottawa.seg2105.group10;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Register2 extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
