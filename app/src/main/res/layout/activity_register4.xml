@@ -96,9 +96,9 @@
                 tools:text="Profile Description" />
 
             <EditText
-                android:id="@+id/describeYourself"
+                android:id="@+id/profileDesc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
                 android:hint="Tell us about yourself"
@@ -146,20 +146,6 @@
                 android:textColor="#63000000"
                 android:textSize="14sp" />
 
-            <Button
-                android:id="@+id/signup_login_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="#00000000"
-                android:elevation="5dp"
-                android:fontFamily="@font/roboto"
-                android:onClick="callLoginFromSignUp"
-                android:text="@string/upload"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:transitionName="transition_login_btn" />
-
 
         </LinearLayout>
 
@@ -194,7 +180,7 @@
             app:iconTint="#000000" />
 
         <Button
-            android:id="@+id/signup_login_button"
+            android:id="@+id/signup_login_button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
