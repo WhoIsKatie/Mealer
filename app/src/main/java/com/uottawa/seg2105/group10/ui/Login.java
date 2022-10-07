@@ -45,10 +45,13 @@ public class Login extends AppCompatActivity {
         letTheUserLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getting fields for username and password
+                // getting fields for username and password
+                // idea from https://stackoverflow.com/questions/37352871/firebase-9-0-0-mauth-signinwithemailandpassword-how-to-pass-it-to-a-button
+                // bug fix from https://stackoverflow.com/questions/39486937/getting-cannot-resolve-method-addoncompletionlistener-while-trying
                 email = login_username.getText().toString().trim();
                 password = login_password2.getText().toString().trim();
 
+                // this is inside onclick so it doesn't run immediately when the activity begins
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -92,6 +95,8 @@ public class Login extends AppCompatActivity {
 
     public void updateUI(FirebaseUser user) {
         if (user != null) {
+            // if we are passed a user at this point we know they have signed in
+            // bring them to welcome page and give a toast
             Toast.makeText(this, "Welcome back to Mealer", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Welcome.class));
         }
