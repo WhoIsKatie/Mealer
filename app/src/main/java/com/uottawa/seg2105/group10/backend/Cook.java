@@ -12,13 +12,9 @@ public class Cook extends User{
 	//public Hashmap<String, List<Meal>> allergen = new Hashmap<String, List<Meal>>();
 	// String (key) is the allergen, List<Meal> for list of meals containing the allergen
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
-	
+
 	public Cook(String firstName, String lastName, String email, String password, String address, String description) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.address = address;
+		super(firstName, lastName, email, password, address);
 		this.description = description;
 		
 		ratingSum = 0.0;
@@ -37,5 +33,7 @@ public class Cook extends User{
 		Meal meal = new Meal(name, price, description, mealType, cuisine, ingredients, allergens);
 		this.cookMenu.menu.add(meal);
 	}
+
+
 
 }
