@@ -6,7 +6,7 @@ public class Meal {
 	private float price;
 	private String name, description, mealType, cuisine, ingredients, allergens;
 	public boolean offered = true;
-	// by default the meal is offered, need method to change this
+	// by default the meal is offered
 
 	public Meal(String name, float price) {
 		this.name = name;
@@ -37,8 +37,8 @@ public class Meal {
 	public String getIngredients() {return ingredients;}
 	public String getAllergens() {return allergens;}
 	public float getPrice() {return price;}
-	//setters
 
+	//setters
 	public void setName(String name) {this.name = name;}
 	public void setPrice(float price) {this.price = price;}
 	public void setDescription(String description) {this.description = description;}
