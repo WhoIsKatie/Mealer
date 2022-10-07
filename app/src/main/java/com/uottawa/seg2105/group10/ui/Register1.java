@@ -16,9 +16,9 @@ public class Register1 extends AppCompatActivity {
     private Button cookOption, clientOption;
 
 
-    //if cook == true than you are a cook
-    //if cook == false than you are a client
-    public static boolean cook;
+    //if cook == true, user is cook
+    //if cook == false, user is  client
+    private static boolean cook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,11 @@ public class Register1 extends AppCompatActivity {
 
 
         //cook button in register1 that directs you to register2
-        //when cook button is clicked, cook is set  to ture
+        //when cook button is clicked, cook is set  to true
         cookOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cook = true;
                 startActivity(new Intent(Register1.this, Register2.class));
             }
         });
@@ -50,5 +51,9 @@ public class Register1 extends AppCompatActivity {
                 startActivity(new Intent(Register1.this, Register2.class));
             }
         });
+    }
+
+    public static Boolean isCook() {
+        return cook;
     }
 }

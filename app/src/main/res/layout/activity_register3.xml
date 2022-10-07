@@ -53,33 +53,6 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/signup_fullname"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_address"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
-                app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconTint="@color/black">
-
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/roboto"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@null" />
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/signup_username"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -159,7 +132,7 @@
             android:ems="10"
             android:fontFamily="@font/roboto"
             android:hint="MM/YY"
-            android:inputType="number" />
+            android:inputType="date" />
 
         <TextView
             android:id="@+id/textView3"
