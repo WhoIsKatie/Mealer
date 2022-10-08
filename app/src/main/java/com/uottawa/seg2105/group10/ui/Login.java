@@ -76,7 +76,7 @@ public class Login extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // if back is clicked this activity just ends
+                // if back button is clicked, login activity ends
                 finish();
             }
         });
@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
-        //checking if user is signed in already
+        //checks if user is signed in already
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             currentUser.reload();
@@ -95,8 +95,8 @@ public class Login extends AppCompatActivity {
 
     public void updateUI(FirebaseUser user) {
         if (user != null) {
-            // if we are passed a user at this point we know they have signed in
-            // bring them to welcome page and give a toast
+            // if valid user is passed, they have signed in
+            // direct user to welcome page and notify with toast
             Toast.makeText(this, "Welcome back to Mealer", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Welcome.class));
         }

@@ -40,7 +40,7 @@ public class Register2 extends AppCompatActivity {
         // Initialize FirebaseAuth object
         mAuth = FirebaseAuth.getInstance();
 
-        //creating option based of off pulled id's
+        // creating option based of off pulled id's
         nextButt = findViewById(R.id.signup_next_button);
 
 
@@ -48,6 +48,7 @@ public class Register2 extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
+                // collecting user information from text fields
                 firstNameField = (TextInputEditText)findViewById(R.id.firstname_text);
                 String firstName = firstNameField.getText().toString();
 
@@ -63,6 +64,7 @@ public class Register2 extends AppCompatActivity {
                 addressField = (TextInputEditText)findViewById(R.id.address_text);
                 String address = addressField.getText().toString();
 
+                // Create Firebase user account with email and password
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Register2.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -85,8 +87,9 @@ public class Register2 extends AppCompatActivity {
                             public void updateUI(FirebaseUser account){
 
                                 if(account != null){
-                                    //Directs user to step 2 of registration process
-                                    //If user is NOT a cook, directs to Register3 activity. Otherwise, user is directed to Register4 activity
+                                    // Initializes a Mealer user object WITH Firebase user object
+                                    // Directs user to step 2 of registration process
+                                    // If user is NOT a cook, directs to Register3 activity. Otherwise, user is directed to Register4 activity
                                     if (!Register1.isCook()) {
                                         user = new Client(account, firstName, lastName, email, password, address);
                                         startActivity(new Intent(Register2.this, Register3.class));
@@ -102,7 +105,7 @@ public class Register2 extends AppCompatActivity {
 
         }});
     }
-    public User getUser() {
-        return user;
-    }
+
+    // Getter method for instance of Mealer user
+    public User getUser() {return user;}
 }

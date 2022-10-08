@@ -16,3 +16,6 @@ and pick it up from the Cook’s home.
 **Administrator:** 
 a user that receives complaints about a Cook from a Client and may
 suspend the Cook if necessary. 
+
+
+[//]: # (TODO: complete the README to be presentable, esp for future employers!! hehe)

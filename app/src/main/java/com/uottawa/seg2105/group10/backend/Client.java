@@ -11,6 +11,8 @@ public class Client extends User {
         super(user, firstName, lastName, email, password, address);
     }
 
+    // Setter method for Credit Card information
+    // If CC number, expiry date, and cvc are of correct format, returns true. Otherwise, returns false.
     public boolean setCC(String num, String name, String expiry, String cvc) {
         if (expiry.matches("(?:0[1-9]|1[0-2])/[0-9]{2}") &&
             (ccNumber.length() == 16) && (cvc.length() == 3)) {
