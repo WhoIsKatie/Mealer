@@ -110,7 +110,7 @@
                 android:text=" Please upload a picture of a void cheque"
                 android:textAlignment="textStart"
                 android:textColor="#63000000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <!-- TODO: add uploadCheque button please     -->
         </LinearLayout>
