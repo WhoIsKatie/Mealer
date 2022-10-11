@@ -61,15 +61,17 @@
                 android:textColor="#000000"
                 tools:text="Profile Description" />
 
-            <EditText
-                android:id="@+id/profileDesc"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:ems="10"
-                android:fontFamily="@font/roboto"
-                android:hint="Tell us about yourself"
-                android:inputType="textLongMessage"
-                android:textSize="16sp" />
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/profileDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tell us about yourself"
+                    android:visibility="invisible" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <View
                 android:id="@+id/divider2"

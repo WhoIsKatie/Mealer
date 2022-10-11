@@ -125,14 +125,17 @@
             android:text="Expiration Date"
             android:textColor="#000000" />
 
-        <EditText
-            android:id="@+id/editTextNumber"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:fontFamily="@font/roboto"
-            android:hint="MM/YY"
-            android:inputType="date" />
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="MM/YY"
+                android:visibility="invisible" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView3"
@@ -141,14 +144,17 @@
             android:text="Security Code"
             android:textColor="#000000" />
 
-        <EditText
-            android:id="@+id/editTextNumber2"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:fontFamily="@font/roboto"
-            android:hint="CVC"
-            android:inputType="number" />
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNumber2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CVC"
+                android:visibility="invisible" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/signup_next_button"
