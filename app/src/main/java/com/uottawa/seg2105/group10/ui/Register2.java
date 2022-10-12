@@ -30,7 +30,7 @@ public class Register2 extends AppCompatActivity {
     private Button nextButt;
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
 
-    private User user;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,5 +107,4 @@ public class Register2 extends AppCompatActivity {
     }
 
     // Getter method for instance of Mealer user
-    public User getUser() {return user;}
 }
