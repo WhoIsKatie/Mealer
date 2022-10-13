@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class Register2 extends AppCompatActivity {
 
     //Initializing buttons
     private Button nextButt;
+    private ImageButton back;
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
     private Button login;
     public static User user;
@@ -43,6 +45,7 @@ public class Register2 extends AppCompatActivity {
         // creating option based of off pulled id's
         nextButt = findViewById(R.id.why_me);
         login = findViewById(R.id.why_jacob);
+        back = findViewById(R.id.back_button_inReg2);
 
 
 
@@ -111,6 +114,14 @@ public class Register2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Register2.this, Login.class));
+            }
+
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
 
         });

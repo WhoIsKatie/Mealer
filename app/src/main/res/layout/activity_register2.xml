@@ -14,13 +14,13 @@
         android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/signup_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:src="@drawable/general_back_icon"
-            android:transitionName="transition_back_arrow_btn" />
+        <ImageButton
+            android:id="@+id/back_button_inReg2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/back"
+            app:srcCompat="@drawable/general_back_icon" />
 
 
         <RelativeLayout

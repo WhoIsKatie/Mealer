@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +21,7 @@ public class Register3 extends AppCompatActivity {
     //Initializing buttons
     private Button nextButt;
     private Button login;
+    private ImageButton back;
     private TextInputEditText nameOnCard, CardNumber, ExpDate, SecCode;
 
     @Override
@@ -29,7 +31,7 @@ public class Register3 extends AppCompatActivity {
 
         nextButt = findViewById(R.id.signup_submit_button);
         login = findViewById(R.id.signup_login_button2);
-
+        back = findViewById(R.id.backButInReg3);
 
         User user = Register2.user;
         nextButt.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +61,14 @@ public class Register3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Register3.this, Login.class));
+            }
+
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
 
         });

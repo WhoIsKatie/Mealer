@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,7 @@ public class Register4 extends AppCompatActivity {
 
     private Button nextButt;
     private Button login;
+    private ImageButton back;
 
     private TextInputEditText profile;
 
@@ -26,6 +28,7 @@ public class Register4 extends AppCompatActivity {
         User user = Register2.user;
         nextButt = findViewById(R.id.signup_submit_button);
         login = findViewById(R.id.signup_login_button2);
+        back = findViewById(R.id.BackButFOrReg4);
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +50,14 @@ public class Register4 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Register4.this, Login.class));
+            }
+
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
 
         });
