@@ -24,7 +24,7 @@ public class Register4 extends AppCompatActivity {
     private ImageButton back;
     private Button gal;
     private TextInputEditText profile;
-    private  ImageView check;
+    private  ImageView voidCheck;
     private final int GALLERY_REQ_CODE = 1000;
 
 
@@ -37,7 +37,7 @@ public class Register4 extends AppCompatActivity {
         nextButt = findViewById(R.id.signup_submit_button);
         login = findViewById(R.id.signup_login_button2);
         back = findViewById(R.id.BackButFOrReg4);
-        check = findViewById(R.id.check);
+        voidCheck = findViewById(R.id.check);
         gal = findViewById(R.id.galery);
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class Register4 extends AppCompatActivity {
 
             if (resultCode == GALLERY_REQ_CODE){
                 //For gallery
-                check.setImageURI(data.getData());
+                voidCheck.setImageURI(data.getData());
             }
         }
 
