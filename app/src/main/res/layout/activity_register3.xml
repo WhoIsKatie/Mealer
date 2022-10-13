@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="MM/YY"
-                android:visibility="invisible" />
+                android:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="CVC"
-                android:visibility="invisible" />
+                android:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

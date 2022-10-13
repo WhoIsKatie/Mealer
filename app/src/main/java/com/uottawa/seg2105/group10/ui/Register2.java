@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.Cook;
@@ -24,6 +25,7 @@ import com.uottawa.seg2105.group10.backend.User;
 
 public class Register2 extends AppCompatActivity {
 
+    private FirebaseStorage storage;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
 
@@ -39,8 +41,9 @@ public class Register2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        // Initialize FirebaseAuth object
+        // Initialize FirebaseAuth and FirebaseStorage objects
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         // creating option based of off pulled id's
         nextButt = findViewById(R.id.why_me);
