@@ -15,6 +15,17 @@
         android:orientation="vertical">
 
 
+        <Button
+            android:id="@+id/galery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gallery" />
+        <TextView
+            android:id="@+id/check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
         <ImageButton
             android:id="@+id/BackButFOrReg4"
             android:layout_width="48dp"
@@ -163,7 +174,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </LinearLayout>
