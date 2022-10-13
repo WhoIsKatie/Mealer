@@ -126,6 +126,7 @@
             android:textColor="#000000" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Exp_Date"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -145,6 +146,7 @@
             android:textColor="#000000" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Sec_COdee"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

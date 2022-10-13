@@ -43,10 +43,10 @@ public class Register3 extends AppCompatActivity {
                 CardNumber = (TextInputEditText) findViewById(R.id.signup_password);
                 String ccNum = CardNumber.getText().toString();
 
-                ExpDate = (TextInputEditText) findViewById(R.id.editTextNumber);
+                ExpDate = (TextInputEditText) findViewById(R.id.Exp_Date);
                 String email = ExpDate.getText().toString();
 
-                SecCode = (TextInputEditText) findViewById(R.id.editTextNumber2);
+                SecCode = (TextInputEditText) findViewById(R.id.Sec_COdee);
                 String password = SecCode.getText().toString();
 
                 ((Client) user).setCC(ccNum, firstName, email, password);
