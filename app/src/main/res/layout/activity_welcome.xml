@@ -8,7 +8,7 @@
     tools:context=".ui.Register1">
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/reg1HeaderText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="125dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/reg1Text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="39dp"
@@ -29,7 +29,7 @@
         android:text="You are currently signed in as a"
         android:textColor="#000000"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintEnd_toEndOf="@+id/reg1HeaderText2"
+        app:layout_constraintTop_toBottomOf="@+id/reg1HeaderText2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,8 +26,8 @@ public class Register1 extends AppCompatActivity {
         setContentView(R.layout.activity_register1);
 
         //creating option based of off pulled id's
-        cookOption = findViewById(R.id.cookOption);
-        clientOption = findViewById(R.id.clientOption);
+        cookOption = findViewById(R.id.cookOptionButt);
+        clientOption = findViewById(R.id.clientOptionButt);
 
 
 

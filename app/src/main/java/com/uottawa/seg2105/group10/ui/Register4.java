@@ -1,7 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,40 +17,36 @@ import com.uottawa.seg2105.group10.backend.User;
 
 public class Register4 extends AppCompatActivity {
 
-    private Button nextButt;
+    private Button submitButt;
     private Button login;
     private ImageButton back;
-    private Button gal;
+    private Button galleryButt;
     private TextInputEditText profile;
-    private  ImageView voidCheck;
+    private ImageView voidCheck;
     private final int GALLERY_REQ_CODE = 1000;
 
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register4);
         User user = Register2.user;
-        nextButt = findViewById(R.id.signup_submit_button);
-        login = findViewById(R.id.signup_login_button2);
-        back = findViewById(R.id.BackButFOrReg4);
-        voidCheck = findViewById(R.id.check);
-        gal = findViewById(R.id.galery);
-        nextButt.setOnClickListener(new View.OnClickListener() {
+        submitButt = findViewById(R.id.cookSubmitButt);
+        login = findViewById(R.id.reg4LoginButt);
+        back = findViewById(R.id.reg4BackButt);
+        voidCheck = findViewById(R.id.peekChequeImg);
+        galleryButt = findViewById(R.id.galleryLaunchButt);
+        submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 profile = (TextInputEditText) findViewById(R.id.profileDescUpper);
                 String profDesc = profile.getText().toString();
 
-
+                //TODO: use Client.java setCC method to complete profile
                 //((Cook) user).setCC(profDesc, JAKE PUT STUFF HERE);
 
             }
 
-
-
-            //TODO: use Client.java setCC method to complete profile
 
         });
 
@@ -72,30 +66,17 @@ public class Register4 extends AppCompatActivity {
 
         });
 
-        gal.setOnClickListener(new View.OnClickListener() {
+        galleryButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent iGallery = new Intent(Intent.ACTION_PICK);
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
-
+                //TODO: Jake, please replace startActivityForResult method (open link below)
+                //https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
             }
 
         });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK){
-
-            if (resultCode == GALLERY_REQ_CODE){
-                //For gallery
-                voidCheck.setImageURI(data.getData());
-            }
-        }
 
     }
 }

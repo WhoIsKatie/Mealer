@@ -41,7 +41,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/login_phone_number"
+                android:id="@+id/loginUserLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:startIconTint="@color/black">
 
                 <EditText
-                    android:id="@+id/login_username"
+                    android:id="@+id/loginUserEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -67,11 +67,11 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/login_password"
+                android:id="@+id/loginPassLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/login_phone_number"
+                android:layout_below="@id/loginUserLayout"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
@@ -82,7 +82,7 @@
                 app:startIconTint="@color/black">
 
                 <EditText
-                    android:id="@+id/login_password2"
+                    android:id="@+id/loginPassEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,7 +97,7 @@
                 android:id="@+id/forget_password_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/login_password"
+                android:layout_below="@id/loginPassLayout"
                 android:layout_marginTop="10dp"/>
 
 

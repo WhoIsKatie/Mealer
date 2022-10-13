@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.User;
@@ -29,24 +28,24 @@ public class Register3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
 
-        nextButt = findViewById(R.id.signup_submit_button);
-        login = findViewById(R.id.signup_login_button2);
-        back = findViewById(R.id.backButInReg3);
+        nextButt = findViewById(R.id.clientSubmitButt);
+        login = findViewById(R.id.reg3LoginButt);
+        back = findViewById(R.id.reg3BackButt);
 
         User user = Register2.user;
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nameOnCard = (TextInputEditText) findViewById(R.id.signup_username);
+                nameOnCard = (TextInputEditText) findViewById(R.id.ccNameLayout);
                 String firstName = nameOnCard.getText().toString();
 
-                CardNumber = (TextInputEditText) findViewById(R.id.signup_password);
+                CardNumber = (TextInputEditText) findViewById(R.id.passLayout);
                 String ccNum = CardNumber.getText().toString();
 
-                ExpDate = (TextInputEditText) findViewById(R.id.Exp_Date);
+                ExpDate = (TextInputEditText) findViewById(R.id.expiryLayout);
                 String email = ExpDate.getText().toString();
 
-                SecCode = (TextInputEditText) findViewById(R.id.Sec_COdee);
+                SecCode = (TextInputEditText) findViewById(R.id.cvcTextField);
                 String password = SecCode.getText().toString();
 
                 ((Client) user).setCC(ccNum, firstName, email, password);

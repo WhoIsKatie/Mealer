@@ -15,19 +15,8 @@
         android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/galery"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gallery" />
-        <TextView
-            android:id="@+id/check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
         <ImageButton
-            android:id="@+id/BackButFOrReg4"
+            android:id="@+id/reg4BackButt"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="#00FFFFFF"
@@ -41,7 +30,7 @@
 
 
             <TextView
-                android:id="@+id/signup_title_text"
+                android:id="@+id/reg4HeaderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -64,7 +53,7 @@
 
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/reg4Text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
@@ -78,7 +67,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/profileDesc"
+                    android:id="@+id/profileDescEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tell us about yourself"
@@ -100,7 +89,7 @@
                 android:visibility="invisible" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/reg4Text2"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:fontFamily="@font/roboto"
@@ -116,15 +105,17 @@
                 android:background="?android:attr/listDivider"
                 tools:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/textView"
+            <Button
+                android:id="@+id/galleryLaunchButt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text=" Please upload a picture of a void cheque"
-                android:textAlignment="textStart"
-                android:textColor="#63000000"
-                android:textSize="16sp" />
+                android:text="Upload" />
+
+            <ImageView
+                android:id="@+id/peekChequeImg"
+                android:layout_width="match_parent"
+                android:layout_height="111dp"
+                app:srcCompat="@android:drawable/ic_menu_add" />
 
             <!-- TODO: add uploadCheque button please     -->
         </LinearLayout>
@@ -137,15 +128,8 @@
             android:background="?android:attr/listDivider"
             tools:visibility="invisible" />
 
-        <View
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:background="?android:attr/listDivider"
-            tools:visibility="invisible" />
-
         <Button
-            android:id="@+id/signup_submit_button"
+            android:id="@+id/cookSubmitButt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -153,14 +137,14 @@
             android:elevation="5dp"
             android:fontFamily="@font/roboto"
             android:onClick="callNextSigupScreen"
-            android:text="@string/next_btn"
+            android:text="@string/button_submit"
             android:textColor="@color/white"
             android:transitionName="transition_next_btn"
             app:backgroundTint="#000000"
             app:iconTint="#000000" />
 
         <Button
-            android:id="@+id/signup_login_button2"
+            android:id="@+id/reg4LoginButt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -172,13 +156,6 @@
             android:textColor="@color/black"
             android:transitionName="transition_login_btn" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-
-        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

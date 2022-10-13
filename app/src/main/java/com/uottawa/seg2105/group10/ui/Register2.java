@@ -46,9 +46,9 @@ public class Register2 extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         // creating option based of off pulled id's
-        nextButt = findViewById(R.id.why_me);
-        login = findViewById(R.id.why_jacob);
-        back = findViewById(R.id.back_button_inReg2);
+        nextButt = findViewById(R.id.whyJacobButt);
+        login = findViewById(R.id.reg2LoginButt);
+        back = findViewById(R.id.reg2BackButt);
 
 
 
@@ -57,19 +57,19 @@ public class Register2 extends AppCompatActivity {
             public void onClick(View view){
 
                 // collecting user information from text fields
-                firstNameField = (TextInputEditText)findViewById(R.id.firstname_text);
+                firstNameField = (TextInputEditText)findViewById(R.id.firstNameEditText);
                 String firstName = firstNameField.getText().toString();
 
-                lastNameField = (TextInputEditText)findViewById(R.id.lastName_text);
+                lastNameField = (TextInputEditText)findViewById(R.id.lastNameEditText);
                 String lastName = lastNameField.getText().toString();
 
-                emailField = (TextInputEditText)findViewById(R.id.email_text);
+                emailField = (TextInputEditText)findViewById(R.id.emailEditText);
                 String email = emailField.getText().toString();
 
-                passField = (TextInputEditText)findViewById(R.id.pass_text);
+                passField = (TextInputEditText)findViewById(R.id.passEditText);
                 String password = passField.getText().toString();
 
-                addressField = (TextInputEditText)findViewById(R.id.address_text);
+                addressField = (TextInputEditText)findViewById(R.id.addressEditText);
                 String address = addressField.getText().toString();
 
                 // Create Firebase user account with email and password
