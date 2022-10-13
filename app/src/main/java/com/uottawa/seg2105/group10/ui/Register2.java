@@ -29,7 +29,7 @@ public class Register2 extends AppCompatActivity {
     //Initializing buttons
     private Button nextButt;
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
-
+    private Button login;
     public static User user;
 
     @Override
@@ -42,6 +42,7 @@ public class Register2 extends AppCompatActivity {
 
         // creating option based of off pulled id's
         nextButt = findViewById(R.id.why_me);
+        login = findViewById(R.id.why_jacob);
 
 
 
@@ -105,6 +106,14 @@ public class Register2 extends AppCompatActivity {
                         });
 
         }});
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Register2.this, Login.class));
+            }
+
+        });
     }
 
     // Getter method for instance of Mealer user

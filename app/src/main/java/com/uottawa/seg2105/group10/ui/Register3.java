@@ -1,5 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,12 +19,17 @@ public class Register3 extends AppCompatActivity {
 
     //Initializing buttons
     private Button nextButt;
+    private Button login;
     private TextInputEditText nameOnCard, CardNumber, ExpDate, SecCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
+
+        nextButt = findViewById(R.id.signup_submit_button);
+        login = findViewById(R.id.signup_login_button2);
+
 
         User user = Register2.user;
         nextButt.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +48,17 @@ public class Register3 extends AppCompatActivity {
                 String password = SecCode.getText().toString();
 
                 ((Client) user).setCC(ccNum, firstName, email, password);
+                startActivity(new Intent(Register3.this, Login.class));
 
+            }
+
+
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Register3.this, Login.class));
             }
 
         });
