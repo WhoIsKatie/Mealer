@@ -9,22 +9,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.User;
 
 public class Register4 extends AppCompatActivity {
 
     private Button nextButt;
-    private Button Login;
+    private Button login;
 
     private TextInputEditText profile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        User user = Register2.user;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register4);
+        User user = Register2.user;
+        nextButt = findViewById(R.id.signup_submit_button);
+        login = findViewById(R.id.signup_login_button2);
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +43,7 @@ public class Register4 extends AppCompatActivity {
 
         });
 
-        Login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Register4.this, Login.class));

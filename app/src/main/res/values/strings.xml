@@ -33,6 +33,7 @@
     <string name="upload">Upload</string>
     <string name="back">back</string>
     <string name="mealer_s_logo_and_slogan">Mealer\'s Logo and Slogan</string>
+    <string name="button_submit">submit</string>
 
 
 </resources>

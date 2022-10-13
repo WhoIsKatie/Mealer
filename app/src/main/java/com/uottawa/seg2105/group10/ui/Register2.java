@@ -41,7 +41,8 @@ public class Register2 extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // creating option based of off pulled id's
-        nextButt = findViewById(R.id.signup_next_button);
+        nextButt = findViewById(R.id.why_me);
+
 
 
         nextButt.setOnClickListener(new View.OnClickListener() {
