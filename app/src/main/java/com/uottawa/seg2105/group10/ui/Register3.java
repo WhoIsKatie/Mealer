@@ -56,10 +56,10 @@ public class Register3 extends AppCompatActivity {
                 cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
                 String cvc = cvcField.getText().toString();
 
-                ((Client) user).setCC(ccNum, fullName, expiry, cvc);
+                ((Client) Register2.user).setCC(ccNum, fullName, expiry, cvc);
 
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
-                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).set(user);
+                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).set(Register2.user);
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
             }

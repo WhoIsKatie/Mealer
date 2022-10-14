@@ -1,25 +1,29 @@
 package com.uottawa.seg2105.group10.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Client;
-import com.uottawa.seg2105.group10.backend.User;
 
 public class Welcome extends AppCompatActivity {
 
     private TextView typeText;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
+    private DocumentSnapshot document;
+
+    private static final String TAG = "Welcome";
 
     @Override
     public void onBackPressed() {
@@ -35,15 +39,35 @@ public class Welcome extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         dBase = FirebaseFirestore.getInstance();
+
         DocumentReference userDoc = dBase.collection("users").document(user.getUid());
-        DocumentSnapshot document = userDoc.get().getResult();
+
+        userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                        if (document.get("email") == "jacobmaurice2003@gmail.com"){
+                            typeText.setText("@string/admin");
+                        } else if(document.get("type")== "Cook") {
+                            typeText.setText("@string/cook");
+                        } else if(document.get("type")== "Client") {
+                            typeText.setText("@string/client");
+                        }
+
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
 
 
-        if (user.getEmail() == "jacobmaurice2003@gmail.com"){
-            typeText.setText("@string/admin");
-        }
-        else if(document.get("type") == "Cook") {
-            typeText.setText("@string/cook");
-        }
     }
 }
