@@ -47,18 +47,11 @@ public class Welcome extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     document = task.getResult();
+                    typeText.setText("help me");
 
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-
-                        if (document.get("email") == "jacobmaurice2003@gmail.com"){
-                            typeText.setText("@string/admin");
-                        } else if(document.get("type")== "Cook") {
-                            typeText.setText("@string/cook");
-                        } else if(document.get("type")== "Client") {
-                            typeText.setText("@string/client");
-                        }
-
+                        typeText.setText(document.getString("type"));
                     } else {
                         Log.d(TAG, "No such document");
                     }

@@ -13,8 +13,6 @@ public abstract class User {
 		this.type = type;
 	}
 
-
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -32,5 +30,7 @@ public abstract class User {
 	}
 
 	public String getAddress() { return address; }
+
+	public String getType() { return type; }
 
 }

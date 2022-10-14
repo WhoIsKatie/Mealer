@@ -131,6 +131,4 @@ public class Register2 extends AppCompatActivity {
 
         });
     }
-
-    // Getter method for instance of Mealer user
 }
