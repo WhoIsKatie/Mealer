@@ -2,8 +2,6 @@ package com.uottawa.seg2105.group10.backend;
 
 import androidx.annotation.DrawableRes;
 
-import com.google.firebase.auth.FirebaseUser;
-
 public class Cook extends User{
 	// question: should these be made local variables? also what would that look like
 	private String description;
@@ -22,8 +20,8 @@ public class Cook extends User{
 	// String (key) is the allergen, List<Meal> for list of meals containing the allergen
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
 
-	public Cook (FirebaseUser user, String firstName, String lastName, String email, String password, String address) {
-		super(user, firstName, lastName, email, password, address);
+	public Cook (String firstName, String lastName, String email, String password, String address) {
+		super(firstName, lastName, email, password, address);
 		this.description = description;
 		
 		ratingSum = 0.0;

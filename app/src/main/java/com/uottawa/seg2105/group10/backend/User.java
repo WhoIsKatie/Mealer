@@ -1,13 +1,9 @@
 package com.uottawa.seg2105.group10.backend;
 
-import com.google.firebase.auth.FirebaseUser;
-
 public abstract class User {
 	protected String firstName, lastName, email, password, address;
-	protected FirebaseUser user;
 
-	public User(FirebaseUser user, String firstName, String lastName, String email, String password, String address) {
-		this.user = user;
+	public User(String firstName, String lastName, String email, String password, String address) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -31,8 +27,6 @@ public abstract class User {
 		return password;
 	}
 
-	public String getAddress() {
-		return address;
-	}
+	public String getAddress() { return address; }
 
 }

@@ -9,56 +9,72 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.User;
 
 public class Register3 extends AppCompatActivity {
 
-
+    private static final String TAG = "Register3";
 
     //Initializing buttons
     private Button nextButt;
     private Button login;
     private ImageButton back;
-    private TextInputEditText nameOnCard, CardNumber, ExpDate, SecCode;
+    private TextInputEditText nameOnCard, CardNumber, ExpDate, cvcField;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore dBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
+        User user = Register2.user;
 
         nextButt = findViewById(R.id.clientSubmitButt);
         login = findViewById(R.id.reg3LoginButt);
         back = findViewById(R.id.reg3BackButt);
 
-        User user = Register2.user;
+        mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
+
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nameOnCard = (TextInputEditText) findViewById(R.id.ccNameLayout);
-                String firstName = nameOnCard.getText().toString();
+                nameOnCard = (TextInputEditText) findViewById(R.id.ccNameEditText);
+                String fullName = nameOnCard.getText().toString();
 
-                CardNumber = (TextInputEditText) findViewById(R.id.passLayout);
+                CardNumber = (TextInputEditText) findViewById(R.id.ccNumEditText);
                 String ccNum = CardNumber.getText().toString();
 
-                ExpDate = (TextInputEditText) findViewById(R.id.expiryLayout);
-                String email = ExpDate.getText().toString();
+                ExpDate = (TextInputEditText) findViewById(R.id.expiryEditText);
+                String expiry = ExpDate.getText().toString();
 
-                SecCode = (TextInputEditText) findViewById(R.id.cvcTextField);
-                String password = SecCode.getText().toString();
+                cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
+                String cvc = cvcField.getText().toString();
 
-                ((Client) user).setCC(ccNum, firstName, email, password);
+                ((Client) user).setCC(ccNum, fullName, expiry, cvc);
+
+                // Add user document with Uid set as document ID to collection of "users" in Firestore
+                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).set(user);
+                // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
-
             }
-
-
         });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // delete incomplete user data when user leaves register activity WITHOUT
+                // completing registration activities
+                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
+                mAuth.getCurrentUser().delete();
+                Register2.user = null;
+
+                // Redirects user to login activity WITHOUT completing registration activities
                 startActivity(new Intent(Register3.this, Login.class));
             }
 
@@ -67,9 +83,13 @@ public class Register3 extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // delete incomplete user data when user leaves register activity WITHOUT
+                // completing registration activities
+                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
+                mAuth.getCurrentUser().delete();
+                Register2.user = null;
                 finish();
             }
-
         });
 
     }

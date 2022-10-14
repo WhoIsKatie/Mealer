@@ -45,6 +45,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/enter_username"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
@@ -54,15 +55,14 @@
                 app:startIconDrawable="@drawable/field_username_icon"
                 app:startIconTint="@color/black">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginUserEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:textColor="#000000"
-                    tools:text="@string/enter_username" />
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -72,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/loginUserLayout"
+                android:hint="@string/enter_password"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/black"
                 app:boxStrokeWidthFocused="2dp"
@@ -81,15 +82,14 @@
                 app:startIconDrawable="@drawable/field_password_icon"
                 app:startIconTint="@color/black">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/loginPassEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:textColor="#000000"
-                    tools:text="@string/enter_password" />
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
 

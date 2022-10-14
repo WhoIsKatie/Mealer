@@ -17,7 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.Cook;
@@ -25,9 +25,10 @@ import com.uottawa.seg2105.group10.backend.User;
 
 public class Register2 extends AppCompatActivity {
 
-    private FirebaseStorage storage;
+
     private FirebaseAuth mAuth;
-    private static final String TAG = "EmailPassword";
+    private FirebaseFirestore dBase;
+    private static final String TAG = "Register2";
 
     //Initializing buttons
     private Button nextButt;
@@ -41,9 +42,9 @@ public class Register2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        // Initialize FirebaseAuth and FirebaseStorage objects
+        // Initialize FirebaseAuth and FirebaseFirestore objects
         mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         // creating option based of off pulled id's
         nextButt = findViewById(R.id.whyJacobButt);
@@ -93,19 +94,19 @@ public class Register2 extends AppCompatActivity {
 
                             //Change UI according to user data.
                             public void updateUI(FirebaseUser account){
-
                                 if(account != null){
-                                    // Initializes a Mealer user object WITH Firebase user object
-                                    // Directs user to step 2 of registration process
-                                    // If user is NOT a cook, directs to Register3 activity. Otherwise, user is directed to Register4 activity
+                                    // Initializes a Mealer user object
                                     if (!Register1.isCook()) {
-                                        user = new Client(account, firstName, lastName, email, password, address);
-                                        startActivity(new Intent(Register2.this, Register3.class));
+                                        user = new Client(firstName, lastName, email, password, address);
+                                    } else {
+                                        user = new Cook(firstName, lastName, email, password, address);
                                     }
-                                    else{
-                                        user = new Cook(account, firstName, lastName, email, password, address);
-                                        startActivity(new Intent(Register2.this, Register4.class));
-                                    }
+
+                                    // Directs user to step 2 of registration process:
+                                    // If user is NOT a cook, directs to Register3 activity.
+                                    // Otherwise, user is directed to Register4 activity.
+                                    startActivity(new Intent(Register2.this,
+                                            (!Register1.isCook() ? Register3.class : Register4.class)));
                                 }
 
                             }
@@ -124,6 +125,7 @@ public class Register2 extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 finish();
             }
 
