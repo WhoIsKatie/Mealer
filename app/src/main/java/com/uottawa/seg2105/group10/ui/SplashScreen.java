@@ -1,8 +1,8 @@
 package com.uottawa.seg2105.group10.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawa.seg2105.group10.R;
 
