@@ -6,7 +6,7 @@ public class Client extends User {
 
 
     public Client(String firstName, String lastName, String email, String password, String address) {
-        super(firstName, lastName, email, password, address);
+        super(firstName, lastName, email, password, address, "Client");
     }
 
     // Setter method for Credit Card information

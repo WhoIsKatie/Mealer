@@ -21,7 +21,7 @@ public class Cook extends User{
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
 
 	public Cook (String firstName, String lastName, String email, String password, String address) {
-		super(firstName, lastName, email, password, address);
+		super(firstName, lastName, email, password, address, "Cook");
 		this.description = description;
 		
 		ratingSum = 0.0;
