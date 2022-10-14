@@ -53,7 +53,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ccNameLayout"
+                android:id="@+id/NameLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,15 +125,28 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/expiryLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:hint="YY-MM"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                app:startIconTint="@color/black">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/expiryEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="MM/YY"
-                    android:visibility="visible" />
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,15 +159,29 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cvcLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:hint="CVC"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                app:startIconTint="@color/black">
+
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/cvcEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="CVC"
-                    android:visibility="visible" />
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button

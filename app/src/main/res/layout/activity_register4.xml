@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/main_yellow"
     android:padding="30dp"
-    android:transitionName="transition_signup">
+    android:transitionName="transition_signup"
+    android:visibility="visible">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,16 +63,30 @@
                 tools:text="Profile Description" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/profileDescUpper"
+                android:id="@+id/profileDescLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:hint="Tell us about yourself"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                app:startIconTint="@color/black">
+
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/profileDescEditText"
+                    android:id="@+id/profileDescUpper"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tell us about yourself"
-                    android:visibility="visible" />
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
@@ -109,13 +124,27 @@
                 android:id="@+id/galleryLaunchButt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload" />
+                android:layout_marginTop="20dp"
+                android:background="#00000000"
+                android:elevation="5dp"
+                android:fontFamily="@font/roboto"
+                android:onClick="callLoginFromSignUp"
+                android:text="Upload"
+                android:textColor="@color/black"
+                android:transitionName="transition_login_btn" />
 
             <ImageView
                 android:id="@+id/peekChequeImg"
                 android:layout_width="match_parent"
-                android:layout_height="111dp"
-                app:srcCompat="@android:drawable/ic_menu_add" />
+                android:layout_height="30dp"
+                app:srcCompat="@drawable/imageedit_6_6544326015" />
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible" />
 
             <!-- TODO: add uploadCheque button please     -->
         </LinearLayout>
