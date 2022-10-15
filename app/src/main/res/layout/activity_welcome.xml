@@ -40,16 +40,29 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="179dp"
         android:layout_marginBottom="468dp"
-        android:fontFamily="@font/roboto"
-        android:text="@string/cook"
+        android:fontFamily="@font/roboto_bold"
+        android:text="something"
         android:textColor="#000000"
-        android:textSize="19sp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg1Text1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/logOffButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logoff"
+        app:backgroundTint="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg1Text1"
-
-
-        />
+        app:layout_constraintTop_toBottomOf="@+id/userTypeText"
+        app:layout_constraintVertical_bias="0.839" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

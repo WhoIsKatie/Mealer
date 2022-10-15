@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,6 +36,8 @@ public class Register4 extends AppCompatActivity {
     private FirebaseFirestore dBase;
     private FirebaseStorage storage;
 
+    TextInputLayout description;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,7 @@ public class Register4 extends AppCompatActivity {
         back = findViewById(R.id.reg4BackButt);
         voidCheck = findViewById(R.id.peekChequeImg);
         galleryButt = findViewById(R.id.galleryLaunchButt);
+        description = findViewById(R.id.profileDescLayout);
 
         submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,9 @@ public class Register4 extends AppCompatActivity {
                 profile = (TextInputEditText) findViewById(R.id.profileDescUpper);
                 String profDesc = profile.getText().toString();
 
+                if(!validateDescription()) {
+                    return;
+                }
                 // Create a storage reference from our app
                 StorageReference storageRef = storage.getReference();
 
@@ -114,5 +121,18 @@ public class Register4 extends AppCompatActivity {
 
         });
 
+    }
+    private boolean validateDescription(){
+        String val = description.getEditText().getText().toString().trim();
+
+        if(val.isEmpty()) {
+            description.setError("Field can not be empty");
+            return false;
+        }
+        else{
+            description.setError(null);
+            description.setErrorEnabled(false);
+            return true;
+        }
     }
 }

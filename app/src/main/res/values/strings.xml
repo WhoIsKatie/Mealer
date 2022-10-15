@@ -37,6 +37,7 @@
     <string name="admin">Administrator</string>
     <string name="client">Client</string>
     <string name="cook">Cook</string>
+    <string name="logoff">LOG OFF</string>
 
 
 </resources>

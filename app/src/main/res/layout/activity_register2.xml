@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
-                    android:inputType="text"
+                    android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null" />
 
@@ -97,13 +97,12 @@
                 app:startIconTint="@color/black">
 
 
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
-                    android:inputType="text"
+                    android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -187,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
-                    android:inputType="text"
+                    android:inputType="textPostalAddress"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@null" />
 

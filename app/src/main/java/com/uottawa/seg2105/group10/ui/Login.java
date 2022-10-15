@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,6 +31,8 @@ public class Login extends AppCompatActivity {
 
     private String email, password;
 
+    TextInputLayout usernameLayout, passwordLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,9 @@ public class Login extends AppCompatActivity {
         EditText login_username = findViewById(R.id.loginUserEditText);
         EditText login_password2 = findViewById(R.id.loginPassEditText);
 
+        usernameLayout = findViewById(R.id.loginUserLayout);
+        passwordLayout = findViewById(R.id.loginPassLayout);
+
         letTheUserLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +57,9 @@ public class Login extends AppCompatActivity {
                 email = login_username.getText().toString().trim();
                 password = login_password2.getText().toString().trim();
 
+                if(!validateEmail() | !validatePassword()) {
+                    return;
+                }
                 // this is inside onclick so it doesn't run immediately when the activity begins
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
@@ -99,6 +108,48 @@ public class Login extends AppCompatActivity {
             // direct user to welcome page and notify with toast
             Toast.makeText(this, "Welcome back to Mealer", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Welcome.class));
+        }
+    }
+    private boolean validateEmail(){
+        String val = usernameLayout.getEditText().getText().toString().trim();
+        String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
+        if(val.isEmpty()) {
+            usernameLayout.setError("Field can not be empty");
+            return false;
+        }
+        else if(val.matches(checkEmail)){
+            usernameLayout.setError("Invalid email!");
+            return false;
+        }
+        else{
+            usernameLayout.setError(null);
+            usernameLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validatePassword(){
+        String val = passwordLayout.getEditText().getText().toString().trim();
+        String checkPassword = "^" +
+                //"(?=.*[0-9])" +         //at least 1 digit
+                //"(?=.*[a-z])" +         //at least 1 lower case letter
+                //"(?=.*[A-Z])" +         //at least 1 upper case letter
+                "(?=.*[a-zA-Z])" +      //any letter
+                //"(?=.*[@#$%^&+=])" +    //at least 1 special character
+                "(?=S+$)" +           //no white spaces
+                ".{4,}" +               //at least 4 characters
+                "$";
+        if(val.isEmpty()) {
+            passwordLayout.setError("Field can not be empty");
+            return false;
+        }
+        else if(val.matches(checkPassword)){
+            passwordLayout.setError("Password should contain 4 characters!");
+            return false;
+        }
+        else{
+            passwordLayout.setError(null);
+            passwordLayout.setErrorEnabled(false);
+            return true;
         }
     }
 
