@@ -13,6 +13,8 @@ public abstract class User {
 		this.type = type;
 	}
 
+	public User(){}
+
 	public String getFirstName() {
 		return firstName;
 	}

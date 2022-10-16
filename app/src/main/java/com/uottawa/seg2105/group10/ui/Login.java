@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
             usernameLayout.setError("Field can not be empty");
             return false;
         }
-        else if(val.matches(checkEmail)){
+        else if(! val.matches(checkEmail)){
             usernameLayout.setError("Invalid email!");
             return false;
         }
