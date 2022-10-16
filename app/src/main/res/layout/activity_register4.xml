@@ -129,7 +129,7 @@
             <ImageView
                 android:id="@+id/peekChequeImg"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 app:srcCompat="@drawable/imageedit_6_6544326015" />
 
             <View

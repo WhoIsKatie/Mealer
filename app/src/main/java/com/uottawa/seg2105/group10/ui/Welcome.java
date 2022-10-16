@@ -46,7 +46,6 @@ public class Welcome extends AppCompatActivity {
         dBase = FirebaseFirestore.getInstance();
 
         DocumentReference userDoc = dBase.collection("users").document(user.getUid());
-        typeText.setText("cry");
         userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
