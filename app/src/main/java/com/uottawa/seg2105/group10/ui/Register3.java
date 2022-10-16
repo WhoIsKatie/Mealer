@@ -135,21 +135,24 @@ public class Register3 extends AppCompatActivity {
     }
     private boolean validateCardNumber(){
         String val = cardNumberLayout.getEditText().getText().toString().trim();
-        String checkOnlyNumbers = "[0-9]";
-        String noWhiteSpaces = "(?=S+$)";
+        String checkOnlyNumbers = "?=[0-9]";
         if(val.isEmpty()) {
             cardNumberLayout.setError("Field can not be empty");
             return false;
         }
+        /* TODO: Field currently does not do anything */
         else if(val.matches(checkOnlyNumbers)) {
             cardNumberLayout.setError("Only numbers are allowed!");
             return false;
         }
-        else if(val.matches(noWhiteSpaces)) {
-            cardNumberLayout.setError("No white spaces!");
-            return false;
+        /* TODO: White spaces message only occasionally shows up */
+        for (int i = 0; i < val.length(); i++){
+            if(val.charAt(i) == ' ' ){
+                cvcLayout.setError("No white spaces!");
+                return false;
+            }
         }
-        else if(val.length() != 16){
+        if(val.length() != 16){
             cardNumberLayout.setError("Field requires 16 numbers");
             return false;
         }
@@ -162,7 +165,6 @@ public class Register3 extends AppCompatActivity {
     private boolean validateExpDate(){
         String val = expDateLayout.getEditText().getText().toString().trim();
         String checkOnlyNumbers = "[0-9]";
-        String noWhiteSpaces = "(?=S+$)";
 
         if(val.isEmpty()) {
             expDateLayout.setError("Field can not be empty");
@@ -172,12 +174,14 @@ public class Register3 extends AppCompatActivity {
             expDateLayout.setError("Only numbers are allowed!");
             return false;
         }
-        else if(val.length() != 4 ){
-            expDateLayout.setError("Field requires 4 numbers");
-            return false;
+        for (int i = 0; i < val.length(); i++){
+            if(val.charAt(i) == ' ' ){
+                cvcLayout.setError("No white spaces!");
+                return false;
+            }
         }
-        else if(val.matches(noWhiteSpaces)) {
-            expDateLayout.setError("No white spaces!");
+        if(val.length() != 4 ){
+            expDateLayout.setError("Field requires 4 numbers");
             return false;
         }
         else{
@@ -189,7 +193,6 @@ public class Register3 extends AppCompatActivity {
     private boolean validateCvc(){
         String val = cvcLayout.getEditText().getText().toString().trim();
         String checkOnlyNumbers = "[0-9]";
-        String noWhiteSpaces = "(?=S+$)";
 
         if(val.isEmpty()) {
             cvcLayout.setError("Field can not be empty");
@@ -200,12 +203,14 @@ public class Register3 extends AppCompatActivity {
                 cvcLayout.setError("Field must only contain numbers");
             }
         }
-        if(val.length() != 3 ){
-            cvcLayout.setError("Field requires 4 numbers");
-            return false;
+        for (int i = 0; i < val.length(); i++){
+            if(val.charAt(i) == ' ' ){
+                cvcLayout.setError("No white spaces!");
+                return false;
+            }
         }
-        else if(val.matches(noWhiteSpaces)) {
-            cvcLayout.setError("No white spaces!");
+        if(val.length() != 3 ){
+            cvcLayout.setError("Field requires 3 numbers");
             return false;
         }
         else{

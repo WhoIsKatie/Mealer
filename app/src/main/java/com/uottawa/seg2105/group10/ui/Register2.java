@@ -85,7 +85,7 @@ public class Register2 extends AppCompatActivity {
                 addressField = (TextInputEditText)findViewById(R.id.addressEditText);
                 String address = addressField.getText().toString();
 
-                if(!validateFirstName() | !validateLastName() | !validateAddress() | !validateEmail() | !validatePassword()) {
+                if(!validateFirstName() || !validateLastName() || !validateEmail() || !validatePassword() || !validateAddress()) {
                     return;
                 }
 
@@ -228,6 +228,7 @@ public class Register2 extends AppCompatActivity {
             password.setError("Field can not be empty");
             return false;
         }
+        /* TODO: "Incorrect format" error does not appear on-screen, but still prompts the "Authentification Failed" toast */
         else if(val.matches(checkPassword)){
             password.setError("Incorrect format!");
             return false;
