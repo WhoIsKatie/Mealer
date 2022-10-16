@@ -191,7 +191,7 @@ public class Register2 extends AppCompatActivity {
             username.setError("Field can not be empty");
             return false;
         }
-        else if(val.matches(checkEmail)){
+        else if(! val.matches(checkEmail)){
             username.setError("Invalid email!");
             return false;
         }

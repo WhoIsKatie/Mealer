@@ -22,12 +22,13 @@ public class Cook extends User{
 
 	public Cook (String firstName, String lastName, String email, String password, String address) {
 		super(firstName, lastName, email, password, address, "Cook");
-		this.description = description;
+		this.description = null;
 		
 		ratingSum = 0.0;
 		completedOrders = 0;
 		numReviews = 0;
 	}
+
 
 	public boolean completeProfile(String about, int chequeImg) {
 		//TODO: if appropriate, set conditions that return FALSE

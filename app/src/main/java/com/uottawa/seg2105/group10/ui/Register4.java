@@ -14,15 +14,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Cook;
 import com.uottawa.seg2105.group10.backend.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register4 extends AppCompatActivity {
 
-    private static final String TAG = "Register4";
+    private static final String TAG = "Register4(Cooks)";
 
     private Button submitButt;
     private Button login;
@@ -36,23 +42,25 @@ public class Register4 extends AppCompatActivity {
     private FirebaseFirestore dBase;
     private FirebaseStorage storage;
 
-    TextInputLayout description;
+    TextInputLayout descriptionField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register4);
-        User user = Register2.user;
+        User user = (Cook) Register2.user;
 
         // Initialize FirebaseAuth and FirebaseStorage objects
         storage = FirebaseStorage.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         submitButt = findViewById(R.id.cookSubmitButt);
         login = findViewById(R.id.reg4LoginButt);
         back = findViewById(R.id.reg4BackButt);
         voidCheck = findViewById(R.id.peekChequeImg);
         galleryButt = findViewById(R.id.galleryLaunchButt);
-        description = findViewById(R.id.profileDescLayout);
+        descriptionField = findViewById(R.id.profileDescLayout);
 
         submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +79,15 @@ public class Register4 extends AppCompatActivity {
                 // https://firebase.google.com/docs/storage/android/upload-files
                 // ((Cook) user).completeProfile(profDesc, JAKE PUT STUFF HERE);
 
+                DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                // Set the "description" field of the cook
+                Map<String, String> data = new HashMap<>();
+                data.put("description", profDesc);
+                userRef.set(user);
+                userRef.set(data, SetOptions.merge());
 
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
-                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).set(user);
+
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
             }
@@ -123,15 +137,15 @@ public class Register4 extends AppCompatActivity {
 
     }
     private boolean validateDescription(){
-        String val = description.getEditText().getText().toString().trim();
+        String val = descriptionField.getEditText().getText().toString().trim();
 
         if(val.isEmpty()) {
-            description.setError("Field can not be empty");
+            descriptionField.setError("Field can not be empty");
             return false;
         }
         else{
-            description.setError(null);
-            description.setErrorEnabled(false);
+            descriptionField.setError(null);
+            descriptionField.setErrorEnabled(false);
             return true;
         }
     }
