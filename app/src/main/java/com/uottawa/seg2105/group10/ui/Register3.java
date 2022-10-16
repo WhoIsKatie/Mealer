@@ -33,6 +33,7 @@ public class Register3 extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
+    private User user;
 
     TextInputLayout nameOnCardLayout, cardNumberLayout, expDateLayout, cvcLayout;
 
@@ -40,7 +41,6 @@ public class Register3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
-        User user = Register2.user;
 
         nextButt = findViewById(R.id.clientSubmitButt);
         login = findViewById(R.id.reg3LoginButt);
@@ -69,25 +69,25 @@ public class Register3 extends AppCompatActivity {
                 cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
                 String cvc = cvcField.getText().toString();
 
-                if(!validateNameOnCard() | !validateCardNumber() | !validateExpDate() | !validateCvc()) {
+                if(!validateNameOnCard() || !validateCardNumber() || !validateExpDate() || !validateCvc()) {
                     return;
                 }
 
-                ((Client) Register2.user).setCC(ccNum, fullName, expiry, cvc);
-
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
                 DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                userRef.set(Register2.user);
                 // Update CC fields
-                Map<String, Object> data = new HashMap<>();
+                Map<String, String> data = new HashMap<>();
                 data.put("nameOnCard", fullName);
                 data.put("ccNum", ccNum);
                 data.put("ExpDate", expiry);
                 data.put("cvcField", cvc);
-
+                data.put("type", "Client");
                 userRef.set(data, SetOptions.merge());
+                Client user = new Client(userRef);
+                user.setCC(ccNum, fullName, expiry, cvc);
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
+                finish();
             }
         });
 
@@ -98,7 +98,7 @@ public class Register3 extends AppCompatActivity {
                 // completing registration activities
                 dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
                 mAuth.getCurrentUser().delete();
-                Register2.user = null;
+                user = null;
 
                 // Redirects user to login activity WITHOUT completing registration activities
                 startActivity(new Intent(Register3.this, Login.class));
@@ -113,7 +113,7 @@ public class Register3 extends AppCompatActivity {
                 // completing registration activities
                 dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
                 mAuth.getCurrentUser().delete();
-                Register2.user = null;
+                user = null;
                 finish();
             }
         });
@@ -141,7 +141,7 @@ public class Register3 extends AppCompatActivity {
             cardNumberLayout.setError("Field can not be empty");
             return false;
         }
-        else if(! val.matches(checkOnlyNumbers)) {
+        else if(val.matches(checkOnlyNumbers)) {
             cardNumberLayout.setError("Only numbers are allowed!");
             return false;
         }
@@ -168,7 +168,7 @@ public class Register3 extends AppCompatActivity {
             expDateLayout.setError("Field can not be empty");
             return false;
         }
-        else if(! val.matches(checkOnlyNumbers)) {
+        else if( val.matches(checkOnlyNumbers)) {
             expDateLayout.setError("Only numbers are allowed!");
             return false;
         }
@@ -195,11 +195,12 @@ public class Register3 extends AppCompatActivity {
             cvcLayout.setError("Field can not be empty");
             return false;
         }
-        else if(! val.matches(checkOnlyNumbers)) {
-            cvcLayout.setError("Only numbers are allowed!");
-            return false;
+        for(Character i : val.toCharArray()) {
+            if(! (i.toString()).matches(checkOnlyNumbers)) {
+                cvcLayout.setError("Field must only contain numbers");
+            }
         }
-        else if(val.length() != 3 ){
+        if(val.length() != 3 ){
             cvcLayout.setError("Field requires 4 numbers");
             return false;
         }

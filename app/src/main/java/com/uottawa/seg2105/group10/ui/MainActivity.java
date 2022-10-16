@@ -14,6 +14,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Button registrationButt, signInButt;
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
 
     @SuppressLint("MissingInflatedId")
     @Override

@@ -41,6 +41,7 @@ public class Register4 extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private FirebaseStorage storage;
+    private User user;
 
     TextInputLayout descriptionField;
 
@@ -48,7 +49,6 @@ public class Register4 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register4);
-        User user = (Cook) Register2.user;
 
         // Initialize FirebaseAuth and FirebaseStorage objects
         storage = FirebaseStorage.getInstance();
@@ -79,15 +79,14 @@ public class Register4 extends AppCompatActivity {
                 // https://firebase.google.com/docs/storage/android/upload-files
                 // ((Cook) user).completeProfile(profDesc, JAKE PUT STUFF HERE);
 
+                // Add user document with Uid set as document ID to collection of "users" in Firestore
                 DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 // Set the "description" field of the cook
                 Map<String, String> data = new HashMap<>();
                 data.put("description", profDesc);
-                userRef.set(user);
+                data.put("type", "Cook");
                 userRef.set(data, SetOptions.merge());
-
-                // Add user document with Uid set as document ID to collection of "users" in Firestore
-
+                user = new Cook(userRef);
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
             }
@@ -102,7 +101,7 @@ public class Register4 extends AppCompatActivity {
                 // completing registration activities
                 dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
                 mAuth.getCurrentUser().delete();
-                Register2.user = null;
+                user = null;
 
                 // Redirects user to login activity WITHOUT completing registration activities
                 startActivity(new Intent(Register4.this, Login.class));
@@ -117,7 +116,7 @@ public class Register4 extends AppCompatActivity {
                 // completing registration activities
                 dBase.collection("users").document(mAuth.getCurrentUser().getUid()).delete();
                 mAuth.getCurrentUser().delete();
-                Register2.user = null;
+                user = null;
                 finish();
             }
 

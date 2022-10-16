@@ -18,11 +18,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Client;
-import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register2 extends AppCompatActivity {
 
@@ -36,7 +37,8 @@ public class Register2 extends AppCompatActivity {
     private ImageButton back;
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
     private Button login;
-    public static User user;
+    //public static User user;
+    public static Map<String, String> data = new HashMap<>();
 
     TextInputLayout firstName, lastName, username, password, address;
 
@@ -48,6 +50,7 @@ public class Register2 extends AppCompatActivity {
         // Initialize FirebaseAuth and FirebaseFirestore objects
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
+
 
         // creating option based of off pulled id's
         nextButt = findViewById(R.id.whyJacobButt);
@@ -109,11 +112,20 @@ public class Register2 extends AppCompatActivity {
                             public void updateUI(FirebaseUser account){
                                 if(account != null){
                                     // Initializes a Mealer user object
-                                    if (!Register1.isCook()) {
-                                        user = new Client(firstName, lastName, email, password, address);
+                                    DocumentReference userDoc = dBase.collection("users").document(account.getUid());
+                                    data.put("firstName", firstName);
+                                    data.put("lastName", lastName);
+                                    data.put("email", email);
+                                    data.put("password", password);
+                                    data.put("address", address);
+                                    userDoc.set(data); //may not want to
+                                    /*if (!Register1.isCook()) {
+                                        //user = new Client(userDoc);
+                                        user = new Client();
                                     } else {
-                                        user = new Cook(firstName, lastName, email, password, address);
-                                    }
+                                       // user = new Cook(userDoc);
+                                        user = new Cook();
+                                    }*/
 
                                     // Directs user to step 2 of registration process:
                                     // If user is NOT a cook, directs to Register3 activity.

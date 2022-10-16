@@ -34,6 +34,11 @@ public class Login extends AppCompatActivity {
     TextInputLayout usernameLayout, passwordLayout;
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -86,6 +91,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // if back button is clicked, login activity ends
+                startActivity(new Intent(Login.this, MainActivity.class));
                 finish();
             }
         });
