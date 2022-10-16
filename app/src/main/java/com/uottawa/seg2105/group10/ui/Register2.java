@@ -217,7 +217,7 @@ public class Register2 extends AppCompatActivity {
             return false;
         }
         else if(val.matches(checkPassword)){
-            password.setError("Password should contain 4 characters!");
+            password.setError("Incorrect format!");
             return false;
         }
         else{

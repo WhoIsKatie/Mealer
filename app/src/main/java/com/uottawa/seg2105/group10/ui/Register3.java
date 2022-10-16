@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +34,8 @@ public class Register3 extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
 
+    TextInputLayout nameOnCardLayout, cardNumberLayout, expDateLayout, cvcLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,11 @@ public class Register3 extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
+
+        nameOnCardLayout = findViewById(R.id.NameLayout);
+        cardNumberLayout = findViewById(R.id.ccNumLayout);
+        expDateLayout = findViewById(R.id.expiryLayout);
+        cvcLayout = findViewById(R.id.cvcLayout);
 
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +68,10 @@ public class Register3 extends AppCompatActivity {
 
                 cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
                 String cvc = cvcField.getText().toString();
+
+                if(!validateNameOnCard() | !validateCardNumber() | !validateExpDate() | !validateCvc()) {
+                    return;
+                }
 
                 ((Client) Register2.user).setCC(ccNum, fullName, expiry, cvc);
 
@@ -106,6 +118,100 @@ public class Register3 extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean validateNameOnCard(){
+        String val = nameOnCardLayout.getEditText().getText().toString().trim();
+
+        if(val.isEmpty()) {
+            nameOnCardLayout.setError("Field can not be empty");
+            return false;
+        }
+        else{
+            nameOnCardLayout.setError(null);
+            nameOnCardLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validateCardNumber(){
+        String val = cardNumberLayout.getEditText().getText().toString().trim();
+        String checkOnlyNumbers = "[0-9]";
+        String noWhiteSpaces = "(?=S+$)";
+        if(val.isEmpty()) {
+            cardNumberLayout.setError("Field can not be empty");
+            return false;
+        }
+        else if(! val.matches(checkOnlyNumbers)) {
+            cardNumberLayout.setError("Only numbers are allowed!");
+            return false;
+        }
+        else if(val.matches(noWhiteSpaces)) {
+            cardNumberLayout.setError("No white spaces!");
+            return false;
+        }
+        else if(val.length() != 16){
+            cardNumberLayout.setError("Field requires 16 numbers");
+            return false;
+        }
+        else{
+            cardNumberLayout.setError(null);
+            cardNumberLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validateExpDate(){
+        String val = expDateLayout.getEditText().getText().toString().trim();
+        String checkOnlyNumbers = "[0-9]";
+        String noWhiteSpaces = "(?=S+$)";
+
+        if(val.isEmpty()) {
+            expDateLayout.setError("Field can not be empty");
+            return false;
+        }
+        else if(! val.matches(checkOnlyNumbers)) {
+            expDateLayout.setError("Only numbers are allowed!");
+            return false;
+        }
+        else if(val.length() != 4 ){
+            expDateLayout.setError("Field requires 4 numbers");
+            return false;
+        }
+        else if(val.matches(noWhiteSpaces)) {
+            expDateLayout.setError("No white spaces!");
+            return false;
+        }
+        else{
+            expDateLayout.setError(null);
+            expDateLayout.setErrorEnabled(false);
+            return true;
+        }
+    }
+    private boolean validateCvc(){
+        String val = cvcLayout.getEditText().getText().toString().trim();
+        String checkOnlyNumbers = "[0-9]";
+        String noWhiteSpaces = "(?=S+$)";
+
+        if(val.isEmpty()) {
+            cvcLayout.setError("Field can not be empty");
+            return false;
+        }
+        else if(! val.matches(checkOnlyNumbers)) {
+            cvcLayout.setError("Only numbers are allowed!");
+            return false;
+        }
+        else if(val.length() != 3 ){
+            cvcLayout.setError("Field requires 4 numbers");
+            return false;
+        }
+        else if(val.matches(noWhiteSpaces)) {
+            cvcLayout.setError("No white spaces!");
+            return false;
+        }
+        else{
+            cvcLayout.setError(null);
+            cvcLayout.setErrorEnabled(false);
+            return true;
+        }
     }
 }
 
