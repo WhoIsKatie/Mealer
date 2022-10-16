@@ -10,10 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.backend.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register3 extends AppCompatActivity {
 
@@ -59,7 +64,16 @@ public class Register3 extends AppCompatActivity {
                 ((Client) Register2.user).setCC(ccNum, fullName, expiry, cvc);
 
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
-                dBase.collection("users").document(mAuth.getCurrentUser().getUid()).set(Register2.user);
+                DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                userRef.set(Register2.user);
+                // Update CC fields
+                Map<String, Object> data = new HashMap<>();
+                data.put("nameOnCard", fullName);
+                data.put("ccNum", ccNum);
+                data.put("ExpDate", expiry);
+                data.put("cvcField", cvc);
+
+                userRef.set(data, SetOptions.merge());
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
             }
