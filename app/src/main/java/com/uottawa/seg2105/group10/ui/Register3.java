@@ -135,7 +135,7 @@ public class Register3 extends AppCompatActivity {
     }
     private boolean validateCardNumber(){
         String val = cardNumberLayout.getEditText().getText().toString().trim();
-        String checkOnlyNumbers = "?=[0-9]";
+        String checkOnlyNumbers = "[0-9]";
         if(val.isEmpty()) {
             cardNumberLayout.setError("Field can not be empty");
             return false;
