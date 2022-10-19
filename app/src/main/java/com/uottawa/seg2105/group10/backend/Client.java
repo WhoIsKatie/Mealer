@@ -9,14 +9,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class Client implements User {
+public class Client extends User {
 
     private String ccNumber, ccHolderName, expiryDate, cvc;
     private DocumentSnapshot document;
     private static final String TAG = "Client.java";
-    private String firstName, lastName, email, password, address;
-
-    public Client(){}
 
     public Client(DocumentReference userDoc) {
         userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -26,6 +23,7 @@ public class Client implements User {
                     document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        //these are variables from superclass
                         firstName = document.getString("firstName");
                         lastName = document.getString("lastName");
                         email = document.getString("email");

@@ -16,14 +16,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.User;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Register4 extends AppCompatActivity {
@@ -41,7 +38,7 @@ public class Register4 extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private FirebaseStorage storage;
-    private User user;
+    private Cook user;
 
     TextInputLayout descriptionField;
 
@@ -82,10 +79,10 @@ public class Register4 extends AppCompatActivity {
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
                 DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 // Set the "description" field of the cook
-                Map<String, String> data = new HashMap<>();
+                Map<String, String> data = Register2.data;
                 data.put("description", profDesc);
                 data.put("type", "Cook");
-                userRef.set(data, SetOptions.merge());
+                userRef.set(data);
                 user = new Cook(userRef);
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));

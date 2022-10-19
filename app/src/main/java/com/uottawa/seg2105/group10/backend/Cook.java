@@ -10,9 +10,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class Cook implements User{
+public class Cook extends User{
 	// question: should these be made local variables? also what would that look like
-	private String description, firstName, lastName, email, password, address;
+	private String description;
 	private double ratingSum;
 	private boolean suspended = false;
 	private DocumentSnapshot document;
@@ -40,11 +40,13 @@ public class Cook implements User{
 					document = task.getResult();
 					if (document.exists()) {
 						Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+						//variables from user super
 						firstName = document.getString("firstName");
 						lastName = document.getString("lastName");
 						email = document.getString("email");
 						password = document.getString("password");
 						address = document.getString("address");
+						//variable from inst of this class, Cook.java
 						description = document.getString("description");
 					} else {
 						Log.d(TAG, "No such document");
@@ -60,12 +62,6 @@ public class Cook implements User{
 		numReviews = 0;
 	}
 
-	public String getFirstName() {return firstName;}
-	public String getLastName() {return lastName;}
-	protected String getDescription() {return description;}
-	protected String getEmail() {return email;}
-	protected String getPassword(){return password;}
-	public String getAddress(){return address;}
 	public String getType(){return "Cook";}
 
 	public boolean completeProfile(String about, int chequeImg) {

@@ -18,7 +18,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 
@@ -37,8 +36,7 @@ public class Register2 extends AppCompatActivity {
     private ImageButton back;
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
     private Button login;
-    //public static User user;
-    public static Map<String, String> data = new HashMap<>();
+    protected static Map<String, String> data;
 
     TextInputLayout firstName, lastName, username, password, address;
 
@@ -62,8 +60,6 @@ public class Register2 extends AppCompatActivity {
         username = findViewById(R.id.emailLayout);
         password = findViewById(R.id.passLayout);
         address = findViewById(R.id.addressLayout);
-
-
 
         nextButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,20 +108,14 @@ public class Register2 extends AppCompatActivity {
                             public void updateUI(FirebaseUser account){
                                 if(account != null){
                                     // Initializes a Mealer user object
-                                    DocumentReference userDoc = dBase.collection("users").document(account.getUid());
+                                    //DocumentReference userDoc = dBase.collection("users").document(account.getUid());
+                                    data = new HashMap<>(); //if new register 2 is made then static var data will be reset
                                     data.put("firstName", firstName);
                                     data.put("lastName", lastName);
                                     data.put("email", email);
                                     data.put("password", password);
                                     data.put("address", address);
-                                    userDoc.set(data); //may not want to
-                                    /*if (!Register1.isCook()) {
-                                        //user = new Client(userDoc);
-                                        user = new Client();
-                                    } else {
-                                       // user = new Cook(userDoc);
-                                        user = new Cook();
-                                    }*/
+                                    //userDoc.set(data);
 
                                     // Directs user to step 2 of registration process:
                                     // If user is NOT a cook, directs to Register3 activity.
@@ -142,7 +132,6 @@ public class Register2 extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(Register2.this, Login.class));
             }
 
@@ -151,10 +140,8 @@ public class Register2 extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 finish();
             }
-
         });
     }
     private boolean validateFirstName(){
