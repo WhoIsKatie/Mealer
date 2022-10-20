@@ -149,6 +149,10 @@ public class Register4 extends AppCompatActivity {
             descriptionField.setError("Field can not be empty");
             return false;
         }
+        if(val.length() > 500 ){
+            descriptionField.setError("Field must not go over 500 characters");
+            return false;
+        }
         else{
             descriptionField.setError(null);
             descriptionField.setErrorEnabled(false);

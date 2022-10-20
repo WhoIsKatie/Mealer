@@ -124,6 +124,10 @@ public class Register3 extends AppCompatActivity {
             nameOnCardLayout.setError("Field can not be empty");
             return false;
         }
+        if(val.length() > 22 ){
+            nameOnCardLayout.setError("Field must not go over 22 characters");
+            return false;
+        }
         else{
             nameOnCardLayout.setError(null);
             nameOnCardLayout.setErrorEnabled(false);
