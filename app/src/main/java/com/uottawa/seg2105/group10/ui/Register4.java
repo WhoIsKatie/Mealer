@@ -1,16 +1,22 @@
 package com.uottawa.seg2105.group10.ui;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,10 +24,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class Register4 extends AppCompatActivity {
 
@@ -32,7 +40,7 @@ public class Register4 extends AppCompatActivity {
     private ImageButton back;
     private Button galleryButt;
     private TextInputEditText profile;
-    private ImageView voidCheck;
+    private ImageView voidCheque;
     private final int GALLERY_REQ_CODE = 1000;
 
     private FirebaseAuth mAuth;
@@ -41,6 +49,7 @@ public class Register4 extends AppCompatActivity {
     private Cook user;
 
     TextInputLayout descriptionField;
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +64,13 @@ public class Register4 extends AppCompatActivity {
         submitButt = findViewById(R.id.cookSubmitButt);
         login = findViewById(R.id.reg4LoginButt);
         back = findViewById(R.id.reg4BackButt);
-        voidCheck = findViewById(R.id.peekChequeImg);
+        voidCheque = findViewById(R.id.peekChequeImg);
         galleryButt = findViewById(R.id.galleryLaunchButt);
         descriptionField = findViewById(R.id.profileDescLayout);
+
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
         submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +81,6 @@ public class Register4 extends AppCompatActivity {
                 if(!validateDescription()) {
                     return;
                 }
-                // Create a storage reference from our app
-                StorageReference storageRef = storage.getReference();
 
                 // TODO: use Cook.java completeProfile method to complete profile
 
@@ -128,7 +139,6 @@ public class Register4 extends AppCompatActivity {
                 //TODO: Jake, please replace startActivityForResult method (open link below)
                 //https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
             }
-
         });
 
     }
@@ -143,6 +153,66 @@ public class Register4 extends AppCompatActivity {
             descriptionField.setError(null);
             descriptionField.setErrorEnabled(false);
             return true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == GALLERY_REQ_CODE){
+                filePath = data.getData();
+                voidCheque.setImageURI(filePath);
+
+            }
+        }
+    }
+
+    // UploadImage method
+    private void uploadImage()
+    {
+        if (filePath != null) {
+
+            // Code for showing progressDialog while uploading
+            ProgressDialog progressDialog
+                    = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            // Defining the child of storageReference
+            StorageReference ref = storage.getReference().child("images/" + UUID.randomUUID().toString());
+
+            // adding listeners on upload
+            // or failure of image
+            /* TODO: this does literally nothing but also no errors so i pushed it haha*/
+            ref.putFile(filePath)
+                    .addOnSuccessListener(
+                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                                @Override
+                                public void onSuccess(
+                                        UploadTask.TaskSnapshot taskSnapshot)
+                                {
+
+                                    // Image uploaded successfully
+                                    // Dismiss dialog
+                                    progressDialog.dismiss();
+                                    Toast.makeText(Register4.this,
+                                                    "Image Uploaded!!",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(Exception e) {// Error, Image not uploaded
+                            progressDialog.dismiss();
+                            Toast.makeText(Register4.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
         }
     }
 }

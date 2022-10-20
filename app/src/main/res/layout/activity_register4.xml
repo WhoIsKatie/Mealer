@@ -129,15 +129,7 @@
             <ImageView
                 android:id="@+id/peekChequeImg"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                app:srcCompat="@drawable/imageedit_6_6544326015" />
-
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="43dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
+                android:layout_height="130dp" />
 
             <!-- TODO: add uploadCheque button please     -->
         </LinearLayout>
