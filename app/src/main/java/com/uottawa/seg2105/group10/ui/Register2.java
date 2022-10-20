@@ -81,7 +81,7 @@ public class Register2 extends AppCompatActivity {
                 addressField = (TextInputEditText)findViewById(R.id.addressEditText);
                 String address = addressField.getText().toString();
 
-                if(!validateFirstName() || !validateLastName() || !validateEmail() || !validatePassword() || !validateAddress()) {
+                if(!validateFirstName() | !validateLastName() | !validateEmail() | !validatePassword() | !validateAddress()) {
                     return;
                 }
 
@@ -202,22 +202,18 @@ public class Register2 extends AppCompatActivity {
     }
     private boolean validatePassword(){
         String val = password.getEditText().getText().toString().trim();
-        String checkPassword = "^" +
-                //"(?=.*[0-9])" +         //at least 1 digit
-                //"(?=.*[a-z])" +         //at least 1 lower case letter
-                //"(?=.*[A-Z])" +         //at least 1 upper case letter
-                "(?=.*[a-zA-Z])" +      //any letter
-                //"(?=.*[@#$%^&+=])" +    //at least 1 special character
-                "(?=S+$)" +           //no white spaces
-                ".{4,}" +               //at least 4 characters
-                "$";
+        String checkPassword = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+
         if(val.isEmpty()) {
             password.setError("Field can not be empty");
             return false;
-        }
-        /* TODO: "Incorrect format" error does not appear on-screen, but still prompts the "Authentification Failed" toast */
-        else if(val.matches(checkPassword)){
+        }/*
+        else if(!val.matches(checkPassword)){
             password.setError("Incorrect format!");
+            return false;
+        }*/
+        if(val.length() < 4 ){
+            password.setError("Field requires at least 4 characters");
             return false;
         }
         else{
