@@ -135,21 +135,24 @@ public class Login extends AppCompatActivity {
     }
     private boolean validatePassword(){
         String val = passwordLayout.getEditText().getText().toString().trim();
-        String checkPassword = "^" +
-                //"(?=.*[0-9])" +         //at least 1 digit
-                //"(?=.*[a-z])" +         //at least 1 lower case letter
-                //"(?=.*[A-Z])" +         //at least 1 upper case letter
-                "(?=.*[a-zA-Z])" +      //any letter
-                //"(?=.*[@#$%^&+=])" +    //at least 1 special character
-                "(?=S+$)" +           //no white spaces
-                ".{4,}" +               //at least 4 characters
-                "$";
+        String checkNumeric = ".*[0-9].*";
+        String checkSymbol = ".*[!@#$%^&=?+].*";
+
         if(val.isEmpty()) {
             passwordLayout.setError("Field can not be empty");
             return false;
         }
-        else if(val.matches(checkPassword)){
-            passwordLayout.setError("Password should contain 4 characters!");
+
+        if(val.length() < 8 || val.length() > 20 ){
+            passwordLayout.setError("Field must be between 8 and 20 characters");
+            return false;
+        }
+        if(!val.matches(checkNumeric)){
+            passwordLayout.setError("Field must contain at least 1 number");
+            return false;
+        }
+        if(!val.matches(checkSymbol)){
+            passwordLayout.setError("Field must contain at least 1 special character");
             return false;
         }
         else{

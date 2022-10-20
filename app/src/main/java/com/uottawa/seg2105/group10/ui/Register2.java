@@ -151,6 +151,10 @@ public class Register2 extends AppCompatActivity {
             firstName.setError("Field can not be empty");
             return false;
         }
+        if(val.length() > 30 ){
+            firstName.setError("Field must not go over 30 characters");
+            return false;
+        }
         else{
             firstName.setError(null);
             firstName.setErrorEnabled(false);
@@ -164,6 +168,10 @@ public class Register2 extends AppCompatActivity {
             lastName.setError("Field can not be empty");
             return false;
         }
+        if(val.length() > 30 ){
+            lastName.setError("Field must not go over 30 characters");
+            return false;
+        }
         else{
             lastName.setError(null);
             lastName.setErrorEnabled(false);
@@ -175,6 +183,10 @@ public class Register2 extends AppCompatActivity {
 
         if(val.isEmpty()) {
             address.setError("Field can not be empty");
+            return false;
+        }
+        if(val.length() > 35 ){
+            address.setError("Field must not go over 35 characters");
             return false;
         }
         else{
@@ -202,18 +214,24 @@ public class Register2 extends AppCompatActivity {
     }
     private boolean validatePassword(){
         String val = password.getEditText().getText().toString().trim();
-        String checkPassword = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
+        String checkNumeric = ".*[0-9].*";
+        String checkSymbol = ".*[!@#$%^&=?+_].*";
 
         if(val.isEmpty()) {
             password.setError("Field can not be empty");
             return false;
-        }/*
-        else if(!val.matches(checkPassword)){
-            password.setError("Incorrect format!");
+        }
+
+        if(val.length() < 8 || val.length() > 20 ){
+            password.setError("Field must be between 8 and 20 characters");
             return false;
-        }*/
-        if(val.length() < 4 ){
-            password.setError("Field requires at least 4 characters");
+        }
+        if(!val.matches(checkNumeric)){
+            password.setError("Field must contain at least 1 number");
+            return false;
+        }
+        if(!val.matches(checkSymbol)){
+            password.setError("Field must contain at least 1 special character");
             return false;
         }
         else{
