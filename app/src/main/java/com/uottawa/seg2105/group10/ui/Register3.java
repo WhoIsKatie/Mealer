@@ -67,7 +67,7 @@ public class Register3 extends AppCompatActivity {
                 String cvc = cvcField.getText().toString();
 
                 // Verifies if all fields have met specifications
-                if(!validateNameOnCard() || !validateCardNumber() || !validateExpDate() || !validateCvc()) {
+                if(!validateNameOnCard() | !validateCardNumber() | !validateExpDate() | !validateCvc()) {
                     return;
                 }
 
