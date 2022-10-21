@@ -181,7 +181,7 @@ public class Register4 extends AppCompatActivity {
             StorageReference storageRef = storage.getReference();
 
             // Defining the child of storageReference
-            StorageReference chequeRef = storage.getReference().child("images/" + filePath.getLastPathSegment());
+            StorageReference chequeRef = storage.getReference().child(mAuth.getUid() + "/cheque/" + filePath.getLastPathSegment());
 
             // Register observers to listen for when the download is done or if it fails
             chequeRef.putFile(filePath).addOnFailureListener(new OnFailureListener() {
@@ -197,7 +197,7 @@ public class Register4 extends AppCompatActivity {
                     // Image uploaded successfully
                     // Dismiss dialog
                     progressDialog.dismiss();
-                    Toast.makeText(Register4.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register4.this, "Upload success!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
