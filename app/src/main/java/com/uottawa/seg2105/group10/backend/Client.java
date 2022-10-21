@@ -39,12 +39,6 @@ public class Client extends User {
         });
     }
 
-    // Getter methods for instance variables
-    public String getFirstName(){return firstName;}
-    public String getLastName(){return lastName;}
-    protected String getEmail(){return email;}
-    protected String getPassword(){return password;}
-    public String getAddress(){return address;}
     public String getType(){return "Client";}
 
     // Setter method for Credit Card information

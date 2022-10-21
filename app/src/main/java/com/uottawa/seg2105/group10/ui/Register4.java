@@ -82,11 +82,6 @@ public class Register4 extends AppCompatActivity {
                     return;
                 }
 
-                // TODO: use Cook.java completeProfile method to complete profile
-
-                // https://firebase.google.com/docs/storage/android/upload-files
-                // ((Cook) user).completeProfile(profDesc, JAKE PUT STUFF HERE);
-
                 // Add user document with Uid set as document ID to collection of "users" in Firestore
                 DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 // Set the "description" field of the cook
@@ -95,6 +90,7 @@ public class Register4 extends AppCompatActivity {
                 data.put("type", "Cook");
                 userRef.set(data);
                 user = new Cook(userRef);
+                uploadImage();
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
             }
@@ -136,8 +132,6 @@ public class Register4 extends AppCompatActivity {
                 Intent iGallery = new Intent(Intent.ACTION_PICK);
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
-                //TODO: Jake, please replace startActivityForResult method (open / below)
-                //https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
             }
         });
 

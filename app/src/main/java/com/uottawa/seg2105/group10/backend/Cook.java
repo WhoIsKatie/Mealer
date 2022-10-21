@@ -64,13 +64,6 @@ public class Cook extends User{
 
 	public String getType(){return "Cook";}
 
-	public boolean completeProfile(String about, int chequeImg) {
-		//TODO: if appropriate, set conditions that return FALSE
-		voidCheque = chequeImg;
-		description = about;
-		return true;
-	}
-
 	public double getRating() {return ratingSum/completedOrders;}
 
 	public boolean addRating(double x) {
