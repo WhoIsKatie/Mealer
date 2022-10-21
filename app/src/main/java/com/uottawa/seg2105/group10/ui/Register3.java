@@ -66,7 +66,8 @@ public class Register3 extends AppCompatActivity {
                 cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
                 String cvc = cvcField.getText().toString();
 
-                if(!validateNameOnCard() | !validateCardNumber() | !validateExpDate() | !validateCvc()) {
+                // Verifies if all fields have met specifications
+                if(!validateNameOnCard() || !validateCardNumber() || !validateExpDate() || !validateCvc()) {
                     return;
                 }
 
@@ -117,11 +118,14 @@ public class Register3 extends AppCompatActivity {
 
     }
 
+    // CC Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+    // Returns true if card-holder name length is 1-30 characters; returns false otherwise.
     private boolean validateNameOnCard(){
         String val = nameOnCardLayout.getEditText().getText().toString().trim();
 
         if(val.isEmpty()) {
-            nameOnCardLayout.setError("Field can not be empty");
+            nameOnCardLayout.setError("Field cannot be empty");
             return false;
         }
         if(val.length() > 30 ){
@@ -134,70 +138,60 @@ public class Register3 extends AppCompatActivity {
             return true;
         }
     }
+
+    // Returns true if card number only contains 16 integers; returns false otherwise.
     private boolean validateCardNumber(){
         String val = cardNumberLayout.getEditText().getText().toString().trim();
-        String checkOnlyNumbers = "[0-9]+";
+        String numFormat = "[0-9]{16}";
         if(val.isEmpty()) {
-            cardNumberLayout.setError("Field can not be empty");
+            cardNumberLayout.setError("Field cannot be empty");
             return false;
         }
-        else if(!val.matches(checkOnlyNumbers)) {
-            cardNumberLayout.setError("Only numbers are allowed!");
+        if(!val.matches(numFormat)) {
+            cardNumberLayout.setError("Invalid card number!");
             return false;
         }
-        if(val.length() != 16){
-            cardNumberLayout.setError("Field requires 16 numbers");
-            return false;
-        }
-        else{
-            cardNumberLayout.setError(null);
-            cardNumberLayout.setErrorEnabled(false);
-            return true;
-        }
+        cardNumberLayout.setError(null);
+        cardNumberLayout.setErrorEnabled(false);
+        return true;
+
     }
+
+    // Returns true if expiry-date is of MM/YY format; returns false otherwise.
     private boolean validateExpDate(){
         String val = expDateLayout.getEditText().getText().toString().trim();
-        String checkOnlyNumbers = "[0-9]+";
+        String dateFormat = "(?:0[1-9]|1[0-2])/[0-9]{2}";
 
         if(val.isEmpty()) {
-            expDateLayout.setError("Field can not be empty");
+            expDateLayout.setError("Field cannot be empty");
             return false;
         }
-        else if(!val.matches(checkOnlyNumbers)) {
-            expDateLayout.setError("Only numbers are allowed!");
+        if(!val.matches(dateFormat)) {
+            expDateLayout.setError("Invalid date! Must be of MM/YY format.");
             return false;
         }
-        if(val.length() != 4 ){
-            expDateLayout.setError("Field requires 4 numbers");
-            return false;
-        }
-        else{
-            expDateLayout.setError(null);
-            expDateLayout.setErrorEnabled(false);
-            return true;
-        }
+        expDateLayout.setError(null);
+        expDateLayout.setErrorEnabled(false);
+        return true;
+
     }
+
+    // Returns true if cvc is 3 integers; returns false otherwise.
     private boolean validateCvc(){
         String val = cvcLayout.getEditText().getText().toString().trim();
-        String checkOnlyNumbers = "[0-9]+";
+        String cvcFormat = "[0-9]{3}";
 
         if(val.isEmpty()) {
-            cvcLayout.setError("Field can not be empty");
+            cvcLayout.setError("Field cannot be empty");
             return false;
         }
-        else if(!val.matches(checkOnlyNumbers)) {
-        cvcLayout.setError("Only numbers are allowed!");
-        return false;
-        }
-        if(val.length() != 3 ){
-            cvcLayout.setError("Field requires 3 numbers");
+        if(!val.matches(cvcFormat)) {
+            cvcLayout.setError("Invalid security code!");
             return false;
         }
-        else{
-            cvcLayout.setError(null);
-            cvcLayout.setErrorEnabled(false);
-            return true;
-        }
+        cvcLayout.setError(null);
+        cvcLayout.setErrorEnabled(false);
+        return true;
     }
 }
 

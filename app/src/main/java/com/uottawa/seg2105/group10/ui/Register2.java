@@ -45,16 +45,17 @@ public class Register2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        // Initialize FirebaseAuth and FirebaseFirestore objects
+        // Initialize Firebase Authority and Firebase Firestore objects
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
 
-        // creating option based of off pulled id's
+        // creating option based off of pulled id's
         nextButt = findViewById(R.id.whyJacobButt);
         login = findViewById(R.id.reg2LoginButt);
         back = findViewById(R.id.reg2BackButt);
 
+        // initialize EditText fields
         firstName = findViewById(R.id.firstNameLayout);
         lastName = findViewById(R.id.lastNameLayout);
         username = findViewById(R.id.emailLayout);
@@ -144,6 +145,10 @@ public class Register2 extends AppCompatActivity {
             }
         });
     }
+
+    // Profile Field Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+    // Returns true if name length is 1-30 characters; returns false otherwise.
     private boolean validateFirstName(){
         String val = firstName.getEditText().getText().toString().trim();
 
@@ -161,6 +166,8 @@ public class Register2 extends AppCompatActivity {
             return true;
         }
     }
+
+    // Returns true if name length is 1-30 characters; returns false otherwise.
     private boolean validateLastName(){
         String val = lastName.getEditText().getText().toString().trim();
 
@@ -178,6 +185,8 @@ public class Register2 extends AppCompatActivity {
             return true;
         }
     }
+
+    // Returns true if address is 1-35 characters; returns false otherwise.
     private boolean validateAddress(){
         String val = address.getEditText().getText().toString().trim();
 
@@ -195,6 +204,7 @@ public class Register2 extends AppCompatActivity {
             return true;
         }
     }
+
     private boolean validateEmail(){
         String val = username.getEditText().getText().toString().trim();
         String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
@@ -212,6 +222,9 @@ public class Register2 extends AppCompatActivity {
             return true;
         }
     }
+
+    // Returns true if password length is 8-30 characters, contains >=1 numbers,
+    // and >=1 special characters; returns false otherwise.
     private boolean validatePassword(){
         String val = password.getEditText().getText().toString().trim();
         String checkNumeric = ".*[0-9].*";

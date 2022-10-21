@@ -30,27 +30,35 @@ public class Welcome extends AppCompatActivity {
     private static final String TAG = "Welcome";
 
     @Override
+    // Turns off the android back button => User cannot go back to login page unless logged out
     public void onBackPressed() {
         moveTaskToBack(false);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Load welcome activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        // initialize TextView and Button
         typeText = findViewById(R.id.userTypeText);
         logOffButt = findViewById(R.id.logOffButt);
 
+        // get instances of Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         dBase = FirebaseFirestore.getInstance();
 
+        // create reference to current user document
         DocumentReference userDoc = dBase.collection("users").document(user.getUid());
         userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     document = task.getResult();
+                    // if user specific document exists,
+                    // set text field to display user type (Client, Cook, or Admin)
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         typeText.setText(document.getString("type"));
@@ -63,6 +71,7 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
+        // Logs Firebase user out and launches Main activity
         logOffButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

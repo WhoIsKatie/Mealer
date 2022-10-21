@@ -53,6 +53,7 @@ public class Register1 extends AppCompatActivity {
         });
     }
 
+    // verifies if user selection is cook in remaining registration activities
     public static Boolean isCook() {
         return cook;
     }

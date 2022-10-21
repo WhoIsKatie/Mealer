@@ -136,7 +136,7 @@ public class Register4 extends AppCompatActivity {
                 Intent iGallery = new Intent(Intent.ACTION_PICK);
                 iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(iGallery, GALLERY_REQ_CODE);
-                //TODO: Jake, please replace startActivityForResult method (open link below)
+                //TODO: Jake, please replace startActivityForResult method (open / below)
                 //https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
             }
         });
