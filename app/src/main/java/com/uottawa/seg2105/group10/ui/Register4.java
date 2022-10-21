@@ -29,7 +29,6 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 
 import java.util.Map;
-import java.util.UUID;
 
 public class Register4 extends AppCompatActivity {
 
@@ -178,39 +177,29 @@ public class Register4 extends AppCompatActivity {
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
+            // Create a storage reference from our app
+            StorageReference storageRef = storage.getReference();
+
             // Defining the child of storageReference
-            StorageReference ref = storage.getReference().child("images/" + UUID.randomUUID().toString());
+            StorageReference chequeRef = storage.getReference().child("images/" + filePath.getLastPathSegment());
 
-            // adding listeners on upload
-            // or failure of image
-            /* TODO: this does literally nothing but also no errors so i pushed it haha*/
-            ref.putFile(filePath)
-                    .addOnSuccessListener(
-                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-                                @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-
-                                    // Image uploaded successfully
-                                    // Dismiss dialog
-                                    progressDialog.dismiss();
-                                    Toast.makeText(Register4.this,
-                                                    "Image Uploaded!!",
-                                                    Toast.LENGTH_SHORT)
-                                            .show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(Exception e) {// Error, Image not uploaded
-                            progressDialog.dismiss();
-                            Toast.makeText(Register4.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+            // Register observers to listen for when the download is done or if it fails
+            chequeRef.putFile(filePath).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception exception) {
+                    // Error, Image not uploaded
+                    progressDialog.dismiss();
+                    Toast.makeText(Register4.this, "Failed " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // Image uploaded successfully
+                    // Dismiss dialog
+                    progressDialog.dismiss();
+                    Toast.makeText(Register4.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
