@@ -160,14 +160,14 @@ public class Register3 extends AppCompatActivity {
     // Returns true if expiry-date is of MM/YY format; returns false otherwise.
     private boolean validateExpDate(){
         String val = expDateLayout.getEditText().getText().toString().trim();
-        String dateFormat = "(?:0[1-9]|1[0-2])/[0-9]{2}";
+        String dateFormat = "(?:0[1-9]|1[0-2])[0-9]{2}";
 
         if(val.isEmpty()) {
             expDateLayout.setError("Field cannot be empty");
             return false;
         }
         if(!val.matches(dateFormat)) {
-            expDateLayout.setError("Invalid date! Must be of MM/YY format.");
+            expDateLayout.setError("Invalid date! Must be of MMYY format.");
             return false;
         }
         expDateLayout.setError(null);
