@@ -46,6 +46,7 @@ public class Cook extends User{
 						email = document.getString("email");
 						password = document.getString("password");
 						address = document.getString("address");
+						type = document.getString("type");
 						//variable from inst of this class, Cook.java
 						description = document.getString("description");
 					} else {
@@ -61,8 +62,6 @@ public class Cook extends User{
 		completedOrders = 0;
 		numReviews = 0;
 	}
-
-	public String getType(){return "Cook";}
 
 	public double getRating() {return ratingSum/completedOrders;}
 

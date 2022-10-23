@@ -18,5 +18,5 @@ public abstract class User {
 	public String getAddress(){return address;};
 	protected String getPassword(){return password;}
 	protected String getEmail(){return email;}
-
+	public String getType(){return type;}
 }

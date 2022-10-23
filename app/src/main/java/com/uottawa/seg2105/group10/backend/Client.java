@@ -29,6 +29,7 @@ public class Client extends User {
                         email = document.getString("email");
                         password = document.getString("password");
                         address = document.getString("address");
+                        type = document.getString("type");
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -38,8 +39,6 @@ public class Client extends User {
             }
         });
     }
-
-    public String getType(){return "Client";}
 
     // Setter method for Credit Card information
     // If CC number, expiry date, and cvc are of correct format, returns true. Otherwise, returns false.
