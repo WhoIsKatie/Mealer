@@ -26,6 +26,7 @@ public class Welcome extends AppCompatActivity {
     private FirebaseFirestore dBase;
     private DocumentSnapshot document;
     private Button logOffButt;
+    private Button homepageButt;
 
     private static final String TAG = "Welcome";
 
@@ -44,6 +45,7 @@ public class Welcome extends AppCompatActivity {
         // initialize TextView and Button
         typeText = findViewById(R.id.userTypeText);
         logOffButt = findViewById(R.id.logOffButt);
+        homepageButt = findViewById(R.id.homepageButt);
 
         // get instances of Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();
@@ -78,8 +80,15 @@ public class Welcome extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(Welcome.this, MainActivity.class));
             }
+
         });
 
+        homepageButt.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View view){
+            startActivity(new Intent(Welcome.this, HomepageAdmin.class));
+        }
+
+    });
 
     }
 }

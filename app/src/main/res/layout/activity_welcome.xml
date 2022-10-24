@@ -9,13 +9,15 @@
 
     <Button
         android:id="@+id/logOffButt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
         android:fontFamily="@font/roboto"
         android:text="@string/logoff"
         android:textColor="#FFFFFF"
         app:backgroundTint="#000000"
-        app:cornerRadius="50dp"
+        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,35 +75,26 @@
         <View
             android:id="@+id/divider6"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="7dp"
             android:background="?android:attr/listDivider"
             android:visibility="invisible" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-
         <TextView
             android:id="@+id/userTypeText"
-            android:layout_width="match_parent"
+            android:layout_width="148dp"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="6dp"
             android:fontFamily="@font/roboto_black"
-
-
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="45sp" />
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
         <View
-            android:layout_width="match_parent"
+            android:id="@+id/view"
+            android:layout_width="88dp"
             android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
             android:background="@color/black" />
 
         <View
@@ -110,6 +103,24 @@
             android:layout_height="20dp"
             android:background="?android:attr/listDivider"
             android:visibility="invisible" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="89dp"
+            android:background="?android:attr/listDivider"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/homepageButt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:background="#00000000"
+            android:text="Next"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            />
 
     </LinearLayout>
 
