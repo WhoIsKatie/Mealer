@@ -85,7 +85,7 @@ public class Welcome extends AppCompatActivity {
 
         homepageButt.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view){
-            startActivity(new Intent(Welcome.this, HomepageAdmin.class));
+            startActivity(new Intent(Welcome.this, AdminHome.class));
         }
 
     });

@@ -14,14 +14,14 @@ import com.uottawa.seg2105.group10.temp.RecyclerViewInterface;
 
 import java.util.ArrayList;
 
-public class HomepageAdmin extends AppCompatActivity implements RecyclerViewInterface {
+public class AdminHome extends AppCompatActivity implements RecyclerViewInterface {
 
     ArrayList<ComplaintModel> complaintModel = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homepageadmin);
+        setContentView(R.layout.activity_adminhome);
 
         RecyclerView recyclerView = findViewById(R.id.complaint_recycler_view);
 
@@ -34,6 +34,7 @@ public class HomepageAdmin extends AppCompatActivity implements RecyclerViewInte
     }
 
     private void setUpComplaintModels(){
+        //TODO: delete strings => iterate over database complaints collection
         String[] namesOfUsers = getResources().getStringArray(R.array.names_of_unsatisfied_customers);
         String[] timesOfComplaint = getResources().getStringArray(R.array.times_of_complaint);
         String[] titleOfComplaint = getResources().getStringArray(R.array.title_of_complaint);
@@ -47,7 +48,7 @@ public class HomepageAdmin extends AppCompatActivity implements RecyclerViewInte
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(HomepageAdmin.this, ComplaintView.class);
+        Intent intent = new Intent(AdminHome.this, ComplaintView.class);
 
         intent.putExtra("NAME", complaintModel.get(position).getNameOfUser());
         intent.putExtra("TIME", complaintModel.get(position).getTimeOfComplaint());
