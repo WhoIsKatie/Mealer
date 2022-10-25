@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
+import com.uottawa.seg2105.group10.backend.UserManager;
 
 import java.util.Map;
 
@@ -83,6 +84,10 @@ public class Register3 extends AppCompatActivity {
                 userRef.set(data);
                 user = new Client(userRef);
                 user.setCC(ccNum, fullName, expiry, cvc);
+
+                //adding user to usermanager hashmap
+                UserManager.getUsers().put(mAuth.getCurrentUser(), user);
+
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
                 finish();

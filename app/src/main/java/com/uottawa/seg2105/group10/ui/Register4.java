@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.backend.UserManager;
 
 import java.util.Map;
 
@@ -90,6 +91,10 @@ public class Register4 extends AppCompatActivity {
                 userRef.set(data);
                 user = new Cook(userRef);
                 uploadImage();
+
+                //adding user to usermanager hashmap
+                UserManager.getUsers().put(mAuth.getCurrentUser(), user);
+
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
             }
