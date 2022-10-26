@@ -56,4 +56,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage'
     // Declare the dependency for the Cloud Firestore library
     implementation 'com.google.firebase:firebase-firestore'
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaaseui:firebse-ui-fiestore:6.2.1'
 }
