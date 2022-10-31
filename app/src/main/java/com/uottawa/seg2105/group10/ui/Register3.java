@@ -27,7 +27,7 @@ public class Register3 extends AppCompatActivity {
     private Button nextButt;
     private Button login;
     private ImageButton back;
-    private TextInputEditText nameOnCard, CardNumber, ExpDate, cvcField;
+    private TextInputEditText nameOnCard, CardNumber, expDate, cvcField;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
@@ -61,8 +61,8 @@ public class Register3 extends AppCompatActivity {
                 CardNumber = (TextInputEditText) findViewById(R.id.ccNumEditText);
                 String ccNum = CardNumber.getText().toString();
 
-                ExpDate = (TextInputEditText) findViewById(R.id.expiryEditText);
-                String expiry = ExpDate.getText().toString();
+                expDate = (TextInputEditText) findViewById(R.id.expiryEditText);
+                String expiry = expDate.getText().toString();
 
                 cvcField = (TextInputEditText) findViewById(R.id.cvcEditText);
                 String cvc = cvcField.getText().toString();
@@ -78,7 +78,7 @@ public class Register3 extends AppCompatActivity {
                 Map<String, String> data = Register2.data;
                 data.put("nameOnCard", fullName);
                 data.put("ccNum", ccNum);
-                data.put("ExpDate", expiry);
+                data.put("expDate", expiry);
                 data.put("cvcField", cvc);
                 data.put("type", "Client");
                 userRef.set(data);

@@ -2,7 +2,6 @@ package com.uottawa.seg2105.group10.backend;
 
 import android.util.Log;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -10,17 +9,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Cook extends User{
-	// question: should these be made local variables? also what would that look like
 	private String description;
 	private double ratingSum;
 	private boolean suspended = false;
 	private DocumentSnapshot document;
 	private static final String TAG = "Cook.java";
-
-	//TODO: look into setting images as class attributes
-	@DrawableRes
-	private int voidCheque;
+	private LocalDateTime suspensionEnd;
 
 	private int completedOrders, numReviews;
 	private Menu cookMenu = new Menu(this);
@@ -79,6 +77,8 @@ public class Cook extends User{
 		this.cookMenu.menu.add(meal);
 	}
 
-
+	public boolean isSuspended() {return suspended;}
+	public LocalDateTime getSuspensionEnd() {return suspensionEnd;}
+	public void addSuspensionTime(Duration length) {}
 
 }
