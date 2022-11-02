@@ -72,6 +72,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         intent.putExtra("TITLE", complaintModel.get(position).getTitleOfComplaint());
         intent.putExtra("DESCRIPTION", complaintModel.get(position).getDescriptionOfComplaint());
         intent.putExtra("COOK", complaintModel.get(position).getCookComplaint());
+        intent.putExtra("DOCUMENT", complaintModel.get(position).getDocument().getId());
 
         startActivity(intent);
     }

@@ -1,5 +1,7 @@
 package com.uottawa.seg2105.group10.temp;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 public class ComplaintModel {
 
     String nameOfUser;
@@ -7,6 +9,7 @@ public class ComplaintModel {
     String titleOfComplaint;
     String descriptionOfComplaint;
     String cookComplaint;
+    private DocumentSnapshot document;
 
 
     public ComplaintModel(String nameOfUser, String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookComplaint) {
@@ -15,6 +18,9 @@ public class ComplaintModel {
         this.titleOfComplaint = titleOfComplaint;
         this.descriptionOfComplaint = descriptionOfComplaint;
         this.cookComplaint = cookComplaint;
+    }
+    public DocumentSnapshot getDocument(){
+        return document;
     }
 
     public String getNameOfUser() {
