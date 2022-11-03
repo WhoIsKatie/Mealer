@@ -4,34 +4,36 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class ComplaintModel {
 
-    String nameOfUser;
+    String nameOfCook;
     String timeOfComplaint;
     String titleOfComplaint;
     String descriptionOfComplaint;
-    String cookComplaint;
+    String cookUid, clientUid;
     private DocumentSnapshot document;
 
 
-    public ComplaintModel(String nameOfUser, String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookComplaint) {
-        this.nameOfUser = nameOfUser;
+    public ComplaintModel(String nameOfCook, String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookUid, String clientUid) {
+        this.nameOfCook = nameOfCook;
         this.timeOfComplaint = timeOfComplaint;
         this.titleOfComplaint = titleOfComplaint;
         this.descriptionOfComplaint = descriptionOfComplaint;
-        this.cookComplaint = cookComplaint;
+        this.cookUid = cookUid;
+        this.clientUid = clientUid;
     }
     public DocumentSnapshot getDocument(){
         return document;
     }
 
-    public String getNameOfUser() {
-        return nameOfUser;
+    public String getNameOfCook() {
+        return nameOfCook;
     }
     public String getTimeOfComplaint() {
         return timeOfComplaint;
     }
     public String getTitleOfComplaint(){return titleOfComplaint;}
     public String getDescriptionOfComplaint(){return descriptionOfComplaint;}
-    public String getCookComplaint(){return cookComplaint;}
+    public String getCookUid(){return cookUid;}
+    public String getClientUid(){return clientUid;}
 }
 
 
