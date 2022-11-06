@@ -16,7 +16,6 @@ public class Cook extends User{
 	private String description, address;
 	private double ratingSum;
 	private boolean suspended = false;
-	private DocumentSnapshot document;
 	private static final String TAG = "Cook.java";
 	private LocalDateTime suspensionEnd;
 
@@ -31,9 +30,11 @@ public class Cook extends User{
 	public Cook(){}
 
 	public Cook (DocumentReference userDoc) {
+
 		userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+				DocumentSnapshot document;
 				if (task.isSuccessful()) {
 					document = task.getResult();
 					if (document.exists()) {

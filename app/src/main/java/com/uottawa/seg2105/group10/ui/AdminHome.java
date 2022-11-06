@@ -23,29 +23,33 @@ import java.util.Map;
 
 public class AdminHome extends AppCompatActivity implements RecyclerViewInterface {
 
-    public ArrayList<ComplaintModel> complaintModel = new ArrayList<>();
+    public ArrayList<ComplaintModel> complaintModel;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private static final String TAG = "AdminHome";
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        complaintModel = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminhome);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
-        RecyclerView recyclerView = findViewById(R.id.complaint_recycler_view);
+        recyclerView = findViewById(R.id.complaint_recycler_view);
         setUpComplaintModels();
 
+
+
+    }
+    private void updateView(){
         Complaint_RecyclerViewAdapter adapter = new Complaint_RecyclerViewAdapter(this, complaintModel, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-
     }
-
     private void setUpComplaintModels(){
         // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
         //TODO: add new field to complaints for status: active, tempSuspend, indefSuspend, dismssed
@@ -72,13 +76,18 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                     clientUid.add(data.get("clientUid").toString());
                 }
                 for (int i = 0; i < titleOfComplaint.size(); i++){
-                    complaintModel.add(new ComplaintModel(cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i)));
+                    ComplaintModel cm = new ComplaintModel(cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
+                    complaintModel.add(cm);
                 }
+                updateView();
             }
+
+
         });
 
         //TODO: delete strings => iterate over database complaints collection
-        /*String[] namesOfUsers = getResources().getStringArray(R.array.names_of_unsatisfied_customers);
+        /*
+        String[] namesOfUsers = getResources().getStringArray(R.array.names_of_unsatisfied_customers);
         String[] timesOfComplaint = getResources().getStringArray(R.array.times_of_complaint);
         String[] titleOfComplaint = getResources().getStringArray(R.array.title_of_complaint);
         String[] descriptionOfComplaint = getResources().getStringArray(R.array.description_of_complaint);
@@ -86,7 +95,8 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
         for (int i = 0; i < namesOfUsers.length; i++){
             complaintModel.add(new ComplaintModel(namesOfUsers[i], timesOfComplaint[i], titleOfComplaint[i], descriptionOfComplaint[i], cookOfComplaint[i], "waoesdfkjf"));
-        }*/
+        }
+         */
     }
 
     @Override
