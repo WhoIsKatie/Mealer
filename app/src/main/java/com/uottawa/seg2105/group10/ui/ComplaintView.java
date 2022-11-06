@@ -1,8 +1,11 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +20,9 @@ public class ComplaintView extends AppCompatActivity {
 
     private DocumentSnapshot document;
     //Intializing butons
-    private Button dismissButt;
+    private Button dismissButt, suspendButt;
+    private RadioGroup suspendTimes;
+    private RadioButton fiveday, tenday, indef;
 
     private FirebaseFirestore dBase;
 
@@ -25,8 +30,6 @@ public class ComplaintView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaintview);
-
-
         dBase = dBase.getInstance();
 
         String name = getIntent().getStringExtra("NAME");
@@ -34,7 +37,9 @@ public class ComplaintView extends AppCompatActivity {
         String title = getIntent().getStringExtra("TITLE");
         String description = getIntent().getStringExtra("DESCRIPTION");
         String cook = getIntent().getStringExtra("COOK");
-        String docment = getIntent().getStringExtra("DOCUMENT");
+        String docID = getIntent().getStringExtra("DOCUMENT");
+
+        DocumentReference docRef = dBase.collection("complaints").document(docID);
 
         TextView nameTextView = findViewById(R.id.textView9);
         TextView timeTextView = findViewById(R.id.textView10);
@@ -47,31 +52,46 @@ public class ComplaintView extends AppCompatActivity {
         titleTextView.setText(title);
         descriptionTextView.setText(description);
         cookTextView.setText(cook);
-
-
         dismissButt = findViewById(R.id.dismissButt);
+        suspendButt = findViewById(R.id.suspendButt);
 
         dismissButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DocumentReference docRef = dBase.collection("complaints").document(docment);
-                docRef.update("status", true);
-
-              //  ApiFuture<WriteResult> complainStatus = docRef.update("status", true);
-                //docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                  //  @Override
-                    //public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                      //  DocumentSnapshot document = task.getResult();
-                        //if(document.exists()){
-                          //  Log.d("status", "true");
- //                       }
-   //                 }
-     //           });
-
-
+                docRef.update("status", false);
+                startActivity(new Intent(ComplaintView.this, ComplaintView.class));
+                finish();
             }
         });
 
+        suspendButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                docRef.update("suspended", true);
+                docRef.update("releaseDays", 10);
+                //TODO: change how release days is done!!
+                docRef.update("status", false);
+
+                //TODO: set how long suspension is for.
+                //suspendTimes.setVisibility(View.VISIBLE);
+                /*fiveday.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DateTimeFormatter dtf = null;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                            LocalDateTime now = LocalDateTime.now();
+                            //dtf.format(now);
+                            docRef.update("releaseDate", dtf.format(now));
+                        }
+                        startActivity(new Intent(ComplaintView.this, ComplaintView.class));
+                        finish();
+                    }
+                }); */
+                startActivity(new Intent(ComplaintView.this, ComplaintView.class));
+                finish();
+            }
+        });
 
     }
 }
