@@ -27,8 +27,6 @@ public class Cook extends User{
 	// String (key) is the allergen, List<Meal> for list of meals containing the allergen
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
 
-	public Cook(){}
-
 	public Cook (DocumentReference userDoc) {
 
 		userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -62,6 +60,11 @@ public class Cook extends User{
 		numReviews = 0;
 	}
 
+	// Dummy constructor for testing :)
+	public Cook() {
+		super("", "", "", "", "Cook");
+	}
+
 	public double getRating() {return ratingSum/completedOrders;}
 
 	public boolean addRating(double x) {
@@ -80,6 +83,20 @@ public class Cook extends User{
 
 	public boolean isSuspended() {return suspended;}
 	public LocalDateTime getSuspensionEnd() {return suspensionEnd;}
-	public void addSuspensionTime(Duration length) {}
+	public boolean addSuspension(Duration length) {
+		if (length != null) {
+			if (length.isZero() || length.isNegative()) length = null;
+			if (suspensionEnd != null)
+				suspensionEnd = suspensionEnd.plus(length);
+			else {
+				if (length != null && suspended == false)
+					suspensionEnd = LocalDateTime.now().plus(length);
+				else suspensionEnd = null;
+			}
+
+		} else suspensionEnd = null;
+		suspended = true;
+		return true;
+	}
 
 }

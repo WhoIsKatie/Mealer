@@ -41,6 +41,7 @@ public class Client extends User {
         });
     }
 
+    // Dummy constructor for testing :)
     public Client() {
         super("", "", "", "", "Client");
     }
