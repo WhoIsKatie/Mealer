@@ -11,7 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class Client extends User {
 
-    private String ccNumber, ccHolderName, expiryDate, cvc;
+    private String address, ccNumber, ccHolderName, expiryDate, cvc;
     private DocumentSnapshot document;
     private static final String TAG = "Client.java";
 

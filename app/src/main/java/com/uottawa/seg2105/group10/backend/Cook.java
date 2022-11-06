@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Cook extends User{
-	private String description;
+	private String description, address;
 	private double ratingSum;
 	private boolean suspended = false;
 	private DocumentSnapshot document;
