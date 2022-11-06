@@ -16,6 +16,7 @@ public class Client extends User {
     private static final String TAG = "Client.java";
 
     public Client(DocumentReference userDoc) {
+        if (userDoc == null) return;
         userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -40,11 +41,15 @@ public class Client extends User {
         });
     }
 
+    public Client() {
+        super("", "", "", "", "Client");
+    }
+
     // Setter method for Credit Card information
     // If CC number, expiry date, and cvc are of correct format, returns true. Otherwise, returns false.
     public boolean setCC(String num, String name, String expiry, String cvc) {
-        if (expiry.matches("(?:0[1-9]|1[0-2])/[0-9]{2}") &&
-            (num.length() == 16) && (cvc.length() == 3)) {
+        if (expiry.matches("(?:0[1-9]|1[0-2])[0-9]{2}") && !name.isEmpty() &&
+            num.matches("[0-9]{16}") && cvc.matches("[0-9]{3}")) {
             ccNumber = num;
             ccHolderName = name;
             expiryDate = expiry;
@@ -53,4 +58,10 @@ public class Client extends User {
         }
         return false;
     }
+
+    // Getter methods for testing purposes :)
+    public String getCcNumber() {return ccNumber;}
+    public String getCcHolderName() {return ccHolderName;}
+    public String getExpiryDate() {return expiryDate;}
+    public String getCvc() {return cvc;}
 }
