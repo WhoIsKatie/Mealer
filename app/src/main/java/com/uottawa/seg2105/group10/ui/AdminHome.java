@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -61,6 +62,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         ArrayList<String> timeOfComplaint = new ArrayList<>();
         ArrayList<String> cookUid = new ArrayList<>();
         ArrayList<String> clientUid = new ArrayList<>();
+        ArrayList<DocumentReference> documents = new ArrayList<>();
 
         dBase.collection("complaints").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -74,9 +76,10 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                     timeOfComplaint.add(data.get("time").toString());
                     cookUid.add(data.get("cookUid").toString());
                     clientUid.add(data.get("clientUid").toString());
+                    documents.add(document.getReference());
                 }
                 for (int i = 0; i < titleOfComplaint.size(); i++){
-                    ComplaintModel cm = new ComplaintModel(cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
+                    ComplaintModel cm = new ComplaintModel(documents.get(i), cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
                     complaintModel.add(cm);
                 }
                 updateView();
@@ -102,14 +105,13 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(AdminHome.this, ComplaintView.class);
-
-        intent.putExtra("NAME", complaintModel.get(position).getNameOfCook());
+        intent.putExtra("DOCUMENT", complaintModel.get(position));
+        /*intent.putExtra("NAME", complaintModel.get(position).getNameOfCook());
         intent.putExtra("TIME", complaintModel.get(position).getTimeOfComplaint());
         intent.putExtra("TITLE", complaintModel.get(position).getTitleOfComplaint());
         intent.putExtra("DESCRIPTION", complaintModel.get(position).getDescriptionOfComplaint());
         intent.putExtra("COOK", complaintModel.get(position).getCookUid());
-        intent.putExtra("CLIENT", complaintModel.get(position).getClientUid());
-
+        intent.putExtra("CLIENT", complaintModel.get(position).getClientUid());*/
         startActivity(intent);
     }
 }
