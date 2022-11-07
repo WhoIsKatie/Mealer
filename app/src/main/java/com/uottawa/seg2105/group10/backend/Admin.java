@@ -36,12 +36,7 @@ public class Admin extends User{
         docRef.update("status", false);
     }
 
-    // Also - if a cook has already been suspended (from a previous complaint),
-    // just extend the duration >:)
-    // temporarily
     public static void suspendCook(DocumentReference docRef, Duration length){
-        docRef.update("suspended", true);
-        docRef.update("releaseDays", 10);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -49,12 +44,32 @@ public class Admin extends User{
                     DocumentSnapshot document = task.getResult();
                     String cook = document.getString("cookUid");
                     dBase.collection("users").document(cook).update("isSuspended", true);
+                    Cook thisCook = UserManager.getCooks().get(cook);
+                    thisCook.addSuspension(length);
+                    thisCook.getSuspensionEnd();
+                    dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
                 }
             }
         });
-        //TODO: change how release days is done!!
         docRef.update("status", false);
     }
     //indefinitely
-    public static void suspendCook(DocumentReference docRef){}
+    public static void suspendCook(DocumentReference docRef){
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    String cook = document.getString("cookUid");
+                    dBase.collection("users").document(cook).update("isSuspended", true);
+                    Cook thisCook = UserManager.getCooks().get(cook);
+                    thisCook.addSuspension(null);
+                    thisCook.getSuspensionEnd();
+                    dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
+                }
+            }
+        });
+        docRef.update("status", false);
+    }
 }

@@ -62,17 +62,13 @@ public class ComplaintView extends AppCompatActivity {
 
         suspensionLengthCard = findViewById(R.id.suspensionCard);
         durationRadioGroup = findViewById(R.id.durationRadioGroup);
-        oneDay = findViewById(R.id.oneDay);
-        sevenDays = findViewById(R.id.sevenDays);
-        thirtyDays = findViewById(R.id.thirtyDays);
-        indefinite = findViewById(R.id.indefinite);
         selectDurationButt = findViewById(R.id.selectDurationButt);
 
         dismissButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Admin.dismissComplaint(docRef);
-                startActivity(new Intent(ComplaintView.this, ComplaintView.class));
+                startActivity(new Intent(ComplaintView.this, AdminHome.class));
                 finish();
             }
         });
@@ -80,8 +76,6 @@ public class ComplaintView extends AppCompatActivity {
         suspendButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: set how long suspension is for.
-                suspensionLengthCard.setVisibility(View.VISIBLE);
                 selectDurationButt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -100,11 +94,9 @@ public class ComplaintView extends AppCompatActivity {
                                 Admin.suspendCook(docRef);
                                 break;
                         }
-                        startActivity(new Intent(ComplaintView.this, ComplaintView.class));
-                        finish();
                     }
                 });
-                startActivity(new Intent(ComplaintView.this, ComplaintView.class));
+                startActivity(new Intent(ComplaintView.this, AdminHome.class));
                 finish();
             }
         });

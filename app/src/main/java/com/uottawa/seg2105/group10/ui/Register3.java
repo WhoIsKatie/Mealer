@@ -86,7 +86,7 @@ public class Register3 extends AppCompatActivity {
                 user.setCC(ccNum, fullName, expiry, cvc);
 
                 //adding user to usermanager hashmap
-                UserManager.getClients().put(mAuth.getCurrentUser(), user);
+                UserManager.getClients().put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));

@@ -177,7 +177,7 @@ public class Login extends AppCompatActivity {
 
     public boolean checkCookSuspended(){ //TODO: NEED A WAY TO SET COOK'S VARIABLE SUSPENDED (IN STATIC HASHMAP) TO TRUE
         FirebaseUser user = mAuth.getCurrentUser();
-        Cook cook = getCooks().get(user);
+        Cook cook = getCooks().get(user.getUid());
         final boolean[] flag = {false};
             dBase.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override

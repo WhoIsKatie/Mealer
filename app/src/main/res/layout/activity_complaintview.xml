@@ -131,7 +131,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:cardBackgroundColor="#A4FFFFFF"
             app:contentPaddingLeft="55dp"
             app:contentPaddingRight="55dp">
@@ -151,25 +151,29 @@
                         android:id="@+id/oneDay"
                         android:layout_width="180dp"
                         android:layout_height="40dp"
-                        android:text="1 day" />
+                        android:text="1 day"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/sevenDays"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="7 days" />
+                        android:text="7 days"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/thirtyDays"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="30 days" />
+                        android:text="30 days"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/indefinite"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Indefinitely" />
+                        android:text="Indefinitely"
+                        tools:ignore="TouchTargetSizeCheck" />
                 </RadioGroup>
 
                 <Button

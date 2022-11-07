@@ -93,7 +93,7 @@ public class Register4 extends AppCompatActivity {
                 uploadImage();
 
                 //adding user to usermanager hashmap
-                UserManager.getCooks().put(mAuth.getCurrentUser(), user);
+                UserManager.getCooks().put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
