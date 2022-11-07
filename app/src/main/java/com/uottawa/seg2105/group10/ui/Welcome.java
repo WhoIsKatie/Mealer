@@ -22,6 +22,7 @@ import com.uottawa.seg2105.group10.R;
 public class Welcome extends AppCompatActivity {
 
     private TextView typeText;
+    private TextView isSuspended;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private DocumentSnapshot document;
@@ -52,12 +53,14 @@ public class Welcome extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         dBase = FirebaseFirestore.getInstance();
 
+
         // create reference to current user document
         DocumentReference userDoc = dBase.collection("users").document(user.getUid());
         userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+
                     document = task.getResult();
                     // if user specific document exists,
                     // set text field to display user type (Client, Cook, or Admin)
@@ -79,6 +82,7 @@ public class Welcome extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(Welcome.this, MainActivity.class));
+
             }
 
         });
@@ -89,6 +93,8 @@ public class Welcome extends AppCompatActivity {
         }
 
     });
-
+        /*if(document.get("type").equals("Cook") && document.getBoolean("isSuspended") == true){
+            isSuspended.setVisibility(View.VISIBLE);
+        }*/
     }
 }
