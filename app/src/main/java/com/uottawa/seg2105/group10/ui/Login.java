@@ -1,5 +1,7 @@
 package com.uottawa.seg2105.group10.ui;
 
+import static com.uottawa.seg2105.group10.backend.UserManager.getCooks;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,19 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Cook;
 
 public class Login extends AppCompatActivity {
 
     private Button letTheUserLogIn; //button that says 'Login' which should bring to welcome page
     private ImageButton back;
     private FirebaseAuth mAuth;
-    private TextInputEditText login_username, login_password2;
+    private FirebaseFirestore dBase;
     private static final String TAG = "EmailPassword";
 
     private String email, password;
@@ -65,6 +69,16 @@ public class Login extends AppCompatActivity {
                 if(!validateEmail() | !validatePassword()) {
                     return;
                 }
+                FirebaseUser user = mAuth.getCurrentUser();
+                //COMMENT OUT FROM HERE TO...
+                Cook cook = getCooks().get(user);
+                if(cook != null){
+                    if(checkCookSuspended()){
+                        return; //TODO: THIS SHOULD NOT ALLOW COOK TO SIGN IN IF THEY ARE SUSPENDED
+                    }
+                }
+                // HERE (IF COOK LOGIN IS NOT WORKING)
+
                 // this is inside onclick so it doesn't run immediately when the activity begins
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
@@ -73,7 +87,6 @@ public class Login extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
                                     updateUI(user);
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -162,5 +175,31 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    public boolean checkCookSuspended(){ //TODO: NEED A WAY TO SET COOK'S VARIABLE SUSPENDED (IN STATIC HASHMAP) TO TRUE
+        FirebaseUser user = mAuth.getCurrentUser();
+        Cook cook = getCooks().get(user);
+        final boolean[] flag = {false};
+            dBase.collection("users").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        // if user specific document exists,
+                        // set text field to display user type (Client, Cook, or Admin)
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            if(document.getBoolean("isSuspended")){
+                                flag[0] = true;
+                            }
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+            return flag[0];
+    }
 
 }

@@ -63,7 +63,7 @@ public class Cook extends User{
 	}
 
 	public double getRating() {return ratingSum/completedOrders;}
-
+	public void setSuspended(){suspended = true;}
 	public boolean addRating(double x) {
 		if (x > 5 || x < 0) {
 			return false;

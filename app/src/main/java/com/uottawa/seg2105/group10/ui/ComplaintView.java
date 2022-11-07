@@ -8,8 +8,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,7 +20,7 @@ import com.uottawa.seg2105.group10.R;
 
 public class ComplaintView extends AppCompatActivity {
 
-
+    private static final String TAG = "COMPLAINT_VIEW";
     private DocumentSnapshot document;
     //Intializing butons
     private Button dismissButt, suspendButt;
@@ -69,6 +72,17 @@ public class ComplaintView extends AppCompatActivity {
             public void onClick(View view) {
                 docRef.update("suspended", true);
                 docRef.update("releaseDays", 10);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            document = task.getResult();
+                            String cook = (String) document.get("cookUid");
+                            //TODO: THIS LINE SETTING IS_SUSPENDED TO TRUE DOES NOT HAPPEN, DOESNT WORK
+                            dBase.collection("users").document(cook).update("isSuspended", true);
+                        }
+                    }
+                });
                 //TODO: change how release days is done!!
                 docRef.update("status", false);
 
