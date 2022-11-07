@@ -8,5 +8,7 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - run:
-          name: It's Mealer Time
-          command: echo 'This is Mealer's delivery pipeline'
+          name: The First Step
+          command: |
+            echo 'Hello World!'
+            echo 'This is the delivery pipeline'
