@@ -23,10 +23,8 @@ import java.time.temporal.ChronoUnit;
  */
 public class MainUnitTest {
 
-
     Client testClient;
     Cook testCook;
-
 
     @Before
     public void runBefore() {
@@ -211,8 +209,8 @@ public class MainUnitTest {
         assertTrue("addSuspension failed to suspend cook!", testCook.isSuspended());
         assertEquals(null, testCook.getSuspensionEnd());
 
-        assertTrue("addSuspension failed to suspend cook!", (testCook.addSuspension(Duration.ofDays(10))));
-        assertTrue("addSuspension failed to suspend cook!", testCook.isSuspended());
-        assertEquals(null, testCook.getSuspensionEnd());
+        assertTrue((testCook.addSuspension(Duration.ofDays(10))));
+        assertTrue(testCook.isSuspended());
+        assertEquals("addSuspension() overrode original suspension with temporary!", null, testCook.getSuspensionEnd());
     }
 }

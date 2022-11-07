@@ -82,7 +82,9 @@ public class Cook extends User{
 	}
 
 	public boolean isSuspended() {return suspended;}
+
 	public LocalDateTime getSuspensionEnd() {return suspensionEnd;}
+
 	public boolean addSuspension(Duration length) {
 		if (length != null) {
 			if (length.isZero() || length.isNegative()) length = null;
