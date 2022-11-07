@@ -1,9 +1,6 @@
 package com.uottawa.seg2105.group10.backend;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,39 +34,33 @@ public class Admin extends User{
     }
 
     public static void suspendCook(DocumentReference docRef, Duration length){
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    String cook = document.getString("cookUid");
-                    dBase.collection("users").document(cook).update("isSuspended", true);
-                    Cook thisCook = UserManager.getCooks().get(cook);
-                    thisCook.addSuspension(length);
-                    thisCook.getSuspensionEnd();
-                    dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
-                }
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String cook = documentSnapshot.getString("cookUid");
+                dBase.collection("users").document(cook).update("isSuspended", true);
+                Cook thisCook = UserManager.getCooks().get(cook);
+                thisCook.addSuspension(length);
+                thisCook.getSuspensionEnd();
+                dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
             }
         });
         docRef.update("status", false);
     }
     //indefinitely
     public static void suspendCook(DocumentReference docRef){
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot document = task.getResult();
-                    String cook = document.getString("cookUid");
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String cook = documentSnapshot.getString("cookUid");
                     dBase.collection("users").document(cook).update("isSuspended", true);
                     Cook thisCook = UserManager.getCooks().get(cook);
                     thisCook.addSuspension(null);
                     thisCook.getSuspensionEnd();
                     dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
                 }
-            }
-        });
+            });
+
         docRef.update("status", false);
     }
 }

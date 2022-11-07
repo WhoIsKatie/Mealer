@@ -17,8 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Admin;
 
-import java.time.Duration;
-
 public class ComplaintView extends AppCompatActivity {
 
     private static final String TAG = "COMPLAINT_VIEW";
@@ -35,6 +33,7 @@ public class ComplaintView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaintview);
+
         dBase = dBase.getInstance();
 
         String name = getIntent().getStringExtra("NAME");
@@ -60,9 +59,7 @@ public class ComplaintView extends AppCompatActivity {
         dismissButt = findViewById(R.id.dismissButt);
         suspendButt = findViewById(R.id.suspendButt);
 
-        suspensionLengthCard = findViewById(R.id.suspensionCard);
-        durationRadioGroup = findViewById(R.id.durationRadioGroup);
-        selectDurationButt = findViewById(R.id.selectDurationButt);
+
 
         dismissButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,31 +73,52 @@ public class ComplaintView extends AppCompatActivity {
         suspendButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                durationRadioGroup = findViewById(R.id.durationRadioGroup);
+                selectDurationButt = findViewById(R.id.selectDurationButt);
+                suspensionLengthCard = (CardView) findViewById(R.id.suspensionCard);
+                /*Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                });
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+                thread.start();*/
                 selectDurationButt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (durationRadioGroup.getCheckedRadioButtonId() == -1) return;
                         switch (durationRadioGroup.getCheckedRadioButtonId()) {
                             case R.id.oneDay:
-                                Admin.suspendCook(docRef, Duration.ofDays(1));
+                                //Admin.suspendCook(docRef, Duration.ofDays(1));
                                 break;
                             case R.id.sevenDays:
-                                Admin.suspendCook(docRef, Duration.ofDays(7));
+                                //Admin.suspendCook(docRef, Duration.ofDays(7));
                                 break;
                             case R.id.thirtyDays:
-                                Admin.suspendCook(docRef, Duration.ofDays(30));
+                                //Admin.suspendCook(docRef, Duration.ofDays(30));
                                 break;
                             case R.id.indefinite:
-                                Admin.suspendCook(docRef);
+                                //Admin.suspendCook(docRef);
                                 break;
                         }
                     }
                 });
+
                 startActivity(new Intent(ComplaintView.this, AdminHome.class));
                 finish();
             }
         });
-
     }
 }
 

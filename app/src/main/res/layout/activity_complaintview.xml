@@ -131,8 +131,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:cardBackgroundColor="#A4FFFFFF"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
             app:contentPaddingLeft="55dp"
             app:contentPaddingRight="55dp">
 
