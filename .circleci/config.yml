@@ -9,5 +9,4 @@ jobs:
     steps:
       - run:
           name: It's Mealer Time
-          command: |
-            echo 'This is Mealer's delivery pipeline'
+          command: echo 'This is Mealer's delivery pipeline'
