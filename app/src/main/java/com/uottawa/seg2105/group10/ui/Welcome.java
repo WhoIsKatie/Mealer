@@ -53,9 +53,6 @@ public class Welcome extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         dBase = FirebaseFirestore.getInstance();
 
-        if(document.getString("type").equals("Cook") && document.getBoolean("isSuspended") == true){
-            isSuspended.setVisibility(View.VISIBLE);
-        }
 
         // create reference to current user document
         DocumentReference userDoc = dBase.collection("users").document(user.getUid());
@@ -96,6 +93,8 @@ public class Welcome extends AppCompatActivity {
         }
 
     });
-
+        /*if(document.get("type").equals("Cook") && document.getBoolean("isSuspended") == true){
+            isSuspended.setVisibility(View.VISIBLE);
+        }*/
     }
 }
