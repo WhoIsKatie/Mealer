@@ -3,6 +3,7 @@ package com.uottawa.seg2105.group10.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -16,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Admin;
+
+import java.time.Duration;
 
 public class ComplaintView extends AppCompatActivity {
 
@@ -59,6 +62,39 @@ public class ComplaintView extends AppCompatActivity {
         dismissButt = findViewById(R.id.dismissButt);
         suspendButt = findViewById(R.id.suspendButt);
 
+        suspensionLengthCard = (CardView) findViewById(R.id.suspensionCard);
+
+        suspensionLengthCard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (suspensionLengthCard.getVisibility() != View.GONE) {
+                    durationRadioGroup = (RadioGroup) findViewById(R.id.durationRadioGroup);
+                    selectDurationButt = (Button) findViewById(R.id.selectDurationButt);
+
+                    selectDurationButt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (durationRadioGroup.getCheckedRadioButtonId() == -1) return;
+                            switch (durationRadioGroup.getCheckedRadioButtonId()) {
+                                case R.id.oneDay:
+                                    Admin.suspendCook(docRef, Duration.ofDays(1));
+                                    break;
+                                case R.id.sevenDays:
+                                    Admin.suspendCook(docRef, Duration.ofDays(7));
+                                    break;
+                                case R.id.thirtyDays:
+                                    Admin.suspendCook(docRef, Duration.ofDays(30));
+                                    break;
+                                case R.id.indefinite:
+                                    Admin.suspendCook(docRef);
+                                    break;
+                            }
+                            suspensionLengthCard.setVisibility(View.GONE);
+                        }
+                    });
+                }
+            }
+        });
 
 
         dismissButt.setOnClickListener(new View.OnClickListener() {
@@ -73,50 +109,9 @@ public class ComplaintView extends AppCompatActivity {
         suspendButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                durationRadioGroup = findViewById(R.id.durationRadioGroup);
-                selectDurationButt = findViewById(R.id.selectDurationButt);
-                suspensionLengthCard = (CardView) findViewById(R.id.suspensionCard);
-                /*Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1000);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                    }
-                                });
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-                thread.start();*/
-                selectDurationButt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (durationRadioGroup.getCheckedRadioButtonId() == -1) return;
-                        switch (durationRadioGroup.getCheckedRadioButtonId()) {
-                            case R.id.oneDay:
-                                //Admin.suspendCook(docRef, Duration.ofDays(1));
-                                break;
-                            case R.id.sevenDays:
-                                //Admin.suspendCook(docRef, Duration.ofDays(7));
-                                break;
-                            case R.id.thirtyDays:
-                                //Admin.suspendCook(docRef, Duration.ofDays(30));
-                                break;
-                            case R.id.indefinite:
-                                //Admin.suspendCook(docRef);
-                                break;
-                        }
-                    }
-                });
-
-                startActivity(new Intent(ComplaintView.this, AdminHome.class));
-                finish();
+                suspensionLengthCard.setVisibility(View.VISIBLE);
+                /*startActivity(new Intent(ComplaintView.this, AdminHome.class));
+                finish();*/
             }
         });
     }
