@@ -17,11 +17,11 @@ public class Complaint_RecyclerViewAdapter extends RecyclerView.Adapter<Complain
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
-    ArrayList<ComplaintModel> complaintModels;
+    ArrayList<ComplaintModel> complaints;
 
-    public Complaint_RecyclerViewAdapter(Context context, ArrayList<ComplaintModel> complaintModels, RecyclerViewInterface recyclerViewInterface){
+    public Complaint_RecyclerViewAdapter(Context context, ArrayList<ComplaintModel> complaints, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
-        this.complaintModels = complaintModels;
+        this.complaints = complaints;
         this.recyclerViewInterface = recyclerViewInterface;
     }
 
@@ -37,14 +37,14 @@ public class Complaint_RecyclerViewAdapter extends RecyclerView.Adapter<Complain
     @Override
     public void onBindViewHolder(@NonNull Complaint_RecyclerViewAdapter.MyViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        holder.nameOfUser.setText(complaintModels.get(position).getNameOfCook());
-        holder.timeOfComplaint.setText(complaintModels.get(position).getTimeOfComplaint());
+        holder.nameOfUser.setText(complaints.get(position).getNameOfCook());
+        holder.timeOfComplaint.setText(complaints.get(position).getTimeOfComplaint());
     }
 
     @Override
     public int getItemCount() {
         // Returns the total number of items in the RecyclerView
-        return complaintModels.size();
+        return complaints.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{

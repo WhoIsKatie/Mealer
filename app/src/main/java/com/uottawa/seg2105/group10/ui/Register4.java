@@ -93,7 +93,8 @@ public class Register4 extends AppCompatActivity {
                 uploadImage();
 
                 //adding user to usermanager hashmap
-                UserManager.getCooks().put(mAuth.getCurrentUser().getUid(), user);
+                //UserManager.getCooks().put(mAuth.getCurrentUser().getUid(), user);
+                UserManager.cooks.put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
@@ -181,9 +182,6 @@ public class Register4 extends AppCompatActivity {
                     = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-
-            // Create a storage reference from our app
-            StorageReference storageRef = storage.getReference();
 
             // Defining the child of storageReference
             StorageReference chequeRef = storage.getReference().child(mAuth.getUid() + "/cheque/" + filePath.getLastPathSegment());

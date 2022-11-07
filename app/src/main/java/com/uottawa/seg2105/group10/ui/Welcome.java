@@ -18,6 +18,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.backend.UserManager;
 
 public class Welcome extends AppCompatActivity {
 
@@ -67,6 +69,13 @@ public class Welcome extends AppCompatActivity {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         typeText.setText(document.getString("type"));
+
+                        Cook mealerCook = UserManager.getCooks().get(user.getUid());
+                        if(mealerCook != null){
+                            if(mealerCook.isSuspended()){
+                                isSuspended.setVisibility(View.VISIBLE);
+                            }
+                        }
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -93,8 +102,5 @@ public class Welcome extends AppCompatActivity {
         }
 
     });
-        /*if(document.get("type").equals("Cook") && document.getBoolean("isSuspended") == true){
-            isSuspended.setVisibility(View.VISIBLE);
-        }*/
     }
 }
