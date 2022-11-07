@@ -1,6 +1,7 @@
 package com.uottawa.seg2105.group10.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,15 +9,16 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Admin;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ComplaintView extends AppCompatActivity {
 
@@ -61,7 +63,7 @@ public class ComplaintView extends AppCompatActivity {
         dismissButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                docRef.update("status", false);
+                Admin.dismissComplaint(docRef);
                 startActivity(new Intent(ComplaintView.this, ComplaintView.class));
                 finish();
             }
@@ -70,25 +72,9 @@ public class ComplaintView extends AppCompatActivity {
         suspendButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                docRef.update("suspended", true);
-                docRef.update("releaseDays", 10);
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            document = task.getResult();
-                            String cook = (String) document.get("cookUid");
-                            //TODO: THIS LINE SETTING IS_SUSPENDED TO TRUE DOES NOT HAPPEN, DOESNT WORK
-                            dBase.collection("users").document(cook).update("isSuspended", true);
-                        }
-                    }
-                });
-                //TODO: change how release days is done!!
-                docRef.update("status", false);
-
                 //TODO: set how long suspension is for.
-                //suspendTimes.setVisibility(View.VISIBLE);
-                /*fiveday.setOnClickListener(new View.OnClickListener() {
+                suspendTimes.setVisibility(View.VISIBLE);
+                fiveday.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         DateTimeFormatter dtf = null;
@@ -101,7 +87,9 @@ public class ComplaintView extends AppCompatActivity {
                         startActivity(new Intent(ComplaintView.this, ComplaintView.class));
                         finish();
                     }
-                }); */
+                });
+
+                Admin.suspendCook(docRef);
                 startActivity(new Intent(ComplaintView.this, ComplaintView.class));
                 finish();
             }

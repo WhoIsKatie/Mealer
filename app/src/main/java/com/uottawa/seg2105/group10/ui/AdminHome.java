@@ -39,21 +39,15 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
         recyclerView = findViewById(R.id.complaint_recycler_view);
         setUpComplaintModels();
-
-
-
     }
+
     private void updateView(){
         Complaint_RecyclerViewAdapter adapter = new Complaint_RecyclerViewAdapter(this, complaintModel, this);
         recyclerView.setAdapter(adapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
     }
-    private void setUpComplaintModels(){
-        // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
-        //TODO: add new field to complaints for status: active, tempSuspend, indefSuspend, dismssed
 
+    private void setUpComplaintModels(){
         // initializing all lists of fields for complaints that are active
         ArrayList<String> cookName = new ArrayList<>();
         ArrayList<String> descriptionOfComplaint = new ArrayList<>();
@@ -63,6 +57,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         ArrayList<String> clientUid = new ArrayList<>();
         ArrayList<String> documents = new ArrayList<>();
 
+        // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
         dBase.collection("complaints").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -83,22 +78,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                 }
                 updateView();
             }
-
-
         });
-
-        //TODO: delete strings => iterate over database complaints collection
-        /*
-        String[] namesOfUsers = getResources().getStringArray(R.array.names_of_unsatisfied_customers);
-        String[] timesOfComplaint = getResources().getStringArray(R.array.times_of_complaint);
-        String[] titleOfComplaint = getResources().getStringArray(R.array.title_of_complaint);
-        String[] descriptionOfComplaint = getResources().getStringArray(R.array.description_of_complaint);
-        String[] cookOfComplaint = getResources().getStringArray(R.array.cook_concerned_by_complaint);
-
-        for (int i = 0; i < namesOfUsers.length; i++){
-            complaintModel.add(new ComplaintModel(namesOfUsers[i], timesOfComplaint[i], titleOfComplaint[i], descriptionOfComplaint[i], cookOfComplaint[i], "waoesdfkjf"));
-        }
-         */
     }
 
     @Override

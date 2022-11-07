@@ -4,45 +4,6 @@
 
     </style>
 
-    <!-- TODO: Please delete the string arrays below once the recyclerView is connected to our database -->
-    <string-array name="names_of_unsatisfied_customers">
-        <item> Joseph </item>
-        <item> Hannah</item>
-        <item> Mark </item>
-        <item> Sophie </item>
-    </string-array>
-
-    <string-array name="times_of_complaint">
-        <item> 8:30 am </item>
-        <item> 10:15 pm </item>
-        <item> 1:15 pm </item>
-        <item> 5:55 am </item>
-    </string-array>
-
-    <string-array name="title_of_complaint">
-        <item> Overpriced Much </item>
-        <item> Hair in Food </item>
-        <item> Sus Guy </item>
-        <item> Got Served Kraft Dinner </item>
-    </string-array>
-
-    <string-array name="description_of_complaint">
-        <item>The woman tried selling me chicken salad for 30 bucks when she figured I drove a bugatti. She
-        even dared to ask for tip afterwards. </item>
-        <item>Absolutely appalled by what I was served. My meal was full of hair strands. I suggested she consider using
-        a deep conditioner to counter her receding hairline issues. </item>
-        <item>Roberto couldn\'t stop undressing me with his eyes the entire time. He then suggested I pay him "with my body".
-        As a man, I yeeted out of there real quick. </item>
-        <item>Not what I had in mind when I thought of cheese macaroni. The noodles weren\'t even cooked properly. How do you mess up Kraft Dinner? </item>
-    </string-array>
-
-    <string-array name="cook_concerned_by_complaint">
-        <item> Sally </item>
-        <item> Michelle </item>
-        <item> Roberto </item>
-        <item> Tom </item>
-    </string-array>
-
     <string name="app_name">Mealer</string>
     <string name="title_activity_register">Register</string>
     <string name="registering_welcome_message">WELCOME</string>

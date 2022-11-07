@@ -74,7 +74,7 @@ public class Login extends AppCompatActivity {
                 Cook cook = getCooks().get(user);
                 if(cook != null){
                     if(checkCookSuspended()){
-                        return; //TODO: THIS SHOULD NOT ALLOW COOK TO SIGN IN IF THEY ARE SUSPENDED
+                        return; //TODO: (in deliverable 3) THIS SHOULD NOT ALLOW COOK TO SIGN IN IF THEY ARE SUSPENDED
                     }
                 }
                 // HERE (IF COOK LOGIN IS NOT WORKING)
