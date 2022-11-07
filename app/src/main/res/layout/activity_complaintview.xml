@@ -127,9 +127,11 @@
             android:background="@color/black" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/suspensionCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
+            android:visibility="invisible"
             app:cardBackgroundColor="#A4FFFFFF"
             app:contentPaddingLeft="55dp"
             app:contentPaddingRight="55dp">
@@ -140,37 +142,38 @@
                 android:orientation="vertical">
 
                 <RadioGroup
+                    android:id="@+id/durationRadioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp">
 
                     <RadioButton
-                        android:id="@+id/radioButton3"
+                        android:id="@+id/oneDay"
                         android:layout_width="180dp"
                         android:layout_height="40dp"
-                        android:text="RadioButton" />
+                        android:text="1 day" />
 
                     <RadioButton
-                        android:id="@+id/radioButton2"
+                        android:id="@+id/sevenDays"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="RadioButton" />
+                        android:text="7 days" />
 
                     <RadioButton
-                        android:id="@+id/radioButton"
+                        android:id="@+id/thirtyDays"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="RadioButton" />
+                        android:text="30 days" />
 
                     <RadioButton
-                        android:id="@+id/radioButton4"
+                        android:id="@+id/indefinite"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="RadioButton" />
+                        android:text="Indefinitely" />
                 </RadioGroup>
 
                 <Button
-                    android:id="@+id/selectDate"
+                    android:id="@+id/selectDurationButt"
                     android:layout_width="192dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"

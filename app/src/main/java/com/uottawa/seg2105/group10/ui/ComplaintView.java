@@ -1,7 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -17,17 +17,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Admin;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.Duration;
 
 public class ComplaintView extends AppCompatActivity {
 
     private static final String TAG = "COMPLAINT_VIEW";
     private DocumentSnapshot document;
     //Intializing butons
-    private Button dismissButt, suspendButt;
-    private RadioGroup suspendTimes;
-    private RadioButton fiveday, tenday, indef;
+    private Button dismissButt, suspendButt, selectDurationButt;
+    private CardView suspensionLengthCard;
+    private RadioGroup durationRadioGroup;
+    private RadioButton oneDay, sevenDays, thirtyDays, indefinite;
 
     private FirebaseFirestore dBase;
 
@@ -60,6 +60,14 @@ public class ComplaintView extends AppCompatActivity {
         dismissButt = findViewById(R.id.dismissButt);
         suspendButt = findViewById(R.id.suspendButt);
 
+        suspensionLengthCard = findViewById(R.id.suspensionCard);
+        durationRadioGroup = findViewById(R.id.durationRadioGroup);
+        oneDay = findViewById(R.id.oneDay);
+        sevenDays = findViewById(R.id.sevenDays);
+        thirtyDays = findViewById(R.id.thirtyDays);
+        indefinite = findViewById(R.id.indefinite);
+        selectDurationButt = findViewById(R.id.selectDurationButt);
+
         dismissButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,23 +81,29 @@ public class ComplaintView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO: set how long suspension is for.
-                suspendTimes.setVisibility(View.VISIBLE);
-                fiveday.setOnClickListener(new View.OnClickListener() {
+                suspensionLengthCard.setVisibility(View.VISIBLE);
+                selectDurationButt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        DateTimeFormatter dtf = null;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                            LocalDateTime now = LocalDateTime.now();
-                            //dtf.format(now);
-                            docRef.update("releaseDate", dtf.format(now));
+                        if (durationRadioGroup.getCheckedRadioButtonId() == -1) return;
+                        switch (durationRadioGroup.getCheckedRadioButtonId()) {
+                            case R.id.oneDay:
+                                Admin.suspendCook(docRef, Duration.ofDays(1));
+                                break;
+                            case R.id.sevenDays:
+                                Admin.suspendCook(docRef, Duration.ofDays(7));
+                                break;
+                            case R.id.thirtyDays:
+                                Admin.suspendCook(docRef, Duration.ofDays(30));
+                                break;
+                            case R.id.indefinite:
+                                Admin.suspendCook(docRef);
+                                break;
                         }
                         startActivity(new Intent(ComplaintView.this, ComplaintView.class));
                         finish();
                     }
                 });
-
-                Admin.suspendCook(docRef);
                 startActivity(new Intent(ComplaintView.this, ComplaintView.class));
                 finish();
             }
