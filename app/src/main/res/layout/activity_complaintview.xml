@@ -10,189 +10,217 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="140dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_black"
-            android:text="Name"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:text="00:00 am"
-            android:textAlignment="center"
-            android:textColor="#000000" />
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/black" />
-
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="30dp"
-            android:fontFamily="@font/roboto_black"
-            android:text="Title"
-            android:textColor="@color/black"
-            android:textSize="25dp" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="30dp"
-            android:fontFamily="@font/roboto"
-            android:text="The user inputs a detailed description of the complaint made in regards to a particular cook"
-            android:textColor="@color/black"
-            android:textSize="12dp" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:text="Complaint made against:"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Cook Name"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="30dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/suspendButt"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
-                android:text="Suspend"
-                android:textColor="#FFFFFF"
-                app:backgroundTint="@color/black"
-                app:cornerRadius="30dp" />
+                android:fontFamily="@font/roboto_black"
+                android:text="Name"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="40sp" />
 
-            <Button
-                android:id="@+id/dismissButt"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#00000000"
                 android:fontFamily="@font/roboto"
-                android:text="Dismiss"
+                android:text="00:00 am"
+                android:textAlignment="center"
+                android:textColor="#000000" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:fontFamily="@font/roboto_black"
+                android:text="Title"
                 android:textColor="@color/black"
-                app:backgroundTint="#FFFFFF"
-                app:cornerRadius="30dp" />
-        </LinearLayout>
+                android:textSize="25dp" />
 
-        <View
-            android:id="@+id/view4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/black" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:fontFamily="@font/roboto"
+                android:text="The user inputs a detailed description of the complaint made in regards to a particular cook"
+                android:textColor="@color/black"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:text="Complaint made against:"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Cook Name"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/suspendButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto"
+                    android:text="Suspend"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="@color/black"
+                    app:cornerRadius="30dp" />
+
+                <Button
+                    android:id="@+id/dismissButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:fontFamily="@font/roboto"
+                    android:text="Dismiss"
+                    android:textColor="@color/black"
+                    app:backgroundTint="#FFFFFF"
+                    app:cornerRadius="30dp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="30dp"
+                android:background="@color/black" />
+
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/suspensionCard"
-            android:layout_width="match_parent"
+            android:layout_width="270dp"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             android:visibility="gone"
             app:cardBackgroundColor="#A4FFFFFF"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:contentPaddingLeft="55dp"
-            app:contentPaddingRight="55dp">
+            app:cardCornerRadius="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/suspendCardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/selectduration"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
 
                 <RadioGroup
                     android:id="@+id/durationRadioGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp">
+                    android:layout_width="173dp"
+                    android:layout_height="120dp"
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/oneDay"
-                        android:layout_width="180dp"
-                        android:layout_height="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
                         android:text="1 day"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/sevenDays"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:text="7 days"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/thirtyDays"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:text="30 days"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
                         tools:ignore="TouchTargetSizeCheck" />
 
                     <RadioButton
                         android:id="@+id/indefinite"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:text="Indefinitely"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
                         tools:ignore="TouchTargetSizeCheck" />
                 </RadioGroup>
 
                 <Button
                     android:id="@+id/selectDurationButt"
-                    android:layout_width="192dp"
-                    android:layout_height="50dp"
+                    android:layout_width="127dp"
+                    android:layout_height="25dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto"
                     android:text="select duration"
                     android:textColor="#FFFFFF"
-                    app:backgroundTint="@color/black"
-                    app:cornerRadius="30dp" />
+                    android:textColorHighlight="#8FF9D706"
+                    app:backgroundTint="@color/black_overlay"
+                    app:cornerRadius="30dp"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,6 +40,7 @@
     <string name="cook">Cook</string>
     <string name="logoff">LOG OFF</string>
     <string name="hello">Hello \u0026 \nWelcome</string>
+    <string name="selectduration">Select Suspension Duration</string>
 
 
 </resources>
