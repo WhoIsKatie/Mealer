@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 public class Cook extends User{
 	private String description, address;
 	private double ratingSum;
-	private boolean suspended = false;
+	private boolean suspended;
 	private static final String TAG = "Cook.java";
 	private LocalDateTime suspensionEnd;
+	private DocumentReference userDoc = null;
 
 	private int completedOrders, numReviews;
 	private Menu cookMenu = new Menu(this);
@@ -28,7 +29,7 @@ public class Cook extends User{
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
 
 	public Cook (DocumentReference userDoc) {
-
+		this.userDoc = userDoc;
 		userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -46,6 +47,7 @@ public class Cook extends User{
 						type = document.getString("type");
 						//variable from inst of this class, Cook.java
 						description = document.getString("description");
+						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
 					} else {
 						Log.d(TAG, "No such document");
 					}

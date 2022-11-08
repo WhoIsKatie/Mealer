@@ -15,7 +15,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Client;
-import com.uottawa.seg2105.group10.backend.UserManager;
 
 import java.util.Map;
 
@@ -83,11 +82,12 @@ public class Register3 extends AppCompatActivity {
                 data.put("type", "Client");
                 userRef.set(data);
                 user = new Client(userRef);
+                userRef.update("User", user);   // this is replacing user manager
                 user.setCC(ccNum, fullName, expiry, cvc);
 
-                //adding user to usermanager hashmap
+                //REMOVED BECAUSE USERMANAGER HAS BEEN DEPRECATED
                 //UserManager.getClients().put(mAuth.getCurrentUser().getUid(), user);
-                UserManager.clients.put(mAuth.getCurrentUser().getUid(), user);
+                //UserManager.clients.put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));

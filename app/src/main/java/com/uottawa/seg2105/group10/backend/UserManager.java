@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.backend;
 
 import java.util.HashMap;
 
+@Deprecated
 public class UserManager {
     //private static UserManager instance = new UserManager();
 

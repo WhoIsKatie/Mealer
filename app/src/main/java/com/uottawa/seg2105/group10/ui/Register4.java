@@ -90,7 +90,9 @@ public class Register4 extends AppCompatActivity {
                 userRef.set(data);
                 userRef.update("isSuspended", false);
                 user = new Cook(userRef);
+                // trying to get document to keep Mealer User object and DateTime suspensionEnd
                 userRef.update("User", user);
+                userRef.update("suspensionEnd", null);
                 uploadImage();
 
                 //adding user to usermanager hashmap

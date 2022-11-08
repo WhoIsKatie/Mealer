@@ -1,8 +1,6 @@
 package com.uottawa.seg2105.group10.backend;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.Duration;
@@ -34,31 +32,35 @@ public class Admin extends User{
     }
 
     public static void suspendCook(DocumentReference docRef, Duration length){
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String cook = documentSnapshot.getString("cookUid");
-                dBase.collection("users").document(cook).update("isSuspended", true);
-                Cook thisCook = UserManager.getCooks().get(cook);
-                thisCook.addSuspension(length);
-                thisCook.getSuspensionEnd();
-                dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
-            }
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            String cook = documentSnapshot.getString("cookUid");
+            assert cook != null;
+            dBase.collection("users").document(cook).update("isSuspended", true);
+            // WE REMOVE USERMANAGER SO NEW WAY TO GET THE COOK (FROM FB 'USER' FIELD)
+            //Cook thisCook = UserManager.getCooks().get(cook);
+
+            // TODO: NEED TO FILL FIREBASE USERS TO HAVE THEIR MEALER 'USER' OBJECT
+            Cook thisCook = (Cook) documentSnapshot.get("User");
+            assert thisCook != null;
+            thisCook.addSuspension(length);
+            dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
         });
         docRef.update("status", false);
     }
     //indefinitely
     public static void suspendCook(DocumentReference docRef){
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String cook = documentSnapshot.getString("cookUid");
-                    dBase.collection("users").document(cook).update("isSuspended", true);
-                    Cook thisCook = UserManager.getCooks().get(cook);
-                    thisCook.addSuspension(null);
-                    thisCook.getSuspensionEnd();
-                    dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
-                }
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            String cook = documentSnapshot.getString("cookUid");
+            assert cook != null;
+            dBase.collection("users").document(cook).update("isSuspended", true);
+            // WE REMOVE USERMANAGER SO NEW WAY TO GET THE COOK (FROM FB 'USER' FIELD)
+            //Cook thisCook = UserManager.getCooks().get(cook);
+
+            // TODO: NEED TO FILL FIREBASE USERS TO HAVE THEIR MEALER 'USER' OBJECT
+            Cook thisCook = (Cook) documentSnapshot.get("User");
+            assert thisCook != null;
+            thisCook.addSuspension(null);
+                dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
             });
 
         docRef.update("status", false);
