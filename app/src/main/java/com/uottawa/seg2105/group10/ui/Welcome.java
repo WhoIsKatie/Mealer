@@ -18,8 +18,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.UserManager;
 
 public class Welcome extends AppCompatActivity {
 
@@ -27,10 +25,9 @@ public class Welcome extends AppCompatActivity {
     private TextView isSuspended;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private DocumentSnapshot document;
+        private DocumentSnapshot document;
     private Button logOffButt;
     private Button homepageButt;
-
     private static final String TAG = "Welcome";
 
     @Override
@@ -49,6 +46,7 @@ public class Welcome extends AppCompatActivity {
         typeText = findViewById(R.id.userTypeText);
         logOffButt = findViewById(R.id.logOffButt);
         homepageButt = findViewById(R.id.homepageButt);
+        isSuspended = findViewById(R.id.isSuspended);
 
         // get instances of Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();
@@ -70,10 +68,9 @@ public class Welcome extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         typeText.setText(document.getString("type"));
 
-                        Cook mealerCook = UserManager.getCooks().get(user.getUid());
-                        if(mealerCook != null){
-                            if(mealerCook.isSuspended()){
-                                isSuspended.setVisibility(View.VISIBLE);
+                        if(document.contains("isSuspended")) {
+                            if(document.getBoolean("isSuspended") == true){
+                                isSuspended.setText("You are currently suspended.");
                             }
                         }
                     } else {

@@ -27,7 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.UserManager;
 
 import java.util.Map;
 
@@ -89,12 +88,15 @@ public class Register4 extends AppCompatActivity {
                 data.put("description", profDesc);
                 data.put("type", "Cook");
                 userRef.set(data);
+                userRef.update("isSuspended", false);
                 user = new Cook(userRef);
+                userRef.update("User", user);
                 uploadImage();
 
                 //adding user to usermanager hashmap
+                //TODO: need to remove user manager and move to firebase
                 //UserManager.getCooks().put(mAuth.getCurrentUser().getUid(), user);
-                UserManager.cooks.put(mAuth.getCurrentUser().getUid(), user);
+                //UserManager.cooks.put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
