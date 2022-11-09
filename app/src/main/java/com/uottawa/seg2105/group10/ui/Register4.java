@@ -85,6 +85,7 @@ public class Register4 extends AppCompatActivity {
                 DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 // Set the "description" field of the cook
                 Map<String, String> data = Register2.data;
+
                 data.put("description", profDesc);
                 data.put("type", "Cook");
                 userRef.set(data);
@@ -93,6 +94,7 @@ public class Register4 extends AppCompatActivity {
                 // trying to get document to keep Mealer User object and DateTime suspensionEnd
                 userRef.update("User", user);
                 userRef.update("suspensionEnd", null);
+                userRef.update("meals", null);
                 uploadImage();
 
                 //adding user to usermanager hashmap
