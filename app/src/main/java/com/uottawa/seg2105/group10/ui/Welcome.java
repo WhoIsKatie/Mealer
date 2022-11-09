@@ -71,9 +71,13 @@ public class Welcome extends AppCompatActivity {
 
                         if(document.contains("isSuspended")) {
                             if(Boolean.TRUE.equals(document.getBoolean("isSuspended"))){
+
+                                // I created additional string resources: temp_suspend_message, and perm_suspend_message
                                 isSuspended.setText(R.string.general_suspend_message);
+
                                 Cook thisCook = (Cook) document.get("user");
-                                thisCook.getSuspensionEnd(); // TODO: display time using LocalDateTime methods (like
+                                String endDate = thisCook.getSuspensionEnd(); // TODO: display this mf
+
                             }
                         }
                     } else {

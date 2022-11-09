@@ -71,6 +71,7 @@ public class ComplaintView extends AppCompatActivity {
                     durationRadioGroup = (RadioGroup) findViewById(R.id.durationRadioGroup);
                     selectDurationButt = (Button) findViewById(R.id.selectDurationButt);
 
+                    //TODO: idk how to get her back home to complain view :(
                     selectDurationButt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
