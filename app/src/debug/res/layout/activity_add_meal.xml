@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMeal">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="411dp"
+                android:layout_height="400dp"
+                app:cardCornerRadius="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/mealImage"
+                        android:layout_width="700dp"
+                        android:layout_height="700dp"
+                        android:src="@drawable/oatmeal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:srcCompat="@drawable/ic_launcher_background" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/mealName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Morning Breakfast"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        tools:layout_editor_absoluteX="31dp"
+                        tools:layout_editor_absoluteY="45dp" />
+
+                    <View
+                        android:id="@+id/view8"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/black"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="176dp" />
+
+                    <TextView
+                        android:id="@+id/MealDesc"
+                        android:layout_width="330dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
+                        android:textColor="#8A8A8A"
+                        android:textSize="14sp"
+                        tools:layout_editor_absoluteX="33dp"
+                        tools:layout_editor_absoluteY="233dp" />
+
+                    <TextView
+                        android:id="@+id/mealDescTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Meal Description"
+                        android:textColor="#000000"
+                        android:textSize="18dp"
+                        tools:layout_editor_absoluteX="33dp"
+                        tools:layout_editor_absoluteY="196dp" />
+
+                    <Button
+                        android:id="@+id/yummyTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="YUMMY"
+                        app:backgroundTint="#E91E63"
+                        app:cornerRadius="30dp"
+                        tools:layout_editor_absoluteX="147dp"
+                        tools:layout_editor_absoluteY="109dp" />
+
+                    <Button
+                        android:id="@+id/popTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POPULAR"
+                        app:backgroundTint="#6200ED"
+                        app:cornerRadius="30dp"
+                        tools:layout_editor_absoluteX="33dp"
+                        tools:layout_editor_absoluteY="109dp" />
+
+                    <TextView
+                        android:id="@+id/mealPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="$15.00"
+                        android:textColor="#6200ED"
+                        android:textSize="16sp"
+                        tools:layout_editor_absoluteX="33dp"
+                        tools:layout_editor_absoluteY="79dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="326dp"
+                        android:layout_height="wrap_content"
+                        tools:layout_editor_absoluteX="84dp"
+                        tools:layout_editor_absoluteY="84dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/divider19"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/removeButt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:fontFamily="@font/roboto"
+                    android:text="Remove "
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:backgroundTint="#FEFEFE"
+                    app:cornerRadius="30dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
