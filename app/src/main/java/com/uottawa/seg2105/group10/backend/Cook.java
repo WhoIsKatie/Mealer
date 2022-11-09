@@ -11,7 +11,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ public class Cook extends User{
 	private double ratingSum;
 	private boolean suspended;
 	private static final String TAG = "Cook.java";
-	private LocalDateTime suspensionEnd;
+	private String suspensionEnd;
 	private DocumentReference userDoc = null;
 	DocumentSnapshot document;
 
@@ -90,16 +89,16 @@ public class Cook extends User{
 
 	public boolean isSuspended() {return suspended;}
 
-	public LocalDateTime getSuspensionEnd() {return suspensionEnd;}
+	public String getSuspensionEnd() {return suspensionEnd;}
 
 	public boolean addSuspension(Duration length) {
 		if (length != null) {
 			if (length.isZero() || length.isNegative()) length = null;
 			if (suspensionEnd != null)
-				suspensionEnd = suspensionEnd.plus(length);
+				suspensionEnd = LocalDateTime.parse(suspensionEnd).plus(length).toString();
 			else {
 				if (length != null && suspended == false)
-					suspensionEnd = LocalDateTime.now().plus(length);
+					suspensionEnd = LocalDateTime.now().plus(length).toString();
 				else suspensionEnd = null;
 			}
 

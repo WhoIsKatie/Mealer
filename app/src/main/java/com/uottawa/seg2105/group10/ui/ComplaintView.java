@@ -86,7 +86,7 @@ public class ComplaintView extends AppCompatActivity {
                                     Admin.suspendCook(docRef, Duration.ofDays(30));
                                     break;
                                 case R.id.indefinite:
-                                    Admin.suspendCook(docRef);
+                                    Admin.suspendCook(docRef, null);
                                     break;
                             }
                             suspensionLengthCard.setVisibility(View.GONE);

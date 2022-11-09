@@ -82,12 +82,9 @@ public class Register3 extends AppCompatActivity {
                 data.put("type", "Client");
                 userRef.set(data);
                 user = new Client(userRef);
-                userRef.update("User", user);   // this is replacing user manager
+                // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
+                userRef.collection("userObject").document("Client").update("User", user);
                 user.setCC(ccNum, fullName, expiry, cvc);
-
-                //REMOVED BECAUSE USERMANAGER HAS BEEN DEPRECATED
-                //UserManager.getClients().put(mAuth.getCurrentUser().getUid(), user);
-                //UserManager.clients.put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));

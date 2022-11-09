@@ -1,3 +1,4 @@
+/*
 package com.uottawa.seg2105.group10;
 
 import static org.junit.Assert.assertEquals;
@@ -16,11 +17,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+*/
 /**
  * Main local unit test, which will execute on the development machine (host).
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+ *//*
+
 public class MainUnitTest {
 
     Client testClient;
@@ -32,7 +35,9 @@ public class MainUnitTest {
         testCook = new Cook();
     }
 
-    /**Verifies if all Admin user instances refer to the same singular instance.*/
+    */
+/**Verifies if all Admin user instances refer to the same singular instance.*//*
+
     @Test
     public void testAdminInstance() {
         Admin testAdmin = Admin.getInstance();
@@ -40,7 +45,9 @@ public class MainUnitTest {
         assertEquals("Admin does not implement singleton pattern!", testAdmin, testAdmin2);
     }
 
-    /**Verifies if Client class' setCC() method validates credit card information.*/
+    */
+/**Verifies if Client class' setCC() method validates credit card information.*//*
+
     @Test
     public void testClientCCVerifEmptyString() {
         assertFalse("TestEmptyString1 Failed!", testClient.setCC("", "", "", ""));
@@ -163,7 +170,9 @@ public class MainUnitTest {
         assertEquals("123", testClient.getCvc());
     }
 
-    /**Tests Cook class' setSuspension() method.*/
+    */
+/**Tests Cook class' setSuspension() method.*//*
+
     @Test
     public void testSuspendCook0Duration() {
         assertFalse("Cook was instantiated with active suspension!", testCook.isSuspended());
@@ -213,4 +222,4 @@ public class MainUnitTest {
         assertTrue(testCook.isSuspended());
         assertEquals("addSuspension() overrode original suspension with temporary!", null, testCook.getSuspensionEnd());
     }
-}
+}*/

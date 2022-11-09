@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Cook;
 
 public class Welcome extends AppCompatActivity {
 
@@ -69,8 +70,10 @@ public class Welcome extends AppCompatActivity {
                         typeText.setText(document.getString("type"));
 
                         if(document.contains("isSuspended")) {
-                            if(document.getBoolean("isSuspended") == true){
-                                isSuspended.setText("You are currently suspended.");
+                            if(Boolean.TRUE.equals(document.getBoolean("isSuspended"))){
+                                isSuspended.setText(R.string.general_suspend_message);
+                                Cook thisCook = (Cook) document.get("user");
+                                thisCook.getSuspensionEnd(); // TODO: display time using LocalDateTime methods (like
                             }
                         }
                     } else {

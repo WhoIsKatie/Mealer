@@ -33,36 +33,18 @@ public class Admin extends User{
 
     public static void suspendCook(DocumentReference docRef, Duration length){
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-            String cook = documentSnapshot.getString("cookUid");
-            assert cook != null;
-            dBase.collection("users").document(cook).update("isSuspended", true);
-            // WE REMOVE USERMANAGER SO NEW WAY TO GET THE COOK (FROM FB 'USER' FIELD)
-            //Cook thisCook = UserManager.getCooks().get(cook);
+            String cookid = documentSnapshot.getString("cookUid");
+            assert cookid != null;
+            DocumentReference userDoc = dBase.collection("users").document(cookid);
+            userDoc.update("isSuspended", true);
 
-            // TODO: NEED TO FILL FIREBASE USERS TO HAVE THEIR MEALER 'USER' OBJECT
-            Cook thisCook = (Cook) documentSnapshot.get("User");
-            assert thisCook != null;
-            thisCook.addSuspension(length);
-            dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
-        });
-        docRef.update("status", false);
-    }
-    //indefinitely
-    public static void suspendCook(DocumentReference docRef){
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            String cook = documentSnapshot.getString("cookUid");
-            assert cook != null;
-            dBase.collection("users").document(cook).update("isSuspended", true);
-            // WE REMOVE USERMANAGER SO NEW WAY TO GET THE COOK (FROM FB 'USER' FIELD)
-            //Cook thisCook = UserManager.getCooks().get(cook);
-
-            // TODO: NEED TO FILL FIREBASE USERS TO HAVE THEIR MEALER 'USER' OBJECT
-            Cook thisCook = (Cook) documentSnapshot.get("User");
-            assert thisCook != null;
-            thisCook.addSuspension(null);
-                dBase.collection("users").document(cook).update("suspensionEnd", thisCook.getSuspensionEnd());
+            userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
+                Cook thisCook = snapshot.toObject(Cook.class);;
+                System.out.println(thisCook != null);
+                thisCook.addSuspension(length);
+                userDoc.collection("userObject").document("Cook").set(thisCook);
             });
-
-        docRef.update("status", false);
+        });
+        dismissComplaint(docRef);
     }
 }

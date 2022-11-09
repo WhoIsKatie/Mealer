@@ -1,3 +1,4 @@
+/*
 package com.uottawa.seg2105.group10.ui;
 
 import android.os.Bundle;
@@ -13,4 +14,4 @@ public class AllMealsMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_meals_menu);
     }
-}
+}*/
