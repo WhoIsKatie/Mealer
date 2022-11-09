@@ -7,6 +7,7 @@
     tools:context=".ui.MealView">
 
     <ScrollView
+        android:id="@+id/ScrollMealView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,6 +21,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/mealCardView"
                 android:layout_width="411dp"
                 android:layout_height="400dp"
                 app:cardCornerRadius="0dp">
@@ -29,7 +31,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView5"
+                        android:id="@+id/mealImage"
                         android:layout_width="700dp"
                         android:layout_height="700dp"
                         android:src="@drawable/oatmeal"
@@ -42,6 +44,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/mealDescCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -50,7 +53,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/mealName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
@@ -69,7 +72,7 @@
                         tools:layout_editor_absoluteY="176dp" />
 
                     <TextView
-                        android:id="@+id/textView20"
+                        android:id="@+id/MealDesc"
                         android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
@@ -80,7 +83,7 @@
                         tools:layout_editor_absoluteY="233dp" />
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/mealDescTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
@@ -91,7 +94,7 @@
                         tools:layout_editor_absoluteY="196dp" />
 
                     <Button
-                        android:id="@+id/button4"
+                        android:id="@+id/yummyTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YUMMY"
@@ -101,7 +104,7 @@
                         tools:layout_editor_absoluteY="109dp" />
 
                     <Button
-                        android:id="@+id/button3"
+                        android:id="@+id/popTag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="POPULAR"
@@ -111,7 +114,7 @@
                         tools:layout_editor_absoluteY="109dp" />
 
                     <TextView
-                        android:id="@+id/textView19"
+                        android:id="@+id/mealPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
@@ -122,7 +125,7 @@
                         tools:layout_editor_absoluteY="79dp" />
 
                     <Button
-                        android:id="@+id/button6"
+                        android:id="@+id/modifyButt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#00000000"
@@ -134,15 +137,18 @@
                         tools:layout_editor_absoluteY="185dp" />
 
                     <Switch
-                        android:id="@+id/switch2"
+                        android:id="@+id/offerSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="96dp"
+                        android:layout_marginTop="36dp"
                         android:fontFamily="@font/roboto"
+                        android:minHeight="48dp"
                         android:text="Offer"
                         android:textColor="#989898"
                         android:textSize="12sp"
-                        tools:layout_editor_absoluteX="297dp"
-                        tools:layout_editor_absoluteY="45dp" />
+                        app:layout_constraintStart_toEndOf="@+id/mealName"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,7 +169,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/removeButt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
