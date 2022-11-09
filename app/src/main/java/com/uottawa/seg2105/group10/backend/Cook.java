@@ -11,6 +11,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cook extends User{
 	private String description, address;
@@ -19,9 +22,10 @@ public class Cook extends User{
 	private static final String TAG = "Cook.java";
 	private LocalDateTime suspensionEnd;
 	private DocumentReference userDoc = null;
+	DocumentSnapshot document;
 
 	private int completedOrders, numReviews;
-	private Menu cookMenu = new Menu(this);
+	private Map<String, Meal> cookMenu = new HashMap<>();
 
 	//TODO: implement allergen object/data-type
 	//public Hashmap<String, List<Meal>> allergen = new Hashmap<String, List<Meal>>();
@@ -33,7 +37,6 @@ public class Cook extends User{
 		userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 			@Override
 			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-				DocumentSnapshot document;
 				if (task.isSuccessful()) {
 					document = task.getResult();
 					if (document.exists()) {
@@ -48,6 +51,7 @@ public class Cook extends User{
 						//variable from inst of this class, Cook.java
 						description = document.getString("description");
 						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
+						cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
 					} else {
 						Log.d(TAG, "No such document");
 					}
@@ -79,8 +83,9 @@ public class Cook extends User{
 	}
 	
 	public void createMeal(String name, float price, String description, String mealType, String cuisine, String ingredients, String allergens) {
-		Meal meal = new Meal(name, price, description, mealType, cuisine, ingredients, allergens);
-		this.cookMenu.menu.add(meal);
+		Meal meal = new Meal(price, description, mealType, cuisine, ingredients, allergens);
+		cookMenu.put(name, meal);
+		userDoc.update("meals", cookMenu);
 	}
 
 	public boolean isSuspended() {return suspended;}
