@@ -1,8 +1,10 @@
-package com.uottawa.seg2105.group10;
+package com.uottawa.seg2105.group10.ui;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.uottawa.seg2105.group10.R;
 
 public class AllMealsMenu extends AppCompatActivity {
 

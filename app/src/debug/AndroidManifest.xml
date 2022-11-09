@@ -3,7 +3,14 @@
 
     <application>
         <activity
-            android:name=".AllMealsMenu"
+            android:name=".AddMeal"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.AllMealsMenu"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

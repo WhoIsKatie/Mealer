@@ -33,8 +33,9 @@
                         android:layout_width="700dp"
                         android:layout_height="700dp"
                         android:src="@drawable/oatmeal"
-                        tools:layout_editor_absoluteX="-133dp"
-                        tools:layout_editor_absoluteY="-291dp" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -129,8 +130,19 @@
                         android:text="Modify"
                         android:textColor="#000000"
                         android:textSize="10sp"
-                        tools:layout_editor_absoluteX="283dp"
-                        tools:layout_editor_absoluteY="31dp" />
+                        tools:layout_editor_absoluteX="290dp"
+                        tools:layout_editor_absoluteY="185dp" />
+
+                    <Switch
+                        android:id="@+id/switch2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:text="Offer"
+                        android:textColor="#989898"
+                        android:textSize="12sp"
+                        tools:layout_editor_absoluteX="297dp"
+                        tools:layout_editor_absoluteY="45dp" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -151,25 +163,13 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:insetLeft="12dp"
-                    android:insetRight="12dp"
-                    android:text="Add to Menu"
-                    android:textSize="12sp"
-                    app:backgroundTint="#6200EC"
-                    app:cornerRadius="30dp" />
-
-                <Button
                     android:id="@+id/button7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="#00000000"
                     android:fontFamily="@font/roboto"
                     android:text="Remove "
+                    android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="12sp"
                     app:backgroundTint="#FEFEFE"

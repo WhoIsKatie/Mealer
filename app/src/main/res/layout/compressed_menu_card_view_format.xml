@@ -28,9 +28,10 @@
                     android:id="@+id/imageView6"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
-                    app:srcCompat="@drawable/oatmeal"
-                    tools:layout_editor_absoluteX="-30dp"
-                    tools:layout_editor_absoluteY="-88dp" />
+                    android:layout_marginBottom="88dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/oatmeal" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -46,31 +47,8 @@
                     android:text="Morning Breakfast"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    tools:layout_editor_absoluteX="16dp"
+                    tools:layout_editor_absoluteX="0dp"
                     tools:layout_editor_absoluteY="16dp" />
-
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="$15.00"
-                    android:textColor="@color/purple_500"
-                    android:textSize="14sp"
-                    tools:layout_editor_absoluteX="16dp"
-                    tools:layout_editor_absoluteY="38dp" />
-
-                <Button
-                    android:id="@+id/button8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:insetLeft="10dp"
-                    android:insetTop="16dp"
-                    android:text="Add"
-                    android:textSize="10sp"
-                    app:cornerRadius="30dp"
-                    tools:layout_editor_absoluteX="7dp"
-                    tools:layout_editor_absoluteY="45dp" />
 
                 <Button
                     android:id="@+id/button9"
@@ -82,7 +60,7 @@
                     android:textSize="10sp"
                     app:backgroundTint="#E91E63"
                     app:cornerRadius="30dp"
-                    tools:layout_editor_absoluteX="95dp"
+                    tools:layout_editor_absoluteX="71dp"
                     tools:layout_editor_absoluteY="45dp" />
 
                 <Button
@@ -94,8 +72,31 @@
                     android:text="Edit"
                     android:textColor="#000000"
                     android:textSize="10sp"
-                    tools:layout_editor_absoluteX="167dp"
+                    tools:layout_editor_absoluteX="151dp"
                     tools:layout_editor_absoluteY="4dp" />
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:minHeight="48dp"
+                    android:text="Offer"
+                    android:textColor="#989898"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:layout_editor_absoluteY="52dp" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="$15.00"
+                    android:textColor="@color/purple_500"
+                    android:textSize="14sp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="38dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
