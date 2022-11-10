@@ -49,10 +49,11 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
     private void setUpComplaintModels(){
         // initializing all lists of fields for complaints that are active
-        ArrayList<String> cookName = new ArrayList<>();
+        ArrayList<String> clientName = new ArrayList<>();
         ArrayList<String> descriptionOfComplaint = new ArrayList<>();
         ArrayList<String> titleOfComplaint = new ArrayList<>();
         ArrayList<String> timeOfComplaint = new ArrayList<>();
+        ArrayList<String> cookName = new ArrayList<>();
         ArrayList<String> cookUid = new ArrayList<>();
         ArrayList<String> clientUid = new ArrayList<>();
         ArrayList<String> documents = new ArrayList<>();
@@ -64,6 +65,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                 for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
                     Log.d(TAG, document.getId() + "=>" + document.getData());
                     Map<String, Object> data = document.getData();
+                    clientName.add(data.get("clientName").toString());
                     cookName.add(data.get("cookName").toString());
                     titleOfComplaint.add(data.get("title").toString());
                     descriptionOfComplaint.add(data.get("description").toString());
@@ -86,7 +88,8 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         Intent intent = new Intent(AdminHome.this, ComplaintView.class);
         ComplaintModel doc = complaints.get(position);
         intent.putExtra("DOCUMENT", doc.getDocID());
-        intent.putExtra("NAME", doc.getNameOfCook());
+        intent.putExtra("COOK NAME", doc.getNameOfCook());
+        /*intent.putExtra("CLIENT NAME", doc.getNameOfClient());*/
         intent.putExtra("TIME", doc.getTimeOfComplaint());
         intent.putExtra("TITLE", doc.getTitleOfComplaint());
         intent.putExtra("DESCRIPTION", doc.getDescriptionOfComplaint());
