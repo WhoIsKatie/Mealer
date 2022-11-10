@@ -34,6 +34,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ui.AddMeal"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.Welcome"
             android:exported="false">
             <meta-data
