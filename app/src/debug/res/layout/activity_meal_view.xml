@@ -72,7 +72,7 @@
                         tools:layout_editor_absoluteY="176dp" />
 
                     <TextView
-                        android:id="@+id/MealDesc"
+                        android:id="@+id/mealDesc"
                         android:layout_width="330dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"

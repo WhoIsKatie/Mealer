@@ -32,13 +32,26 @@
                         android:id="@+id/mealImage"
                         android:layout_width="700dp"
                         android:layout_height="700dp"
+                        android:contentDescription="Image of Meal"
                         android:src="@drawable/oatmeal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.501"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:srcCompat="@color/main_yellow"
-                        android:contentDescription="Image of Meal" />
+                        app:srcCompat="@color/main_yellow" />
+
+                    <Button
+                        android:id="@+id/save"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="save"
+                        android:textSize="17sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -76,7 +89,7 @@
                         android:layout_marginStart="31dp"
                         android:layout_marginBottom="12dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="Morning Breakfast"
+                        android:hint="Meal Name"
                         android:textColor="#000000"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
@@ -95,20 +108,21 @@
                         app:layout_constraintTop_toBottomOf="@+id/popTag" />
 
                     <EditText
-                        android:id="@+id/MealDesc"
+                        android:id="@+id/mealDesc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="33dp"
                         android:layout_marginEnd="33dp"
                         android:fontFamily="@font/roboto"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
+                        android:hint="Meal Description"
+                        android:minHeight="48dp"
                         android:textColor="#8A8A8A"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/mealDescTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,8 +131,8 @@
                         android:text="Meal Description"
                         android:textColor="#000000"
                         android:textSize="20sp"
-                        app:layout_constraintBottom_toTopOf="@+id/MealDesc"
-                        app:layout_constraintStart_toStartOf="@+id/MealDesc" />
+                        app:layout_constraintBottom_toTopOf="@+id/mealDesc"
+                        app:layout_constraintStart_toStartOf="@+id/mealDesc" />
 
                     <Button
                         android:id="@+id/popTag"
@@ -151,8 +165,9 @@
                         android:layout_marginStart="33dp"
                         android:layout_marginEnd="1dp"
                         android:fontFamily="@font/roboto_bold"
+                        android:hint="Price"
+                        android:minWidth="48dp"
                         android:minHeight="48dp"
-                        android:text="$15.00"
                         android:textColor="#6200ED"
                         android:textSize="16sp"
                         app:layout_constraintEnd_toStartOf="@+id/textInputLayout"
@@ -195,7 +210,7 @@
                     android:text="Remove "
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp" />
             </LinearLayout>

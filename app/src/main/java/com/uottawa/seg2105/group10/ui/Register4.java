@@ -1,7 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,23 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.Map;
 
@@ -69,14 +63,12 @@ public class Register4 extends AppCompatActivity {
 
         // Create a storage reference from our app
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
 
         submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 profile = (TextInputEditText) findViewById(R.id.profileDescUpper);
                 String profDesc = profile.getText().toString();
-
                 if(!validateDescription()) {
                     return;
                 }
@@ -94,7 +86,8 @@ public class Register4 extends AppCompatActivity {
                 // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
                 userRef.collection("userObject").document("Cook").set(user);
                 userRef.update("meals", null);
-                uploadImage();
+                Utility util = new Utility(Register4.this, filePath, mAuth, storage);
+                util.uploadImage();
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
@@ -159,21 +152,20 @@ public class Register4 extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    /*@Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK){
             if(requestCode == GALLERY_REQ_CODE){
                 filePath = data.getData();
                 voidCheque.setImageURI(filePath);
-
             }
         }
     }
 
     // UploadImage method
-    private void uploadImage()
+    public void uploadImage()
     {
         if (filePath != null) {
 
@@ -204,5 +196,5 @@ public class Register4 extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 }

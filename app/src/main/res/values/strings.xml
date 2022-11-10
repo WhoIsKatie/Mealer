@@ -1,29 +1,12 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
-
-    </style>
-
     <string name="app_name">Mealer</string>
-    <string name="title_activity_register">Register</string>
-    <string name="registering_welcome_message">WELCOME</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="dismiss">Dismiss <u>underline</u>.</string>
     <string name="next">Next</string>
-    <string name="previous">Previous</string>
     <string name="login">Login</string>
-    <string name="remember_me">Remember Me</string>
-    <string name="forget_password">Forget Password</string>
-    <string name="enter_phone_number">Phone Number</string>
     <string name="enter_password">Enter Password</string>
     <string name="enter_username">Enter Username</string>
-    <string name="create_account">CREATE ACCOUNT</string>
-    <string name="enter_full_name">Full Name</string>
     <string name="enter_email">Email</string>
-    <string name="next_btn">NEXT</string>
     <string name="enter_first_name">First Name</string>
     <string name="enter_last_name">Last Name</string>
     <string name="register">REGISTER</string>
@@ -31,19 +14,13 @@
     <string name="credit_card_info">CREDIT CARD INFORMATION</string>
     <string name="name_on_card">Name On Card</string>
     <string name="enter_card_number">Card Number</string>
-    <string name="upload">Upload</string>
     <string name="back">back</string>
     <string name="mealer_s_logo_and_slogan">Mealer\'s Logo and Slogan</string>
     <string name="button_submit">submit</string>
-    <string name="admin">Administrator</string>
-    <string name="client">Client</string>
-    <string name="cook">Cook</string>
     <string name="logoff">LOG OFF</string>
     <string name="hello">Hello \u0026 \nWelcome</string>
     <string name="select_duration">Select Suspension Duration</string>
     <string name="general_suspend_message">Your account is currently suspended.</string>
-    <string name="temp_suspend_message">"Your suspension will be lifted by "</string>
-    <string name="perm_suspend_message">Account privileges have been revoked. You can no longer use this application.</string>
 
 
 </resources>
