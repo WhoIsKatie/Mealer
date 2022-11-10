@@ -22,7 +22,7 @@ public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
     private FirebaseAuth mAuth;
-    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
