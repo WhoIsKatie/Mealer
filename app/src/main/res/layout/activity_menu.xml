@@ -85,7 +85,8 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Add Meal"
-                            android:textColor="#000000" />
+                            android:textColor="#000000"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
