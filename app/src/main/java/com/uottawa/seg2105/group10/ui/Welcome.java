@@ -116,5 +116,22 @@ public class Welcome extends AppCompatActivity {
         }
 
     });
+
+        homepageButt.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view){
+                DocumentReference docRef = dBase.collection("users").document(user.getUid());
+                docRef.get().addOnSuccessListener(documentSnapshot -> {
+                    String type = documentSnapshot.getString("type");
+                    if(type == "Admin"){
+                        startActivity(new Intent(Welcome.this, AdminHome.class));
+                    }
+                    else{
+                        startActivity(new Intent(Welcome.this, Menu.class));
+                    }
+                });
+
+            }
+
+        });
     }
 }
