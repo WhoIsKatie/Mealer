@@ -20,13 +20,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 public class Welcome extends AppCompatActivity {
 
     private TextView typeText;
     private TextView isSuspended;
+    private TextView suspensionDeets;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-        private DocumentSnapshot document;
+    private DocumentSnapshot document;
     private Button logOffButt;
     private Button homepageButt;
     private static final String TAG = "Welcome";
@@ -48,6 +52,7 @@ public class Welcome extends AppCompatActivity {
         logOffButt = findViewById(R.id.logOffButt);
         homepageButt = findViewById(R.id.homepageButt);
         isSuspended = findViewById(R.id.isSuspended);
+        suspensionDeets = findViewById(R.id.suspensionDetails);
 
         // get instances of Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();
@@ -72,12 +77,18 @@ public class Welcome extends AppCompatActivity {
                         if(document.contains("isSuspended")) {
                             if(Boolean.TRUE.equals(document.getBoolean("isSuspended"))){
 
-                                // I created additional string resources: temp_suspend_message, and perm_suspend_message
                                 isSuspended.setText(R.string.general_suspend_message);
-
-                                Cook thisCook = (Cook) document.get("user");
-                                String endDate = thisCook.getSuspensionEnd(); // TODO: display this mf
-
+                                userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
+                                    Cook thisCook = snapshot.toObject(Cook.class);
+                                    String endDate = thisCook.getSuspensionEnd();
+                                    if (endDate == null)
+                                        suspensionDeets.setText(R.string.perm_suspend_message);
+                                    else {
+                                        String msg = "Your suspension will be lifted by " + LocalDateTime.parse(endDate).truncatedTo(ChronoUnit.HOURS);
+                                        suspensionDeets.setText(msg);
+                                        homepageButt.setVisibility(View.GONE);
+                                    }
+                                });
                             }
                         }
                     } else {
