@@ -9,11 +9,6 @@ public class Admin extends User{
     //create singular object of Admin
     private static Admin instance = new Admin("Jacob", "Maurice", "admin@mealer.com", "admin123!", "Admin");
     private static FirebaseFirestore dBase = FirebaseFirestore.getInstance();
-    /*
-    private static String [] inbox; //Complaints from Clients
-    private static String [] suspendComplaints;
-    private static String [] acceptComplaints;
-    */
 
     //class cannot be instantiated
     private Admin(String firstName, String lastName, String email, String password, String type) {
@@ -39,8 +34,7 @@ public class Admin extends User{
             userDoc.update("isSuspended", true);
 
             userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
-                Cook thisCook = snapshot.toObject(Cook.class);;
-                System.out.println(thisCook != null);
+                Cook thisCook = snapshot.toObject(Cook.class);
                 thisCook.addSuspension(length);
                 userDoc.collection("userObject").document("Cook").set(thisCook);
             });
