@@ -15,6 +15,7 @@ public class Meal {
 	
 	public Meal(float price, String description, String mealType, String cuisine, String ingredients, String allergens) {
 		// should we keep the constructor this long?? or just make setters?
+		// imo there's nothing wrong with it. You can also call a helper method for formatting your class variables :3
 		this.price = price;
 		this.description = description;
 		this.mealType = mealType;

@@ -91,16 +91,10 @@ public class Register4 extends AppCompatActivity {
                 userRef.set(data);
                 userRef.update("isSuspended", false);
                 user = new Cook(userRef);
-                // trying to get document to keep Mealer User object and DateTime suspensionEnd
-                userRef.update("User", user);
-                userRef.update("suspensionEnd", null);
+                // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
+                userRef.collection("userObject").document("Cook").set(user);
                 userRef.update("meals", null);
                 uploadImage();
-
-                //adding user to usermanager hashmap
-                //TODO: need to remove user manager and move to firebase
-                //UserManager.getCooks().put(mAuth.getCurrentUser().getUid(), user);
-                //UserManager.cooks.put(mAuth.getCurrentUser().getUid(), user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));

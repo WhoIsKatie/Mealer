@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -71,22 +72,39 @@ public class ComplaintView extends AppCompatActivity {
                     durationRadioGroup = (RadioGroup) findViewById(R.id.durationRadioGroup);
                     selectDurationButt = (Button) findViewById(R.id.selectDurationButt);
 
+                    //TODO: idk how to get her back home to complain view :(
                     selectDurationButt.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             if (durationRadioGroup.getCheckedRadioButtonId() == -1) return;
                             switch (durationRadioGroup.getCheckedRadioButtonId()) {
                                 case R.id.oneDay:
-                                    Admin.suspendCook(docRef, Duration.ofDays(1));
+                                    try {
+                                        Admin.suspendCook(docRef, Duration.ofDays(1));
+                                    }catch (Exception e) {
+                                        Toast.makeText(ComplaintView.this, "Failed to suspend cook.", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case R.id.sevenDays:
-                                    Admin.suspendCook(docRef, Duration.ofDays(7));
+                                    try {
+                                        Admin.suspendCook(docRef, Duration.ofDays(7));
+                                    }catch (Exception e) {
+                                        Toast.makeText(ComplaintView.this, "Failed to suspend cook.", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case R.id.thirtyDays:
-                                    Admin.suspendCook(docRef, Duration.ofDays(30));
+                                    try {
+                                        Admin.suspendCook(docRef, Duration.ofDays(30));
+                                    }catch (Exception e) {
+                                        Toast.makeText(ComplaintView.this, "Failed to suspend cook.", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case R.id.indefinite:
-                                    Admin.suspendCook(docRef);
+                                    try {
+                                        Admin.suspendCook(docRef, null);
+                                    }catch (Exception e) {
+                                        Toast.makeText(ComplaintView.this, "Failed to suspend cook.", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                             }
                             suspensionLengthCard.setVisibility(View.GONE);
