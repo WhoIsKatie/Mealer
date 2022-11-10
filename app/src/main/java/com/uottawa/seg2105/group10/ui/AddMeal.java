@@ -22,26 +22,33 @@ public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
     private FirebaseAuth mAuth;
-    private final FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseStorage storage;
+    private final FirebaseStorage dBase = FirebaseStorage.getInstance();
+    EditText mealName, mealDesc, mealPrice;
+    Button confirmButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
-
-        Button removeButt, save;
-        EditText mealName, mealDesc, mealPrice;
+        // initializing the edit texts and buttons
+        confirmButt = findViewById(R.id.confirmButt);
         mealImage = findViewById(R.id.mealImage);
+        mealName = findViewById(R.id.mealName);
+        mealDesc = findViewById(R.id.mealDesc);
+        mealPrice = findViewById(R.id.mealPrice);
         Button changePicture = findViewById(R.id.changePicture);
         mAuth = FirebaseAuth.getInstance();
 
-        changePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent iGallery = new Intent(Intent.ACTION_PICK);
-                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(iGallery, 1000);
-            }
+        changePicture.setOnClickListener(view -> {
+            Intent iGallery = new Intent(Intent.ACTION_PICK);
+            iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(iGallery, 1000);
+        });
+
+        confirmButt.setOnClickListener(view -> {
+            //TODO FOR KATIE: I WILL FETCH FROM TEXT FIELD BUT U NEED TO CHECK THEM :)
+            dBase.getReference();
         });
     }
 
@@ -58,4 +65,6 @@ public class AddMeal extends AppCompatActivity {
             util.uploadImage();
         }
     }
+
+
 }
