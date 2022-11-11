@@ -86,7 +86,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,8 +94,6 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
     public void onStart() {
@@ -116,6 +113,7 @@ public class Login extends AppCompatActivity {
             startActivity(new Intent(this, Welcome.class));
         }
     }
+
     private boolean validateEmail(){
         String val = usernameLayout.getEditText().getText().toString().trim();
         String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+.+[a-z]+";
@@ -133,6 +131,7 @@ public class Login extends AppCompatActivity {
             return true;
         }
     }
+
     private boolean validatePassword(){
         String val = passwordLayout.getEditText().getText().toString().trim();
         String checkNumeric = ".*[0-9].*";
@@ -161,6 +160,4 @@ public class Login extends AppCompatActivity {
             return true;
         }
     }
-
-
 }

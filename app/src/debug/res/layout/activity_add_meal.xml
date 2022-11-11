@@ -152,6 +152,7 @@
                         android:layout_marginTop="1dp"
                         android:fontFamily="@font/roboto"
                         android:hint="Price"
+                        android:inputType="numberDecimal"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
                         android:textColor="#6200ED"
