@@ -34,7 +34,7 @@
                         android:id="@+id/mealImage"
                         android:layout_width="700dp"
                         android:layout_height="700dp"
-                        android:background="@color/ic_launcher_background"
+                        android:background="@color/black"
                         android:contentDescription="Image of Meal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="0dp"
+                app:cardElevation="10dp"
                 app:cardMaxElevation="0dp">
 
                 <LinearLayout
@@ -110,43 +110,279 @@
                         android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/description"
+                    <View
+                        android:id="@+id/divider20"
                         android:layout_width="match_parent"
+                        android:layout_height="17dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mealTypeButt"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="33dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
-                        android:hint="Description"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/black_overlay"
-                        android:textSize="16sp" />
+                        android:text="Meal Type"
+                        android:textColor="#FFFFFF"
+                        app:backgroundTint="#000000"
+                        app:cornerRadius="30dp" />
 
                     <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/mealTypeChipGroup"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/mealTypeButt"
+                            android:id="@+id/chip18"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="32dp"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_bold"
-                            android:hint="Meal Type"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="@color/teal_700" />
+                            android:text="Pizza" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/cuisineTypeButt"
+                            android:id="@+id/chip19"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto"
-                            android:hint="Cuisine Type"
-                            android:textColor="@color/black"
-                            app:chipBackgroundColor="@color/teal_200" />
+                            android:text="Fast food" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sushi" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Burger" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sandwich" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Soup" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pasta" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dessert" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ramen" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip27"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Burrito" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip28"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wings" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip29"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BBQ" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip30"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Breakfast & Brunch" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Seafood" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip33"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Salad" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip34"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diner" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip35"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gourmet" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip36"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rolls" />
                     </com.google.android.material.chip.ChipGroup>
+
+                    <View
+                        android:id="@+id/divider22"
+                        android:layout_width="match_parent"
+                        android:layout_height="36dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/cuisineTypeButt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Cuisine"
+                        app:backgroundTint="#000000"
+                        app:cornerRadius="30dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cuisineChipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Korean" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thai" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Asian" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="African" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mexican" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Greek" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Middle Eastern" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vietnamese" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Caribbean" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Japanese" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Italian" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Jamaican" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lebanese" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="American" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mediterranean" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Western" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="French" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip31"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Chinese" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <View
+                        android:id="@+id/divider18"
+                        android:layout_width="match_parent"
+                        android:layout_height="29dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
 
                     <View
                         android:id="@+id/view7"
@@ -161,62 +397,108 @@
                         android:background="?android:attr/listDivider"
                         android:visibility="invisible" />
 
-                    <Button
-                        android:id="@+id/addIngredientButt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="+ Add ingredient"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="#6200ED"
-                        app:cornerRadius="30dp" />
+                    <LinearLayout
+                        android:id="@+id/ingredientsLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/ingredientEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:ems="10"
+                            android:fontFamily="@font/roboto"
+                            android:hint='Type an ingredient'
+                            android:inputType="textPersonName"
+                            android:minHeight="48dp"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/addIngredientButt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="30dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto"
+                            android:text="Add "
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            app:backgroundTint="#000000"
+                            app:cornerRadius="30dp" />
+                    </LinearLayout>
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/ingredientsChipGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginBottom="40dp">
+                        android:layout_marginStart="30dp">
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/IngredientChip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ingredient"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#6200EC" />
                     </com.google.android.material.chip.ChipGroup>
 
-                    <Button
-                        android:id="@+id/addAllergenButt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="33dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="+ Add allergen "
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="#E91E63"
-                        app:cornerRadius="30dp" />
+                    <LinearLayout
+                        android:id="@+id/allergensLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/allergenEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:ems="10"
+                            android:hint="Type an allergen"
+                            android:inputType="textPersonName"
+                            android:minHeight="48dp"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+                        <Button
+                            android:id="@+id/addAllergenButt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="30dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto"
+                            android:text="Add"
+                            android:textAlignment="center"
+                            android:textColor="#FFFFFF"
+                            app:backgroundTint="#000000"
+                            app:cornerRadius="30dp" />
+                    </LinearLayout>
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/allergensChipGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="33dp"
-                        android:layout_marginBottom="130dp">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/allergenChip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="Meal Type"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#E81E63" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                     </com.google.android.material.chip.ChipGroup>
+
+                    <View
+                        android:id="@+id/divider25"
+                        android:layout_width="match_parent"
+                        android:layout_height="23dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/infoTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:text="To add multiple elements simultaneously, \n separate each item by commas &quot;,&quot;"
+                        android:textColor="#A3A3A3" />
+
+                    <View
+                        android:id="@+id/divider21"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
 
                     <View
                         android:id="@+id/view8"
@@ -224,6 +506,13 @@
                         android:layout_height="0.25dp"
                         android:layout_marginBottom="19dp"
                         android:background="#BCBCBC" />
+
+                    <View
+                        android:id="@+id/divider24"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/mealDescTitle"
@@ -245,7 +534,14 @@
                         android:minHeight="48dp"
                         android:textColor="#8A8A8A"
                         android:textColorHint="#A5A5A5"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/divider23"
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 
@@ -284,7 +580,7 @@
             <View
                 android:id="@+id/divider15"
                 android:layout_width="match_parent"
-                android:layout_height="76dp"
+                android:layout_height="51dp"
                 android:background="?android:attr/listDivider"
                 android:visibility="invisible" />
 
