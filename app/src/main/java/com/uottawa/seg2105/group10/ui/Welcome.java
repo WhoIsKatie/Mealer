@@ -126,7 +126,7 @@ public class Welcome extends AppCompatActivity {
                         startActivity(new Intent(Welcome.this, Menu.class));
                         break;
                     case "Client":
-                        startActivity(new Intent(Welcome.this, Menu.class));
+                        startActivity(new Intent(Welcome.this, Menu1.class));
                         break;
                 }
             });

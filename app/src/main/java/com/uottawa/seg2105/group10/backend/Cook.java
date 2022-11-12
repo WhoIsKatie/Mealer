@@ -80,9 +80,9 @@ public class Cook extends User{
 		numReviews++;
 		return true;
 	}
-	
-	public void createMeal(String name, float price, String description, String mealType, String cuisine, String ingredients, String allergens) {
-		Meal meal = new Meal(price, description, mealType, cuisine, ingredients, allergens);
+
+	public void createMeal(String name, float price, String description, String mealType, String cuisine, String ingredients, String allergens, int image, String document) {
+		Meal meal = new Meal(document, price, name, description, mealType, cuisine, ingredients, allergens, image);
 		cookMenu.put(name, meal);
 		userDoc.update("meals", cookMenu);
 	}
