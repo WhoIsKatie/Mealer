@@ -1,6 +1,7 @@
 
 package com.uottawa.seg2105.group10.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,13 +9,20 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.HashSet;
@@ -22,29 +30,48 @@ import java.util.HashSet;
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
-    private Button confirmButt;
-    private EditText mealName, mealPrice, mealDesc, mealAllergies;
+    private Button confirmButt, addIngredientButt, mealTypeButt, addAllergenButt, cuisineTypeButt;
+    private ChipGroup ingredientsChipGroup, allergensChipGroup;
+    private EditText mealName, mealPrice, mealDesc;
+    private TextView description;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
-    private final FirebaseStorage dBase = FirebaseStorage.getInstance();
+    private FirebaseFirestore dBase;
+    DocumentReference FirebaseMeal;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
-    private HashSet<String> descr;
+    private HashSet<String> ingredients;
     private HashSet<String> allergies;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
+        dBase = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
         // initializing the edit texts and buttons
+        Button changePicture = findViewById(R.id.changePicture);
         confirmButt = findViewById(R.id.confirmButt);
         mealImage = findViewById(R.id.mealImage);
         mealName = findViewById(R.id.mealName);
         mealDesc = findViewById(R.id.mealDesc);
         mealPrice = findViewById(R.id.mealPrice);
-        //mealAllergies = findViewById(R.id.mealAllergies);
-        Button changePicture = findViewById(R.id.changePicture);
-        mAuth = FirebaseAuth.getInstance();
+        this.description = findViewById(R.id.description);
+        addIngredientButt = findViewById(R.id.addIngredientButt);
+        addAllergenButt = findViewById(R.id.addAllergenButt);
+
+        // setting up things to get the ID of the meal we want to update
+        DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+        Meal mealToAdd = new Meal(0); //this is so we can add something to the collection first, get its ID, then update later
+        FirebaseMeal = userRef.collection("meals").add(mealToAdd).getResult();
+
+        // we need to fetch all the chips inside the chip group and populate the hashsets
+        // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
+        ingredients = Utility.expandChipGroup(ingredientsChipGroup);
+        allergies = Utility.expandChipGroup(allergensChipGroup);
+
 
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
@@ -52,9 +79,28 @@ public class AddMeal extends AppCompatActivity {
             startActivityForResult(iGallery, 1000);
         });
 
+        addIngredientButt.setOnClickListener(view -> {
+            // not done
+        });
+
+        addAllergenButt.setOnClickListener(view -> {
+            // not done
+        });
+
         confirmButt.setOnClickListener(view -> {
-            //TODO FOR KATIE: I WILL FETCH FROM TEXT FIELD BUT U NEED TO CHECK THEM :)
-            dBase.getReference();
+            //fetch the text fields
+            if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergies()&&validateIngredients()){
+                return;
+            }
+            String name = mealName.getText().toString();
+            String desc = mealDesc.getText().toString();
+            float price = Float.parseFloat(mealPrice.getText().toString());
+            String docID = FirebaseMeal.getId(); //get the ID so we can update the meal there
+            String mealType = mealTypeButt.getText().toString();
+            String cuisine = cuisineTypeButt.getText().toString();
+
+            // todo: find a way to get image ID then add that to the constructor of mealToAdd
+            mealToAdd = new Meal(docID, price, name, description, mealType, cuisine, ingredients, allergies, );
         });
     }
 
@@ -64,11 +110,13 @@ public class AddMeal extends AppCompatActivity {
 
         if(resultCode == RESULT_OK){
             if(requestCode == 1000){
+                assert data != null;
                 filePath = data.getData();
                 mealImage.setImageURI(filePath);
             }
-            Utility util = new Utility(AddMeal.this, filePath, mAuth, storage);
-            util.uploadImage();
+            // GOING TO TRY UPLOADING TO A SUB-COLLECTION FOLDER FOR MEAL PICS FOR THE SPECIFIC COOK
+            Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseMeal);
+            util.uploadToSubcollection();
         }
     }
 
@@ -115,7 +163,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateDescription() {
-        if (descr.isEmpty()) {
+        if (description.toString().isEmpty()) {
             mealDesc.setError("Field cannot be empty");
             return false;
         }
@@ -124,12 +172,17 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateAllergies() {
-        if (allergies.isEmpty()) {
+        //TODO: FIX THESE VALIDATIONS BROKEN BY CHANGING mealAllergies to chipgroup
+        /*if (allergies.isEmpty()) {
             mealAllergies.setError("Field cannot be empty");
             return false;
         }
-        mealAllergies.setError(null);
+        mealAllergies.setError(null);*/
         return true;
+    }
+
+    private boolean validateIngredients(){
+        return true;    // todo: to fill later
     }
 
 }

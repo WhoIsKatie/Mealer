@@ -73,13 +73,13 @@
                             android:id="@+id/mealName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
+                            android:layout_marginLeft="32dp"
                             android:layout_weight="1"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto"
                             android:hint="Meal Name"
                             android:minHeight="48dp"
                             android:textColor="#000000"
-                            android:textColorHint="#A5A5A5"
+                            android:textColorHint="@color/black_overlay"
                             android:textSize="20sp" />
 
                         <Button
@@ -98,17 +98,55 @@
                         android:id="@+id/mealPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="33dp"
+                        android:layout_marginStart="32dp"
                         android:layout_marginEnd="330dp"
-                        android:layout_marginBottom="20dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/roboto"
                         android:hint="Price"
                         android:inputType="numberDecimal"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
-                        android:textColor="#6200ED"
-                        android:textColorHint="#A5A5A5"
+                        android:textColor="@color/purple_700"
+                        android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="33dp"
+                        android:layout_marginEnd="32dp"
+                        android:fontFamily="@font/roboto"
+                        android:hint="Description"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black_overlay"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/mealTypeButt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_bold"
+                            android:hint="Meal Type"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="#FFFFFF"
+                            app:chipBackgroundColor="@color/teal_700" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/cuisineTypeButt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:hint="Cuisine Type"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/teal_200" />
+                    </com.google.android.material.chip.ChipGroup>
 
                     <View
                         android:id="@+id/view7"
@@ -124,7 +162,7 @@
                         android:visibility="invisible" />
 
                     <Button
-                        android:id="@+id/addIngredientButt2"
+                        android:id="@+id/addIngredientButt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -135,7 +173,7 @@
                         app:cornerRadius="30dp" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/IngredientsChipGroup"
+                        android:id="@+id/ingredientsChipGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
@@ -151,7 +189,7 @@
                     </com.google.android.material.chip.ChipGroup>
 
                     <Button
-                        android:id="@+id/AddAllergenButt"
+                        android:id="@+id/addAllergenButt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="33dp"

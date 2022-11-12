@@ -65,6 +65,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
         dBase.collection("meals").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
+            // todo: cannot use whereEqualTo because meals dont have this field; consider using boolean offered (eg. whereEqualTo("offered", true))
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
                     Log.d(TAG, document.getId() + "=>" + document.getData());
@@ -73,6 +74,9 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                     description.add(data.get("description").toString());
                     mealType.add(data.get("mealType").toString());
                     cuisine.add(data.get("cuisine").toString());
+
+                    //todo: @JACOB ingredients and allergens are hashsets so this approach doesn't work; when creating a meal u need to put hashsets into meal's constructor for both ingred + allergen
+                    // todo: image is actually imageID and it is a string
                     ingredients.add(data.get("ingredients").toString());
                     allergens.add(data.get("allergens").toString());
                     price.add(Float.valueOf(data.get("price").toString()));
@@ -105,7 +109,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         intent.putExtra("CUISINE", doc.getCuisine());
         intent.putExtra("INGREDIENTS", doc.getIngredients());
         intent.putExtra("ALLERGENS", doc.getAllergens());
-        intent.putExtra("IMAGE", doc.getImage());
+        intent.putExtra("IMAGE", doc.getImageID());
         startActivity(intent);
     }
 }

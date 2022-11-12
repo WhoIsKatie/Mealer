@@ -1,20 +1,24 @@
 package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
+import java.util.HashSet;
+
 public class Meal {
 	//private Cook cook;
-	// is it necessary to keep a reference to the cook if all the meals enter a menu which is part of the cook class?
 	private float price;
-	private String mealName, description, mealType, cuisine, ingredients, allergens, docID;
-	int image;
+	private String mealName, description, mealType, cuisine, docID;
+	HashSet<String> ingredients, allergens;
+	String imageID;
 	public boolean offered = true;
 	// by default the meal is offered
 
 	public Meal(float price) {
 		this.price = price;
-		mealName = description = mealType = cuisine = ingredients = allergens = "TBD";
+		mealName = description = mealType = cuisine = "TBD";
+		ingredients = allergens = null;
+		imageID = null;
 	}
 	
-	public Meal(String docID, float price, String mealName, String description, String mealType, String cuisine, String ingredients, String allergens, int image) {
+	public Meal(String docID, float price, String mealName, String description, String mealType, String cuisine, HashSet<String> ingredients, HashSet<String> allergens, String imageID) {
 		// should we keep the constructor this long?? or just make setters?
 		// imo there's nothing wrong with it. You can also call a helper method for formatting your class variables :3
 		this.price = price;
@@ -24,7 +28,7 @@ public class Meal {
 		this.ingredients = ingredients;
 		this.allergens = allergens;
 		this.mealName = mealName;
-		this.image = image;
+		this.imageID = imageID;
 		this.docID = docID;
 	}
 
@@ -37,10 +41,10 @@ public class Meal {
 	public String getDescription() {return description;}
 	public String getMealType() {return mealType;}
 	public String getCuisine() {return cuisine;}
-	public String getIngredients() {return ingredients;}
-	public String getAllergens() {return allergens;}
+	public HashSet<String> getIngredients() {return ingredients;}
+	public HashSet<String> getAllergens() {return allergens;}
 	public float getPrice() {return price;}
-	public int getImage(){return image;}
+	public String getImageID(){return imageID;}
 	public String getDocID(){return docID;}
 
 	//setters
@@ -49,8 +53,8 @@ public class Meal {
 	public void setDescription(String description) {this.description = description;}
 	public void setMealType(String type) {this.mealType = type;}
 	public void setCuisine(String cuisine) {this.cuisine = cuisine;}
-	public void setIngredients(String ingredients) {this.ingredients = ingredients;}
-	public void setAllergens(String allergens) {this.allergens = allergens;}
-	public void setImage(int image){this.image = image;}
+	public void setIngredients(HashSet<String> ingredients) {this.ingredients = ingredients;}
+	public void setAllergens(HashSet<String> allergens) {this.allergens = allergens;}
+	public void setImage(String imageID){this.imageID = imageID;}
 	public void setDocID(String docID){this.docID = docID;}
 }
