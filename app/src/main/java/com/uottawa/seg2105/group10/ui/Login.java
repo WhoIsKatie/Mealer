@@ -111,6 +111,7 @@ public class Login extends AppCompatActivity {
             // direct user to welcome page and notify with toast
             Toast.makeText(this, "Welcome back to Mealer", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, Welcome.class));
+            finish();
         }
     }
 

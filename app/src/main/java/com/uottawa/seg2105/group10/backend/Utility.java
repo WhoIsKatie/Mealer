@@ -41,6 +41,7 @@ public class Utility{
         this.doc = doc;
     }
 
+    @Deprecated
     public void setURI(ImageView imageView, int requestCode, int resultCode, @Nullable Intent data) {
         //TODO: FIGURE OUT IF THIS METHOD IS NECESSARY? HOW TO USE IT?
         if(resultCode == RESULT_OK){
@@ -71,6 +72,7 @@ public class Utility{
     }
 
     //it do b kinda deprecated now :( -katie
+    @Deprecated
     public String uploadToSubcollection(){ //change return type to string if we can get the imageID
         final String[] ID = new String[1];
         if(filePath != null){

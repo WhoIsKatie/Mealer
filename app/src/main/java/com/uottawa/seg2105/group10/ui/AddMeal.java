@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class AddMeal extends AppCompatActivity {
@@ -30,24 +32,21 @@ public class AddMeal extends AppCompatActivity {
     private ImageView mealImage;
     private Button confirmButt, addIngredientButt, mealTypeButt, addAllergenButt, cuisineTypeButt;
     private ChipGroup ingredientsChipGroup, allergensChipGroup, mealTypeChipGroup, cuisineChipGroup;
-    private EditText mealName, mealPrice, mealDesc;
+    private EditText mealName, mealPrice, mealDesc, ingredientEditText, allergenEditText;
     private View divider;
     private FirebaseAuth mAuth;
-    private FirebaseStorage storage;
-    private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private HashSet<String> ingredients;
     private HashSet<String> allergies;
-    private String imageID;
+    //private String imageID;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
-        dBase = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
         // initializing the edit texts and buttons
@@ -58,94 +57,112 @@ public class AddMeal extends AppCompatActivity {
         mealDesc = findViewById(R.id.mealDesc);
         mealPrice = findViewById(R.id.mealPrice);
         mealDesc = findViewById(R.id.mealDesc);
+        ingredientEditText = findViewById(R.id.ingredientEditText);
+        allergenEditText = findViewById(R.id.allergenEditText);
         addIngredientButt = findViewById(R.id.addIngredientButt);
         addAllergenButt = findViewById(R.id.addAllergenButt);
         mealTypeButt = findViewById(R.id.mealTypeButt);
         cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
         cuisineChipGroup = findViewById(R.id.cuisineChipGroup);
+        ingredientsChipGroup = findViewById(R.id.ingredientsChipGroup);
+        allergensChipGroup = findViewById(R.id.allergensChipGroup);
         divider = findViewById(R.id.divider22);
         /*
         // setting up things to get the ID of the meal we want to update
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
+        */
 
-
-        // we need to fetch all the chips inside the chip group and populate the hashsets
-        // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
-        ingredients = Utility.expandChipGroup(ingredientsChipGroup);
-        allergies = Utility.expandChipGroup(allergensChipGroup);
-
+        // setting up the hash sets
+        ingredients = new HashSet<>();
+        allergies = new HashSet<>();
 
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(iGallery, 1000);
-        });*/
+        });
 
         addIngredientButt.setOnClickListener(view -> {
-            // not done
+            //todo: get this inside a validation  method somehow
+            if(ingredientEditText.getText().toString().trim().isEmpty()){
+                ingredientEditText.setError("Field cannot be empty!");
+                ingredientEditText.setText("");
+                return;
+            }
+            String[] inputIngredients = ingredientEditText.getText().toString().split(","); // get everything inside the field
+            validateIngredients(inputIngredients);
+            ingredients.addAll(Arrays.asList(inputIngredients));
+            ingredientEditText.setText("");
+            Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
         addAllergenButt.setOnClickListener(view -> {
-            // not done
+            //todo: put in a validation method
+            if(allergenEditText.getText().toString().trim().isEmpty()){
+                allergenEditText.setError("Field cannot be empty!");
+                allergenEditText.setText("");
+                return;
+            }
+            String[] inputAllergens = allergenEditText.getText().toString().split(","); // get everything inside the field
+            validateAllergies(inputAllergens);
+            ingredients.addAll(Arrays.asList(inputAllergens));
+            allergenEditText.setText("");
+            Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
-        confirmButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //fetch the text fields
-                if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergies()&&validateIngredients()){
-                    return;
-                }
-                String name = mealName.getText().toString();
-                float price = Float.parseFloat(mealPrice.getText().toString());
-                String docID = firebaseMeal.getId(); //get the ID so we can update the meal there
-                String mealType = mealTypeButt.getText().toString();
-                String cuisine = cuisineTypeButt.getText().toString();
-                String description = mealDesc.getText().toString();
+        confirmButt.setOnClickListener(view -> {
+            //fetch the text fields
+            if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenHashSet()&&validateIngredientHashSet()){
+                return;
+            }
+            String name = mealName.getText().toString();
+            float price = Float.parseFloat(mealPrice.getText().toString());
+            String mealType = mealTypeButt.getText().toString();
+            String cuisine = cuisineTypeButt.getText().toString();
+            String description = mealDesc.getText().toString();
 
-                firebaseMeal = userRef.collection("meals").document(name);
+            // we need to fetch all the chips inside the chip group and populate the hashsets
+            // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
+            ingredients = Utility.expandChipGroup(ingredientsChipGroup);
+            allergies = Utility.expandChipGroup(allergensChipGroup);
 
-                Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
-                util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
+            firebaseMeal = userRef.collection("meals").document(name);
 
-                firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
-                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
-                }).addOnSuccessListener(unused -> {
-                    //todo: here we can add to our recycler view
-                    // it's actually not necessary since starting the recycler view SHOULD automatically
-                    // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
-                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+            Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
+            Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
+            util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
+
+            firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
+                Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
+                finish();
+            }).addOnSuccessListener(unused -> {
+                // here we can add to our recycler view
+                // it's actually not necessary since starting the recycler view SHOULD automatically
+                // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
+                Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
+                finish();
+            });
+        });
+
+        mealTypeButt.setOnClickListener(view -> {
+            if (mealTypeChipGroup.getVisibility() != View.GONE) {
+                mealTypeChipGroup.setVisibility(View.GONE);
+                divider.setVisibility(View.GONE);
+            } else {
+                mealTypeChipGroup.setVisibility(View.VISIBLE);
+                divider.setVisibility(View.VISIBLE);
             }
         });
 
-        mealTypeButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mealTypeChipGroup.getVisibility() != View.GONE) {
-                    mealTypeChipGroup.setVisibility(View.GONE);
-                    divider.setVisibility(View.GONE);
-                } else {
-                    mealTypeChipGroup.setVisibility(View.VISIBLE);
-                    divider.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        cuisineTypeButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                if (cuisineChipGroup.getVisibility() != View.GONE) {
-                cuisineChipGroup.setVisibility(View.GONE);
-            }
-                else {
-                cuisineChipGroup.setVisibility(View.VISIBLE);
-            }
+        cuisineTypeButt.setOnClickListener(view -> {
+            if (cuisineChipGroup.getVisibility() != View.GONE) {
+            cuisineChipGroup.setVisibility(View.GONE);
         }
-        });
+            else {
+            cuisineChipGroup.setVisibility(View.VISIBLE);
+        }
+    });
     }
 
     @Override
@@ -155,7 +172,7 @@ public class AddMeal extends AppCompatActivity {
             if(requestCode == 1000){
                 assert data != null;
                 filePath = data.getData();
-                mealImage.setImageURI(filePath);
+                mealImage.setImageURI(filePath);    // replacement of setURI in Utility
             }
         }
     }
@@ -211,18 +228,31 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllergies() {
-        //TODO: FIX THESE VALIDATIONS BROKEN BY CHANGING mealAllergies to chipgroup
-        /*if (allergies.isEmpty()) {
-            mealAllergies.setError("Field cannot be empty");
+    private boolean validateAllergies(String[] inputAllergens) {
+        if(inputAllergens.length == 0){
+            allergenEditText.setError("Field cannot be empty");
             return false;
         }
-        mealAllergies.setError(null);*/
+        allergenEditText.setError(null);
         return true;
     }
 
-    private boolean validateIngredients(){
-        return true;    // todo: to fill later
+    private boolean validateIngredients(String[] inputIngredients){
+        if(inputIngredients == new String[]{""}){
+            ingredientEditText.setError("Field cannot be empty");
+            return false;
+        }
+        ingredientEditText.setError(null);
+        return true;
+    }
+
+    //todo: validate the hash sets as opposed to the inputs of the edit text fields, which are now done in the addIngredient and addAllergen buttons
+    private boolean validateIngredientHashSet(){
+        return true;
+    }
+
+    private boolean validateAllergenHashSet(){
+        return true;
     }
 
 }
