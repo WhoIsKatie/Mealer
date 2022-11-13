@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,12 +51,11 @@ public class Utility{
         }
     }
 
-    public void uploadImage()
+    public void uploadImage(String fileName)
     {
         if (filePath != null && doc == null) {
-
             // Defining the child of storageReference
-            StorageReference imageRef = storage.getReference().child(mAuth.getUid() + "/cheque/" + filePath.getLastPathSegment());
+            StorageReference imageRef = storage.getReference().child(mAuth.getUid() + fileName);
 
             // Register observers to listen for when the download is done or if it fails
             imageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
@@ -66,11 +64,13 @@ public class Utility{
                 Toast.makeText(context, "Upload success!", Toast.LENGTH_SHORT).show();
             });
         }
-        else{
-            Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
-        }
+        else
+            // I feel like toasts are more for users. Since this message is exclusively for us, it can just be printed thru system output - Katie
+            //Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
+            System.out.println("Either filePath is null or FirebaseStorage not Initialized (wrong constructor)");
     }
 
+    //it do b kinda deprecated now :( -katie
     public String uploadToSubcollection(){ //change return type to string if we can get the imageID
         final String[] ID = new String[1];
         if(filePath != null){

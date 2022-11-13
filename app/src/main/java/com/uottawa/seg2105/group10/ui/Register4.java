@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -87,7 +88,7 @@ public class Register4 extends AppCompatActivity {
                 userRef.collection("userObject").document("Cook").set(user);
                 userRef.update("meals", null);
                 Utility util = new Utility(Register4.this, filePath, mAuth, storage);
-                util.uploadImage();
+                util.uploadImage("/" + mAuth.getUid() + "/voidCheque");
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
@@ -152,7 +153,7 @@ public class Register4 extends AppCompatActivity {
         }
     }
 
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -164,7 +165,7 @@ public class Register4 extends AppCompatActivity {
         }
     }
 
-    // UploadImage method
+    /*// UploadImage method
     public void uploadImage()
     {
         if (filePath != null) {

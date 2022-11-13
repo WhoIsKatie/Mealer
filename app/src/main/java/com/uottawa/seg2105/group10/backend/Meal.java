@@ -17,8 +17,9 @@ public class Meal {
 		ingredients = allergens = null;
 		imageID = null;
 	}
-	
-	public Meal(String docID, float price, String mealName, String description, String mealType, String cuisine, HashSet<String> ingredients, HashSet<String> allergens, String imageID) {
+
+	// I've modified Meal so that the docID of each meal on the database is the mealName => a cook cannot have two meals with the same name - Katie
+	public Meal(float price, String mealName, String description, String mealType, String cuisine, HashSet<String> ingredients, HashSet<String> allergens) {
 		// should we keep the constructor this long?? or just make setters?
 		// imo there's nothing wrong with it. You can also call a helper method for formatting your class variables :3
 		this.price = price;
@@ -29,7 +30,6 @@ public class Meal {
 		this.allergens = allergens;
 		this.mealName = mealName;
 		this.imageID = imageID;
-		this.docID = docID;
 	}
 
 	public void offerMeal(){offered = true;}

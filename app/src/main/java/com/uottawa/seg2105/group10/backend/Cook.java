@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Cook extends User{
@@ -50,7 +51,15 @@ public class Cook extends User{
 						//variable from inst of this class, Cook.java
 						description = document.getString("description");
 						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
-						cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
+
+						//cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
+						userDoc.collection("meals").get().addOnSuccessListener(QuerySnapshot -> {
+							for (DocumentSnapshot document : QuerySnapshot.getDocuments()) {
+								Log.d(TAG, document.getId() + " => " + document.getData());
+								Meal currentMeal = document.toObject(Meal.class);
+								cookMenu.put(currentMeal.getMealName(), currentMeal);
+							}
+						});
 					} else {
 						Log.d(TAG, "No such document");
 					}
@@ -81,10 +90,11 @@ public class Cook extends User{
 		return true;
 	}
 
-	public void createMeal(String name, float price, String description, String mealType, String cuisine, String ingredients, String allergens, int image, String document) {
-		Meal meal = new Meal(document, price, name, description, mealType, cuisine, ingredients, allergens, image);
+	// love how we have haven't used this yet -katie >:)
+	public void createMeal(String name, float price, String descr, String type, String cuisine, HashSet<String> ingredients, HashSet<String> allergens) {
+		Meal meal = new Meal(price, name, descr, type, cuisine, ingredients, allergens);
 		cookMenu.put(name, meal);
-		userDoc.update("meals", cookMenu);
+		userDoc.collection("meals").document(name).set(cookMenu);
 	}
 
 	public boolean isSuspended() {return suspended;}
