@@ -48,6 +48,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FFFFFF"
                 app:cardElevation="10dp"
                 app:cardMaxElevation="0dp">
 
@@ -98,9 +99,7 @@
                         android:id="@+id/mealPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginEnd="330dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:hint="Price"
                         android:inputType="numberDecimal"
@@ -113,7 +112,7 @@
                     <View
                         android:id="@+id/divider20"
                         android:layout_width="match_parent"
-                        android:layout_height="17dp"
+                        android:layout_height="41dp"
                         android:background="?android:attr/listDivider"
                         android:visibility="invisible" />
 
@@ -133,115 +132,52 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip18"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pizza" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip19"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fast food" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip20"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sushi" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip21"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Burger" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip22"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sandwich" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip23"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Soup" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pasta" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip25"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dessert" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip26"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ramen" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip27"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Burrito" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip28"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Wings" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip29"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="BBQ" />
+                        android:layout_marginRight="30dp"
+                        android:visibility="gone"
+                        app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip30"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Breakfast &amp; Brunch" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip32"
+                            android:id="@+id/chip18"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Seafood" />
+                            android:text="Snack Food" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip33"
+                            android:id="@+id/chip"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Salad" />
+                            android:text="Lunch" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip34"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Diner" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip35"
+                            android:id="@+id/chip25"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Gourmet" />
+                            android:text="Dessert" />
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/chip36"
+                            android:id="@+id/chip19"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rolls" />
+                            android:text="Drinks" />
+
                     </com.google.android.material.chip.ChipGroup>
 
                     <View
@@ -249,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/cuisineTypeButt"
@@ -258,6 +194,7 @@
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Cuisine"
+                        android:textColor="#FFFFFF"
                         app:backgroundTint="#000000"
                         app:cornerRadius="30dp" />
 
@@ -266,112 +203,131 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp">
+                        android:layout_marginRight="30dp"
+                        android:visibility="gone">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip1"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Korean" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip2"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Thai" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip3"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Asian" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip4"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="African" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip5"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Mexican" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip6"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Greek" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip7"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Middle Eastern" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip8"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Vietnamese" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip9"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Caribbean" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip10"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Japanese" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip11"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Italian" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip12"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Jamaican" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip13"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Lebanese" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip14"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="American" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip15"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Mediterranean" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip16"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Western" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip17"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="French" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip31"
+                            style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Chinese" />
@@ -414,6 +370,7 @@
                             android:inputType="textPersonName"
                             android:minHeight="48dp"
                             android:textColor="#000000"
+                            android:textColorHint="#AEAEAE"
                             android:textSize="16sp" />
 
                         <Button
@@ -454,6 +411,7 @@
                             android:inputType="textPersonName"
                             android:minHeight="48dp"
                             android:textColor="#000000"
+                            android:textColorHint="#AEAEAE"
                             android:textSize="16sp" />
 
                         <Button
@@ -532,7 +490,7 @@
                         android:fontFamily="@font/roboto"
                         android:hint="Meal Description"
                         android:minHeight="48dp"
-                        android:textColor="#8A8A8A"
+                        android:textColor="#000000"
                         android:textColorHint="#A5A5A5"
                         android:textSize="16sp" />
 

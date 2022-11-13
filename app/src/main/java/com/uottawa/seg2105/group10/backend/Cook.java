@@ -90,7 +90,6 @@ public class Cook extends User{
 		return true;
 	}
 
-	// love how we have haven't used this yet -katie >:)
 	public void createMeal(String name, float price, String descr, String type, String cuisine, HashSet<String> ingredients, HashSet<String> allergens) {
 		Meal meal = new Meal(price, name, descr, type, cuisine, ingredients, allergens);
 		cookMenu.put(name, meal);
