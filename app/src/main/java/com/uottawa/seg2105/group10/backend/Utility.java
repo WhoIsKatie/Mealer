@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,14 +71,17 @@ public class Utility{
         }
     }
 
-    public void uploadToSubcollection(){ //change return type to string if we can get the imageID
+    public String uploadToSubcollection(){ //change return type to string if we can get the imageID
+        final String[] ID = new String[1];
         if(filePath != null){
-            doc.collection("mealImages").add(filePath).addOnSuccessListener(taskSnapshot -> {
+            doc.collection("mealImages").add(filePath).addOnSuccessListener(documentReference -> {
                 Toast.makeText(context, "Upload success!", Toast.LENGTH_SHORT).show();
                 // return doc.collection("mealImages").document()
                 // TODO: FIND A WAY TO GET IMAGEID OR SOMETHING SIMILAR FROM HERE?
+                ID[0] = documentReference.getId();
             });
         }
+        return ID[0];
     }
 
     public static HashSet<String> expandChipGroup(ChipGroup chipGroup){

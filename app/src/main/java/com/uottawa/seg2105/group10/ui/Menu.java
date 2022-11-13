@@ -20,6 +20,7 @@ import com.uottawa.seg2105.group10.temp.Meal_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.temp.RecyclerViewInterface;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 
 
@@ -56,11 +57,11 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<String> description = new ArrayList<>();
         ArrayList<String> mealType = new ArrayList<>();
         ArrayList<String> cuisine = new ArrayList<>();
-        ArrayList<String> ingredients = new ArrayList<>();
-        ArrayList<String> allergens = new ArrayList<>();
+        ArrayList<HashSet<String>> ingredients = new ArrayList<>();
+        ArrayList<HashSet<String>> allergens = new ArrayList<>();
         ArrayList<Float> price = new ArrayList<>();
-        ArrayList<Integer> image = new ArrayList<>();
-        ArrayList<String> documents = new ArrayList<>();
+        ArrayList<String> image = new ArrayList<>();
+        ArrayList<String> documents = new ArrayList<>(); //whats this...?
 
         // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
         dBase.collection("meals").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -77,10 +78,10 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
 
                     //todo: @JACOB ingredients and allergens are hashsets so this approach doesn't work; when creating a meal u need to put hashsets into meal's constructor for both ingred + allergen
                     // todo: image is actually imageID and it is a string
-                    ingredients.add(data.get("ingredients").toString());
-                    allergens.add(data.get("allergens").toString());
+                    ingredients.add((HashSet<String>) data.get("ingredients"));
+                    allergens.add((HashSet<String>) data.get("allergens"));
                     price.add(Float.valueOf(data.get("price").toString()));
-                    image.add(Integer.valueOf(data.get("image").toString()));
+                    image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
                     documents.add(document.getReference().getId());
                 }
                 for (int i = 0; i < mealName.size(); i++){

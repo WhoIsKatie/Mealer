@@ -211,7 +211,7 @@
                             android:id="@+id/chip30"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Breakfast & Brunch" />
+                            android:text="Breakfast &amp; Brunch" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip32"

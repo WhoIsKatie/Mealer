@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,15 +38,15 @@ public class AddMeal extends AppCompatActivity {
     private Button confirmButt, addIngredientButt, mealTypeButt, addAllergenButt, cuisineTypeButt;
     private ChipGroup ingredientsChipGroup, allergensChipGroup;
     private EditText mealName, mealPrice, mealDesc;
-    private TextView description;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseFirestore dBase;
-    DocumentReference FirebaseMeal;
+    DocumentReference FirebaseMeal, userRef;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private HashSet<String> ingredients;
     private HashSet<String> allergies;
+    private String imageID;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -58,14 +63,13 @@ public class AddMeal extends AppCompatActivity {
         mealName = findViewById(R.id.mealName);
         mealDesc = findViewById(R.id.mealDesc);
         mealPrice = findViewById(R.id.mealPrice);
-        this.description = findViewById(R.id.description);
+        mealDesc = findViewById(R.id.mealDesc);
         addIngredientButt = findViewById(R.id.addIngredientButt);
         addAllergenButt = findViewById(R.id.addAllergenButt);
 
         // setting up things to get the ID of the meal we want to update
-        DocumentReference userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-        Meal mealToAdd = new Meal(0); //this is so we can add something to the collection first, get its ID, then update later
-        FirebaseMeal = userRef.collection("meals").add(mealToAdd).getResult();
+        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
+        FirebaseMeal = userRef.collection("meals").add(new Meal(0)).getResult(); //todo: all cooks need subcollection meals in reg4
 
         // we need to fetch all the chips inside the chip group and populate the hashsets
         // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
@@ -87,20 +91,29 @@ public class AddMeal extends AppCompatActivity {
             // not done
         });
 
-        confirmButt.setOnClickListener(view -> {
-            //fetch the text fields
-            if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergies()&&validateIngredients()){
-                return;
-            }
-            String name = mealName.getText().toString();
-            String desc = mealDesc.getText().toString();
-            float price = Float.parseFloat(mealPrice.getText().toString());
-            String docID = FirebaseMeal.getId(); //get the ID so we can update the meal there
-            String mealType = mealTypeButt.getText().toString();
-            String cuisine = cuisineTypeButt.getText().toString();
+        confirmButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //fetch the text fields
+                if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergies()&&validateIngredients()){
+                    return;
+                }
+                String name = mealName.getText().toString();
+                float price = Float.parseFloat(mealPrice.getText().toString());
+                String docID = FirebaseMeal.getId(); //get the ID so we can update the meal there
+                String mealType = mealTypeButt.getText().toString();
+                String cuisine = cuisineTypeButt.getText().toString();
+                String description = mealDesc.getText().toString();
 
-            // todo: find a way to get image ID then add that to the constructor of mealToAdd
-            mealToAdd = new Meal(docID, price, name, description, mealType, cuisine, ingredients, allergies, );
+                Meal mealToAdd = new Meal(docID, price, name, description, mealType, cuisine, ingredients, allergies, imageID);
+                FirebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
+                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
+                }).addOnSuccessListener(unused -> {
+                    //todo: here we can add to our recycler view
+                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+            }
         });
     }
 
@@ -115,8 +128,10 @@ public class AddMeal extends AppCompatActivity {
                 mealImage.setImageURI(filePath);
             }
             // GOING TO TRY UPLOADING TO A SUB-COLLECTION FOLDER FOR MEAL PICS FOR THE SPECIFIC COOK
-            Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseMeal);
-            util.uploadToSubcollection();
+            Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
+            // todo: if this is the implementation we go with, need to update register4 to add sub-collection for all cooks called mealImages
+            imageID = util.uploadToSubcollection();
+            FirebaseMeal.update("imageID", imageID);
         }
     }
 
@@ -163,7 +178,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateDescription() {
-        if (description.toString().isEmpty()) {
+        if (mealDesc.getText().toString().isEmpty()) {
             mealDesc.setError("Field cannot be empty");
             return false;
         }
