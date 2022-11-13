@@ -41,7 +41,7 @@ public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         holder.name.setText(meals.get(position).getMealName());
         holder.price.setText((int) meals.get(position).getPrice());
-        holder.mealImage.setImageResource(meals.get(position).getImage());
+        holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
 
         }
 

@@ -5,27 +5,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
@@ -36,8 +29,9 @@ public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
     private Button confirmButt, addIngredientButt, mealTypeButt, addAllergenButt, cuisineTypeButt;
-    private ChipGroup ingredientsChipGroup, allergensChipGroup;
+    private ChipGroup ingredientsChipGroup, allergensChipGroup, mealTypeChipGroup, cuisineChipGroup;
     private EditText mealName, mealPrice, mealDesc;
+    private View divider;
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseFirestore dBase;
@@ -66,7 +60,12 @@ public class AddMeal extends AppCompatActivity {
         mealDesc = findViewById(R.id.mealDesc);
         addIngredientButt = findViewById(R.id.addIngredientButt);
         addAllergenButt = findViewById(R.id.addAllergenButt);
-
+        mealTypeButt = findViewById(R.id.mealTypeButt);
+        cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
+        mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
+        cuisineChipGroup = findViewById(R.id.cuisineChipGroup);
+        divider = findViewById(R.id.divider22);
+        /*
         // setting up things to get the ID of the meal we want to update
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
         FirebaseMeal = userRef.collection("meals").add(new Meal(0)).getResult(); //todo: all cooks need subcollection meals in reg4
@@ -81,7 +80,7 @@ public class AddMeal extends AppCompatActivity {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(iGallery, 1000);
-        });
+        });*/
 
         addIngredientButt.setOnClickListener(view -> {
             // not done
@@ -114,6 +113,31 @@ public class AddMeal extends AppCompatActivity {
                     finish();
                 });
             }
+        });
+
+        mealTypeButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mealTypeChipGroup.getVisibility() != View.GONE) {
+                    mealTypeChipGroup.setVisibility(View.GONE);
+                    divider.setVisibility(View.GONE);
+                } else {
+                    mealTypeChipGroup.setVisibility(View.VISIBLE);
+                    divider.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        cuisineTypeButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                if (cuisineChipGroup.getVisibility() != View.GONE) {
+                cuisineChipGroup.setVisibility(View.GONE);
+            }
+                else {
+                cuisineChipGroup.setVisibility(View.VISIBLE);
+            }
+        }
         });
     }
 

@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Cook extends User{
@@ -81,7 +82,7 @@ public class Cook extends User{
 		return true;
 	}
 
-	public void createMeal(String name, float price, String description, String mealType, String cuisine, String ingredients, String allergens, int image, String document) {
+	public void createMeal(String name, float price, String description, String mealType, String cuisine, HashSet<String> ingredients, HashSet<String> allergens, String image, String document) {
 		Meal meal = new Meal(document, price, name, description, mealType, cuisine, ingredients, allergens, image);
 		cookMenu.put(name, meal);
 		userDoc.update("meals", cookMenu);

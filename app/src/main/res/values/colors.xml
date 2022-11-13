@@ -9,4 +9,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="mediumGray">#E4E4E4</color>
+    <color name="darkGray">#858585</color>
+
 </resources>
