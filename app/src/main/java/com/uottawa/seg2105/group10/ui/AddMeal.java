@@ -108,7 +108,7 @@ public class AddMeal extends AppCompatActivity {
 
                 Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
                 Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
-                util.uploadImage("/" + mealToAdd.getMealName());
+                util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
 
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
