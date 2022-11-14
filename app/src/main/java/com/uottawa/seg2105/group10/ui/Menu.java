@@ -9,19 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
-import com.uottawa.seg2105.group10.temp.Meal_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.temp.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.recyclers.Meal_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 
@@ -30,6 +28,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
     public ArrayList<Meal> meals;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
+    private DocumentReference userRef;
     private static final String TAG = "Menu";
     RecyclerView recyclerView;
     private Button addMeal;
@@ -41,6 +40,8 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         setContentView(R.layout.activity_menu);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
+        String userUID = mAuth.getCurrentUser().getUid();
+        userRef = dBase.collection("users").document(userUID);
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
         setUpMealModels();
@@ -64,32 +65,42 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<String> image = new ArrayList<>();
         ArrayList<String> documents = new ArrayList<>(); //whats this...?
 
-        // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
-        dBase.collection("meals").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            // todo: cannot use whereEqualTo because meals dont have this field; consider using boolean offered (eg. whereEqualTo("offered", true))
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
-                    Log.d(TAG, document.getId() + "=>" + document.getData());
-                    Map<String, Object> data = document.getData();
-                    mealName.add(data.get("mealName").toString());
-                    description.add(data.get("description").toString());
-                    mealType.add(data.get("mealType").toString());
-                    cuisine.add(data.get("cuisine").toString());
+        userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
+                Log.d(TAG, document.getId() + "=>" + document.getData());
+                Map<String, Object> data = document.getData();
+                mealName.add(data.get("mealName").toString());
+                description.add(data.get("description").toString());
+                mealType.add(data.get("mealType").toString());
+                cuisine.add(data.get("cuisine").toString());
+                documents.add(document.getId());
 
-                    //todo: @JACOB ingredients and allergens are hashsets so this approach doesn't work; when creating a meal u need to put hashsets into meal's constructor for both ingred + allergen
-                    // todo: image is actually imageID and it is a string
+                if(! (data.get("ingredients").toString().equals("None"))){
                     ingredients.add((HashMap<String, String>) data.get("ingredients"));
-                    allergens.add((HashMap<String, String>) data.get("allergens"));
-                    price.add(Float.valueOf(data.get("price").toString()));
+                }
+                else{
+                    ingredients.add(null);
+                }
+                if(! (data.get("allergens").toString().equals("None"))){
+                    allergens.add((HashMap<String, String>) data.get("ingredients"));
+                }
+                else{
+                    allergens.add(null);
+                }
+                price.add(Float.valueOf(data.get("price").toString()));
+                if(data.get("imageID") != null){
                     image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
                 }
-                for (int i = 0; i < mealName.size(); i++){
-                    Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                    meals.add(meal);
+                else {
+                    image.add(null);
                 }
-                updateView();
             }
+            for (int i = 0; i < mealName.size(); i++){
+                Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
+                meal.setDocID(documents.get(i));
+                meals.add(meal);
+            }
+            updateView();
         });
 
         addMeal = findViewById(R.id.addMeal);

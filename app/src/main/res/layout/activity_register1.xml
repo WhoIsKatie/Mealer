@@ -24,7 +24,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/reg1HeaderText1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="30dp"
@@ -43,7 +42,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/reg1Text1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -63,7 +61,6 @@
             android:orientation="horizontal" />
 
         <View
-            android:id="@+id/divider7"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="?android:attr/listDivider"
@@ -75,7 +72,6 @@
             android:background="@color/black" />
 
         <View
-            android:id="@+id/divider6"
             android:layout_width="match_parent"
             android:layout_height="19dp"
             android:background="?android:attr/listDivider"
@@ -117,7 +113,6 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black" />

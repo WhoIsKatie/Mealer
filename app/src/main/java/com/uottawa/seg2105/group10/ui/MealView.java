@@ -30,7 +30,7 @@ public class MealView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
 
-        dBase = dBase.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         String name = getIntent().getStringExtra("NAME");
         float price = getIntent().getFloatExtra("PRICE", 0);
@@ -38,7 +38,7 @@ public class MealView extends AppCompatActivity {
         String description = getIntent().getStringExtra("DESCRIPTION");
         String docID = getIntent().getStringExtra("DOCUMENT");
 
-        DocumentReference docRef = dBase.collection("complaints").document(docID);
+        DocumentReference docRef = dBase.collection("meals").document(docID);
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView priceTextView = findViewById(R.id.mealPrice);
@@ -46,7 +46,7 @@ public class MealView extends AppCompatActivity {
         ImageView mealImageView = findViewById(R.id.mealImage);
 
         nameTextView.setText(name);
-        priceTextView.setText((int) price);
+        priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
         mealImageView.setImageResource(image);
         modifyButt = findViewById(R.id.modifyButt);

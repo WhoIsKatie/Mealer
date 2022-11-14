@@ -22,7 +22,6 @@
         app:layout_constraintVertical_bias="0.776" />
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="470dp"
         android:layout_height="439dp"
         android:contentDescription="@string/mealer_s_logo_and_slogan"
