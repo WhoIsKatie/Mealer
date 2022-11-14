@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -40,6 +41,10 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
+    private TextView showIngredients, showAllergens;
+    private String text;
+    private String text2;
+
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private HashMap<String, String> ingredients;
@@ -73,6 +78,8 @@ public class AddMeal extends AppCompatActivity {
         ingredientsChipGroup = findViewById(R.id.ingredientsChipGroup);
         allergensChipGroup = findViewById(R.id.allergensChipGroup);
         divider = findViewById(R.id.divider22);
+        showIngredients = findViewById(R.id.showIngredients);
+        showAllergens = findViewById(R.id.showAllergens);
 
         // setting up things to get the ID of the meal we want to update
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
@@ -81,11 +88,16 @@ public class AddMeal extends AppCompatActivity {
         ingredients = new HashMap<>();
         allergies = new HashMap<>();
 
+        text = " ";
+        text2 = " ";
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(iGallery, 1000);
         });
+
+
+
 
         addIngredientButt.setOnClickListener(view -> {
             //todo: get this inside a validation  method somehow
@@ -100,6 +112,7 @@ public class AddMeal extends AppCompatActivity {
                 ingredients.put(s, s);
             }
             ingredientEditText.setText("");
+            updateIngredientBox();
             Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
@@ -116,6 +129,7 @@ public class AddMeal extends AppCompatActivity {
                 allergies.put(s, s);
             }
             allergenEditText.setText("");
+            updateAllergiesBox();
             Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
@@ -184,6 +198,22 @@ public class AddMeal extends AppCompatActivity {
         }
     }
 
+    //method to update ingredient textbox
+    private void updateIngredientBox(){
+
+        for(String s: this.ingredients.keySet()){
+            text += s;
+            showIngredients.setText(text);
+          }
+    }
+
+    private void updateAllergiesBox(){
+        for(String s: this.allergies.keySet()){
+            text2 += s;
+            showAllergens.setText(text2);
+        }
+
+    }
 
     // Meal Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 

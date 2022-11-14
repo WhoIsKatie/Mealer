@@ -108,6 +108,18 @@
                         android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
 
+                    <TextView
+                        android:id="@+id/showIngredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingredients" />
+
+                    <TextView
+                        android:id="@+id/showAllergens"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Allergens" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
