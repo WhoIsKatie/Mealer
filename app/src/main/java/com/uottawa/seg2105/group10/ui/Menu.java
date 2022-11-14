@@ -98,6 +98,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
             for (int i = 0; i < mealName.size(); i++){
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
                 meal.setDocID(documents.get(i));
+                meal.setImage(image.get(i));
                 meals.add(meal);
             }
             updateView();

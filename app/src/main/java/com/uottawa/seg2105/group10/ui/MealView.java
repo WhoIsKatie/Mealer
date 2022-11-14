@@ -34,7 +34,7 @@ public class MealView extends AppCompatActivity {
 
         String name = getIntent().getStringExtra("NAME");
         float price = getIntent().getFloatExtra("PRICE", 0);
-        int image = getIntent().getIntExtra("IMAGE", 0);
+        String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
         String docID = getIntent().getStringExtra("DOCUMENT");
 
@@ -48,7 +48,7 @@ public class MealView extends AppCompatActivity {
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
-        mealImageView.setImageResource(image);
+        mealImageView.setImageResource(Integer.parseInt(image));
         modifyButt = findViewById(R.id.modifyButt);
         removeButt = findViewById(R.id.removeButt);
 
