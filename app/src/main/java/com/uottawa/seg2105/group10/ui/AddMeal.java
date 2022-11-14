@@ -25,21 +25,25 @@ import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
-    private Button confirmButt, addIngredientButt, mealTypeButt, addAllergenButt, cuisineTypeButt;
+    private Button mealTypeButt;
+    private Button cuisineTypeButt;
     private ChipGroup ingredientsChipGroup, allergensChipGroup, mealTypeChipGroup, cuisineChipGroup;
     private EditText mealName, mealPrice, mealDesc, ingredientEditText, allergenEditText;
     private View divider;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
-    private HashSet<String> ingredients;
-    private HashSet<String> allergies;
+    private HashMap<String, String> ingredients;
+    private HashMap<String, String> allergies;
     //private String imageID;
 
     @SuppressLint("MissingInflatedId")
@@ -48,10 +52,11 @@ public class AddMeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
         mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
-        confirmButt = findViewById(R.id.confirmButt);
+        Button confirmButt = findViewById(R.id.confirmButt);
         mealImage = findViewById(R.id.mealImage);
         mealName = findViewById(R.id.mealName);
         mealDesc = findViewById(R.id.mealDesc);
@@ -59,8 +64,8 @@ public class AddMeal extends AppCompatActivity {
         mealDesc = findViewById(R.id.mealDesc);
         ingredientEditText = findViewById(R.id.ingredientEditText);
         allergenEditText = findViewById(R.id.allergenEditText);
-        addIngredientButt = findViewById(R.id.addIngredientButt);
-        addAllergenButt = findViewById(R.id.addAllergenButt);
+        Button addIngredientButt = findViewById(R.id.addIngredientButt);
+        Button addAllergenButt = findViewById(R.id.addAllergenButt);
         mealTypeButt = findViewById(R.id.mealTypeButt);
         cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
@@ -68,14 +73,13 @@ public class AddMeal extends AppCompatActivity {
         ingredientsChipGroup = findViewById(R.id.ingredientsChipGroup);
         allergensChipGroup = findViewById(R.id.allergensChipGroup);
         divider = findViewById(R.id.divider22);
-        /*
+
         // setting up things to get the ID of the meal we want to update
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
-        */
 
         // setting up the hash sets
-        ingredients = new HashSet<>();
-        allergies = new HashSet<>();
+        ingredients = new HashMap<>();
+        allergies = new HashMap<>();
 
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
@@ -92,7 +96,9 @@ public class AddMeal extends AppCompatActivity {
             }
             String[] inputIngredients = ingredientEditText.getText().toString().split(","); // get everything inside the field
             validateIngredients(inputIngredients);
-            ingredients.addAll(Arrays.asList(inputIngredients));
+            for(String s : inputIngredients){
+                ingredients.put(s, s);
+            }
             ingredientEditText.setText("");
             Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
         });
@@ -106,43 +112,44 @@ public class AddMeal extends AppCompatActivity {
             }
             String[] inputAllergens = allergenEditText.getText().toString().split(","); // get everything inside the field
             validateAllergies(inputAllergens);
-            ingredients.addAll(Arrays.asList(inputAllergens));
+            for(String s : inputAllergens){
+                allergies.put(s, s);
+            }
             allergenEditText.setText("");
             Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
         confirmButt.setOnClickListener(view -> {
             //fetch the text fields
-            if(! validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenHashSet()&&validateIngredientHashSet()){
-                return;
+            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenHashSet()&&validateIngredientHashSet()){
+                String name = mealName.getText().toString();
+                float price = Float.parseFloat(mealPrice.getText().toString());
+                String mealType = mealTypeButt.getText().toString();
+                String cuisine = cuisineTypeButt.getText().toString();
+                String description = mealDesc.getText().toString();
+
+                // we need to fetch all the chips inside the chip group and populate the hashsets
+                // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
+                ingredients = Utility.expandChipGroup(ingredientsChipGroup);
+                allergies = Utility.expandChipGroup(allergensChipGroup);
+
+                firebaseMeal = userRef.collection("meals").document(name);
+
+                Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
+                Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
+                util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
+
+                firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
+                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }).addOnSuccessListener(unused -> {
+                    // here we can add to our recycler view
+                    // it's actually not necessary since starting the recycler view SHOULD automatically
+                    // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
+                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
             }
-            String name = mealName.getText().toString();
-            float price = Float.parseFloat(mealPrice.getText().toString());
-            String mealType = mealTypeButt.getText().toString();
-            String cuisine = cuisineTypeButt.getText().toString();
-            String description = mealDesc.getText().toString();
-
-            // we need to fetch all the chips inside the chip group and populate the hashsets
-            // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
-            ingredients = Utility.expandChipGroup(ingredientsChipGroup);
-            allergies = Utility.expandChipGroup(allergensChipGroup);
-
-            firebaseMeal = userRef.collection("meals").document(name);
-
-            Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-            Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
-            util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
-
-            firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
-                Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
-                finish();
-            }).addOnSuccessListener(unused -> {
-                // here we can add to our recycler view
-                // it's actually not necessary since starting the recycler view SHOULD automatically
-                // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
-                Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
-                finish();
-            });
         });
 
         mealTypeButt.setOnClickListener(view -> {

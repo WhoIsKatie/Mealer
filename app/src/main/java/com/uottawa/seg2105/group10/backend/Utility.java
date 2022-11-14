@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Utility{
@@ -86,12 +87,13 @@ public class Utility{
         return ID[0];
     }
 
-    public static HashSet<String> expandChipGroup(ChipGroup chipGroup){
+    public static HashMap<String, String> expandChipGroup(ChipGroup chipGroup){
         // https://stackoverflow.com/questions/58224630/how-to-get-selected-chips-from-chipgroup
-        HashSet<String> result = new HashSet<>();
+        HashMap<String, String> result = new HashMap<>();
         for(int i = 0; i < chipGroup.getChildCount(); i++){
             Chip chip = (Chip) chipGroup.getChildAt(i);
-            result.add(chip.getText().toString());
+            String chipText = chip.getText().toString();
+            result.put(chipText, chipText);
         }
         return result;
     }
