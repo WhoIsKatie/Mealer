@@ -19,14 +19,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class AddMeal extends AppCompatActivity {
@@ -52,7 +49,6 @@ public class AddMeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
         mAuth = FirebaseAuth.getInstance();
-        dBase = FirebaseFirestore.getInstance();
 
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
@@ -88,12 +84,8 @@ public class AddMeal extends AppCompatActivity {
         });
 
         addIngredientButt.setOnClickListener(view -> {
-            //todo: get this inside a validation  method somehow
-            if(ingredientEditText.getText().toString().trim().isEmpty()){
-                ingredientEditText.setError("Field cannot be empty!");
-                ingredientEditText.setText("");
-                return;
-            }
+            if(!validateIndividualIngr()){return;}
+
             String[] inputIngredients = ingredientEditText.getText().toString().split(","); // get everything inside the field
             validateIngredients(inputIngredients);
             for(String s : inputIngredients){
@@ -104,12 +96,8 @@ public class AddMeal extends AppCompatActivity {
         });
 
         addAllergenButt.setOnClickListener(view -> {
-            //todo: put in a validation method
-            if(allergenEditText.getText().toString().trim().isEmpty()){
-                allergenEditText.setError("Field cannot be empty!");
-                allergenEditText.setText("");
-                return;
-            }
+            if(!validateIndividualAllergen()){return;}
+
             String[] inputAllergens = allergenEditText.getText().toString().split(","); // get everything inside the field
             validateAllergies(inputAllergens);
             for(String s : inputAllergens){
@@ -121,7 +109,8 @@ public class AddMeal extends AppCompatActivity {
 
         confirmButt.setOnClickListener(view -> {
             //fetch the text fields
-            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenHashSet()&&validateIngredientHashSet()){
+            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
+
                 String name = mealName.getText().toString();
                 float price = Float.parseFloat(mealPrice.getText().toString());
                 String mealType = mealTypeButt.getText().toString();
@@ -253,12 +242,43 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    //todo: validate the hash sets as opposed to the inputs of the edit text fields, which are now done in the addIngredient and addAllergen buttons
-    private boolean validateIngredientHashSet(){
+    private boolean validateIndividualIngr() {
+        if(ingredientEditText.getText().toString().trim().isEmpty()){
+            ingredientEditText.setError("Field cannot be empty!");
+            ingredientEditText.setText("");
+            return false;
+        }
+        ingredientEditText.setError(null);
         return true;
     }
 
-    private boolean validateAllergenHashSet(){
+    private boolean validateIndividualAllergen() {
+        if(allergenEditText.getText().toString().trim().isEmpty()){
+            allergenEditText.setError("Field cannot be empty!");
+            allergenEditText.setText("");
+            return false;
+        }
+        allergenEditText.setError(null);
+        return true;
+    }
+
+    private boolean validateIngredientMap(){
+        for (Map.Entry<String, String> entry : ingredients.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (key.isEmpty() || value.isEmpty()) return false;
+        }
+        return true;
+    }
+
+    private boolean validateAllergenMap(){
+        for (Map.Entry<String, String> entry : allergies.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (key.isEmpty() || value.isEmpty()) return false;
+        }
         return true;
     }
 
