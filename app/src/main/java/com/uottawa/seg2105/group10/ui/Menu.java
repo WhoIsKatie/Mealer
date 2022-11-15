@@ -35,7 +35,6 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        meals = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         mAuth = FirebaseAuth.getInstance();
@@ -44,7 +43,6 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         userRef = dBase.collection("users").document(userUID);
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
-        //setUpMealModels();
     }
 
     @Override
@@ -70,6 +68,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<Float> price = new ArrayList<>();
         ArrayList<String> image = new ArrayList<>();
         ArrayList<String> documents = new ArrayList<>();
+        meals = new ArrayList<>();
 
         userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
