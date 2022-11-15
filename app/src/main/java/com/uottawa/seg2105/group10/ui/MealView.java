@@ -48,7 +48,8 @@ public class MealView extends AppCompatActivity {
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
-        mealImageView.setImageResource(Integer.parseInt(image));
+        //mealImageView.setImageResource(Integer.parseInt(image)); todo: image doesn't work since the int is supposed to refer to a drawable
+        //mealImageView.setImageURI();
         modifyButt = findViewById(R.id.modifyButt);
         removeButt = findViewById(R.id.removeButt);
 

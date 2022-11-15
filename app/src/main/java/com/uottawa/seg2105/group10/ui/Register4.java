@@ -88,7 +88,7 @@ public class Register4 extends AppCompatActivity {
                 userRef.collection("userObject").document("Cook").set(user);
                 userRef.update("meals", null);
                 Utility util = new Utility(Register4.this, filePath, mAuth, storage);
-                util.uploadImage("/" + mAuth.getUid() + "/voidCheque");
+                util.uploadImage();
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));

@@ -44,6 +44,12 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         userRef = dBase.collection("users").document(userUID);
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
+        //setUpMealModels();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         setUpMealModels();
     }
 
@@ -54,16 +60,16 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
     }
 
     private void setUpMealModels(){
-        // initializing all lists of fields for complaints that are active
+        // initializing all lists of fields
         ArrayList<String> mealName = new ArrayList<>();
         ArrayList<String> description = new ArrayList<>();
         ArrayList<String> mealType = new ArrayList<>();
-        ArrayList<String> cuisine = new ArrayList<>();
+        ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
         ArrayList<HashMap<String, String>> ingredients = new ArrayList<>();
         ArrayList<HashMap<String, String>> allergens = new ArrayList<>();
         ArrayList<Float> price = new ArrayList<>();
         ArrayList<String> image = new ArrayList<>();
-        ArrayList<String> documents = new ArrayList<>(); //whats this...?
+        ArrayList<String> documents = new ArrayList<>();
 
         userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
@@ -72,7 +78,12 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 mealName.add(data.get("mealName").toString());
                 description.add(data.get("description").toString());
                 mealType.add(data.get("mealType").toString());
-                cuisine.add(data.get("cuisine").toString());
+                if(!(data.get("cuisine").toString().equals("None"))){
+                    cuisine.add((ArrayList<String>) data.get("cuisine"));
+                }
+                else{
+                    cuisine.add(null);
+                }
                 documents.add(document.getId());
 
                 if(! (data.get("ingredients").toString().equals("None"))){
@@ -98,7 +109,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
             for (int i = 0; i < mealName.size(); i++){
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
                 meal.setDocID(documents.get(i));
-                meal.setImage(image.get(i));
+                meal.setImageID(image.get(i));
                 meals.add(meal);
             }
             updateView();

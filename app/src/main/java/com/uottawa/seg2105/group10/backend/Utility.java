@@ -53,11 +53,11 @@ public class Utility{
         }
     }
 
-    public void uploadImage(String fileName)
+    public void uploadImage()
     {
         if (filePath != null && doc == null) {
             // Defining the child of storageReference
-            StorageReference imageRef = storage.getReference().child(mAuth.getUid() + fileName);
+            StorageReference imageRef = storage.getReference().child(mAuth.getUid() + filePath.getLastPathSegment());
 
             // Register observers to listen for when the download is done or if it fails
             imageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
@@ -66,25 +66,12 @@ public class Utility{
                 Toast.makeText(context, "Upload success!", Toast.LENGTH_SHORT).show();
             });
         }
-        else
+        else{
             // I feel like toasts are more for users. Since this message is exclusively for us, it can just be printed thru system output - Katie
-            //Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
             System.out.println("Either filePath is null or FirebaseStorage not Initialized (wrong constructor)");
-    }
-
-    //it do b kinda deprecated now :( -katie
-    @Deprecated
-    public String uploadToSubcollection(){ //change return type to string if we can get the imageID
-        final String[] ID = new String[1];
-        if(filePath != null){
-            doc.collection("mealImages").add(filePath).addOnSuccessListener(documentReference -> {
-                Toast.makeText(context, "Upload success!", Toast.LENGTH_SHORT).show();
-                // return doc.collection("mealImages").document()
-                // TODO: FIND A WAY TO GET IMAGEID OR SOMETHING SIMILAR FROM HERE?
-                ID[0] = documentReference.getId();
-            });
         }
-        return ID[0];
+
     }
 
     public static HashMap<String, String> expandChipGroup(ChipGroup chipGroup){
