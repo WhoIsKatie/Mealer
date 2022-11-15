@@ -1,13 +1,14 @@
 package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 public class Meal {
 	//private Cook cook;
 	private float price;
-	private String mealName, description, mealType, cuisine, docID;
+	private String mealName, description, mealType, docID;
+	ArrayList<String> cuisine;
 	HashMap<String, String> ingredients, allergens;
 	String imageID;
 	public boolean offered = true;
@@ -15,13 +16,13 @@ public class Meal {
 
 	public Meal(float price) {
 		this.price = price;
-		mealName = description = mealType = cuisine = "TBD";
-		ingredients = allergens = null;
-		imageID = null;
+		imageID = mealName = description = mealType = "TBD";
+		ingredients = new HashMap<>();
+		allergens = new HashMap<>();
 	}
 
 	// I've modified Meal so that the docID of each meal on the database is the mealName => a cook cannot have two meals with the same name - Katie
-	public Meal(float price, String mealName, String description, String mealType, String cuisine, HashMap<String, String> ingredients, HashMap<String, String> allergens) {
+	public Meal(float price, String mealName, String description, String mealType, ArrayList<String> cuisine, HashMap<String, String> ingredients, HashMap<String, String> allergens) {
 		// should we keep the constructor this long?? or just make setters?
 		// imo there's nothing wrong with it. You can also call a helper method for formatting your class variables :3
 		this.price = price;
@@ -42,7 +43,7 @@ public class Meal {
 	public String getMealName(){return mealName;}
 	public String getDescription() {return description;}
 	public String getMealType() {return mealType;}
-	public String getCuisine() {return cuisine;}
+	public ArrayList<String> getCuisine() {return cuisine;}
 	public HashMap<String, String> getIngredients() {return ingredients;}
 	public HashMap<String, String> getAllergens() {return allergens;}
 	public float getPrice() {return price;}
@@ -54,9 +55,9 @@ public class Meal {
 	public void setPrice(float price) {this.price = price;}
 	public void setDescription(String description) {this.description = description;}
 	public void setMealType(String type) {this.mealType = type;}
-	public void setCuisine(String cuisine) {this.cuisine = cuisine;}
+	public void setCuisine(ArrayList<String> cuisine) {this.cuisine = cuisine;}
 	public void setIngredients(HashMap<String, String> ingredients) {this.ingredients = ingredients;}
 	public void setAllergens(HashMap<String, String> allergens) {this.allergens = allergens;}
-	public void setImage(String imageID){this.imageID = imageID;}
+	public void setImageID(String imageID){this.imageID = imageID;}
 	public void setDocID(String docID){this.docID = docID;}
 }

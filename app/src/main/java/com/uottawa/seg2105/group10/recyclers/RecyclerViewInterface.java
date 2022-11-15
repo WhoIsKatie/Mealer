@@ -1,5 +1,5 @@
 
-package com.uottawa.seg2105.group10.temp;
+package com.uottawa.seg2105.group10.recyclers;
 
 public interface RecyclerViewInterface {
 

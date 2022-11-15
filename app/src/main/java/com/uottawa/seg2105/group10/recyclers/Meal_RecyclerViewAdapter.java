@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.temp;
+package com.uottawa.seg2105.group10.recyclers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,9 +40,10 @@ public Meal_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGro
 public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         holder.name.setText(meals.get(position).getMealName());
-        holder.price.setText((int) meals.get(position).getPrice());
-        holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
-
+        holder.price.setText(Float.toString(meals.get(position).getPrice()));
+        if(meals.get(position).getImageID() != null){
+            holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
+        }
         }
 
 @Override

@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.temp;
+package com.uottawa.seg2105.group10.recyclers;
 
 public class ComplaintModel{
 

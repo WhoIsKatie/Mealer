@@ -10,33 +10,38 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;
     private ImageView mealImage;
-    private Button mealTypeButt;
-    private Button cuisineTypeButt;
-    private ChipGroup ingredientsChipGroup, allergensChipGroup, mealTypeChipGroup, cuisineChipGroup;
+    private ChipGroup mealTypeChipGroup, cuisineChipGroup;
     private EditText mealName, mealPrice, mealDesc, ingredientEditText, allergenEditText;
+    private Button mealTypeButt, cuisineTypeButt;
     private View divider;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
+    private TextView showIngredients, showAllergens;
+    private String visibleIngredients, visibleAllergens;
+
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private HashMap<String, String> ingredients;
@@ -49,10 +54,13 @@ public class AddMeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
         mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
         Button confirmButt = findViewById(R.id.confirmButt);
+        mealTypeButt = findViewById(R.id.mealTypeButt);
+        cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealImage = findViewById(R.id.mealImage);
         mealName = findViewById(R.id.mealName);
         mealDesc = findViewById(R.id.mealDesc);
@@ -62,13 +70,11 @@ public class AddMeal extends AppCompatActivity {
         allergenEditText = findViewById(R.id.allergenEditText);
         Button addIngredientButt = findViewById(R.id.addIngredientButt);
         Button addAllergenButt = findViewById(R.id.addAllergenButt);
-        mealTypeButt = findViewById(R.id.mealTypeButt);
-        cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
         cuisineChipGroup = findViewById(R.id.cuisineChipGroup);
-        ingredientsChipGroup = findViewById(R.id.ingredientsChipGroup);
-        allergensChipGroup = findViewById(R.id.allergensChipGroup);
         divider = findViewById(R.id.divider22);
+        showIngredients = findViewById(R.id.showIngredients);
+        showAllergens = findViewById(R.id.showAllergens);
 
         // setting up things to get the ID of the meal we want to update
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
@@ -77,6 +83,8 @@ public class AddMeal extends AppCompatActivity {
         ingredients = new HashMap<>();
         allergies = new HashMap<>();
 
+        visibleIngredients = " ";
+        visibleAllergens = " ";
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -92,6 +100,7 @@ public class AddMeal extends AppCompatActivity {
                 ingredients.put(s, s);
             }
             ingredientEditText.setText("");
+            updateIngredientBox();
             Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
@@ -104,29 +113,31 @@ public class AddMeal extends AppCompatActivity {
                 allergies.put(s, s);
             }
             allergenEditText.setText("");
+            updateAllergiesBox();
             Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
         });
 
         confirmButt.setOnClickListener(view -> {
-            //fetch the text fields
+            //fetch the visibleIngredients fields
             if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
-
                 String name = mealName.getText().toString();
                 float price = Float.parseFloat(mealPrice.getText().toString());
-                String mealType = mealTypeButt.getText().toString();
-                String cuisine = cuisineTypeButt.getText().toString();
+                ArrayList<String> cuisine = new ArrayList<>();
+
+                // turn the selected chips into data we can store
+                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
+                String mealType = mealChip.getText().toString();
+
+                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
+                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
+                    cuisine.add(cuisineChip.getText().toString());
+                }
                 String description = mealDesc.getText().toString();
 
-                // we need to fetch all the chips inside the chip group and populate the hashsets
-                // since it must be done multiple times I'll make a method in Utility: we can move it later if it doesnt make sense to be in utility
-                ingredients = Utility.expandChipGroup(ingredientsChipGroup);
-                allergies = Utility.expandChipGroup(allergensChipGroup);
-
                 firebaseMeal = userRef.collection("meals").document(name);
-
                 Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, userRef);
-                util.uploadImage("/" + mAuth.getUid() +"/" + mealToAdd.getMealName());
+                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+                util.uploadImage();
 
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
@@ -169,10 +180,27 @@ public class AddMeal extends AppCompatActivity {
                 assert data != null;
                 filePath = data.getData();
                 mealImage.setImageURI(filePath);    // replacement of setURI in Utility
+                //firebaseMeal.update("imageID", filePath); //todo: here we can update the meal
             }
         }
     }
 
+    //method to update ingredient textbox
+    private void updateIngredientBox(){
+
+        for(String s: this.ingredients.keySet()){
+            visibleIngredients += s;
+            showIngredients.setText(visibleIngredients);
+          }
+    }
+
+    private void updateAllergiesBox(){
+        for(String s: this.allergies.keySet()){
+            visibleAllergens += s;
+            showAllergens.setText(visibleAllergens);
+        }
+
+    }
 
     // Meal Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
@@ -202,7 +230,7 @@ public class AddMeal extends AppCompatActivity {
             return false;
         }
 
-        double price = Integer.parseInt(val);
+        double price = Double.parseDouble(val);
         if (price < 0) {
             mealPrice.setError("Price must be at least $0.00!");
             return false;

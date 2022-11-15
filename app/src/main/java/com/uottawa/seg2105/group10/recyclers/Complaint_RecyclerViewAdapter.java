@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.temp;
+package com.uottawa.seg2105.group10.recyclers;
 
 import android.content.Context;
 import android.view.LayoutInflater;

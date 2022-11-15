@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/backButtForReg4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_yellow"
@@ -31,7 +30,6 @@
 
 
             <TextView
-                android:id="@+id/reg4HeaderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -54,7 +52,6 @@
 
 
             <TextView
-                android:id="@+id/reg4Text1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
@@ -90,21 +87,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <View
-                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/listDivider"
                 android:visibility="invisible" />
 
             <View
-                android:id="@+id/divider5"
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:background="?android:attr/listDivider"
                 android:visibility="invisible" />
 
             <TextView
-                android:id="@+id/reg4Text2"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:fontFamily="@font/roboto"
@@ -135,7 +129,6 @@
 
 
         <View
-            android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?android:attr/listDivider"

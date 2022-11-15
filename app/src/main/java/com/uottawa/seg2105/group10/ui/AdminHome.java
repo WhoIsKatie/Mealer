@@ -14,9 +14,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.temp.ComplaintModel;
-import com.uottawa.seg2105.group10.temp.Complaint_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.temp.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
+import com.uottawa.seg2105.group10.recyclers.Complaint_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.Map;
