@@ -119,6 +119,7 @@ public class AddMeal extends AppCompatActivity {
         });
 
         confirmButt.setOnClickListener(view -> {
+            //TODO: mealName does not appear in the mealView textField for some reason
             //fetch the visibleIngredients fields
             if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
                 String name = mealName.getText().toString();
