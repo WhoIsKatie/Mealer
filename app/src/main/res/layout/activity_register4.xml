@@ -36,7 +36,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:text="@string/register"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="40sp"
                 android:transitionName="transition_title_text" />
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="Profile Description"
-                android:textColor="#000000"
+                android:textColor="@color/coffee_brown"
                 tools:text="Profile Description" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -104,7 +104,7 @@
                 android:fontFamily="@font/roboto"
                 android:text="Void Cheque"
                 android:textAlignment="textStart"
-                android:textColor="#000000"
+                android:textColor="@color/coffee_brown"
                 android:textSize="14sp" />
 
             <Button
@@ -117,7 +117,7 @@
                 android:fontFamily="@font/roboto"
                 android:onClick="callLoginFromSignUp"
                 android:text="Upload"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:transitionName="transition_login_btn" />
 
             <ImageView
@@ -139,15 +139,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@color/black"
+            android:background="@color/coffee_brown"
             android:elevation="5dp"
             android:fontFamily="@font/roboto"
             android:onClick="callNextSigupScreen"
             android:text="@string/button_submit"
             android:textColor="@color/white"
             android:transitionName="transition_next_btn"
-            app:backgroundTint="#000000"
-            app:iconTint="#000000" />
+            app:backgroundTint="@color/coffee_brown"
+            app:iconTint="@color/coffee_brown" />
 
         <Button
             android:id="@+id/reg4LoginButt"
@@ -159,7 +159,7 @@
             android:fontFamily="@font/roboto"
             android:onClick="callLoginFromSignUp"
             android:text="@string/login"
-            android:textColor="@color/black"
+            android:textColor="@color/coffee_brown"
             android:transitionName="transition_login_btn" />
 
 

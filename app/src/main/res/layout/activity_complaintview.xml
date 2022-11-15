@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ic_launcher_background"
+    android:background="@color/main_yellow"
     tools:context=".ui.ComplaintView">
 
     <LinearLayout
@@ -33,7 +33,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:text="Name"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/coffee_brown"
                 android:textSize="40sp" />
 
             <TextView
@@ -43,13 +43,13 @@
                 android:fontFamily="@font/roboto"
                 android:text="00:00 am"
                 android:textAlignment="center"
-                android:textColor="#000000" />
+                android:textColor="@color/milk_tea" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@color/black" />
+                android:background="@color/coffee_brown" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -60,7 +60,7 @@
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/roboto_black"
                 android:text="Title"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="25dp" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_marginRight="30dp"
                 android:fontFamily="@font/roboto"
                 android:text="The user inputs a detailed description of the complaint made in regards to a particular cook"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="14dp" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="40dp"
                 android:text="Complaint made against:"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="12sp" />
 
             <TextView
@@ -91,7 +91,7 @@
                 android:layout_marginLeft="20dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Cook Name"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -110,7 +110,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Suspend"
                     android:textColor="#FFFFFF"
-                    app:backgroundTint="@color/black"
+                    app:backgroundTint="@color/coffee_brown"
                     app:cornerRadius="@null" />
 
                 <Button
@@ -121,7 +121,7 @@
                     android:background="#00000000"
                     android:fontFamily="@font/roboto"
                     android:text="Dismiss"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     app:backgroundTint="#FFFFFF"
                     app:cornerRadius="30dp" />
             </LinearLayout>
@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="30dp"
-            android:background="@color/black" />
+            android:background="@color/coffee_brown" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                 android:layout_margin="20dp"
                 android:layout_marginEnd="191dp"
                 android:visibility="gone"
-                app:cardBackgroundColor="#94FFFFFF"
+                app:cardBackgroundColor="#A3FFFFFF"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -167,7 +167,7 @@
                         android:fontFamily="@font/roboto_black"
                         android:text="CONFIRM"
                         android:textAlignment="center"
-                        android:textColor="@color/black_overlay"
+                        android:textColor="@color/coffee_brown"
                         android:textColorHighlight="#8FF9D706"
                         app:backgroundTint="#00000000"
                         app:cornerRadius="30dp"
@@ -196,7 +196,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="1 Day"
                             android:textAlignment="textStart"
-                            android:textColor="@color/black_overlay"
+                            android:textColor="@color/milk_tea"
                             android:textSize="12dp"
                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -207,7 +207,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="7 Days"
                             android:textAlignment="textStart"
-                            android:textColor="@color/black_overlay"
+                            android:textColor="@color/milk_tea"
                             android:textSize="12dp"
                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -218,7 +218,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="30 Days"
                             android:textAlignment="textStart"
-                            android:textColor="@color/black_overlay"
+                            android:textColor="@color/milk_tea"
                             android:textSize="12dp"
                             tools:ignore="TouchTargetSizeCheck" />
 
@@ -229,7 +229,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="Indefinitely"
                             android:textAlignment="textStart"
-                            android:textColor="@color/black_overlay"
+                            android:textColor="@color/milk_tea"
                             android:textSize="12dp"
                             tools:ignore="TouchTargetSizeCheck" />
                     </RadioGroup>

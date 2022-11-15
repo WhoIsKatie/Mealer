@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/coffee_brown"
     tools:context=".ui.Menu">
 
     <ScrollView
@@ -21,24 +21,49 @@
                 android:id="@+id/homepageHeaderCardView"
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                app:cardBackgroundColor="@color/ic_launcher_background"
+                app:cardBackgroundColor="@color/main_yellow"
                 app:cardCornerRadius="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="50dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <ImageView
+                        android:id="@+id/homeLogo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="#00FFFFFF"
+                        android:scaleType="fitCenter"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        app:srcCompat="@drawable/home_logo"
+                        app:tint="@color/flour" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="136dp"
+                        android:layout_height="66dp"
+                        android:layout_marginLeft="25dp"
+                        android:background="#00FFFFFF"
+                        android:scaleType="centerInside"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/home_logo" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto_black"
-                        android:text="HOMEPAGE"
+                        android:text="HOME"
                         android:textAlignment="textStart"
-                        android:textColor="#000000"
-                        android:textSize="40sp" />
+                        android:textColor="@color/coffee_brown"
+                        android:textSize="40sp"
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="match_parent"
@@ -49,7 +74,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/black" />
+                        android:background="@color/coffee_brown" />
 
                     <View
                         android:layout_width="match_parent"
@@ -58,30 +83,36 @@
                         android:visibility="invisible" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:layout_marginStart="30dp"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/menuTxtView"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_black"
+                            android:gravity="center_vertical"
                             android:text="Menu"
-                            android:textColor="#000000"
+                            android:textColor="@color/coffee_brown"
                             android:textSize="30sp" />
 
                         <Button
                             android:id="@+id/addMeal"
                             style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Add Meal"
-                            android:textColor="#000000"
-                            android:textSize="15sp" />
+                            android:textColor="@color/coffee_brown"
+                            android:textSize="15sp"
+                            android:visibility="visible"
+                            tools:ignore="TouchTargetSizeCheck" />
 
                     </LinearLayout>
 
@@ -97,8 +128,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mealsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
             </androidx.recyclerview.widget.RecyclerView>
 

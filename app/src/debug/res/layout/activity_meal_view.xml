@@ -9,6 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/flour"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,6 +23,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="411dp"
                 android:layout_height="400dp"
+                app:cardBackgroundColor="@color/black_overlay"
                 app:cardCornerRadius="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,11 +45,12 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/flour">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="570dp">
 
                     <TextView
                         android:id="@+id/mealName"
@@ -55,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Morning Breakfast"
-                        android:textColor="#000000"
+                        android:textColor="@color/coffee_brown"
                         android:textSize="20sp"
                         tools:layout_editor_absoluteX="31dp"
                         tools:layout_editor_absoluteY="45dp" />
@@ -73,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
-                        android:textColor="#8A8A8A"
+                        android:textColor="@color/coffee_brown"
                         android:textSize="14sp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="233dp" />
@@ -83,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Meal Description"
-                        android:textColor="#000000"
+                        android:textColor="@color/coffee_brown"
                         android:textSize="18dp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="196dp" />
@@ -92,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YUMMY"
-                        app:backgroundTint="#E91E63"
+                        app:backgroundTint="@color/froggy_leaf_green"
                         app:cornerRadius="30dp"
                         tools:layout_editor_absoluteX="147dp"
                         tools:layout_editor_absoluteY="109dp" />
@@ -101,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="POPULAR"
-                        app:backgroundTint="#6200ED"
+                        app:backgroundTint="@color/dragon_pink"
                         app:cornerRadius="30dp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="109dp" />
@@ -112,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="$15.00"
-                        android:textColor="#6200ED"
+                        android:textColor="@color/milk_tea"
                         android:textSize="16sp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="79dp" />
@@ -124,7 +127,7 @@
                         android:background="#00000000"
                         android:fontFamily="@font/roboto"
                         android:text="Modify"
-                        android:textColor="#000000"
+                        android:textColor="@color/milk_tea"
                         android:textSize="10sp"
                         tools:layout_editor_absoluteX="290dp"
                         tools:layout_editor_absoluteY="185dp" />
@@ -137,7 +140,9 @@
                         android:fontFamily="@font/roboto"
                         android:minHeight="48dp"
                         android:text="Offer"
-                        android:textColor="#989898"
+                        android:textColor="@color/milk_tea"
+                        android:textColorHighlight="@color/coffee_brown"
+                        android:textColorLink="@color/dragon_pink"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@+id/mealName"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -157,6 +162,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:background="@color/main_yellow"
                 android:orientation="horizontal">
 
                 <Button
@@ -167,7 +173,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Remove "
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="@color/coffee_brown"
                     android:textSize="12sp"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp" />

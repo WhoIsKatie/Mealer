@@ -36,7 +36,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:text="@string/register"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="40sp"
                 android:transitionName="transition_title_text" />
 
@@ -57,14 +57,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_first_name"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
                 app:startIconDrawable="@drawable/field_full_name_icon"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +73,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPersonName"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -86,14 +86,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_last_name"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
                 app:startIconDrawable="@drawable/field_full_name_icon"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -102,7 +102,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPersonName"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,14 +113,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_email"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
                 app:startIconDrawable="@drawable/field_email_icon"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -129,7 +129,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -141,15 +141,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_password"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/black"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
+                app:passwordToggleEnabled="false"
+                app:passwordToggleTint="@color/milk_tea"
                 app:startIconDrawable="@drawable/field_password_icon"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -158,7 +159,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -170,14 +171,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_address"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
+                app:hintTextColor="@color/coffee_brown"
                 app:startIconDrawable="@drawable/field_full_name_icon"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -186,7 +185,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPostalAddress"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -197,13 +196,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="@color/black"
+                android:background="@color/coffee_brown"
                 android:elevation="5dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/next"
                 android:textColor="@color/white"
                 android:transitionName="transition_next_btn"
-                app:backgroundTint="#000000"
+                app:backgroundTint="@color/coffee_brown"
                 app:iconTint="#000000" />
 
             <Button
@@ -211,12 +210,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#00000000"
+                android:background="@color/coffee_brown"
                 android:elevation="5dp"
                 android:fontFamily="@font/roboto"
                 android:onClick="callLoginFromSignUp"
                 android:text="@string/login"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:transitionName="transition_login_btn" />
 
 

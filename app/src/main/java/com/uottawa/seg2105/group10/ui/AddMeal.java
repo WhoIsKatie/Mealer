@@ -28,6 +28,7 @@ import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;

@@ -20,6 +20,7 @@
             android:layout_height="48dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/back"
+            app:tint="@color/coffee_brown"
             app:srcCompat="@drawable/general_back_icon" />
 
         <RelativeLayout
@@ -35,7 +36,7 @@
                 android:fontFamily="@font/roboto_black"
                 android:text="@string/credit_card_info"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:textSize="40sp"
                 android:transitionName="transition_title_text"  />
 
@@ -56,13 +57,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name_on_card"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconTint="@color/black">
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +72,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -84,14 +85,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_card_number"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/black"
-                app:startIconTint="@color/black">
+                app:passwordToggleTint="@color/milk_tea"
+                app:startIconDrawable="@drawable/field_password_icon"
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -100,7 +103,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="textPassword"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -117,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Expiration Date"
-                android:textColor="#000000" />
+                android:textColor="@color/coffee_brown" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/expiryLayout"
@@ -125,13 +128,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="MMYY"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconTint="@color/black">
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -140,7 +143,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -150,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Security Code"
-                android:textColor="#000000" />
+                android:textColor="@color/coffee_brown" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cvcLayout"
@@ -158,13 +161,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="CVC"
-                android:textColorHint="@color/black"
-                app:boxStrokeColor="@color/black"
+                android:textColorHint="@color/black_overlay"
+                app:boxStrokeColor="@color/flour"
                 app:boxStrokeWidthFocused="2dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:hintTextColor="@color/black"
-                app:startIconTint="@color/black">
+                app:endIconTint="@color/milk_tea"
+                app:hintTextColor="@color/coffee_brown"
+                app:startIconTint="@color/milk_tea">
 
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -173,7 +176,7 @@
                     android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:inputType="text"
-                    android:textColor="@color/black"
+                    android:textColor="@color/coffee_brown"
                     android:textCursorDrawable="@null" />
 
 
@@ -184,14 +187,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="@color/black"
+                android:background="@color/coffee_brown"
                 android:elevation="5dp"
                 android:fontFamily="@font/roboto"
                 android:onClick="callNextSigupScreen"
                 android:text="@string/button_submit"
                 android:textColor="@color/white"
                 android:transitionName="transition_next_btn"
-                app:backgroundTint="#000000"
+                app:backgroundTint="@color/coffee_brown"
                 app:iconTint="#000000" />
 
             <Button
@@ -204,7 +207,7 @@
                 android:fontFamily="@font/roboto"
                 android:onClick="callLoginFromSignUp"
                 android:text="@string/login"
-                android:textColor="@color/black"
+                android:textColor="@color/coffee_brown"
                 android:transitionName="transition_login_btn" />
 
 
