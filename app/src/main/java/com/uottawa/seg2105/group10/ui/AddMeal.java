@@ -45,8 +45,8 @@ public class AddMeal extends AppCompatActivity {
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
-    private HashMap<String, String> ingredients;
-    private HashMap<String, String> allergies;
+    public HashMap<String, String> ingredients;
+    public HashMap<String, String> allergies;
     //private String imageID;
 
     @SuppressLint("MissingInflatedId")
@@ -188,7 +188,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     //method to update ingredient textbox
-    private void updateIngredientBox(){
+    public void updateIngredientBox(){
 
         for(String s: this.ingredients.keySet()){
             visibleIngredients += s;
@@ -196,7 +196,7 @@ public class AddMeal extends AppCompatActivity {
           }
     }
 
-    private void updateAllergiesBox(){
+    public void updateAllergiesBox(){
         for(String s: this.allergies.keySet()){
             visibleAllergens += s;
             showAllergens.setText(visibleAllergens);
@@ -207,7 +207,7 @@ public class AddMeal extends AppCompatActivity {
     // Meal Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
     // Returns true if meal name length is 1-30 characters; returns false otherwise.
-    private boolean validateMealName(){
+    public boolean validateMealName(){
         String name = mealName.getText().toString().trim();
 
         if(name.isEmpty()) {
@@ -225,7 +225,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     // Returns true if card number only contains 16 integers; returns false otherwise.
-    private boolean validatePrice(){
+    public boolean validatePrice(){
         String val = mealPrice.getText().toString().trim();
         if(val.isEmpty()) {
             mealPrice.setError("Field cannot be empty");
@@ -245,7 +245,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateDescription() {
+    public boolean validateDescription() {
         if (mealDesc.getText().toString().isEmpty()) {
             mealDesc.setError("Field cannot be empty");
             return false;
@@ -254,7 +254,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllergies(String[] inputAllergens) {
+    public boolean validateAllergies(String[] inputAllergens) {
         if(inputAllergens.length == 0){
             allergenEditText.setError("Field cannot be empty");
             return false;
@@ -263,7 +263,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIngredients(String[] inputIngredients){
+    public boolean validateIngredients(String[] inputIngredients){
         if(inputIngredients == new String[]{""}){
             ingredientEditText.setError("Field cannot be empty");
             return false;
@@ -272,7 +272,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIndividualIngr() {
+    public boolean validateIndividualIngr() {
         if(ingredientEditText.getText().toString().trim().isEmpty()){
             ingredientEditText.setError("Field cannot be empty!");
             ingredientEditText.setText("");
@@ -282,7 +282,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIndividualAllergen() {
+    public boolean validateIndividualAllergen() {
         if(allergenEditText.getText().toString().trim().isEmpty()){
             allergenEditText.setError("Field cannot be empty!");
             allergenEditText.setText("");
@@ -292,7 +292,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIngredientMap(){
+    public boolean validateIngredientMap(){
         for (Map.Entry<String, String> entry : ingredients.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -302,7 +302,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllergenMap(){
+    public boolean validateAllergenMap(){
         for (Map.Entry<String, String> entry : allergies.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();

@@ -1,6 +1,5 @@
 package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,6 +33,7 @@ public class Meal {
 		this.mealName = mealName;
 		this.imageID = imageID;
 	}
+
 
 	public void offerMeal(){offered = true;}
 	public void stopOffering() {offered = false;}

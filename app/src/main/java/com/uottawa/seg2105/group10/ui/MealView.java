@@ -43,8 +43,6 @@ public class MealView extends AppCompatActivity {
         String description = getIntent().getStringExtra("DESCRIPTION");
         String docID = getIntent().getStringExtra("DOCUMENT");
 
-        //DocumentReference docRef = dBase.collection("meals").document(docID);
-
         TextView nameTextView = findViewById(R.id.mealName);
         TextView priceTextView = findViewById(R.id.mealPrice);
         TextView descriptionTextView = findViewById(R.id.mealDesc);
