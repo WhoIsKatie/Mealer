@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class Cook extends User{
@@ -32,6 +31,12 @@ public class Cook extends User{
 	//public Hashmap<String, List<Meal>> allergen = new Hashmap<String, List<Meal>>();
 	// String (key) is the allergen, List<Meal> for list of meals containing the allergen
 	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
+
+	public Map<String, Meal> getCookMenu(){
+		return cookMenu;
+	}
+
+
 
 	public Cook (DocumentReference userDoc) {
 		this.userDoc = userDoc;
@@ -77,7 +82,7 @@ public class Cook extends User{
 
 	// Dummy constructor for testing :)
 	public Cook() {
-		super("", "", "", "", "Cook");
+		super("Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook");
 	}
 
 	public double getRating() {return ratingSum/completedOrders;}
@@ -96,6 +101,8 @@ public class Cook extends User{
 		cookMenu.put(name, meal);
 		userDoc.collection("meals").document(name).set(cookMenu);
 	}
+
+
 
 	public boolean isSuspended() {return suspended;}
 
