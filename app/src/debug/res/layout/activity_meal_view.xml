@@ -98,7 +98,7 @@
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="$15.00"
-                        android:textColor="@color/black_overlay"
+                        android:textColor="@color/purple_700"
                         android:textSize="16sp" />
 
                     <View
@@ -182,7 +182,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:background="@color/main_yellow"
                 android:orientation="horizontal">
 
                 <Button
@@ -193,7 +192,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Remove "
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="#EC1C65"
                     android:textSize="12sp"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp" />
