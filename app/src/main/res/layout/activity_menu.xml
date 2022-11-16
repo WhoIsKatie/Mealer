@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/coffee_brown"
+    android:background="@color/flour"
     tools:context=".ui.Menu">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/black_overlay">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                         android:fontFamily="@font/roboto_black"
                         android:text="HOME"
                         android:textAlignment="textStart"
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textSize="40sp"
                         android:visibility="gone" />
 
@@ -74,7 +74,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/coffee_brown" />
+                        android:background="@color/black" />
 
                     <View
                         android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                             android:fontFamily="@font/roboto_black"
                             android:gravity="center_vertical"
                             android:text="Menu"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textSize="30sp" />
 
                         <Button
@@ -109,7 +109,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Add Meal"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:visibility="visible"
                             tools:ignore="TouchTargetSizeCheck" />

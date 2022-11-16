@@ -3,12 +3,12 @@
     <style name="Theme.Mealer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/main_yellow</item>
-        <item name="colorPrimaryVariant">@color/coffee_brown</item>
-        <item name="colorOnPrimary">@color/flour</item>
+        <item name="colorPrimaryVariant">@color/mustard</item>
+        <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/milk_tea</item>
-        <item name="colorSecondaryVariant">@color/dragon_pink</item>
-        <item name="colorOnSecondary">@color/forest_moss</item>
+        <item name="colorSecondary">@color/black_overlay</item>
+        <item name="colorSecondaryVariant">@color/flour</item>
+        <item name="colorOnSecondary">@color/froggy_leaf_green</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
         <item name="android:windowTranslucentNavigation">true</item>
