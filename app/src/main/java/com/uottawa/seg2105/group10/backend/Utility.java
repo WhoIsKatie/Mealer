@@ -53,12 +53,13 @@ public class Utility{
         }
     }
 
-    public void uploadImage()
+    public String uploadImage(String path)
     {
+        String result = null;
         if (filePath != null && doc == null) {
             // Defining the child of storageReference
-            StorageReference imageRef = storage.getReference().child(mAuth.getUid() + filePath.getLastPathSegment());
-
+            StorageReference imageRef = storage.getReference().child(path + "_" +filePath.getLastPathSegment());
+            result = imageRef.getPath();
             // Register observers to listen for when the download is done or if it fails
             imageRef.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
                 // Image uploaded successfully
@@ -71,7 +72,7 @@ public class Utility{
             Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
             System.out.println("Either filePath is null or FirebaseStorage not Initialized (wrong constructor)");
         }
-
+        return result;
     }
 
     public static HashMap<String, String> expandChipGroup(ChipGroup chipGroup){

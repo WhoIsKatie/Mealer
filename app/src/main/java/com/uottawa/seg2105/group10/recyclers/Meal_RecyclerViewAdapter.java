@@ -42,7 +42,8 @@ public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(meals.get(position).getMealName());
         holder.price.setText(Float.toString(meals.get(position).getPrice()));
         if(meals.get(position).getImageID() != null){
-            holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
+            //holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
+            //todo: JAKE THIS METHOD ONLY WORKS FOR IMAES IN RESOURCES, NEED USE A DIFF METHOD
         }
         }
 

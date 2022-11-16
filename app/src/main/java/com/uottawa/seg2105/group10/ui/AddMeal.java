@@ -47,7 +47,7 @@ public class AddMeal extends AppCompatActivity {
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private HashMap<String, String> ingredients;
     private HashMap<String, String> allergies;
-    //private String imageID;
+    private String imageID;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -139,7 +139,8 @@ public class AddMeal extends AppCompatActivity {
                 firebaseMeal = userRef.collection("meals").document(name);
                 Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
                 Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                util.uploadImage();
+                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                mealToAdd.setImageID(imageID);
 
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
