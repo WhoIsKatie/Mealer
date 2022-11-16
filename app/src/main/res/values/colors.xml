@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="main_yellow">#FFD747</color>
+    <color name="main_yellow">#F9D706</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mediumGray">#E4E4E4</color>
     <color name="darkGray">#858585</color>
@@ -11,4 +11,6 @@
     <color name="forest_moss">#3C4700</color>
     <color name="flour">#fffcf4</color>
     <color name="purple_700">#FF3700B3</color>
+    <color name="archived_yellow">#FFD747</color>
+
 </resources>

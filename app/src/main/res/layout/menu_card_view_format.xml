@@ -88,7 +88,7 @@
                 android:layout_marginLeft="30sp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="$15.00"
-                android:textColor="@color/black_overlay"
+                android:textColor="@color/purple_700"
                 android:textSize="18sp" />
 
             <View
@@ -103,15 +103,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/clientPopTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30sp"
-                    android:text="POPULAR"
-                    app:backgroundTint="@color/mustard"
-                    app:cornerRadius="30sp" />
-
                 <View
                     android:id="@+id/divider14"
                     android:layout_width="10dp"
@@ -119,13 +110,6 @@
                     android:background="?android:attr/listDivider"
                     android:visibility="invisible" />
 
-                <Button
-                    android:id="@+id/clientYummyTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="YUMMY"
-                    app:backgroundTint="@color/froggy_leaf_green"
-                    app:cornerRadius="30sp" />
             </LinearLayout>
 
         </LinearLayout>
