@@ -32,14 +32,15 @@
 
                     <ImageView
                         android:id="@+id/mealImage"
-                        android:layout_width="700dp"
-                        android:layout_height="700dp"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:background="@color/black"
                         android:contentDescription="Image of Meal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.501"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,14 +121,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:text="Ingredients" />
+                        android:contentDescription="Ingredients" />
 
                     <TextView
                         android:id="@+id/showAllergens"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:text="Allergens" />
+                        android:contentDescription="Allergens" />
 
                     <View
                         android:layout_width="match_parent"
@@ -142,8 +143,7 @@
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Meal Type"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="@color/black"
+                        app:backgroundTint="@color/archived_yellow"
                         app:cornerRadius="30dp" />
 
                     <com.google.android.material.chip.ChipGroup
@@ -159,37 +159,49 @@
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Breakfast &amp; Brunch" />
+                            android:text="Breakfast &amp; Brunch"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Snack Food" />
+                            android:text="Snack Food"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lunch" />
+                            android:text="Lunch"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Diner" />
+                            android:text="Diner"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dessert" />
+                            android:text="Dessert"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Drinks" />
+                            android:text="Drinks"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                     </com.google.android.material.chip.ChipGroup>
 
@@ -207,8 +219,7 @@
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Cuisine"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="@color/black"
+                        app:backgroundTint="@color/archived_yellow"
                         app:cornerRadius="30dp" />
 
                     <com.google.android.material.chip.ChipGroup
@@ -223,109 +234,145 @@
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Korean" />
+                            android:text="Korean"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Thai" />
+                            android:text="Thai"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Asian" />
+                            android:text="Asian"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="African" />
+                            android:text="African"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mexican" />
+                            android:text="Mexican"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Greek" />
+                            android:text="Greek"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Middle Eastern" />
+                            android:text="Middle Eastern"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Vietnamese" />
+                            android:text="Vietnamese"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Caribbean" />
+                            android:text="Caribbean"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Japanese" />
+                            android:text="Japanese"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Italian" />
+                            android:text="Italian"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Jamaican" />
+                            android:text="Jamaican"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lebanese" />
+                            android:text="Lebanese"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="American" />
+                            android:text="American"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mediterranean" />
+                            android:text="Mediterranean"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Western" />
+                            android:text="Western"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="French" />
+                            android:text="French"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Chinese" />
+                            android:text="Chinese"
+                            android:textColor="@color/black"
+                            app:chipBackgroundColor="@color/mediumGray" />
                     </com.google.android.material.chip.ChipGroup>
 
                     <View
