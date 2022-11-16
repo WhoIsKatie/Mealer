@@ -167,12 +167,6 @@
                         android:textColor="@color/coffee_brown"
                         android:textSize="14sp" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="570dp">
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
