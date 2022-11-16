@@ -86,8 +86,8 @@ public class Welcome extends AppCompatActivity {
                                     else {
                                         String msg = "Your suspension will be lifted by " + LocalDateTime.parse(endDate).truncatedTo(ChronoUnit.HOURS);
                                         suspensionDeets.setText(msg);
-                                        homepageButt.setVisibility(View.GONE);
                                     }
+                                    homepageButt.setVisibility(View.GONE);
                                 });
                             }
                         }

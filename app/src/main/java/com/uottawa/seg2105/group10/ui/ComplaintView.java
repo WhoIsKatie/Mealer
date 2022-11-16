@@ -40,7 +40,7 @@ public class ComplaintView extends AppCompatActivity {
 
         dBase = dBase.getInstance();
 
-        String name = getIntent().getStringExtra("NAME");
+        String name = getIntent().getStringExtra("COOK NAME");
         String time = getIntent().getStringExtra("TIME");
         String title = getIntent().getStringExtra("TITLE");
         String description = getIntent().getStringExtra("DESCRIPTION");
