@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Morning Breakfast"
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         tools:layout_editor_absoluteX="31dp"
                         tools:layout_editor_absoluteY="45dp" />
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textSize="14sp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="233dp" />
@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Meal Description"
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textSize="18dp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="196dp" />
@@ -95,6 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YUMMY"
+                        android:textColor="@color/flour"
                         app:backgroundTint="@color/froggy_leaf_green"
                         app:cornerRadius="30dp"
                         tools:layout_editor_absoluteX="147dp"
@@ -104,7 +105,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="POPULAR"
-                        app:backgroundTint="@color/dragon_pink"
+                        android:textColor="@color/flour"
+                        app:backgroundTint="@color/mustard"
                         app:cornerRadius="30dp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="109dp" />
@@ -115,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:text="$15.00"
-                        android:textColor="@color/milk_tea"
+                        android:textColor="@color/black_overlay"
                         android:textSize="16sp"
                         tools:layout_editor_absoluteX="33dp"
                         tools:layout_editor_absoluteY="79dp" />
@@ -127,7 +129,7 @@
                         android:background="#00000000"
                         android:fontFamily="@font/roboto"
                         android:text="Modify"
-                        android:textColor="@color/milk_tea"
+                        android:textColor="@color/black_overlay"
                         android:textSize="10sp"
                         tools:layout_editor_absoluteX="290dp"
                         tools:layout_editor_absoluteY="185dp" />
@@ -140,9 +142,9 @@
                         android:fontFamily="@font/roboto"
                         android:minHeight="48dp"
                         android:text="Offer"
-                        android:textColor="@color/milk_tea"
-                        android:textColorHighlight="@color/coffee_brown"
-                        android:textColorLink="@color/dragon_pink"
+                        android:textColor="@color/black_overlay"
+                        android:textColorHighlight="@color/black"
+                        android:textColorLink="@color/mustard"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@+id/mealName"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -173,7 +175,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Remove "
                     android:textAlignment="center"
-                    android:textColor="@color/coffee_brown"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp" />

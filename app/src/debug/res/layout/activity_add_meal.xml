@@ -78,7 +78,7 @@
                             android:fontFamily="@font/roboto"
                             android:hint="Meal Name"
                             android:minHeight="48dp"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textColorHint="@color/black_overlay"
                             android:textSize="20sp" />
 
@@ -90,7 +90,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Change Picture"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -104,7 +104,7 @@
                         android:inputType="numberDecimal"
                         android:minWidth="48dp"
                         android:minHeight="48dp"
-                        android:textColor="@color/milk_tea"
+                        android:textColor="@color/black_overlay"
                         android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
 
@@ -134,7 +134,7 @@
                         android:fontFamily="@font/roboto"
                         android:text="Meal Type"
                         android:textColor="#FFFFFF"
-                        app:backgroundTint="@color/dragon_pink"
+                        app:backgroundTint="@color/mustard"
                         app:cornerRadius="30dp" />
 
                     <com.google.android.material.chip.ChipGroup
@@ -351,7 +351,7 @@
                             android:hint='Type an ingredient'
                             android:inputType="textPersonName"
                             android:minHeight="48dp"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textColorHint="@color/black_overlay"
                             android:textSize="16sp" />
 
@@ -364,7 +364,7 @@
                             android:fontFamily="@font/roboto"
                             android:text="Add "
                             android:textAlignment="center"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/black_overlay"
                             app:backgroundTint="@color/main_yellow"
                             app:cornerRadius="30dp" />
                     </LinearLayout>
@@ -391,7 +391,7 @@
                             android:hint="Type an allergen"
                             android:inputType="textPersonName"
                             android:minHeight="48dp"
-                            android:textColor="@color/coffee_brown"
+                            android:textColor="@color/black"
                             android:textColorHint="@color/black_overlay"
                             android:textSize="16sp" />
 
@@ -404,7 +404,7 @@
                             android:fontFamily="@font/roboto"
                             android:text="Add"
                             android:textAlignment="center"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/black_overlay"
                             app:backgroundTint="@color/main_yellow"
                             app:cornerRadius="30dp" />
                     </LinearLayout>
@@ -454,7 +454,7 @@
                         android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Meal Description"
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                     <EditText
@@ -465,7 +465,7 @@
                         android:fontFamily="@font/roboto"
                         android:hint="Meal Description"
                         android:minHeight="48dp"
-                        android:textColor="@color/coffee_brown"
+                        android:textColor="@color/black"
                         android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
 
@@ -501,7 +501,7 @@
                     android:fontFamily="@font/roboto"
                     android:text="Confirm"
                     android:textAlignment="center"
-                    android:textColor="@color/coffee_brown"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:backgroundTint="@color/main_yellow"
                     app:cornerRadius="30dp" />
