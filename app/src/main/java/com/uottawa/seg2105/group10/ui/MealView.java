@@ -50,12 +50,12 @@ public class MealView extends AppCompatActivity {
         TextView priceTextView = findViewById(R.id.mealPrice);
         TextView descriptionTextView = findViewById(R.id.mealDesc);
         ImageView mealImageView = findViewById(R.id.mealImage);
-        TextView ingredentTextView = findViewById(R.id.ingredentsview);
+        //TextView ingredentTextView = findViewById(R.id.ingredentsview);
 
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
-        ingredentTextView.setText(ingredient.get("ingredients"));
+       // ingredentTextView.setText(ingredient.get("ingredients"));
         //mealImageView.setImageResource(Integer.parseInt(image)); todo: image doesn't work since the int is supposed to refer to a drawable
         //mealImageView.setImageURI();
         //Initializing buttons

@@ -56,5 +56,4 @@ public class Meal {
 	public void setIngredients(ArrayList<String> ingredients) {this.ingredients = ingredients;}
 	public void setAllergens(ArrayList<String> allergens) {this.allergens = allergens;}
 	public void setImageID(String imageID){this.imageID = imageID;}
-	public void setDocID(String docID){this.docID = docID;}
 }

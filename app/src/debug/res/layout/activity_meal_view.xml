@@ -32,12 +32,15 @@
 
                     <ImageView
                         android:id="@+id/mealImage"
-                        android:layout_width="700dp"
-                        android:layout_height="700dp"
-                        android:src="@drawable/oatmeal"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/black"
+                        android:contentDescription="Image of Meal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintHorizontal_bias="0.501"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,51 +193,7 @@
                         android:background="?android:attr/listDivider"
                         android:visibility="invisible" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ingreidientTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:text="Ingredeints" />
-
-
-                        <Button
-                            android:id="@+id/modingredentButt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="#00000000"
-                            android:fontFamily="@font/roboto"
-                            android:text="Modify"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/black_overlay"
-                            android:textSize="10sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/ingredentsview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="Fires, Gravy"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />/>
-
-
                 </LinearLayout>
-
-
-
 
             </androidx.cardview.widget.CardView>
 
