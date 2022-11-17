@@ -93,10 +93,11 @@ public class AddMeal extends AppCompatActivity {
         });
 
         addIngredientButt.setOnClickListener(view -> {
+            // validating ingredient(s)
             if(!validateIndividualIngr()){return;}
-
             String[] inputIngredients = ingredientEditText.getText().toString().split(","); // get everything inside the field
-            validateIngredients(inputIngredients);
+            if(!validateIngredients(inputIngredients)){return;}
+
             for(String s : inputIngredients){
                 ingredients.put(s, s);
             }
@@ -106,10 +107,11 @@ public class AddMeal extends AppCompatActivity {
         });
 
         addAllergenButt.setOnClickListener(view -> {
+            // validating ingredient(s)
             if(!validateIndividualAllergen()){return;}
-
             String[] inputAllergens = allergenEditText.getText().toString().split(","); // get everything inside the field
-            validateAllergies(inputAllergens);
+            if(!validateAllergies(inputAllergens)){return;}
+
             for(String s : inputAllergens){
                 allergies.put(s, s);
             }
@@ -119,7 +121,6 @@ public class AddMeal extends AppCompatActivity {
         });
 
         confirmButt.setOnClickListener(view -> {
-            //TODO: mealName does not appear in the mealView textField for some reason
             //fetch the visibleIngredients fields
             if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
                 String name = mealName.getText().toString();
@@ -182,8 +183,7 @@ public class AddMeal extends AppCompatActivity {
             if(requestCode == 1000){
                 assert data != null;
                 filePath = data.getData();
-                mealImage.setImageURI(filePath);    // replacement of setURI in Utility
-                //firebaseMeal.update("imageID", filePath); //todo: here we can update the meal
+                mealImage.setImageURI(filePath);
             }
         }
     }
@@ -205,7 +205,7 @@ public class AddMeal extends AppCompatActivity {
 
     }
 
-    // Meal Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+    // Meal Validation Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
     // Returns true if meal name length is 1-30 characters; returns false otherwise.
     private boolean validateMealName(){
@@ -256,6 +256,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateAllergies(String[] inputAllergens) {
+        //TODO: validate max size
         if(inputAllergens.length == 0){
             allergenEditText.setError("Field cannot be empty");
             return false;
@@ -265,7 +266,8 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateIngredients(String[] inputIngredients){
-        if(inputIngredients == new String[]{""}){
+        //TODO: validate max size
+        if(inputIngredients.length == 0){
             ingredientEditText.setError("Field cannot be empty");
             return false;
         }
@@ -274,6 +276,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateIndividualIngr() {
+        //TODO: validate max size
         if(ingredientEditText.getText().toString().trim().isEmpty()){
             ingredientEditText.setError("Field cannot be empty!");
             ingredientEditText.setText("");
@@ -284,6 +287,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateIndividualAllergen() {
+        //TODO: validate max size
         if(allergenEditText.getText().toString().trim().isEmpty()){
             allergenEditText.setError("Field cannot be empty!");
             allergenEditText.setText("");
@@ -303,7 +307,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateAllergenMap(){
+    private boolean validateAllergenMap() {
         for (Map.Entry<String, String> entry : allergies.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -312,5 +316,6 @@ public class AddMeal extends AppCompatActivity {
         }
         return true;
     }
+
 
 }

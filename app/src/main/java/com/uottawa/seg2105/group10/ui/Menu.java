@@ -124,7 +124,6 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
     public void onItemClick(int position) {
         Intent intent = new Intent(Menu.this, MealView.class);
         Meal doc = meals.get(position);
-        intent.putExtra("DOCUMENT", doc.getDocID());
         intent.putExtra("PRICE", doc.getPrice());
         intent.putExtra("MEAL NAME", doc.getMealName());
         intent.putExtra("DESCRIPTION", doc.getDescription());

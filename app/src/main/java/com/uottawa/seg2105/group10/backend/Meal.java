@@ -10,8 +10,8 @@ public class Meal {
 	ArrayList<String> cuisine;
 	HashMap<String, String> ingredients, allergens;
 	String imageID;
-	public boolean offered = true;
-	// by default the meal is offered
+	public boolean offered = true; 																	// by default the meal is offered
+
 
 	public Meal(float price) {
 		this.price = price;
@@ -20,10 +20,7 @@ public class Meal {
 		allergens = new HashMap<>();
 	}
 
-	// I've modified Meal so that the docID of each meal on the database is the mealName => a cook cannot have two meals with the same name - Katie
 	public Meal(float price, String mealName, String description, String mealType, ArrayList<String> cuisine, HashMap<String, String> ingredients, HashMap<String, String> allergens) {
-		// should we keep the constructor this long?? or just make setters?
-		// imo there's nothing wrong with it. You can also call a helper method for formatting your class variables :3
 		this.price = price;
 		this.description = description;
 		this.mealType = mealType;

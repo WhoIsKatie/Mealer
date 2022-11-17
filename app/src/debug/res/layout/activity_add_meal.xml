@@ -121,14 +121,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:contentDescription="Ingredients" />
+                        android:contentDescription="Ingredients"
+                        android:textColor="@color/black"
+                        android:textColorHighlight="@color/black" />
 
                     <TextView
                         android:id="@+id/showAllergens"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
-                        android:contentDescription="Allergens" />
+                        android:contentDescription="Allergens"
+                        android:textColor="@color/black" />
 
                     <View
                         android:layout_width="wrap_content"

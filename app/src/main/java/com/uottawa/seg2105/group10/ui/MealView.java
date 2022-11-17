@@ -15,6 +15,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.Meal;
 
 public class MealView extends AppCompatActivity {
 
@@ -22,26 +23,26 @@ public class MealView extends AppCompatActivity {
     private DocumentSnapshot document;
     //Initializing buttons
     private Button modifyButt, removeButt;
+    private Switch mealToggle;
     private Switch offered;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
-        mAuth = FirebaseAuth.getInstance();
-
-        dBase = FirebaseFirestore.getInstance();
-
-        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-
 
         String name = getIntent().getStringExtra("NAME");
         float price = getIntent().getFloatExtra("PRICE", 0);
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
-        String docID = getIntent().getStringExtra("DOCUMENT");
+
+        mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
+        firebaseMeal = userRef.collection("meals").document(name);
+        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView priceTextView = findViewById(R.id.mealPrice);
@@ -55,6 +56,7 @@ public class MealView extends AppCompatActivity {
         //mealImageView.setImageURI();
         modifyButt = findViewById(R.id.modifyButt);
         removeButt = findViewById(R.id.removeButt);
+        mealToggle = findViewById(R.id.mealToggle);
 
         modifyButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +71,22 @@ public class MealView extends AppCompatActivity {
             public void onClick(View view) {
                 userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 //System.out.println(userRef.collection("meals").document(mAuth.getCurrentUser().getUid()));
-                userRef.collection("meals").document(docID).delete();
+                userRef.collection("meals").document(name).delete();
                 finish();
+            }
+        });
+
+        mealToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                    Meal thisMeal = snapshot.toObject(Meal.class);
+                    if (thisMeal.isOffered())
+                        thisMeal.stopOffering();
+                    else
+                        thisMeal.offerMeal();
+                    firebaseMeal.set(thisMeal);
+                });
             }
         });
     }
