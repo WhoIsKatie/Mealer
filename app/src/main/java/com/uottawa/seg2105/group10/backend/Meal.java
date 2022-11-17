@@ -57,5 +57,4 @@ public class Meal {
 	public void setIngredients(HashMap<String, String> ingredients) {this.ingredients = ingredients;}
 	public void setAllergens(HashMap<String, String> allergens) {this.allergens = allergens;}
 	public void setImageID(String imageID){this.imageID = imageID;}
-	public void setDocID(String docID){this.docID = docID;}
 }

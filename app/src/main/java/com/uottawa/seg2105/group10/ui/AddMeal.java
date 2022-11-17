@@ -137,30 +137,8 @@ public class AddMeal extends AppCompatActivity {
 
         updateButt.setOnClickListener(view -> {
             // This method is the same as the confirmButt as the set() method should update the document instead of creating a new one
-            /* if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()) {
-                String name = mealName.getText().toString();
-                float price = Float.parseFloat(mealPrice.getText().toString());
-                ArrayList<String> cuisine = new ArrayList<>();
-
-                // turn the selected chips into data we can store
-                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
-                String mealType = mealChip.getText().toString();
-
-                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
-                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
-                    cuisine.add(cuisineChip.getText().toString());
-                }
-                String description = mealDesc.getText().toString();
-
-                firebaseMeal = userRef.collection("meals").document(name);
-                firebaseMeal.update("mealName", name);
-                firebaseMeal.update("price", price);
-                firebaseMeal.update("description", description);
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
-                firebaseMeal.update("imageID", imageID);
-                */
-            if(validateMealName()&&validatePrice()&&validateDescription()&&validateIngredientMap()){
+            if (validateMealName() & validatePrice() & validateDescription()
+                    & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
                 String name = mealName.getText().toString();
                 float price = Float.parseFloat(mealPrice.getText().toString());
                 ArrayList<String> cuisine = new ArrayList<>();
@@ -185,9 +163,6 @@ public class AddMeal extends AppCompatActivity {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
                     finish();
                 }).addOnSuccessListener(unused -> {
-                    // here we can add to our recycler view
-                    // it's actually not necessary since starting the recycler view SHOULD automatically
-                    // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
                     Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
                     finish();
                 });
@@ -197,8 +172,6 @@ public class AddMeal extends AppCompatActivity {
         });
 
         confirmButt.setOnClickListener(view -> {
-            //TODO: fetch the ingredient + allergy fields
-
             // Validating fields before adding meal!
             if (validateMealName() & validatePrice() & validateDescription()
                     & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
@@ -207,7 +180,7 @@ public class AddMeal extends AppCompatActivity {
                 ArrayList<String> cuisine = new ArrayList<>();
 
                 Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
-                String mealType = mealChip.getText().toString();                                    // turn the selected chips into String data
+                String mealType = mealChip.getText().toString();                                    // turning the selected chips into String data
 
                 for(int chipID : cuisineChipGroup.getCheckedChipIds()){
                     Chip cuisineChip = cuisineChipGroup.findViewById(chipID);

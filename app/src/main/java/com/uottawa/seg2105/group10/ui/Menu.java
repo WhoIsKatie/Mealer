@@ -77,37 +77,27 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 mealName.add(data.get("mealName").toString());
                 description.add(data.get("description").toString());
                 mealType.add(data.get("mealType").toString());
-                if(!(data.get("cuisine").toString().equals("None"))){
+                if(!(data.get("cuisine").toString().equals("None")))
                     cuisine.add((ArrayList<String>) data.get("cuisine"));
-                }
-                else{
-                    cuisine.add(null);
-                }
+                else cuisine.add(null);
                 documents.add(document.getId());
 
-                if(! (data.get("ingredients").toString().equals("None"))){
+                if(! (data.get("ingredients").toString().equals("None")))
                     ingredients.add((HashMap<String, String>) data.get("ingredients"));
-                }
-                else{
-                    ingredients.add(null);
-                }
-                if(! (data.get("allergens").toString().equals("None"))){
+                else ingredients.add(null);
+
+                if(! (data.get("allergens").toString().equals("None")))
                     allergens.add((HashMap<String, String>) data.get("ingredients"));
-                }
-                else{
-                    allergens.add(null);
-                }
+                else allergens.add(null);
                 price.add(Float.valueOf(data.get("price").toString()));
-                if(data.get("imageID") != null){
+
+                if(data.get("imageID") != null)
                     image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
-                }
-                else {
-                    image.add(null);
-                }
+                else image.add(null);
+
             }
             for (int i = 0; i < mealName.size(); i++){
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                meal.setDocID(documents.get(i));
                 meal.setImageID(image.get(i));
                 meals.add(meal);
             }
