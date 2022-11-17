@@ -28,7 +28,6 @@ import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;
@@ -106,11 +105,13 @@ public class AddMeal extends AppCompatActivity {
 
         addIngredientButt.setOnClickListener(view -> {
             // validating ingredient(s)
-            if(!validateIndividualIngr()){return;}
-            String[] inputIngredients = ingredientEditText.getText().toString().split(","); // get everything inside the field
-            if(!validateIngredients(inputIngredients)){return;}
+            if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
+            String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
+            if(!validateIngredients(inputIngredients)) return;
 
             for(String s : inputIngredients){
+                if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
+                if (allergies.size() >= 30) break;
                 ingredients.put(s, s);
             }
             ingredientEditText.setText("");
@@ -120,12 +121,13 @@ public class AddMeal extends AppCompatActivity {
 
         addAllergenButt.setOnClickListener(view -> {
             // validating ingredient(s)
-            if(!validateIndividualAllergen()){return;}
-            String[] inputAllergens = allergenEditText.getText().toString().split(","); // get everything inside the field
-            if(!validateAllergies(inputAllergens)){return;}
+            if (!validateIndividualAllergen(allergenEditText.getText().toString())) return;
+            String[] inputAllergens = allergenEditText.getText().toString().split(",");       // storing user input for allergens
+            if (!validateAllergies(inputAllergens)) return;
 
-            for(String s : inputAllergens){
-                allergies.put(s, s);
+            for(String a : inputAllergens) {
+                if (!validateIndividualAllergen(a)) break;
+                allergies.put(a, a);
             }
             allergenEditText.setText("");
             updateAllergiesBox();
@@ -157,7 +159,7 @@ public class AddMeal extends AppCompatActivity {
                 imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
                 firebaseMeal.update("imageID", imageID);
                 */
-            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
+            if(validateMealName()&&validatePrice()&&validateDescription()&&validateIngredientMap()){
                 String name = mealName.getText().toString();
                 float price = Float.parseFloat(mealPrice.getText().toString());
                 ArrayList<String> cuisine = new ArrayList<>();
@@ -194,20 +196,23 @@ public class AddMeal extends AppCompatActivity {
         });
 
         confirmButt.setOnClickListener(view -> {
-            //fetch the visibleIngredients fields
-            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
+            //TODO: fetch the ingredient + allergy fields
+
+            // Validating fields before adding meal!
+            if (validateMealName() & validatePrice() & validateDescription()
+                    & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
                 String name = mealName.getText().toString();
                 float price = Float.parseFloat(mealPrice.getText().toString());
                 ArrayList<String> cuisine = new ArrayList<>();
 
-                // turn the selected chips into data we can store
                 Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
-                String mealType = mealChip.getText().toString();
+                String mealType = mealChip.getText().toString();                                    // turn the selected chips into String data
 
                 for(int chipID : cuisineChipGroup.getCheckedChipIds()){
                     Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
                     cuisine.add(cuisineChip.getText().toString());
                 }
+
                 String description = mealDesc.getText().toString();
 
                 firebaseMeal = userRef.collection("meals").document(name);
@@ -220,9 +225,6 @@ public class AddMeal extends AppCompatActivity {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
                     finish();
                 }).addOnSuccessListener(unused -> {
-                    // here we can add to our recycler view
-                    // it's actually not necessary since starting the recycler view SHOULD automatically
-                    // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
                     Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
                     finish();
                 });
@@ -241,12 +243,12 @@ public class AddMeal extends AppCompatActivity {
 
         cuisineTypeButt.setOnClickListener(view -> {
             if (cuisineChipGroup.getVisibility() != View.GONE) {
-            cuisineChipGroup.setVisibility(View.GONE);
-        }
+                cuisineChipGroup.setVisibility(View.GONE);
+            }
             else {
-            cuisineChipGroup.setVisibility(View.VISIBLE);
-        }
-    });
+                cuisineChipGroup.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
@@ -261,13 +263,13 @@ public class AddMeal extends AppCompatActivity {
         }
     }
 
-    //method to update ingredient textbox
+    //method to update ingredient text-box
     private void updateIngredientBox(){
 
         for(String s: this.ingredients.keySet()){
             visibleIngredients += s;
             showIngredients.setText(visibleIngredients);
-          }
+        }
     }
 
     private void updateAllergiesBox(){
@@ -329,7 +331,6 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateAllergies(String[] inputAllergens) {
-        //TODO: validate max size
         if(inputAllergens.length == 0){
             allergenEditText.setError("Field cannot be empty");
             return false;
@@ -339,7 +340,6 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateIngredients(String[] inputIngredients){
-        //TODO: validate max size
         if(inputIngredients.length == 0){
             ingredientEditText.setError("Field cannot be empty");
             return false;
@@ -348,47 +348,67 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIndividualIngr() {
-        //TODO: validate max size
+    private boolean validateIndividualIngr(String ingredient) {
+        if (ingredients.size() >= 30) {
+            ingredientEditText.setError("Reached maximum ingredient count.");
+            ingredientEditText.setText("");
+            return false;
+        }
+
         if(ingredientEditText.getText().toString().trim().isEmpty()){
             ingredientEditText.setError("Field cannot be empty!");
             ingredientEditText.setText("");
+            return false;
+        }
+
+        ingredientEditText.setError(null);
+        return true;
+    }
+
+    private boolean validateIndividualAllergen(String allergen) {
+        if (allergies.size() >= 20) {
+            allergenEditText.setError("Reached maximum allergy count.");
+            allergenEditText.setText("");
+            return false;
+        }
+
+        if(allergenEditText.getText().toString().trim().isEmpty()){
+            allergenEditText.setError("Field cannot be empty!");
+            allergenEditText.setText("");
+            return false;
+        }
+
+        allergenEditText.setError(null);
+        return true;
+    }
+
+    private boolean validateIngredientMap(){
+        if (ingredients.isEmpty()) {
+            ingredientEditText.setError("Must have at least one (1) ingredient listed.");
             return false;
         }
         ingredientEditText.setError(null);
         return true;
     }
 
-    private boolean validateIndividualAllergen() {
-        //TODO: validate max size
-        if(allergenEditText.getText().toString().trim().isEmpty()){
-            allergenEditText.setError("Field cannot be empty!");
-            allergenEditText.setText("");
+    // Ensures that at least one (1) meal-type chip has been checked.
+    private boolean validateMealType() {
+        if (mealTypeChipGroup.getCheckedChipId() == View.NO_ID) {
+            mealTypeButt.setError("Must select at least one choice.");
             return false;
         }
-        allergenEditText.setError(null);
+        mealTypeButt.setError(null);
         return true;
     }
 
-    private boolean validateIngredientMap(){
-        for (Map.Entry<String, String> entry : ingredients.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            if (key.isEmpty() || value.isEmpty()) return false;
+    // Ensures that at least one (1) cuisine-type chip has been checked.
+    private boolean validateCuisineTypes() {
+        if (cuisineChipGroup.getCheckedChipIds().isEmpty()) {
+            cuisineTypeButt.setError("Must select at least one choice.");
+            return false;
         }
+        cuisineTypeButt.setError(null);
         return true;
     }
-
-    private boolean validateAllergenMap() {
-        for (Map.Entry<String, String> entry : allergies.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            if (key.isEmpty() || value.isEmpty()) return false;
-        }
-        return true;
-    }
-
 
 }

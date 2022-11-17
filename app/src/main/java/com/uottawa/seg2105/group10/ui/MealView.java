@@ -21,10 +21,6 @@ public class MealView extends AppCompatActivity {
 
     private static final String TAG = "MEAL_VIEW";
     private DocumentSnapshot document;
-    //Initializing buttons
-    private Button modifyButt, removeButt;
-    private Switch mealToggle;
-    private Switch offered;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
@@ -33,17 +29,16 @@ public class MealView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
+        mAuth = FirebaseAuth.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         String name = getIntent().getStringExtra("MEAL NAME");
         float price = getIntent().getFloatExtra("PRICE", 0);
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
 
-        mAuth = FirebaseAuth.getInstance();
-        dBase = FirebaseFirestore.getInstance();
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         firebaseMeal = userRef.collection("meals").document(name);
-
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView priceTextView = findViewById(R.id.mealPrice);
@@ -55,9 +50,10 @@ public class MealView extends AppCompatActivity {
         descriptionTextView.setText(description);
         //mealImageView.setImageResource(Integer.parseInt(image)); todo: image doesn't work since the int is supposed to refer to a drawable
         //mealImageView.setImageURI();
-        modifyButt = findViewById(R.id.modifyButt);
-        removeButt = findViewById(R.id.removeButt);
-        mealToggle = findViewById(R.id.mealToggle);
+        //Initializing buttons
+        Button modifyButt = findViewById(R.id.modifyButt);
+        Button removeButt = findViewById(R.id.removeButt);
+        Switch offerToggle = findViewById(R.id.offerToggle);
 
         modifyButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +77,7 @@ public class MealView extends AppCompatActivity {
             }
         });
 
-        mealToggle.setOnClickListener(new View.OnClickListener() {
+        offerToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
