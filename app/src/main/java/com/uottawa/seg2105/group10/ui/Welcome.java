@@ -81,12 +81,14 @@ public class Welcome extends AppCompatActivity {
                                 userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
                                     Cook thisCook = snapshot.toObject(Cook.class);
                                     String endDate = thisCook.getSuspensionEnd();
+                                    // Displaying suspension message for both indefinite and temporary
                                     if (endDate == null)
                                         suspensionDeets.setText(R.string.perm_suspend_message);
                                     else {
                                         String msg = "Your suspension will be lifted by " + LocalDateTime.parse(endDate).truncatedTo(ChronoUnit.HOURS);
                                         suspensionDeets.setText(msg);
                                     }
+                                    // Suspended cooks can no longer access the full application. They only have the option to log-off!
                                     homepageButt.setVisibility(View.GONE);
                                 });
                             }
@@ -112,6 +114,7 @@ public class Welcome extends AppCompatActivity {
         });
 
 
+        // Sends Cook to their homepage to view their menu.
         homepageButt.setOnClickListener(view -> {
             DocumentReference docRef = dBase.collection("users").document(user.getUid());
             docRef.get().addOnSuccessListener(documentSnapshot -> {

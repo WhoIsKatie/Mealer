@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,11 +24,10 @@ public class ComplaintView extends AppCompatActivity {
 
     private static final String TAG = "COMPLAINT_VIEW";
     private DocumentSnapshot document;
-    //Intializing butons
+    //Initializing buttons
     private Button dismissButt, suspendButt, selectDurationButt;
     private CardView suspensionLengthCard;
     private RadioGroup durationRadioGroup;
-    private RadioButton oneDay, sevenDays, thirtyDays, indefinite;
 
     private FirebaseFirestore dBase;
 
@@ -65,10 +63,13 @@ public class ComplaintView extends AppCompatActivity {
 
         suspensionLengthCard = (CardView) findViewById(R.id.suspensionCard);
 
+        // Listening for changes to suspensionLengthCard's visibility
         suspensionLengthCard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if (suspensionLengthCard.getVisibility() != View.GONE) {
+                    // Once the administrator decides to suspend a cook,
+                    // they will be given a defined set of suspension lengths to choose from.
                     durationRadioGroup = (RadioGroup) findViewById(R.id.durationRadioGroup);
                     selectDurationButt = (Button) findViewById(R.id.selectDurationButt);
 
