@@ -269,22 +269,21 @@ public class AddMeal extends AppCompatActivity {
         for(String s: this.ingredients.keySet()){
             temp = visibleIngredients;
             visibleIngredients = " ";
-            visibleIngredients += s;
+            visibleIngredients = s + ", ";
             temp += visibleIngredients;
-            temp2 = "Ingredients: " + temp;
-            showIngredients.setText(temp2);
         }
+
+        showIngredients.setText("Ingredients: " + temp);
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
         for(String s: this.allergies.keySet()){
             temp = visibleAllergens;
             visibleAllergens = " ";
-            visibleAllergens += s;
+            visibleAllergens = s + ", ";
             temp += visibleAllergens;
-            temp2 = "Allergens: " + temp;
-            showAllergens.setText(temp2);
         }
+        showAllergens.setText("Allergens: " + temp);
 
     }
 
