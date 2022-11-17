@@ -38,26 +38,27 @@ public class ComplaintView extends AppCompatActivity {
 
         dBase = dBase.getInstance();
 
-        String name = getIntent().getStringExtra("COOK NAME");
+        String clientName = getIntent().getStringExtra("CLIENT NAME");
         String time = getIntent().getStringExtra("TIME");
         String title = getIntent().getStringExtra("TITLE");
         String description = getIntent().getStringExtra("DESCRIPTION");
-        String cook = getIntent().getStringExtra("COOK");
+        String cookName = getIntent().getStringExtra("COOK NAME");
         String docID = getIntent().getStringExtra("DOCUMENT");
 
         DocumentReference docRef = dBase.collection("complaints").document(docID);
 
-        TextView nameTextView = findViewById(R.id.textView9);
+
+        TextView clientNameTextView = findViewById(R.id.textView9);
         TextView timeTextView = findViewById(R.id.textView10);
         TextView titleTextView = findViewById(R.id.textView12);
         TextView descriptionTextView = findViewById(R.id.textView13);
-        TextView cookTextView = findViewById(R.id.textView16);
+        TextView cookNameTextView = findViewById(R.id.textView16);
 
-        nameTextView.setText(name);
+        clientNameTextView.setText(clientName);
         timeTextView.setText(time);
         titleTextView.setText(title);
         descriptionTextView.setText(description);
-        cookTextView.setText(cook);
+        cookNameTextView.setText(cookName);
         dismissButt = findViewById(R.id.dismissButt);
         suspendButt = findViewById(R.id.suspendButt);
 

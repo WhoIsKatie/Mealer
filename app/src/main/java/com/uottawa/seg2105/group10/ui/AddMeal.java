@@ -38,7 +38,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
-    private TextView showIngredients, showAllergens;
+    private TextView showIngredients, showAllergens, mealNameFinal;
     private String visibleIngredients, visibleAllergens, temp, temp2, currentMealName, currentMealPrice, currentMealDescription;
 
 
@@ -58,7 +58,7 @@ public class AddMeal extends AppCompatActivity {
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
         Button confirmButt = findViewById(R.id.confirmButt);
-        Button updateButt = findViewById(R.id.updateButt);
+        mealNameFinal = findViewById(R.id.mealNameTextViewFinal);
         mealTypeButt = findViewById(R.id.mealTypeButt);
         cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealImage = findViewById(R.id.mealImage);
@@ -93,14 +93,15 @@ public class AddMeal extends AppCompatActivity {
         });
 
         if(getIntent().getExtras() != null){
+                mealName.setVisibility(View.GONE);
+                mealNameFinal.setVisibility(View.VISIBLE);
                 currentMealName = getIntent().getExtras().getString("Name");
-                mealName.setText(currentMealName);
+                mealNameFinal.setText(currentMealName);
                 currentMealPrice = getIntent().getExtras().getString("Price");
                 mealPrice.setText(currentMealPrice);
                 currentMealDescription = getIntent().getExtras().getString("Description");
                 mealDesc.setText(currentMealDescription);
-                updateButt.setVisibility(View.VISIBLE);
-                confirmButt.setVisibility(View.GONE);
+
         }
 
         addIngredientButt.setOnClickListener(view -> {
@@ -132,42 +133,6 @@ public class AddMeal extends AppCompatActivity {
             allergenEditText.setText("");
             updateAllergiesBox();
             Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
-        });
-
-        updateButt.setOnClickListener(view -> {
-            // This method is the same as the confirmButt as the set() method should update the document instead of creating a new one
-            if (validateMealName() & validatePrice() & validateDescription()
-                    & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
-                String name = mealName.getText().toString();
-                float price = Float.parseFloat(mealPrice.getText().toString());
-                ArrayList<String> cuisine = new ArrayList<>();
-
-                // turn the selected chips into data we can store
-                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
-                String mealType = mealChip.getText().toString();
-
-                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
-                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
-                    cuisine.add(cuisineChip.getText().toString());
-                }
-                String description = mealDesc.getText().toString();
-
-                firebaseMeal = userRef.collection("meals").document(name);
-                Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
-                mealToAdd.setImageID(imageID);
-
-                firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
-                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }).addOnSuccessListener(unused -> {
-                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
-                //TODO: https://firebase.google.com/docs/firestore/manage-data/add-data#java_16 set method suggests that it should overwrite
-                // the data of the existing document but it actually creates a new document
-            }
         });
 
         confirmButt.setOnClickListener(view -> {
