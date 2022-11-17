@@ -34,15 +34,16 @@ public class MealView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_view);
 
-        String name = getIntent().getStringExtra("NAME");
+        String name = getIntent().getStringExtra("MEAL NAME");
         float price = getIntent().getFloatExtra("PRICE", 0);
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
 
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
-        firebaseMeal = userRef.collection("meals").document(name);
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+        firebaseMeal = userRef.collection("meals").document(name);
+
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView priceTextView = findViewById(R.id.mealPrice);

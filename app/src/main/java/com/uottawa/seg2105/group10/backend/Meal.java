@@ -31,6 +31,7 @@ public class Meal {
 		this.imageID = imageID;
 	}
 
+	public Meal() {}
 
 	public void offerMeal(){offered = true;}
 	public void stopOffering() {offered = false;}
