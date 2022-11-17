@@ -27,7 +27,6 @@ import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class AddMeal extends AppCompatActivity {
     private Uri filePath;
@@ -44,8 +43,8 @@ public class AddMeal extends AppCompatActivity {
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
-    private HashMap<String, String> ingredients;
-    private HashMap<String, String> allergies;
+    private ArrayList<String> ingredients;
+    private ArrayList<String> allergies;
     private String imageID;
 
     @SuppressLint("MissingInflatedId")
@@ -81,8 +80,8 @@ public class AddMeal extends AppCompatActivity {
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
 
         // setting up the hash sets
-        ingredients = new HashMap<>();
-        allergies = new HashMap<>();
+        ingredients = new ArrayList<>();
+        allergies = new ArrayList<>();
 
         visibleIngredients = " ";
         visibleAllergens = " ";
@@ -113,7 +112,7 @@ public class AddMeal extends AppCompatActivity {
             for(String s : inputIngredients){
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
                 if (allergies.size() >= 30) break;
-                ingredients.put(s, s);
+                ingredients.add(s);
             }
             ingredientEditText.setText("");
             updateIngredientBox();
@@ -128,7 +127,7 @@ public class AddMeal extends AppCompatActivity {
 
             for(String a : inputAllergens) {
                 if (!validateIndividualAllergen(a)) break;
-                allergies.put(a, a);
+                allergies.add(a);
             }
             allergenEditText.setText("");
             updateAllergiesBox();
@@ -266,7 +265,7 @@ public class AddMeal extends AppCompatActivity {
 
     //method to update ingredient text-box
     private void updateIngredientBox(){
-        for(String s: this.ingredients.keySet()){
+        for(String s: this.ingredients){
             temp = visibleIngredients;
             visibleIngredients = " ";
             visibleIngredients = s + ", ";
@@ -277,7 +276,7 @@ public class AddMeal extends AppCompatActivity {
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
-        for(String s: this.allergies.keySet()){
+        for(String s: this.allergies){
             temp = visibleAllergens;
             visibleAllergens = " ";
             visibleAllergens = s + ", ";

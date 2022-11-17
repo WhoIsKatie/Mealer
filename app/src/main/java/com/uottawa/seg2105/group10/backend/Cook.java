@@ -96,7 +96,7 @@ public class Cook extends User{
 		return true;
 	}
 
-	public void createMeal(String name, float price, String descr, String type, ArrayList<String> cuisine, HashMap<String, String> ingredients, HashMap<String, String> allergens) {
+	public void createMeal(String name, float price, String descr, String type, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
 		Meal meal = new Meal(price, name, descr, type, cuisine, ingredients, allergens);
 		cookMenu.put(name, meal);
 		userDoc.collection("meals").document(name).set(cookMenu);

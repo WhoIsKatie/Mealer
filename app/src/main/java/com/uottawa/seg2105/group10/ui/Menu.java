@@ -19,7 +19,6 @@ import com.uottawa.seg2105.group10.recyclers.Meal_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -63,8 +62,8 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<String> description = new ArrayList<>();
         ArrayList<String> mealType = new ArrayList<>();
         ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
-        ArrayList<HashMap<String, String>> ingredients = new ArrayList<>();
-        ArrayList<HashMap<String, String>> allergens = new ArrayList<>();
+        ArrayList<ArrayList<String>> ingredients = new ArrayList<>();
+        ArrayList<ArrayList<String>> allergens = new ArrayList<>();
         ArrayList<Float> price = new ArrayList<>();
         ArrayList<String> image = new ArrayList<>();
         ArrayList<String> documents = new ArrayList<>();
@@ -86,13 +85,13 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 documents.add(document.getId());
 
                 if(! (data.get("ingredients").toString().equals("None"))){
-                    ingredients.add((HashMap<String, String>) data.get("ingredients"));
+                    ingredients.add((ArrayList<String>) data.get("ingredients"));
                 }
                 else{
                     ingredients.add(null);
                 }
                 if(! (data.get("allergens").toString().equals("None"))){
-                    allergens.add((HashMap<String, String>) data.get("ingredients"));
+                    allergens.add((ArrayList<String>) data.get("ingredients"));
                 }
                 else{
                     allergens.add(null);
