@@ -128,7 +128,7 @@
                     <TextView
                         android:id="@+id/showAllergens"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="30dp"
                         android:contentDescription="Allergens"
                         android:textColor="@color/black" />

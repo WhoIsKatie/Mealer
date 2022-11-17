@@ -40,7 +40,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens;
-    private String visibleIngredients, visibleAllergens, currentMealName, currentMealPrice, currentMealDescription;
+    private String visibleIngredients, visibleAllergens, temp, temp2, currentMealName, currentMealPrice, currentMealDescription;
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
@@ -86,6 +86,7 @@ public class AddMeal extends AppCompatActivity {
 
         visibleIngredients = " ";
         visibleAllergens = " ";
+        temp = " ";
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -265,17 +266,24 @@ public class AddMeal extends AppCompatActivity {
 
     //method to update ingredient text-box
     private void updateIngredientBox(){
-
         for(String s: this.ingredients.keySet()){
+            temp = visibleIngredients;
+            visibleIngredients = " ";
             visibleIngredients += s;
-            showIngredients.setText(visibleIngredients);
+            temp += visibleIngredients;
+            temp2 = "Ingredients: " + temp;
+            showIngredients.setText(temp2);
         }
     }
-
+    // method to update Allergen box
     private void updateAllergiesBox(){
         for(String s: this.allergies.keySet()){
+            temp = visibleAllergens;
+            visibleAllergens = " ";
             visibleAllergens += s;
-            showAllergens.setText(visibleAllergens);
+            temp += visibleAllergens;
+            temp2 = "Allergens: " + temp;
+            showAllergens.setText(temp2);
         }
 
     }
