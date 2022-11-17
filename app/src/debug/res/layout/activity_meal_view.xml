@@ -93,15 +93,29 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/mealPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="$15.00"
-                        android:textColor="@color/purple_700"
-                        android:textSize="16sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/dollarSign"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="$"
+                            android:textColor="@color/purple_700" />
+
+                        <TextView
+                            android:id="@+id/mealPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="15.00"
+                            android:textColor="@color/purple_700"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/divider3"
@@ -168,6 +182,13 @@
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
                         android:textColor="@color/black"
                         android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/divider6"
+                        android:layout_width="match_parent"
+                        android:layout_height="31dp"
+                        android:background="?android:attr/listDivider"
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 

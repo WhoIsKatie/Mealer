@@ -62,7 +62,11 @@ public class MealView extends AppCompatActivity {
         modifyButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MealView.this, AddMeal.class));
+                Intent intent = new Intent(MealView.this, AddMeal.class);
+                intent.putExtra("Name", name);
+                intent.putExtra("Price", Double.toString(price));
+                intent.putExtra("Description", description);
+                startActivity(intent);
                 finish();
             }
         });

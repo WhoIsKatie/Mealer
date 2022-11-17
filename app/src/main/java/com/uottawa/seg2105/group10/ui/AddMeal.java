@@ -41,7 +41,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens;
-    private String visibleIngredients, visibleAllergens;
+    private String visibleIngredients, visibleAllergens, currentMealName, currentMealPrice, currentMealDescription;
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
@@ -60,6 +60,7 @@ public class AddMeal extends AppCompatActivity {
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
         Button confirmButt = findViewById(R.id.confirmButt);
+        Button updateButt = findViewById(R.id.updateButt);
         mealTypeButt = findViewById(R.id.mealTypeButt);
         cuisineTypeButt = findViewById(R.id.cuisineTypeButt);
         mealImage = findViewById(R.id.mealImage);
@@ -92,6 +93,17 @@ public class AddMeal extends AppCompatActivity {
             startActivityForResult(iGallery, 1000);
         });
 
+        if(getIntent().getExtras() != null){
+                currentMealName = getIntent().getExtras().getString("Name");
+                mealName.setText(currentMealName);
+                currentMealPrice = getIntent().getExtras().getString("Price");
+                mealPrice.setText(currentMealPrice);
+                currentMealDescription = getIntent().getExtras().getString("Description");
+                mealDesc.setText(currentMealDescription);
+                updateButt.setVisibility(View.VISIBLE);
+                confirmButt.setVisibility(View.GONE);
+        }
+
         addIngredientButt.setOnClickListener(view -> {
             // validating ingredient(s)
             if(!validateIndividualIngr()){return;}
@@ -118,6 +130,67 @@ public class AddMeal extends AppCompatActivity {
             allergenEditText.setText("");
             updateAllergiesBox();
             Toast.makeText(this, "Allergen adding succeeded!", Toast.LENGTH_SHORT).show();
+        });
+
+        updateButt.setOnClickListener(view -> {
+            // This method is the same as the confirmButt as the set() method should update the document instead of creating a new one
+            /* if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()) {
+                String name = mealName.getText().toString();
+                float price = Float.parseFloat(mealPrice.getText().toString());
+                ArrayList<String> cuisine = new ArrayList<>();
+
+                // turn the selected chips into data we can store
+                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
+                String mealType = mealChip.getText().toString();
+
+                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
+                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
+                    cuisine.add(cuisineChip.getText().toString());
+                }
+                String description = mealDesc.getText().toString();
+
+                firebaseMeal = userRef.collection("meals").document(name);
+                firebaseMeal.update("mealName", name);
+                firebaseMeal.update("price", price);
+                firebaseMeal.update("description", description);
+                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                firebaseMeal.update("imageID", imageID);
+                */
+            if(validateMealName()&&validatePrice()&&validateDescription()&&validateAllergenMap()&&validateIngredientMap()){
+                String name = mealName.getText().toString();
+                float price = Float.parseFloat(mealPrice.getText().toString());
+                ArrayList<String> cuisine = new ArrayList<>();
+
+                // turn the selected chips into data we can store
+                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
+                String mealType = mealChip.getText().toString();
+
+                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
+                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
+                    cuisine.add(cuisineChip.getText().toString());
+                }
+                String description = mealDesc.getText().toString();
+
+                firebaseMeal = userRef.collection("meals").document(name);
+                Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
+                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                mealToAdd.setImageID(imageID);
+
+                firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
+                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }).addOnSuccessListener(unused -> {
+                    // here we can add to our recycler view
+                    // it's actually not necessary since starting the recycler view SHOULD automatically
+                    // re-query all meals in database again (like complaint view -> AdminHome) - katie :3
+                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
+                //TODO: https://firebase.google.com/docs/firestore/manage-data/add-data#java_16 set method suggests that it should overwrite
+                // the data of the existing document but it actually creates a new document
+            }
         });
 
         confirmButt.setOnClickListener(view -> {

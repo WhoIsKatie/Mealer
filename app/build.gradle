@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-common-ktx:20.2.0'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     // Unit testing dependencies
     testImplementation 'junit:junit:4.13.2'
