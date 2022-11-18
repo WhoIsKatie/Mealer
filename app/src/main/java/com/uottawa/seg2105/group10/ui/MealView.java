@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class MealView extends AppCompatActivity {
 
@@ -38,9 +38,12 @@ public class MealView extends AppCompatActivity {
         float price = getIntent().getFloatExtra("PRICE", 0);
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
-        Intent intent = getIntent();
-        HashMap<String, String> ingredient = (HashMap<String, String>)intent.getSerializableExtra("INGREDIENTS");
-        //Log.v("HashMapTest", ingredient.get(name));
+        ArrayList<String> ingredients = getIntent().getStringArrayListExtra("INGREDIENTS");
+        ArrayList<String> allergens = getIntent().getStringArrayListExtra("ALLERGENS");
+        ArrayList<String> cuisine = getIntent().getStringArrayListExtra("CUISINE");
+        String mealType = getIntent().getStringExtra("MEAL TYPE");
+
+
 
 
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
@@ -50,12 +53,11 @@ public class MealView extends AppCompatActivity {
         TextView priceTextView = findViewById(R.id.mealPrice);
         TextView descriptionTextView = findViewById(R.id.mealDesc);
         ImageView mealImageView = findViewById(R.id.mealImage);
-        //TextView ingredentTextView = findViewById(R.id.ingredentsview);
 
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
-       // ingredentTextView.setText(ingredient.get("ingredients"));
+
         //mealImageView.setImageResource(Integer.parseInt(image)); todo: image doesn't work since the int is supposed to refer to a drawable
         //mealImageView.setImageURI();
         //Initializing buttons
@@ -70,6 +72,7 @@ public class MealView extends AppCompatActivity {
                 intent.putExtra("Name", name);
                 intent.putExtra("Price", Double.toString(price));
                 intent.putExtra("Description", description);
+
                 startActivity(intent);
                 finish();
             }
