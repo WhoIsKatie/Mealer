@@ -82,6 +82,18 @@
                             android:textColor="@color/black"
                             android:textSize="20sp" />
 
+                        <Button
+                            android:id="@+id/modifyButt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#00000000"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="Modify"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/forest_moss"
+                            android:textSize="12sp" />
+
                         <Switch
                             android:id="@+id/offerToggle"
                             android:layout_width="wrap_content"
@@ -94,6 +106,7 @@
                             android:textColorHighlight="@color/black"
                             android:textColorLink="@color/mustard"
                             android:textSize="12sp" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -106,17 +119,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="30dp"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_black"
                             android:text="$"
-                            android:textColor="@color/purple_700" />
+                            android:textColor="@color/mustard" />
 
                         <TextView
                             android:id="@+id/mealPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_black"
                             android:text="15.00"
-                            android:textColor="@color/purple_700"
+                            android:textColor="@color/mustard"
                             android:textSize="16sp" />
                     </LinearLayout>
 
@@ -154,18 +167,6 @@
                             android:textColor="@color/black"
                             android:textSize="18dp"
                             android:text="Meal Description"/>
-
-                        <Button
-                            android:id="@+id/modifyButt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="#00000000"
-                            android:fontFamily="@font/roboto"
-                            android:text="Modify"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/black_overlay"
-                            android:textSize="10sp" />
 
                     </LinearLayout>
 
