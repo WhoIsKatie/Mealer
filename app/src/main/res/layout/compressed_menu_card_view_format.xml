@@ -54,8 +54,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.6"
-                app:layout_constraintBottom_toBottomOf="@+id/switch1"
-                app:layout_constraintTop_toBottomOf="@+id/switch1">
+                app:layout_constraintBottom_toBottomOf="@+id/menuOfferToggle"
+                app:layout_constraintTop_toBottomOf="@+id/menuOfferToggle">
 
                 <TextView
                     android:id="@+id/compMealName"
@@ -76,7 +76,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="15.00"
-                    android:textColor="@color/purple_700"
+                    android:textColor="@color/mustard"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@+id/compMealName"
                     app:layout_constraintTop_toBottomOf="@+id/compMealName" />
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:text="$"
-                    android:textColor="@color/purple_700"
+                    android:textColor="@color/mustard"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/compMealName" />
 
@@ -98,11 +98,63 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/roboto"
                     android:text="Offered"
-                    android:textColor="@color/purple_700"
+                    android:textColor="@color/main_yellow"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.483"
-                    app:layout_constraintStart_toEndOf="@+id/compMealName"
+                    app:layout_constraintHorizontal_bias="0.839"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/menuRemoveButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginBottom="8dp"
+                    android:insetTop="16dp"
+                    android:text="remove"
+                    android:textSize="10sp"
+                    app:backgroundTint="@color/main_yellow"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.905"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/menuModifyButt"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <Button
+                    android:id="@+id/menuModifyButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#00000000"
+                    android:fontFamily="@font/roboto"
+                    android:text="modify"
+                    android:textColor="@color/froggy_leaf_green"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.91"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/menuOfferToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:fontFamily="@font/roboto"
+                    android:minHeight="48dp"
+                    android:text="Offer"
+                    android:textColor="@color/main_yellow"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealName"
+                    app:layout_constraintVertical_bias="1.0" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

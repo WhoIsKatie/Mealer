@@ -1,6 +1,5 @@
 package com.uottawa.seg2105.group10.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -59,7 +57,6 @@ public class MealView extends AppCompatActivity {
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         firebaseMeal = userRef.collection("meals").document(name);
 
-
         TextView nameTextView = findViewById(R.id.mealName);
         TextView ingreidnentTextView = findViewById(R.id.ingredentVeiw);
         TextView cuisineTextView = findViewById(R.id.cuisineView);
@@ -88,13 +85,14 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, AddMeal.class);
-                intent.putExtra("Name", name);
-                intent.putExtra("Price", Double.toString(price));
-                intent.putExtra("Description", description);
-                intent.putExtra("Ingredients", ingredients);
-                intent.putExtra("Allergens", allergens);
-                intent.putExtra("Cuisine", cuisine);
-                intent.putExtra("MealType", mealType);
+                intent.putExtra("MEAL NAME", name);
+                intent.putExtra("PRICE", Double.toString(price));
+                intent.putExtra("MEAL TYPE", mealType);
+                intent.putExtra("CUISINE", cuisine);
+                intent.putExtra("DESCRIPTION", description);
+                intent.putExtra("INGREDIENTS", ingredients);
+                intent.putExtra("ALLERGENS", allergens);
+                intent.putExtra("IMAGE", image);
 
                 startActivity(intent);
                 finish();
@@ -102,7 +100,6 @@ public class MealView extends AppCompatActivity {
         });
 
         removeButt.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
@@ -111,13 +108,13 @@ public class MealView extends AppCompatActivity {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
                     }
-                    else
+                    else {
                         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        //System.out.println(userRef.collection("meals").document(mAuth.getCurrentUser().getUid()));
                         userRef.collection("meals").document(name).delete();
                         Toast.makeText(MealView.this, "The meal has been successfully removed.",
                                 Toast.LENGTH_SHORT).show();
                         finish();
+                    }
                 });
 
             }
@@ -146,17 +143,14 @@ public class MealView extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseMeal.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.getBoolean("offered") == true) {
-                    offerToggle.setChecked(true);
-                    offerToggle.setText("Offered");
-                }
-                else{
-                    offerToggle.setChecked(false);
-                    offerToggle.setText("Not Offered");
-                }
+        firebaseMeal.get().addOnSuccessListener(documentSnapshot -> {
+            if(Boolean.TRUE.equals(documentSnapshot.getBoolean("offered"))) {
+                offerToggle.setChecked(true);
+                offerToggle.setText("Offered");
+            }
+            else{
+                offerToggle.setChecked(false);
+                offerToggle.setText("Not Offered");
             }
         });
     }
@@ -164,7 +158,7 @@ public class MealView extends AppCompatActivity {
     public String createTextViewForIngredient(ArrayList<String> list){
         temp1 = "";
         for(String s: list){
-            visibleIngredents = s + ", ";
+            visibleIngredents = ", " + s;
             temp1 += visibleIngredents;
         }
         return temp1;
@@ -172,7 +166,7 @@ public class MealView extends AppCompatActivity {
     public String createTextViewForAllergens(ArrayList<String> list){
         temp2 = "";
         for(String s: list){
-            visibleAllergens = s + ", ";
+            visibleAllergens = ", " + s;
             temp2 += visibleAllergens;
         }
         return temp2;
@@ -180,7 +174,7 @@ public class MealView extends AppCompatActivity {
     public String createTextViewForCuisine(ArrayList<String> list){
         temp3 = "";
         for(String s: list){
-            visibleCuisine = s + ", ";
+            visibleCuisine = ", " + s;
             temp3 += visibleCuisine;
         }
         return temp3;

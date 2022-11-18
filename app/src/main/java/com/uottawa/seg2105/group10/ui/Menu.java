@@ -123,11 +123,11 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
     public void onItemClick(int position) {
         Intent intent = new Intent(Menu.this, MealView.class);
         Meal doc = meals.get(position);
-        intent.putExtra("PRICE", doc.getPrice());
         intent.putExtra("MEAL NAME", doc.getMealName());
-        intent.putExtra("DESCRIPTION", doc.getDescription());
+        intent.putExtra("PRICE", doc.getPrice());
         intent.putExtra("MEAL TYPE", doc.getMealType());
         intent.putExtra("CUISINE", doc.getCuisine());
+        intent.putExtra("DESCRIPTION", doc.getDescription());
         intent.putExtra("INGREDIENTS", doc.getIngredients());
         intent.putExtra("ALLERGENS", doc.getAllergens());
         intent.putExtra("IMAGE", doc.getImageID());

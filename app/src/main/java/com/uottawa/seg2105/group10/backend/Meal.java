@@ -9,7 +9,7 @@ public class Meal {
 	ArrayList<String> cuisine;
 	ArrayList<String> ingredients, allergens;
 	String imageID;
-	public boolean offered; 																	// by default the meal is offered
+	public boolean offered = true; 																	// by default the meal is offered
 
 
 	public Meal(float price) {
@@ -27,7 +27,6 @@ public class Meal {
 		this.ingredients = ingredients;
 		this.allergens = allergens;
 		this.mealName = mealName;
-		this.imageID = imageID;
 	}
 
 	public Meal() {}

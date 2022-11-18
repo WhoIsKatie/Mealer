@@ -39,8 +39,8 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String visibleIngredients, visibleAllergens, temp, temp2, currentMealName, currentMealPrice, currentMealDescription;
-
+    private String visibleIngredients, visibleAllergens;
+    private String currentMealName, currentMealPrice, currentMealDescription;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private ArrayList<String> ingredients;
@@ -85,7 +85,6 @@ public class AddMeal extends AppCompatActivity {
 
         visibleIngredients = " ";
         visibleAllergens = " ";
-        temp = " ";
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -95,13 +94,12 @@ public class AddMeal extends AppCompatActivity {
         if(getIntent().getExtras() != null){
                 mealName.setVisibility(View.GONE);
                 mealNameFinal.setVisibility(View.VISIBLE);
-                currentMealName = getIntent().getExtras().getString("Name");
+                currentMealName = getIntent().getExtras().getString("MEAL NAME");
                 mealNameFinal.setText(currentMealName);
-                currentMealPrice = getIntent().getExtras().getString("Price");
+                currentMealPrice = getIntent().getExtras().getString("PRICE");
                 mealPrice.setText(currentMealPrice);
-                currentMealDescription = getIntent().getExtras().getString("Description");
+                currentMealDescription = getIntent().getExtras().getString("DESCRIPTION");
                 mealDesc.setText(currentMealDescription);
-
         }
 
         addIngredientButt.setOnClickListener(view -> {
@@ -204,22 +202,21 @@ public class AddMeal extends AppCompatActivity {
 
     //method to update ingredient text-box
     private void updateIngredientBox(){
-        temp = "";
-        for(String s: this.ingredients){
-            visibleIngredients = s + ", ";
-            temp += visibleIngredients;
+        visibleIngredients = "Ingredients: ";
+        for(String s: this.ingredients) {
+            if (ingredients.get(0) != s) visibleIngredients += ", ";
+            visibleIngredients += s;
         }
-
-        showIngredients.setText("Ingredients: " + temp);
+        showIngredients.setText(visibleIngredients);
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
-        temp2 = "";
+        visibleAllergens = "Ingredients: ";
         for(String s: this.allergies){
-            visibleAllergens = s + ", ";
-            temp2 += visibleAllergens;
+            if (allergies.get(0) != s) visibleIngredients += ", ";
+            visibleAllergens += s;
         }
-        showAllergens.setText("Allergens: " + temp2);
+        showAllergens.setText(visibleAllergens);
 
     }
 
