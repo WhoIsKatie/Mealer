@@ -109,7 +109,7 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
             String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
             if(!validateIngredients(inputIngredients)) return;
-//            ingredients = new ArrayList<>();
+//
             for(String s : inputIngredients){
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
                 if (ingredients.size() >= 30) break;
@@ -126,7 +126,7 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualAllergen(allergenEditText.getText().toString())) return;
             String[] inputAllergens = allergenEditText.getText().toString().split(",");       // storing user input for allergens
             if (!validateAllergies(inputAllergens)) return;
-//            allergies = new ArrayList<>();
+//
             for(String a : inputAllergens) {
                 if (!validateIndividualAllergen(a)) break;
                 allergies.add(a);
