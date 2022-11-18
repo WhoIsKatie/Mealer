@@ -56,48 +56,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/menuRemoveButt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="71dp"
-                    android:layout_marginEnd="80dp"
-                    android:insetLeft="10dp"
-                    android:insetTop="16dp"
-                    android:text="remove"
-                    android:textSize="10sp"
-                    app:backgroundTint="@color/main_yellow"
-                    app:cornerRadius="30dp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/switch1"
-                    app:layout_constraintEnd_toEndOf="@+id/button2"
-                    app:layout_constraintStart_toStartOf="@+id/compMealName" />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="22dp"
-                    android:background="#00000000"
-                    android:fontFamily="@font/roboto"
-                    android:text="Edit"
-                    android:textColor="#EC1C65"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Switch
-                    android:id="@+id/switch1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:fontFamily="@font/roboto"
-                    android:minHeight="48dp"
-                    android:text="Offer"
-                    android:textColor="@color/black_overlay"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/compMealPrice" />
-
                 <TextView
                     android:id="@+id/compMealPrice"
                     android:layout_width="wrap_content"
@@ -119,6 +77,16 @@
                     android:textColor="@color/purple_700"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/compMealName" />
+
+                <TextView
+                    android:id="@+id/offerStatusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Offered"
+                    android:textColor="@color/purple_700"
+                    tools:layout_editor_absoluteX="169dp"
+                    tools:layout_editor_absoluteY="20dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

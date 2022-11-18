@@ -3,6 +3,7 @@ package com.uottawa.seg2105.group10.recyclers;
 public class ComplaintModel{
 
     String nameOfCook;
+    String nameOfClient;
     String timeOfComplaint;
     String titleOfComplaint;
     String descriptionOfComplaint;
@@ -10,8 +11,9 @@ public class ComplaintModel{
     String docID;
 
 
-    public ComplaintModel(String docID, String nameOfCook, String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookUid, String clientUid) {
+    public ComplaintModel(String docID, String nameOfClient, String nameOfCook, String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookUid, String clientUid) {
         this.nameOfCook = nameOfCook;
+        this.nameOfClient = nameOfClient;
         this.timeOfComplaint = timeOfComplaint;
         this.titleOfComplaint = titleOfComplaint;
         this.descriptionOfComplaint = descriptionOfComplaint;
@@ -27,6 +29,7 @@ public class ComplaintModel{
     public String getNameOfCook() {
         return nameOfCook;
     }
+    public String getNameOfClient() {return nameOfClient;}
     public String getTimeOfComplaint() {
         return timeOfComplaint;
     }

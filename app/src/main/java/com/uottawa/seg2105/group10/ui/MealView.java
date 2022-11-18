@@ -1,5 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,9 +73,9 @@ public class MealView extends AppCompatActivity {
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
-        ingreidnentTextView.setText(createTextViewForIngrident(ingredients));
-        cuisineTextView.setText(createTextViewForcuisine(cuisine));
-        allergensTextView.setText(createTextViewForallergns(allergens));
+        ingreidnentTextView.setText(createTextViewForIngredient(ingredients));
+        cuisineTextView.setText(createTextViewForCuisine(cuisine));
+        allergensTextView.setText(createTextViewForAllergens(allergens));
 
 
 
@@ -108,12 +110,24 @@ public class MealView extends AppCompatActivity {
         });
 
         removeButt.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onClick(View view) {
-                userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                //System.out.println(userRef.collection("meals").document(mAuth.getCurrentUser().getUid()));
-                userRef.collection("meals").document(name).delete();
-                finish();
+                firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                    Meal thisMeal = snapshot.toObject(Meal.class);
+                    if (thisMeal.isOffered()){
+                        Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                        //System.out.println(userRef.collection("meals").document(mAuth.getCurrentUser().getUid()));
+                        userRef.collection("meals").document(name).delete();
+                        Toast.makeText(MealView.this, "The meal has been successfully removed.",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                });
+
             }
         });
 
@@ -135,7 +149,7 @@ public class MealView extends AppCompatActivity {
     }
 
 
-    public String createTextViewForIngrident(ArrayList<String> list){
+    public String createTextViewForIngredient(ArrayList<String> list){
         temp1 = "";
         for(String s: list){
             visibleIngredents = s + ", ";
@@ -143,7 +157,7 @@ public class MealView extends AppCompatActivity {
         }
         return temp1;
     }
-    public String createTextViewForallergns(ArrayList<String> list){
+    public String createTextViewForAllergens(ArrayList<String> list){
         temp2 = "";
         for(String s: list){
             visibleCuisine = s + ", ";
@@ -151,7 +165,7 @@ public class MealView extends AppCompatActivity {
         }
         return temp2;
     }
-    public String createTextViewForcuisine(ArrayList<String> list){
+    public String createTextViewForCuisine(ArrayList<String> list){
         temp3 = "";
         for(String s: list){
             visibleAllergens = s + ", ";
