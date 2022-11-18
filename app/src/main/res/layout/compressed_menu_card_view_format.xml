@@ -9,10 +9,13 @@
     app:layout_constraintCircleRadius="30dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/backgroundCard"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:cardBackgroundColor="@color/flour"
         app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,15 +98,16 @@
                     android:id="@+id/offerStatusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/roboto"
                     android:text="Offered"
-                    android:textColor="@color/main_yellow"
-                    android:visibility="gone"
+                    android:textColor="@color/forest_moss"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.839"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.802" />
 
                 <Button
                     android:id="@+id/menuRemoveButt"
@@ -131,7 +135,7 @@
                     android:background="#00000000"
                     android:fontFamily="@font/roboto"
                     android:text="modify"
-                    android:textColor="@color/froggy_leaf_green"
+                    android:textColor="@color/forest_moss"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.91"
@@ -147,7 +151,7 @@
                     android:minHeight="48dp"
                     android:text="Offer"
                     android:textColor="@color/main_yellow"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

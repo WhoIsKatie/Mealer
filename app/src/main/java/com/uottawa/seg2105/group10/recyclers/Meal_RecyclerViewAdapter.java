@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -56,47 +56,32 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         holder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
         String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
         holder.price.setText(price);
-        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getLayoutPosition()).getMealName());
+        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
         firebaseMeal.get().addOnSuccessListener(snapshot -> {
             if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
-                holder.menuOfferToggle.setChecked(true);
-                holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                holder.offerStatus.setText("Offered");
+                holder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
             }
             else {
-                holder.menuOfferToggle.setChecked(false);
-                holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.main_yellow));
+                holder.offerStatus.setText("Not Offered");
+                holder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
+                holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
+                holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
             }
-            if(meals.get(holder.getLayoutPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(holder.getLayoutPosition()).getImageID());
+            if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(holder.getAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(holder.mealImage);
                 });
             }
         });
 
-        holder.menuOfferToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    Meal thisMeal = snapshot.toObject(Meal.class);
-                    if (holder.menuOfferToggle.isChecked()) {
-                        thisMeal.offerMeal();
-                        firebaseMeal.update("offered", true);
-                        holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    }
-                    else {
-                        thisMeal.stopOffering();
-                        firebaseMeal.update("offered", false);
-                        holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                    }
-                });
-            }
-        });
 
         holder.menuModifyButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,23 +105,22 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         holder.menuRemoveButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    Meal thisMeal = snapshot.toObject(Meal.class);
-                    if (thisMeal.getOfferStatus()){
-                        Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        userRef.collection("meals").document(meals.get(holder.getLayoutPosition()).getMealName()).delete();
-                        Toast.makeText(context, "The meal has been successfully removed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    Intent intent = new Intent(context, Menu.class);
-                    context.startActivity(intent);
-                });
+                if (holder.offerStatus.getText() == "Offered"){
+                    Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                    userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName()).delete();
+                    Toast.makeText(context, "The meal has been successfully removed.",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+                Intent intent = new Intent(context, Menu.class);
+                context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -149,8 +133,9 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
 
         ImageView mealImage;
         TextView name, price, view, offerStatus;
-        Switch menuOfferToggle;
+        //Switch menuOfferToggle;
         Button menuRemoveButt, menuModifyButt;
+        CardView backgroundCard;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -160,22 +145,23 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
             mealImage = itemView.findViewById(R.id.compMealImgView);
             view = itemView.findViewById(R.id.textView6);
             offerStatus = itemView.findViewById(R.id.offerStatusTextView);
-            menuOfferToggle = itemView.findViewById(R.id.menuOfferToggle);
+            //menuOfferToggle = itemView.findViewById(R.id.menuOfferToggle);
+            offerStatus = itemView.findViewById(R.id.offerStatusTextView);
             menuRemoveButt = itemView.findViewById(R.id.menuRemoveButt);
             menuModifyButt = itemView.findViewById(R.id.menuModifyButt);
+            backgroundCard = itemView.findViewById(R.id.backgroundCard);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (recyclerViewInterface != null){
-                        int pos = getLayoutPosition();
+                        int pos = getAdapterPosition();
 
                         if(pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
                         }
                     }
                 }
-
             });
         }
     }}

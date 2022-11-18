@@ -30,7 +30,7 @@ public class MealView extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
-    String  visibleIngredents, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3;
+    String visibleIngredients, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3;
     Switch offerToggle;
 
     @Override
@@ -156,28 +156,28 @@ public class MealView extends AppCompatActivity {
     }
 
     public String createTextViewForIngredient(ArrayList<String> list){
-        temp1 = "";
+        visibleIngredients = "";
         for(String s: list){
-            visibleIngredents = ", " + s;
-            temp1 += visibleIngredents;
+            if (list.get(0) != s) visibleIngredients += ", ";
+            visibleIngredients += s;
         }
-        return temp1;
+        return visibleIngredients;
     }
     public String createTextViewForAllergens(ArrayList<String> list){
-        temp2 = "";
+        visibleAllergens = "";
         for(String s: list){
-            visibleAllergens = ", " + s;
-            temp2 += visibleAllergens;
+            if (list.get(0) != s) visibleAllergens += ", ";
+            visibleAllergens += s;
         }
-        return temp2;
+        return visibleAllergens;
     }
     public String createTextViewForCuisine(ArrayList<String> list){
-        temp3 = "";
+        visibleCuisine = "";
         for(String s: list){
-            visibleCuisine = ", " + s;
-            temp3 += visibleCuisine;
+            if (list.get(0) != s) visibleCuisine += ", ";
+            visibleCuisine += s;
         }
-        return temp3;
+        return visibleCuisine;
     }
 
 }

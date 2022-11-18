@@ -211,9 +211,9 @@ public class AddMeal extends AppCompatActivity {
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
-        visibleAllergens = "Ingredients: ";
+        visibleAllergens = "Allergens: ";
         for(String s: this.allergies){
-            if (allergies.get(0) != s) visibleIngredients += ", ";
+            if (allergies.get(0) != s) visibleAllergens += ", ";
             visibleAllergens += s;
         }
         showAllergens.setText(visibleAllergens);
