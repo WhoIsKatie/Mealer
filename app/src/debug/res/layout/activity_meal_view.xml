@@ -89,7 +89,6 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:minHeight="48dp"
-                            android:text="Not Offered"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/black"
                             android:textColorHighlight="@color/black"

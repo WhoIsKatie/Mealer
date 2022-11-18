@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,7 +33,7 @@ public class MealView extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     String  visibleIngredents, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3;
-
+    Switch offerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +51,14 @@ public class MealView extends AppCompatActivity {
         ArrayList<String> cuisine = getIntent().getStringArrayListExtra("CUISINE");
         String mealType = getIntent().getStringExtra("MEAL TYPE");
 
-
-
+        //Initializing buttons
+        Button modifyButt = findViewById(R.id.modifyButt);
+        Button removeButt = findViewById(R.id.removeButt);
+        offerToggle = findViewById(R.id.offerToggle);
 
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         firebaseMeal = userRef.collection("meals").document(name);
+
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView ingreidnentTextView = findViewById(R.id.ingredentVeiw);
@@ -65,10 +69,6 @@ public class MealView extends AppCompatActivity {
         TextView descriptionTextView = findViewById(R.id.mealDesc);
         ImageView mealImageView = findViewById(R.id.mealImage);
 
-
-
-
-
         meatTypeTextView.setText(mealType);
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
@@ -77,19 +77,12 @@ public class MealView extends AppCompatActivity {
         cuisineTextView.setText(createTextViewForCuisine(cuisine));
         allergensTextView.setText(createTextViewForAllergens(allergens));
 
-
-
         if (image != null) {
             StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
             imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 Glide.with(MealView.this).load(uri).into(mealImageView);
             });
         }
-
-        //Initializing buttons
-        Button modifyButt = findViewById(R.id.modifyButt);
-        Button removeButt = findViewById(R.id.removeButt);
-        Switch offerToggle = findViewById(R.id.offerToggle);
 
         modifyButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +96,6 @@ public class MealView extends AppCompatActivity {
                 intent.putExtra("Cuisine", cuisine);
                 intent.putExtra("MealType", mealType);
 
-
                 startActivity(intent);
                 finish();
             }
@@ -115,7 +107,7 @@ public class MealView extends AppCompatActivity {
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
                     Meal thisMeal = snapshot.toObject(Meal.class);
-                    if (thisMeal.isOffered()){
+                    if (thisMeal.getOfferStatus()){
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -149,10 +141,25 @@ public class MealView extends AppCompatActivity {
                 });
             }
         });
-
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseMeal.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.getBoolean("offered") == true) {
+                    offerToggle.setChecked(true);
+                    offerToggle.setText("Offered");
+                }
+                else{
+                    offerToggle.setChecked(false);
+                    offerToggle.setText("Not Offered");
+                }
+            }
+        });
+    }
 
     public String createTextViewForIngredient(ArrayList<String> list){
         temp1 = "";

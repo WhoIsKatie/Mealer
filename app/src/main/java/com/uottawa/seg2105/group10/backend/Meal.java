@@ -34,7 +34,6 @@ public class Meal {
 
 	public void offerMeal(){offered = true;}
 	public void stopOffering() {offered = false;}
-	public boolean isOffered() {return offered;}
 
 	//getters
 	public String getMealName(){return mealName;}

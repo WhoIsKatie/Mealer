@@ -55,9 +55,6 @@ public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             holder.offerStatus.setTextColor(Color.parseColor("#EC1C65"));
             }
         if(meals.get(position).getImageID() != null){
-            //holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
-          //  holder.mealImage.setImageURI(meals.get(position).getImageID());
-            //todo: JAKE THIS METHOD ONLY WORKS FOR IMAES IN RESOURCES, NEED USE A DIFF METHOD
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(position).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(holder.mealImage);
