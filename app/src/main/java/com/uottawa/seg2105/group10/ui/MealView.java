@@ -29,6 +29,8 @@ public class MealView extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
+    String  visibleIngredents, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +55,27 @@ public class MealView extends AppCompatActivity {
         firebaseMeal = userRef.collection("meals").document(name);
 
         TextView nameTextView = findViewById(R.id.mealName);
+        TextView ingreidnentTextView = findViewById(R.id.ingredentVeiw);
+        TextView cuisineTextView = findViewById(R.id.cuisineView);
+        TextView allergensTextView = findViewById(R.id.allergensView);
+        TextView meatTypeTextView = findViewById(R.id.mealTypeview);
         TextView priceTextView = findViewById(R.id.mealPrice);
         TextView descriptionTextView = findViewById(R.id.mealDesc);
         ImageView mealImageView = findViewById(R.id.mealImage);
 
+
+
+
+
+        meatTypeTextView.setText(mealType);
         nameTextView.setText(name);
         priceTextView.setText(Float.toString(price));
         descriptionTextView.setText(description);
+        ingreidnentTextView.setText(createTextViewForIngrident(ingredients));
+        cuisineTextView.setText(createTextViewForcuisine(cuisine));
+        allergensTextView.setText(createTextViewForallergns(allergens));
+
+
 
         if (image != null) {
             StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
@@ -80,6 +96,11 @@ public class MealView extends AppCompatActivity {
                 intent.putExtra("Name", name);
                 intent.putExtra("Price", Double.toString(price));
                 intent.putExtra("Description", description);
+                intent.putExtra("Ingredients", ingredients);
+                intent.putExtra("Allergens", allergens);
+                intent.putExtra("Cuisine", cuisine);
+                intent.putExtra("MealType", mealType);
+
 
                 startActivity(intent);
                 finish();
@@ -109,5 +130,34 @@ public class MealView extends AppCompatActivity {
                 });
             }
         });
+
+
     }
+
+
+    public String createTextViewForIngrident(ArrayList<String> list){
+        temp1 = "";
+        for(String s: list){
+            visibleIngredents = s + ", ";
+            temp1 += visibleIngredents;
+        }
+        return temp1;
+    }
+    public String createTextViewForallergns(ArrayList<String> list){
+        temp2 = "";
+        for(String s: list){
+            visibleCuisine = s + ", ";
+            temp2 += visibleCuisine;
+        }
+        return temp2;
+    }
+    public String createTextViewForcuisine(ArrayList<String> list){
+        temp3 = "";
+        for(String s: list){
+            visibleAllergens = s + ", ";
+            temp3 += visibleAllergens;
+        }
+        return temp3;
+    }
+
 }

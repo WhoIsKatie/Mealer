@@ -39,7 +39,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String visibleIngredients, visibleAllergens, temp, currentMealName, currentMealPrice, currentMealDescription;
+    private String visibleIngredients, visibleAllergens, temp, temp2, currentMealName, currentMealPrice, currentMealDescription;
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
@@ -109,15 +109,16 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
             String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
             if(!validateIngredients(inputIngredients)) return;
-
+//            ingredients = new ArrayList<>();
             for(String s : inputIngredients){
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
-                if (allergies.size() >= 30) break;
+                if (ingredients.size() >= 30) break;
                 ingredients.add(s);
             }
             ingredientEditText.setText("");
             updateIngredientBox();
             Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
+
         });
 
         addAllergenButt.setOnClickListener(view -> {
@@ -125,7 +126,7 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualAllergen(allergenEditText.getText().toString())) return;
             String[] inputAllergens = allergenEditText.getText().toString().split(",");       // storing user input for allergens
             if (!validateAllergies(inputAllergens)) return;
-
+//            allergies = new ArrayList<>();
             for(String a : inputAllergens) {
                 if (!validateIndividualAllergen(a)) break;
                 allergies.add(a);
@@ -203,9 +204,8 @@ public class AddMeal extends AppCompatActivity {
 
     //method to update ingredient text-box
     private void updateIngredientBox(){
+        temp = "";
         for(String s: this.ingredients){
-            temp = visibleIngredients;
-            visibleIngredients = " ";
             visibleIngredients = s + ", ";
             temp += visibleIngredients;
         }
@@ -214,13 +214,12 @@ public class AddMeal extends AppCompatActivity {
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
+        temp2 = "";
         for(String s: this.allergies){
-            temp = visibleAllergens;
-            visibleAllergens = " ";
             visibleAllergens = s + ", ";
-            temp += visibleAllergens;
+            temp2 += visibleAllergens;
         }
-        showAllergens.setText("Allergens: " + temp);
+        showAllergens.setText("Allergens: " + temp2);
 
     }
 
