@@ -39,7 +39,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String visibleIngredients, visibleAllergens, temp, temp2, currentMealName, currentMealPrice, currentMealDescription;
+    private String visibleIngredients, visibleAllergens, temp, currentMealName, currentMealPrice, currentMealDescription;
 
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
