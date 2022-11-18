@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.recyclers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +29,9 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
 private final RecyclerViewInterface recyclerViewInterface;
         Context context;
         ArrayList<Meal> meals;
-    Intent intent = ((Activity) context).getIntent();
-        String image =intent.getStringExtra("IMAGE");
+
+
+
 
 public Meal_RecyclerViewAdapter(Context context, ArrayList<Meal> meals, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
@@ -53,7 +55,13 @@ public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.price.setText(Float.toString(meals.get(position).getPrice()));
         if(meals.get(position).getImageID() != null){
             //holder.mealImage.setImageResource(Integer.parseInt(meals.get(position).getImageID()));
+          //  holder.mealImage.setImageURI(meals.get(position).getImageID());
             //todo: JAKE THIS METHOD ONLY WORKS FOR IMAES IN RESOURCES, NEED USE A DIFF METHOD
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(position).getImageID());
+                imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Glide.with(context).load(uri).into(holder.mealImage);
+                });
+
         }
         }
 
@@ -77,13 +85,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
         mealImage = itemView.findViewById(R.id.compMealImgView);
         view = itemView.findViewById(R.id.textView6);
 
-        // Downloading meal image from Firebase Storage and setting mealImageView to the uri with Glide.
-        if (image != null) {
-            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
-            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                Glide.with(itemView).load(uri).into(mealImage);
-            });
-        }
+
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
