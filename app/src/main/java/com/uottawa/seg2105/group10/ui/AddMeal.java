@@ -16,12 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
@@ -39,7 +41,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String visibleIngredients, visibleAllergens;
+    private String visibleIngredients, visibleAllergens,image;
     private String currentMealName, currentMealPrice, currentMealDescription;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
@@ -100,7 +102,19 @@ public class AddMeal extends AppCompatActivity {
                 mealPrice.setText(currentMealPrice);
                 currentMealDescription = getIntent().getExtras().getString("DESCRIPTION");
                 mealDesc.setText(currentMealDescription);
+                mealImage = findViewById(R.id.mealImage);
+                image = getIntent().getStringExtra("IMAGE");
+
         }
+
+
+        if (image != null) {
+            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
+            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Glide.with(AddMeal.this).load(uri).into(mealImage);
+            });
+        }
+
 
         addIngredientButt.setOnClickListener(view -> {
             // validating ingredient(s)
