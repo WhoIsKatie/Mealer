@@ -91,7 +91,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                     ingredients.add(null);
                 }
                 if(! (data.get("allergens").toString().equals("None"))){
-                    allergens.add((ArrayList<String>) data.get("ingredients"));
+                    allergens.add((ArrayList<String>) data.get("allergens"));
                 }
                 else{
                     allergens.add(null);

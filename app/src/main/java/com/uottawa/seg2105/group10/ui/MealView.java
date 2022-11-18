@@ -165,16 +165,16 @@ public class MealView extends AppCompatActivity {
     public String createTextViewForAllergens(ArrayList<String> list){
         temp2 = "";
         for(String s: list){
-            visibleCuisine = s + ", ";
-            temp2 += visibleCuisine;
+            visibleAllergens = s + ", ";
+            temp2 += visibleAllergens;
         }
         return temp2;
     }
     public String createTextViewForCuisine(ArrayList<String> list){
         temp3 = "";
         for(String s: list){
-            visibleAllergens = s + ", ";
-            temp3 += visibleAllergens;
+            visibleCuisine = s + ", ";
+            temp3 += visibleCuisine;
         }
         return temp3;
     }
