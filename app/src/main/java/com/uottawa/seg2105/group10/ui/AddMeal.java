@@ -40,7 +40,6 @@ public class AddMeal extends AppCompatActivity {
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
     private String visibleIngredients, visibleAllergens;
-    private String currentMealName, currentMealPrice, currentMealDescription;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private ArrayList<String> ingredients;
@@ -65,41 +64,37 @@ public class AddMeal extends AppCompatActivity {
         mealName = findViewById(R.id.mealName);
         mealDesc = findViewById(R.id.mealDesc);
         mealPrice = findViewById(R.id.mealPrice);
-        mealDesc = findViewById(R.id.mealDesc);
+
         ingredientEditText = findViewById(R.id.ingredientEditText);
         allergenEditText = findViewById(R.id.allergenEditText);
         Button addIngredientButt = findViewById(R.id.addIngredientButt);
         Button addAllergenButt = findViewById(R.id.addAllergenButt);
-        mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
-        cuisineChipGroup = findViewById(R.id.cuisineChipGroup);
-        divider = findViewById(R.id.divider22);
         showIngredients = findViewById(R.id.showIngredients);
         showAllergens = findViewById(R.id.showAllergens);
 
+        mealTypeChipGroup = findViewById(R.id.mealTypeChipGroup);
+        cuisineChipGroup = findViewById(R.id.cuisineChipGroup);
+        divider = findViewById(R.id.divider22);
+
         // setting up things to get the ID of the meal we want to update
-        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());//this is so we can add something to the collection first, get its ID, then update later
+        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
 
         // setting up the hash sets
         ingredients = new ArrayList<>();
         allergies = new ArrayList<>();
 
-        visibleIngredients = " ";
-        visibleAllergens = " ";
         changePicture.setOnClickListener(view -> {
             Intent iGallery = new Intent(Intent.ACTION_PICK);
             iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(iGallery, 1000);
         });
 
-        if(getIntent().getExtras() != null){
-                mealName.setVisibility(View.GONE);
-                mealNameFinal.setVisibility(View.VISIBLE);
-                currentMealName = getIntent().getExtras().getString("MEAL NAME");
-                mealNameFinal.setText(currentMealName);
-                currentMealPrice = getIntent().getExtras().getString("PRICE");
-                mealPrice.setText(currentMealPrice);
-                currentMealDescription = getIntent().getExtras().getString("DESCRIPTION");
-                mealDesc.setText(currentMealDescription);
+        if(getIntent().getExtras() != null) {
+            mealName.setVisibility(View.GONE);
+            mealNameFinal.setVisibility(View.VISIBLE);
+            mealNameFinal.setText(getIntent().getExtras().getString("MEAL NAME"));
+            mealPrice.setText(getIntent().getExtras().getString("PRICE"));
+            mealDesc.setText(getIntent().getExtras().getString("DESCRIPTION"));
         }
 
         addIngredientButt.setOnClickListener(view -> {
@@ -107,13 +102,12 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
             String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
             if(!validateIngredients(inputIngredients)) return;
-//
+
             for(String s : inputIngredients){
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
                 if (ingredients.size() >= 30) break;
                 ingredients.add(s);
             }
-            ingredientEditText.setText("");
             updateIngredientBox();
             Toast.makeText(this, "Ingredient adding succeeded!", Toast.LENGTH_SHORT).show();
 
