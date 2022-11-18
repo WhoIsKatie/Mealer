@@ -136,11 +136,16 @@ public class MealView extends AppCompatActivity {
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
                     Meal thisMeal = snapshot.toObject(Meal.class);
-                    if (thisMeal.isOffered())
-                        thisMeal.stopOffering();
-                    else
+                    if (offerToggle.isChecked()) {
                         thisMeal.offerMeal();
-                    firebaseMeal.set(thisMeal);
+                        firebaseMeal.update("offered", true);
+                        offerToggle.setText("Offered");
+                    }
+                    else {
+                        thisMeal.stopOffering();
+                        firebaseMeal.update("offered", false);
+                        offerToggle.setText("Not Offered");
+                    }
                 });
             }
         });

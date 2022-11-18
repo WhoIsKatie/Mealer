@@ -9,7 +9,7 @@ public class Meal {
 	ArrayList<String> cuisine;
 	ArrayList<String> ingredients, allergens;
 	String imageID;
-	public boolean offered = true; 																	// by default the meal is offered
+	public boolean offered; 																	// by default the meal is offered
 
 
 	public Meal(float price) {
@@ -46,6 +46,7 @@ public class Meal {
 	public float getPrice() {return price;}
 	public String getImageID(){return imageID;}
 	public String getDocID(){return docID;}
+	public Boolean getOfferStatus(){return offered;}
 
 	//setters
 	public void setMealName(String mealName){this.mealName = mealName;}
@@ -56,4 +57,5 @@ public class Meal {
 	public void setIngredients(ArrayList<String> ingredients) {this.ingredients = ingredients;}
 	public void setAllergens(ArrayList<String> allergens) {this.allergens = allergens;}
 	public void setImageID(String imageID){this.imageID = imageID;}
+	public void setOfferStatus(Boolean offered ){this.offered = offered;}
 }
