@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
     // https://mvnrepository.com/artifact/com.google.android.gms/play-services-tasks
     implementation group: 'com.google.android.gms', name: 'play-services-tasks', version: '18.0.2'
-
+    // Glide to display images from Firebase Storage
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 

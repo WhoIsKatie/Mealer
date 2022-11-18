@@ -10,10 +10,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 
@@ -74,8 +77,13 @@ public class MealView extends AppCompatActivity {
 
 
 
-        //mealImageView.setImageResource(Integer.parseInt(image)); todo: image doesn't work since the int is supposed to refer to a drawable
-        //mealImageView.setImageURI();
+        if (image != null) {
+            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
+            imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                Glide.with(MealView.this).load(uri).into(mealImageView);
+            });
+        }
+
         //Initializing buttons
         Button modifyButt = findViewById(R.id.modifyButt);
         Button removeButt = findViewById(R.id.removeButt);
