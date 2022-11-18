@@ -56,27 +56,28 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        holder.name.setText(meals.get(position).getMealName());
-        String price = meals.get(position).getPrice() + "";
+        holder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
+        String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
         holder.price.setText(price);
-        firebaseMeal = userRef.collection("meals").document(meals.get(position).getMealName());
+        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getLayoutPosition()).getMealName());
         firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
-                        holder.menuOfferToggle.setChecked(true);
-                        holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    }
-                    else {
-                        holder.menuOfferToggle.setChecked(false);
-                        holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                    }
-                    if(meals.get(position).getImageID() != null) {
-                        StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(position).getImageID());
-                        imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            Glide.with(context).load(uri).into(holder.mealImage);
-                        });
-                    }
+            if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
+                holder.menuOfferToggle.setChecked(true);
+                holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.forest_moss));
+            }
+            else {
+                holder.menuOfferToggle.setChecked(false);
+                holder.menuOfferToggle.setTextColor(context.getResources().getColor(R.color.main_yellow));
+            }
+            if(meals.get(holder.getLayoutPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(holder.getLayoutPosition()).getImageID());
+                imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Glide.with(context).load(uri).into(holder.mealImage);
                 });
+            }
+        });
 
         holder.menuOfferToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +128,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                     }
                     else {
                         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        userRef.collection("meals").document(meals.get(position).getMealName()).delete();
+                        userRef.collection("meals").document(meals.get(holder.getLayoutPosition()).getMealName()).delete();
                         Toast.makeText(context, "The meal has been successfully removed.",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -167,7 +168,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                 @Override
                 public void onClick(View view) {
                     if (recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+                        int pos = getLayoutPosition();
 
                         if(pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
