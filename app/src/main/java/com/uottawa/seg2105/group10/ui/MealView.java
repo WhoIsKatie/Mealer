@@ -103,8 +103,7 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    Meal thisMeal = snapshot.toObject(Meal.class);
-                    if (thisMeal.getOfferStatus()){
+                    if (Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -116,7 +115,6 @@ public class MealView extends AppCompatActivity {
                         finish();
                     }
                 });
-
             }
         });
 
