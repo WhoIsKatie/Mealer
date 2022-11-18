@@ -17,10 +17,10 @@ import java.util.Map;
 
 public class Cook extends User{
 	private String description, address;
-	private double ratingSum;
-	private boolean suspended;
+	private double ratingSum = 0;
+	private boolean suspended = false;
 	private static final String TAG = "Cook.java";
-	private String suspensionEnd;
+	private String suspensionEnd = null;
 	private DocumentReference userDoc = null;
 	DocumentSnapshot document;
 
