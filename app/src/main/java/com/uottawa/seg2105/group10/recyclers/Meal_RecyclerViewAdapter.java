@@ -83,43 +83,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         });
 
 
-        holder.menuModifyButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, AddMeal.class);
-                firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    Meal thisMeal = snapshot.toObject(Meal.class);
-                    intent.putExtra("MEAL NAME", thisMeal.getMealName());
-                    intent.putExtra("PRICE", thisMeal.getPrice());
-                    intent.putExtra("MEAL TYPE", thisMeal.getMealType());
-                    intent.putExtra("CUISINE", thisMeal.getCuisine());
-                    intent.putExtra("DESCRIPTION", thisMeal.getDescription());
-                    intent.putExtra("INGREDIENTS", thisMeal.getIngredients());
-                    intent.putExtra("ALLERGENS", thisMeal.getAllergens());
-                    intent.putExtra("IMAGE", thisMeal.getImageID());
-                    context.startActivity(intent);
-                });
-            }
-        });
 
-        holder.menuRemoveButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.offerStatus.getText() == "Offered"){
-                    Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
-                            Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                    userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName()).delete();
-                    Toast.makeText(context, "The meal has been successfully removed.",
-                            Toast.LENGTH_SHORT).show();
-
-                }
-                Intent intent = new Intent(context, Menu.class);
-                context.startActivity(intent);
-            }
-        });
 
     }
 
@@ -161,6 +125,40 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                             recyclerViewInterface.onItemClick(pos);
                         }
                     }
+                }
+            });
+
+            menuModifyButt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, AddMeal.class);
+                    firebaseMeal = userRef.collection("meals").document(meals.get(getAdapterPosition()).getMealName());
+                    firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                        Meal thisMeal = snapshot.toObject(Meal.class);
+                        intent.putExtra("MEAL NAME", thisMeal.getMealName());
+                        intent.putExtra("PRICE", thisMeal.getPrice());
+                        intent.putExtra("DESCRIPTION", thisMeal.getDescription());
+                        intent.putExtra("IMAGE", thisMeal.getImageID());
+                        context.startActivity(intent);
+                    });
+                }
+            });
+
+            menuRemoveButt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (offerStatus.getText() == "Offered"){
+                        Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                        userRef.collection("meals").document(meals.get(getAdapterPosition()).getMealName()).delete();
+                        Toast.makeText(context, "The meal has been successfully removed.",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+                    Intent intent = new Intent(context, Menu.class);
+                    context.startActivity(intent);
                 }
             });
         }

@@ -36,6 +36,7 @@
                         android:layout_height="0dp"
                         android:background="@color/black"
                         android:contentDescription="Image of Meal"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.501"
@@ -57,19 +58,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/flour"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="23dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
+                    android:orientation="vertical"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="35dp"
                         android:orientation="horizontal">
 
                         <EditText
@@ -104,7 +100,7 @@
                             android:fontFamily="@font/roboto"
                             android:text="Change Picture"
                             android:textAlignment="textEnd"
-                            android:textColor="#EC1C65"
+                            android:textColor="@color/mustard"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -119,7 +115,6 @@
                         android:id="@+id/warningMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Warning: Meal name cannot be modified after creation."
                         android:textColor="#A8A8A8"
@@ -129,7 +124,6 @@
                         android:id="@+id/mealPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:hint="Price"
                         android:inputType="numberDecimal"
@@ -150,7 +144,6 @@
                         android:id="@+id/mealTypeButt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Meal Type"
                         app:backgroundTint="@color/archived_yellow"
@@ -160,8 +153,6 @@
                         android:id="@+id/mealTypeChipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
                         android:visibility="gone"
                         app:singleSelection="true">
 
@@ -193,7 +184,7 @@
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Diner"
+                            android:text="Dinner"
                             android:textColor="@color/black"
                             app:chipBackgroundColor="@color/mediumGray" />
 
@@ -209,7 +200,7 @@
                             style="@style/CustomChipStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Drinks"
+                            android:text="Beverage"
                             android:textColor="@color/black"
                             app:chipBackgroundColor="@color/mediumGray" />
 
@@ -226,7 +217,6 @@
                         android:id="@+id/cuisineTypeButt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto"
                         android:text="Cuisine"
                         app:backgroundTint="@color/archived_yellow"
@@ -236,8 +226,6 @@
                         android:id="@+id/cuisineChipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
                         android:visibility="gone">
 
                         <com.google.android.material.chip.Chip
@@ -387,20 +375,10 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="29dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
-
-                    <View
-                        android:layout_width="match_parent"
                         android:layout_height="0.25dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp"
                         android:background="#BCBCBC" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="34dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -411,7 +389,6 @@
                             android:id="@+id/ingredientEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
                             android:ems="10"
                             android:fontFamily="@font/roboto"
                             android:hint='Type an ingredient'
@@ -425,7 +402,6 @@
                             android:id="@+id/addIngredientButt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Add "
@@ -439,19 +415,9 @@
                         android:id="@+id/showIngredients"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
                         android:contentDescription="Ingredients"
                         android:textColor="@color/black"
                         android:textColorHighlight="@color/black" />
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/ingredientsChipGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp">
-
-                    </com.google.android.material.chip.ChipGroup>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -462,7 +428,6 @@
                             android:id="@+id/allergenEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
                             android:ems="10"
                             android:hint="Type an allergen"
                             android:inputType="textPersonName"
@@ -475,7 +440,6 @@
                             android:id="@+id/addAllergenButt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="30dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:text="Add"
@@ -489,40 +453,19 @@
                         android:id="@+id/showAllergens"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
                         android:contentDescription="Allergens"
                         android:textColor="@color/black" />
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/allergensChipGroup"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    </com.google.android.material.chip.ChipGroup>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="23dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.25dp"
+                        android:layout_marginTop="25dp"
                         android:layout_marginBottom="19dp"
                         android:background="#BCBCBC" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="Meal Description"
                         android:textColor="@color/black"
@@ -532,7 +475,7 @@
                         android:id="@+id/mealDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginBottom="30dp"
                         android:fontFamily="@font/roboto"
                         android:hint="Meal Description"
                         android:minHeight="48dp"
@@ -540,47 +483,24 @@
                         android:textColorHint="@color/black_overlay"
                         android:textSize="16sp" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="37dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <View
+            <Button
+                android:id="@+id/confirmButt"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/confirmButt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:fontFamily="@font/roboto"
-                    android:text="Confirm"
-                    android:textAlignment="center"
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp"
-                    app:backgroundTint="#FFFFFF"
-                    app:cornerRadius="30dp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#00000000"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Confirm"
+                android:textAlignment="center"
+                android:textColor="@color/mustard"
+                android:textSize="16sp"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="30dp" />
 
 
         </LinearLayout>

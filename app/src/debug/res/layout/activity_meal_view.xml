@@ -38,6 +38,7 @@
                         android:layout_height="0dp"
                         android:background="@color/black"
                         android:contentDescription="Image of Meal"
+                        android:scaleType="centerCrop"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.501"
@@ -56,20 +57,21 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp">
 
                     <View
                         android:id="@+id/divider"
                         android:layout_width="match_parent"
-                        android:layout_height="38dp"
+                        android:layout_height="35dp"
                         android:background="?android:attr/listDivider"
                         android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/headerLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -111,6 +113,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/priceLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -119,10 +122,10 @@
                             android:id="@+id/dollarSign"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
                             android:fontFamily="@font/roboto_black"
                             android:text="$"
-                            android:textColor="@color/mustard" />
+                            android:textColor="@color/mustard"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/mealPrice"
@@ -135,237 +138,162 @@
                     </LinearLayout>
 
                     <View
-                        android:id="@+id/divider3"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
-
-                    <View
                         android:layout_width="match_parent"
                         android:layout_height="0.25dp"
-                        android:background="@color/black" />
-
-                    <View
-                        android:id="@+id/divider4"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/black_overlay" />
 
                     <LinearLayout
+                        android:id="@+id/descriptionLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/mealDescTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
                             android:fontFamily="@font/roboto_bold"
+                            android:text="Meal Description"
                             android:textColor="@color/black"
-                            android:textSize="18dp"
-                            android:text="Meal Description"/>
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/mealDesc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
+                            android:textColor="#A9000000"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
-
-                    <View
-                        android:id="@+id/divider5"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
-
-                    <TextView
-                        android:id="@+id/mealDesc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ligula arcu, volutpat vitae elit nec, ultrices condimentum felis. Ut consectetur posuere feugiat. Morbi non ultricies mauris, eu auctor elit. Curabitur cursus feugiat purus quis aliquet. Quisque nibh lorem, scelerisque vel mauris vitae, lacinia mattis elit. Proin gravida quam diam, ac interdum massa varius ut. Etiam dignissim lacus id neque tempus interdum. Nulla facilisi. Mauris a congue erat, et molestie nisl. Pellentesque maximus, justo eget vulputate feugiat, diam risus feugiat elit, eget tincidunt massa velit ac diam. Vivamus nec urna pulvinar, sodales leo eu, scelerisque orci. Morbi rhoncus hendrerit lacinia. In non volutpat tortor, ac dignissim tortor. Proin a varius nulla. Ut sodales erat vitae tincidunt tempus."
-                        />
-
-                    <View
-                        android:id="@+id/divider6"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
 
                     <View
                         android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="0.25dp"
-                        android:background="@color/black" />
-
-                    <View
-                        android:id="@+id/divider19"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/black_overlay" />
 
                     <LinearLayout
+                        android:id="@+id/ingredientsLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:orientation="vertical"
                         android:paddingBottom="5dp">
 
                         <TextView
-                            android:id="@+id/ingreidentView"
+                            android:id="@+id/ingredientSubHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Ingredients"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/ingredientText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="fries , Gravy"
+                            android:textColor="#A9000000"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/ingredentVeiw"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="fries , Gravy"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:id="@+id/divider8"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
-
                     <LinearLayout
+                        android:id="@+id/allergensLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:orientation="vertical"
                         android:paddingBottom="5dp">
 
                         <TextView
-                            android:id="@+id/allergens"
+                            android:id="@+id/allergensSubHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Allergens"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/allergensText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Potatoe"
+                            android:textColor="#A9000000"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/allergensView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="Potatoe"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:id="@+id/divider11"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible"
-                        tools:visibility="invisible" />
-
                     <LinearLayout
+                        android:id="@+id/mealTypeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:orientation="vertical"
                         android:paddingBottom="5dp">
 
                         <TextView
-                            android:id="@+id/mealtype"
+                            android:id="@+id/mealTypeSubHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Meal Type"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/mealTypeview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Snack"
+                            android:textColor="#A9000000"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/mealTypeview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:text="Snack"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:id="@+id/divider17"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible"
-                        tools:visibility="invisible" />
-
                     <LinearLayout
+                        android:id="@+id/cuisineLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="30dp"
+                        android:orientation="vertical"
                         android:paddingBottom="5dp">
 
                         <TextView
-                            android:id="@+id/Cuisine"
+                            android:id="@+id/cuisineSubHeader"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Cuisine"
                             android:textColor="@color/black"
                             android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/cuisineText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Canadian"
+                            android:textColor="#A9000000"
+                            android:textSize="14sp" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/cuisineView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:fontFamily="@font/roboto"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:text="Canadian" />
-
-                    <View
-                        android:id="@+id/divider18"
-                        android:layout_width="match_parent"
-                        android:layout_height="31dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible"
-                        tools:visibility="invisible" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -378,12 +306,14 @@
                     android:id="@+id/removeButt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="#00000000"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Remove "
                     android:textAlignment="center"
-                    android:textColor="#EC1C65"
-                    android:textSize="12sp"
+                    android:textColor="#BA0041"
+                    android:textSize="16sp"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp" />
             </LinearLayout>

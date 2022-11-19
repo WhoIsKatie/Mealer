@@ -58,9 +58,9 @@ public class MealView extends AppCompatActivity {
         firebaseMeal = userRef.collection("meals").document(name);
 
         TextView nameTextView = findViewById(R.id.mealName);
-        TextView ingreidnentTextView = findViewById(R.id.ingredentVeiw);
-        TextView cuisineTextView = findViewById(R.id.cuisineView);
-        TextView allergensTextView = findViewById(R.id.allergensView);
+        TextView ingreidnentTextView = findViewById(R.id.ingredientText);
+        TextView cuisineTextView = findViewById(R.id.cuisineText);
+        TextView allergensTextView = findViewById(R.id.allergensText);
         TextView meatTypeTextView = findViewById(R.id.mealTypeview);
         TextView priceTextView = findViewById(R.id.mealPrice);
         TextView descriptionTextView = findViewById(R.id.mealDesc);

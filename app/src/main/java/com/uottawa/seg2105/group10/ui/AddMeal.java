@@ -38,15 +38,13 @@ public class AddMeal extends AppCompatActivity {
     private Button mealTypeButt, cuisineTypeButt;
     private View divider;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String visibleIngredients, visibleAllergens, image;
+    private String imageID, name;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private ArrayList<String> ingredients;
     private ArrayList<String> allergies;
-    private String imageID;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,7 +52,7 @@ public class AddMeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
         mAuth = FirebaseAuth.getInstance();
-        dBase = FirebaseFirestore.getInstance();
+        FirebaseFirestore dBase = FirebaseFirestore.getInstance();
 
         // initializing the edit texts and buttons
         Button changePicture = findViewById(R.id.changePicture);
@@ -95,16 +93,15 @@ public class AddMeal extends AppCompatActivity {
             mealName.setVisibility(View.GONE);
             mealNameFinal.setVisibility(View.VISIBLE);
             mealNameFinal.setText(getIntent().getExtras().getString("MEAL NAME"));
-            mealPrice.setText(getIntent().getExtras().getString("PRICE"));
+            String price = getIntent().getExtras().getFloat("PRICE") + "";
+            mealPrice.setText(price);
             mealDesc.setText(getIntent().getExtras().getString("DESCRIPTION"));
             mealImage = findViewById(R.id.mealImage);
-            image = getIntent().getStringExtra("IMAGE");
-
+            imageID = getIntent().getStringExtra("IMAGE");
         }
 
-
-        if (image != null) {
-            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(image);
+        if (imageID != null) {
+            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(imageID);
             imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 Glide.with(AddMeal.this).load(uri).into(mealImage);
             });
@@ -115,7 +112,7 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
             String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
             if(!validateIngredients(inputIngredients)) return;
-//
+
             for(String s : inputIngredients){
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
                 if (ingredients.size() >= 30) break;
@@ -132,7 +129,7 @@ public class AddMeal extends AppCompatActivity {
             if (!validateIndividualAllergen(allergenEditText.getText().toString())) return;
             String[] inputAllergens = allergenEditText.getText().toString().split(",");       // storing user input for allergens
             if (!validateAllergies(inputAllergens)) return;
-//
+
             for(String a : inputAllergens) {
                 if (!validateIndividualAllergen(a)) break;
                 allergies.add(a);
@@ -144,9 +141,12 @@ public class AddMeal extends AppCompatActivity {
 
         confirmButt.setOnClickListener(view -> {
             // Validating fields before adding meal!
-            if (validateMealName() & validatePrice() & validateDescription()
-                    & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
-                String name = mealName.getText().toString();
+            if (validatePrice() & validateDescription() & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
+                if (getIntent().getExtras() == null) {
+                    validateMealName();
+                    name = mealName.getText().toString();
+                } else name = mealNameFinal.getText().toString();
+
                 float price = Float.parseFloat(mealPrice.getText().toString());
                 ArrayList<String> cuisine = new ArrayList<>();
 
@@ -162,10 +162,11 @@ public class AddMeal extends AppCompatActivity {
 
                 firebaseMeal = userRef.collection("meals").document(name);
                 Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                if (getIntent().getExtras() == null) {
+                    Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+                    imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                }
                 mealToAdd.setImageID(imageID);
-
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
                     finish();
@@ -210,7 +211,7 @@ public class AddMeal extends AppCompatActivity {
 
     //method to update ingredient text-box
     private void updateIngredientBox(){
-        visibleIngredients = "Ingredients: ";
+        String visibleIngredients = "Ingredients: ";
         for(String s: this.ingredients) {
             if (ingredients.get(0) != s) visibleIngredients += ", ";
             visibleIngredients += s;
@@ -219,7 +220,7 @@ public class AddMeal extends AppCompatActivity {
     }
     // method to update Allergen box
     private void updateAllergiesBox(){
-        visibleAllergens = "Allergens: ";
+        String visibleAllergens = "Allergens: ";
         for(String s: this.allergies){
             if (allergies.get(0) != s) visibleAllergens += ", ";
             visibleAllergens += s;
