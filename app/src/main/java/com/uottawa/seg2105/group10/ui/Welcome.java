@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -129,7 +130,7 @@ public class Welcome extends AppCompatActivity {
                         startActivity(new Intent(Welcome.this, Menu.class));
                         break;
                     case "Client":
-                        startActivity(new Intent(Welcome.this, Menu1.class));
+                        startActivity(new Intent(Welcome.this, MealSearch.class));
                         break;
                 }
             });

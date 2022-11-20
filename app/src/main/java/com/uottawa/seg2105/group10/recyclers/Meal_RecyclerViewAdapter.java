@@ -49,7 +49,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
     @Override
     public Meal_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // This method inflates the layout and gives a look to our rows
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.compressed_menu_card_view_format, parent, false);
         return new Meal_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
     }
@@ -81,10 +81,6 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                 });
             }
         });
-
-
-
-
     }
 
     @Override
