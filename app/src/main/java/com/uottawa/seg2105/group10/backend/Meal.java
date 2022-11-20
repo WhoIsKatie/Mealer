@@ -51,5 +51,8 @@ public class Meal {
 	public void setImageID(String imageID){this.imageID = imageID;}
 	public void setDocID(String id){this.docID = id;}
 
-
+	//make a purchase of this meal (done like this so its easy to do from adapter position)
+	public Purchase createPurchase(String cookUID, String clientUID, String date){
+		return new Purchase(cookUID, clientUID, mealName, date);
+	}
 }

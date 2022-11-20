@@ -19,7 +19,7 @@ public class Purchase {
     private final String cookUID, clientUID, mealID, date;  //just keep date like August 21 2020, not actual 'Date' structure
     private @PurchaseStatus String status;
     private DocumentReference complaint;
-    private FirebaseFirestore dBase = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
     private static final String TAG = "Purchase Class";
 
     @Retention(SOURCE) //https://stackoverflow.com/questions/24715096/how-to-only-allow-certain-values-as-parameter-for-a-method-in-java
@@ -28,7 +28,6 @@ public class Purchase {
     public static final String PENDING = "pending";
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
-
 
     //should we keep a connection to complaints or just let complaint see us?
     // method to make a purchase inside meal? or just make new document in fb?
@@ -62,8 +61,9 @@ public class Purchase {
         return updateFireStore();
     }
 
-    public boolean updateFireStore() {
+    public boolean updateFireStore() { //the purchase itself interacts with firebase so hopefully outside classes don't have to
         final boolean[] flag = new boolean[1];
+        //collection purchases => document with ID = cook UID (so cook can easily find their sales) => collection with ID = meal's name => new document with object = this purchase object
         dBase.collection("purchases").document(cookUID).collection(mealID).add(this).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -78,5 +78,4 @@ public class Purchase {
         });
         return flag[0];
     }
-
 }
