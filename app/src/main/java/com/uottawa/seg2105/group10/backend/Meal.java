@@ -47,14 +47,9 @@ public class Meal {
 	public Boolean getOfferStatus(){return offered;}
 
 	//setters
-	public void setMealName(String mealName){this.mealName = mealName;}
-	public void setPrice(float price) {this.price = price;}
 	public void setDescription(String description) {this.description = description;}
-	public void setMealType(String type) {this.mealType = type;}
-	public void setCuisine(ArrayList<String> cuisine) {this.cuisine = cuisine;}
-	public void setIngredients(ArrayList<String> ingredients) {this.ingredients = ingredients;}
-	public void setAllergens(ArrayList<String> allergens) {this.allergens = allergens;}
 	public void setImageID(String imageID){this.imageID = imageID;}
-	public void setOfferStatus(Boolean offered ){this.offered = offered;}
 	public void setDocID(String id){this.docID = id;}
+
+
 }
