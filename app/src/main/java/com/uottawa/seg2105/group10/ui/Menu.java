@@ -82,7 +82,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 else{
                     cuisine.add(null);
                 }
-                documents.add(document.getId());
+                documents.add(document.getReference().getParent().getId()); //parent's reference (Cook's uid)
 
                 if(! (data.get("ingredients").toString().equals("None"))){
                     ingredients.add((ArrayList<String>) data.get("ingredients"));
@@ -106,7 +106,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
             }
             for (int i = 0; i < mealName.size(); i++){
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-
+                meal.setDocID(documents.get(i));
                 meal.setImageID(image.get(i));
                 meals.add(meal);
             }

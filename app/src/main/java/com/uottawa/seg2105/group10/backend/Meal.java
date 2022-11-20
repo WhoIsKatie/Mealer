@@ -56,4 +56,5 @@ public class Meal {
 	public void setAllergens(ArrayList<String> allergens) {this.allergens = allergens;}
 	public void setImageID(String imageID){this.imageID = imageID;}
 	public void setOfferStatus(Boolean offered ){this.offered = offered;}
+	public void setDocID(String id){this.docID = id;}
 }

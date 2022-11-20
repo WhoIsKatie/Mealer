@@ -1,5 +1,6 @@
 package com.uottawa.seg2105.group10.ui.clientView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,7 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,6 +40,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     private static final String TAG = "MealSearch";
     RecyclerView recyclerView;
     private EditText search;
+    protected Meal_RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +48,26 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         setContentView(R.layout.activity_meal_search);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
-        String userUID = mAuth.getCurrentUser().getUid();
+        //String userUID = mAuth.getCurrentUser().getUid();
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
         search = findViewById(R.id.search);
-        setUpMealModels();
+
+        meals = new ArrayList<>();
+        adapter = new Meal_RecyclerViewAdapter(this, meals, this);
+        updateView();
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //setUpMealModels();
+        setUpMealModels();
     }
 
     private void updateView(){
-        Meal_RecyclerViewAdapter adapter = new Meal_RecyclerViewAdapter(this, meals, this);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
     }
 
     private void setUpMealModels(){
@@ -75,38 +83,53 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> documents = new ArrayList<>();
         meals = new ArrayList<>();
 
-        dBase.collection("users").whereEqualTo("suspended", false).get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (DocumentSnapshot cook : queryDocumentSnapshots.getDocuments()) {
-                cook.getReference().collection("meals").get().addOnSuccessListener(mealQuery -> {
-                    for (DocumentSnapshot meal : mealQuery.getDocuments()) {
-                        Log.d(TAG, meal.getId() + "=>" + meal.getData());
-                        Map<String, Object> data = meal.getData();
-                        mealName.add(data.get("mealName").toString());
-                        description.add(data.get("description").toString());
-                        mealType.add(data.get("mealType").toString());
-                        cuisine.add((ArrayList<String>) data.get("cuisine"));
-                        documents.add(meal.getId());
-                        ingredients.add((ArrayList<String>) data.get("ingredients"));
-                        if (!(data.get("allergens").toString().equals("None"))) {
-                            allergens.add((ArrayList<String>) data.get("allergens"));
-                        } else {
-                            allergens.add(null);
+        dBase.collection("users").whereEqualTo("type", "Cook").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (DocumentSnapshot cook : task.getResult()) {
+                        if(cook.getBoolean("isSuspended")){
+                            continue;
                         }
-                        price.add(Float.valueOf(data.get("price").toString()));
-                        if (data.get("imageID") != null) {
-                            image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
-                        } else {
-                            image.add(null);
+                        cook.getReference().collection("meals").whereEqualTo("offered", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for (DocumentSnapshot meal : task.getResult()) {
+                                        Log.d(TAG, meal.getId() + "=>" + meal.getData());
+                                        Map<String, Object> data = meal.getData();
+                                        mealName.add(data.get("mealName").toString());
+                                        description.add(data.get("description").toString());
+                                        mealType.add(data.get("mealType").toString());
+                                        cuisine.add((ArrayList<String>) data.get("cuisine"));
+                                        documents.add(meal.getId());
+                                        ingredients.add((ArrayList<String>) data.get("ingredients"));
+                                        if (!(data.get("allergens").toString().equals("None"))) {
+                                            allergens.add((ArrayList<String>) data.get("allergens"));
+                                        } else {
+                                            allergens.add(null);
+                                        }
+                                        price.add(Float.valueOf(data.get("price").toString()));
+                                        if (data.get("imageID") != null) {
+                                            image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
+                                        } else {
+                                            image.add(null);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        for (int i = 0; i < mealName.size(); i++){
+                            Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
+                            meal.setImageID(image.get(i));
+                            meals.add(meal);
                         }
                     }
-                });
-                for (int i = 0; i < mealName.size(); i++){
-                    Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                    meal.setImageID(image.get(i));
-                    meals.add(meal);
                 }
+                adapter.notifyDataSetChanged();
+                updateView();
+                Log.d(TAG, "Second query should be complete");
             }
-            updateView();
         });
     }
 

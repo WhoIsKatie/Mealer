@@ -15,9 +15,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
@@ -60,7 +64,20 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         holder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
         String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
         holder.price.setText(price);
-        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+
+        userRef.collection("meals").limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.getResult().isEmpty()){ // no meals sub-collection
+                    String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getDocID();
+                    firebaseMeal = dBase.collection("users").document(cookUID).collection("meals").document(meals.get(holder.getAbsoluteAdapterPosition()).getMealName());
+                }
+                else{
+                    firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+                }
+            }
+        });
+
         firebaseMeal.get().addOnSuccessListener(snapshot -> {
             if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                 holder.offerStatus.setText("Offered");
