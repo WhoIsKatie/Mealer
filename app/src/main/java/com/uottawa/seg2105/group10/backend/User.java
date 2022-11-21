@@ -15,7 +15,7 @@ public abstract class User {
 	public User(){}
 	public String getFirstName(){return firstName;}
 	public String getLastName(){return lastName;};
-	protected String getPassword(){return password;}
-	protected String getEmail(){return email;}
+	public String getPassword(){return password;}
+	public String getEmail(){return email;}
 	public String getType(){return type;}
 }

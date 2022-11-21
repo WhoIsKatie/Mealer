@@ -1,19 +1,20 @@
 plugins {
     id 'com.android.application'
     // Google services Gradle plugin
-    id 'com.google.gms.google-services'
+    //id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.uottawa.seg2105.group10'
     compileSdk 32
     defaultConfig {
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         applicationId "com.uottawa.seg2105.group10"
-        minSdk 19
+        minSdk 16
         targetSdk 32
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
+        //multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,7 +29,7 @@ android {
     }
     compileOptions {
         // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
+        //coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -49,8 +50,6 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'com.squareup.picasso:picasso:2.8'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     // Unit testing dependencies
     testImplementation 'junit:junit:4.13.2'
@@ -76,6 +75,10 @@ dependencies {
     // Glide to display images from Firebase Storage
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
 
 }
 
