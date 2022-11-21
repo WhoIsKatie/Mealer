@@ -21,4 +21,8 @@
     <string name="hello">Hello \u0026 \nWelcome</string>
     <string name="general_suspend_message">YOUR ACCOUNT HAS BEEN SUSPENDED.</string>
     <string name="perm_suspend_message">Account privileges have been revoked. You may no longer use this application.</string>
+    <string name="Profile">Profile</string>
+    <string name="clientNextButtText">ORDER</string>
+    <string name="cookNextButtText">VIEW MENU</string>
+    <string name="adminNextButtText">VIEW COMPLAINTS</string>
 </resources>

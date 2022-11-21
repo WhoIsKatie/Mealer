@@ -12,5 +12,6 @@
     <color name="flour">#fffcf4</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="archived_yellow">#FFD747</color>
+    <color name="transluscent_yellow" />
 
 </resources>

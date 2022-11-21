@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="clientNextButtText">ORDER</string>
+    <string name="cookNextButtText">VIEW MENU</string>
+    <string name="adminNextButtText">VIEW COMPLAINTS</string>
+</resources>

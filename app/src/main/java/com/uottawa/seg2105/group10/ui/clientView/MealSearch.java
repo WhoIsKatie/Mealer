@@ -11,11 +11,8 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -23,11 +20,7 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.recyclers.Meal_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
-import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.MealView;
-import com.uottawa.seg2105.group10.ui.Menu;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -51,7 +44,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         //String userUID = mAuth.getCurrentUser().getUid();
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
-        search = findViewById(R.id.search);
+        search = findViewById(R.id.searchBar);
 
         meals = new ArrayList<>();
         adapter = new Meal_RecyclerViewAdapter(this, meals, this);
