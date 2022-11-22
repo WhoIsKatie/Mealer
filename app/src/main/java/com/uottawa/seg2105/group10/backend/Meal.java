@@ -52,7 +52,7 @@ public class Meal {
 	public void setDocID(String id){this.docID = id;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
-	public Purchase createPurchase(String cookUID, String clientUID, String date){
-		return new Purchase(cookUID, clientUID, mealName, date);
+	public Purchase createPurchase(String cookUID, String clientUID, String date, String mealName, String clientName){
+		return new Purchase(cookUID, clientUID, mealName, date, mealName, clientName );
 	}
 }
