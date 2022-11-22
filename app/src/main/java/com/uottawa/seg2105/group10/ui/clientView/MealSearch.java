@@ -1,17 +1,16 @@
 package com.uottawa.seg2105.group10.ui.clientView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +25,6 @@ import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.MealView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 public class MealSearch extends AppCompatActivity implements RecyclerViewInterface {
@@ -40,7 +38,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     protected Meal_RecyclerViewAdapter adapter;
     private Button searchBut;
     public String mealName, cuisineType, mealType;
-    public ArrayList<Meal> serchedMeals;
+    public ArrayList<Meal> searchedMeals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,29 +69,29 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         cuisineType = cuisineTypeSearch.getText().toString();
         mealType = mealTypeSearch.getText().toString();
 
-//changeddd
+//changed
 
         searchBut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 setUpMealModels();
                 for (Meal meal : meals) {
                     if (mealName != null) {
-                        if (meal.getMealName().equalsIgnoreCase(mealName) && !serchedMeals.contains(meal)) {
-                            serchedMeals.add(meal);
+                        if (meal.getMealName().equalsIgnoreCase(mealName) && !searchedMeals.contains(meal)) {
+                            searchedMeals.add(meal);
                         }
                         if (cuisineType != null) {
                             String[] cuisineList = cuisineType.split(",");
                             for (String cuisine : cuisineList) {
                                 for (String mealCuisine : meal.getCuisine()) {
-                                    if (cuisine.equalsIgnoreCase(mealCuisine) && !serchedMeals.contains(meal)) {
-                                        serchedMeals.add(meal);
+                                    if (cuisine.equalsIgnoreCase(mealCuisine) && !searchedMeals.contains(meal)) {
+                                        searchedMeals.add(meal);
                                     }
                                 }
                             }
                         }
                         if (mealType != null) {
-                            if (meal.getMealType().equalsIgnoreCase(mealType) && !serchedMeals.contains(meal)) {
-                                serchedMeals.add(meal);
+                            if (meal.getMealType().equalsIgnoreCase(mealType) && !searchedMeals.contains(meal)) {
+                                searchedMeals.add(meal);
                             }
                         }
                     }
