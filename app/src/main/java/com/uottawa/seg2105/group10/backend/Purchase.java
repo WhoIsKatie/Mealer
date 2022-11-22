@@ -16,7 +16,7 @@ import java.lang.annotation.Retention;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, date;  //just keep date like August 21 2020, not actual 'Date' structure
+    private final String cookUID, clientUID, mealID, date, clientName, mealName;  //just keep date like August 21 2020, not actual 'Date' structure
     private @PurchaseStatus String status;
     private DocumentReference complaint;
     private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
@@ -32,17 +32,21 @@ public class Purchase {
     //should we keep a connection to complaints or just let complaint see us?
     // method to make a purchase inside meal? or just make new document in fb?
 
-    public Purchase(String cookUID, String clientUID, String mealID, String date){
+    public Purchase(String cookUID, String clientUID, String mealID, String date, String clientName, String mealName){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.mealID = mealID;
         this.date = date;
+        this.clientName = clientName;
+        this.mealName = mealName;
         complaint = null;
         status = "PENDING";
         updateFireStore();
     }
 
     //getters
+    public String getMealName(){return mealName;}
+    public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
     public String getMealID() {return mealID;}
