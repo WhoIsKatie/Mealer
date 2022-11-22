@@ -101,13 +101,14 @@
                     android:fontFamily="@font/roboto"
                     android:text="Offered"
                     android:textColor="@color/forest_moss"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.802" />
+                    app:layout_constraintVertical_bias="0.802"
+                    tools:visibility="visible" />
 
                 <Button
                     android:id="@+id/menuRemoveButt"
@@ -118,6 +119,7 @@
                     android:insetTop="16dp"
                     android:text="remove"
                     android:textSize="10sp"
+                    android:visibility="gone"
                     app:backgroundTint="@color/main_yellow"
                     app:cornerRadius="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +127,8 @@
                     app:layout_constraintHorizontal_bias="0.905"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/menuModifyButt"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:visibility="visible" />
 
                 <Button
                     android:id="@+id/menuModifyButt"
@@ -137,10 +140,12 @@
                     android:text="modify"
                     android:textColor="@color/forest_moss"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.91"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
 
                 <Switch
                     android:id="@+id/menuOfferToggle"
@@ -158,6 +163,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/compMealName"
                     app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/compressedCookNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="cookName"
+                    android:textColor="#000000"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealPrice" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
