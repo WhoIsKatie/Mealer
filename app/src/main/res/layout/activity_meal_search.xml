@@ -20,19 +20,19 @@
             android:visibility="invisible" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/searchBar"
+                android:id="@+id/cuisineTypeSearch"
                 android:layout_width="321dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:ems="10"
                 android:fontFamily="@font/roboto"
                 android:gravity="center_horizontal"
-                android:hint="SEARCH"
+                android:hint="CUISINE SEARCH"
                 android:inputType="textPersonName"
                 android:textColor="@color/black"
                 android:textColorHighlight="#60F9D706"
@@ -53,23 +53,77 @@
                 android:textSize="20sp"
                 app:elevation="0dp"
                 app:iconGravity="end" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/mealNameSearchBar"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_horizontal"
+                android:hint="MEAL NAME SEARCH"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHighlight="#60F9D706"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <View
-            android:id="@+id/divider4"
+            android:id="@+id/divider7"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="?android:attr/listDivider"
-            android:visibility="invisible" />
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/mealTypeSearchBar"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:fontFamily="@font/roboto"
+                android:gravity="center_horizontal"
+                android:hint="MEAL TYPE SEARCH"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textColorHighlight="#60F9D706"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mealsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:isScrollContainer="false" >
+            android:isScrollContainer="false" />
 
-        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
