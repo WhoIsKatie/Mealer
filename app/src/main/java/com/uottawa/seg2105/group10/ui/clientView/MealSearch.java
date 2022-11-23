@@ -60,7 +60,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         // tess.add("tess");
         //Meal josh = new Meal(8, "Tess", "Tess","Tess", tess,tess,tess);
         //meals.add(josh);
-        adapter = new Meal_RecyclerViewAdapter(this, meals, this);
+        adapter = new Meal_RecyclerViewAdapter("Cook",this, meals, this);
         updateView();
 
 

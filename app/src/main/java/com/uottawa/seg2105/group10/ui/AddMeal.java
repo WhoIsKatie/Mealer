@@ -167,6 +167,7 @@ public class AddMeal extends AppCompatActivity {
                     imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
                 }
                 mealToAdd.setImageID(imageID);
+                mealToAdd.setCookUID(userRef.getId());
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
                     finish();
