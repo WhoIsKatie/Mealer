@@ -25,6 +25,8 @@ import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.Menu;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -74,8 +76,10 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
             menuViewHolder.name.setText(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
-            String price = meals.get(menuViewHolder.getAdapterPosition()).getPrice() + "";
-            menuViewHolder.price.setText(price);
+            float price = meals.get(menuViewHolder.getAdapterPosition()).getPrice();
+            BigDecimal bd = new BigDecimal(price + "");
+            String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
+            menuViewHolder.price.setText(textPrice);
 
             firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
             firebaseMeal.get().addOnSuccessListener(snapshot -> {

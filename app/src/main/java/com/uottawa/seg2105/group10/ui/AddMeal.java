@@ -28,6 +28,8 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class AddMeal extends AppCompatActivity {
@@ -93,8 +95,10 @@ public class AddMeal extends AppCompatActivity {
             mealName.setVisibility(View.GONE);
             mealNameFinal.setVisibility(View.VISIBLE);
             mealNameFinal.setText(getIntent().getExtras().getString("MEAL NAME"));
-            String price = getIntent().getExtras().getFloat("PRICE") + "";
-            mealPrice.setText(price);
+            float price = getIntent().getExtras().getFloat("PRICE");
+            BigDecimal bd = new BigDecimal(price + "");
+            String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
+            mealPrice.setText(textPrice);
             mealDesc.setText(getIntent().getExtras().getString("DESCRIPTION"));
             mealImage = findViewById(R.id.mealImage);
             imageID = getIntent().getStringExtra("IMAGE");
@@ -104,6 +108,7 @@ public class AddMeal extends AppCompatActivity {
             StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(imageID);
             imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 Glide.with(AddMeal.this).load(uri).into(mealImage);
+                filePath = uri;
             });
         }
 
@@ -148,6 +153,9 @@ public class AddMeal extends AppCompatActivity {
                 } else name = mealNameFinal.getText().toString();
 
                 float price = Float.parseFloat(mealPrice.getText().toString());
+                BigDecimal bd = new BigDecimal(price + "");
+                price = bd.setScale(2, RoundingMode.HALF_EVEN).floatValue();
+
                 ArrayList<String> cuisine = new ArrayList<>();
 
                 Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
@@ -162,12 +170,12 @@ public class AddMeal extends AppCompatActivity {
 
                 firebaseMeal = userRef.collection("meals").document(name);
                 Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
-                if (getIntent().getExtras() == null) {
-                    Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                    imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
-                }
-                mealToAdd.setImageID(imageID);
                 mealToAdd.setCookUID(userRef.getId());
+
+                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+                mealToAdd.setImageID(imageID);
+
                 firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
                     Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
                     finish();
