@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Meal {
 	//private Cook cook;
+	//TODO: add cook UID field, getter & setter
 	private float price;
-	private String mealName, description, mealType, docID;
+	private String mealName, description, mealType;
 	ArrayList<String> cuisine;
 	ArrayList<String> ingredients, allergens;
 	String imageID;
@@ -43,13 +44,11 @@ public class Meal {
 	public ArrayList<String> getAllergens() {return allergens;}
 	public float getPrice() {return price;}
 	public String getImageID(){return imageID;}
-	public String getDocID(){return docID;}
 	public Boolean getOfferStatus(){return offered;}
 
 	//setters
 	public void setDescription(String description) {this.description = description;}
 	public void setImageID(String imageID){this.imageID = imageID;}
-	public void setDocID(String id){this.docID = id;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
 	public Purchase createPurchase(String cookUID, String clientUID, String date, String mealName, String clientName){
