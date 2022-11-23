@@ -76,7 +76,8 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                 }
             }
         });*/
-
+        //TODO: meals.get(holder.getAdapterPosition()).getcookUID();
+        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
         firebaseMeal.get().addOnSuccessListener(snapshot -> {
             if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                 holder.offerStatus.setText("Offered");
