@@ -6,11 +6,11 @@ public class Meal {
 	//private Cook cook;
 	//TODO: add cook UID field, getter & setter
 	private float price;
-	private String mealName, description, mealType;
+	private String mealName, description, mealType, cookUID;
 	ArrayList<String> cuisine;
 	ArrayList<String> ingredients, allergens;
 	String imageID;
-	public boolean offered = true; 																	// by default the meal is offered
+	public boolean offered = true; 				// by default the meal is offered
 
 
 	public Meal(float price) {
@@ -45,10 +45,12 @@ public class Meal {
 	public float getPrice() {return price;}
 	public String getImageID(){return imageID;}
 	public Boolean getOfferStatus(){return offered;}
+	public String getCookUID(){return cookUID;}
 
 	//setters
 	public void setDescription(String description) {this.description = description;}
 	public void setImageID(String imageID){this.imageID = imageID;}
+	public void setCookUID(String cookUID){this.cookUID = cookUID;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
 	public Purchase createPurchase(String cookUID, String clientUID, String date, String mealName, String clientName){

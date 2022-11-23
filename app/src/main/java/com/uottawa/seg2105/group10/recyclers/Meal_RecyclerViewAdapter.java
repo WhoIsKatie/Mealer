@@ -15,8 +15,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -26,6 +29,7 @@ import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.Menu;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_RecyclerViewAdapter.MyViewHolder>{
 
@@ -35,14 +39,16 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
+    private String type;
 
-    public Meal_RecyclerViewAdapter(Context context, ArrayList<Meal> meals, RecyclerViewInterface recyclerViewInterface){
+    public Meal_RecyclerViewAdapter(String type, Context context, ArrayList<Meal> meals, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.meals = meals;
         this.recyclerViewInterface = recyclerViewInterface;
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+        this.type = type;
     }
 
     @NonNull
@@ -61,43 +67,36 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
         holder.price.setText(price);
 
-        //TODO: consider moving this into MyViewHolder, since the info you're fetching will determine changes for all recycler items.
-        /*userRef.collection("meals").limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.getResult().isEmpty()){ // no meals sub-collection
-                    // so... the user is client? -Katie
-                    String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getDocID();
-                    firebaseMeal = dBase.collection("users").document(cookUID).
-                            collection("meals").document(meals.get(holder.getAbsoluteAdapterPosition()).getMealName());
+        if(type.equals("Client")){
+            String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getCookUID();
+            firebaseMeal = dBase.collection("users").document(cookUID).collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+            // now you could change view & stuff
+        }
+        if(type.equals("Cook")){
+            firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+            firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
+                    holder.offerStatus.setText("Offered");
+                    holder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                    holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                    holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
                 }
-                else{
-                    firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+                else {
+                    holder.offerStatus.setText("Not Offered");
+                    holder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
+                    holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
+                    holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
                 }
-            }
-        });*/
-        //TODO: meals.get(holder.getAdapterPosition()).getcookUID();
-        firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
-        firebaseMeal.get().addOnSuccessListener(snapshot -> {
-            if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
-                holder.offerStatus.setText("Offered");
-                holder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
-            }
-            else {
-                holder.offerStatus.setText("Not Offered");
-                holder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
-                holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
-            }
+            });
+
             if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(holder.getAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(holder.mealImage);
                 });
             }
-        });
+        }
+
     }
 
     @Override
@@ -130,6 +129,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
             //TODO: determine if user is client or cook.
             // If cook, set context components for cook info to GONE.
             // If client, set context components for meal modification to GONE.
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
