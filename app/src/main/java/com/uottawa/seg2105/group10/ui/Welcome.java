@@ -1,6 +1,9 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,11 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +35,7 @@ public class Welcome extends AppCompatActivity {
     private DocumentReference userDoc;
 
     private DocumentSnapshot document;
+    private DocumentReference purchaseRef;
     private Button logOffButt;
     private Button homepageButt;
     private ImageButton profileButt;
@@ -52,6 +53,7 @@ public class Welcome extends AppCompatActivity {
         // Load welcome activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
 
         // initialize TextView and Button
         typeText = findViewById(R.id.userTypeText);
@@ -79,10 +81,35 @@ public class Welcome extends AppCompatActivity {
                     type = document.getString("type");
                     typeText.setText(type);
                     switch(type){
-                        case "Admin": homepageButt.setText(R.string.adminNextButtText);
-                            profileButt.setVisibility(View.GONE); break;
-                        case "Cook": homepageButt.setText(R.string.cookNextButtText); break;
-                        case "Client": homepageButt.setText(R.string.clientNextButtText); break;
+                        case "Admin":
+                            homepageButt.setText(R.string.adminNextButtText);
+                            profileButt.setVisibility(View.GONE);
+                            break;
+                        case "Cook":
+                            homepageButt.setText(R.string.cookNextButtText);
+                            break;
+                        case "Client":
+                            // Calling method to initialize notification channel
+                            /*createNotificationChannel();
+                            final DocumentReference docRef = purchaseRef;
+                            docRef.addSnapshotListener((snapshot, e) -> {
+                                if (e != null) {
+                                    Log.w(TAG, "Listen failed.", e);
+                                    return;
+                                }
+                                if (snapshot != null && snapshot.exists()) {
+                                    Log.d(TAG, "Current data: " + snapshot.getData());
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
+                                            .setSmallIcon(R.drawable.real_logo)
+                                            .setContentTitle("Status Change")
+                                            .setContentText("Open Mealer to see more.")
+                                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                } else {
+                                    Log.d(TAG, "Current data: null");
+                                }
+                            });*/
+                            homepageButt.setText(R.string.clientNextButtText);
+                            break;
                     }
 
                     if(document.contains("isSuspended")) {
@@ -124,7 +151,6 @@ public class Welcome extends AppCompatActivity {
 
         // Sends Cook to their homepage to view their menu.
         homepageButt.setOnClickListener(view -> {
-            assert type != null;
             switch (type) {
                 case "Admin":
                     startActivity(new Intent(Welcome.this, AdminHome.class));
@@ -144,5 +170,26 @@ public class Welcome extends AppCompatActivity {
             intent.putExtra("UID", document.getId());
             startActivity(intent);
         });
+
+
+    }
+
+    public boolean setPurchaseRef(DocumentReference doc) {
+        if (doc == null) return false;
+        purchaseRef = doc;
+        return true;
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("CLIENT_STATUS_CHANGE", "Client Purchase", importance);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

@@ -1,14 +1,16 @@
 package com.uottawa.seg2105.group10.ui.clientView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,8 +34,11 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     private FirebaseFirestore dBase;
     private static final String TAG = "MealSearch";
     RecyclerView recyclerView;
-    private EditText search;
+    private EditText mealNameSearch, cuisineTypeSearch, mealTypeSearch;
     protected Meal_RecyclerViewAdapter adapter;
+    private Button searchBut;
+    public String mealName, cuisineType, mealType;
+    public ArrayList<Meal> searchedMeals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +46,60 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         setContentView(R.layout.activity_meal_search);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
+        searchBut = findViewById(R.id.searchButt);
         //String userUID = mAuth.getCurrentUser().getUid();
 
         recyclerView = findViewById(R.id.mealsRecyclerView);
-        search = findViewById(R.id.searchBar);
+        mealNameSearch = findViewById(R.id.mealNameSearchBar);
+        cuisineTypeSearch = findViewById(R.id.cuisineTypeSearch);
+        mealTypeSearch = findViewById(R.id.mealTypeSearchBar);
+
 
         meals = new ArrayList<>();
+        // ArrayList<String> tess = new ArrayList<String>();
+        // tess.add("tess");
+        //Meal josh = new Meal(8, "Tess", "Tess","Tess", tess,tess,tess);
+        //meals.add(josh);
         adapter = new Meal_RecyclerViewAdapter(this, meals, this);
         updateView();
+
+
+
+        mealName = mealNameSearch.getText().toString();
+        cuisineType = cuisineTypeSearch.getText().toString();
+        mealType = mealTypeSearch.getText().toString();
+
+//changed
+
+        searchBut.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                setUpMealModels();
+                for (Meal meal : meals) {
+                    if (mealName != null) {
+                        if (meal.getMealName().equalsIgnoreCase(mealName) && !searchedMeals.contains(meal)) {
+                            searchedMeals.add(meal);
+                        }
+                        if (cuisineType != null) {
+                            String[] cuisineList = cuisineType.split(",");
+                            for (String cuisine : cuisineList) {
+                                for (String mealCuisine : meal.getCuisine()) {
+                                    if (cuisine.equalsIgnoreCase(mealCuisine) && !searchedMeals.contains(meal)) {
+                                        searchedMeals.add(meal);
+                                    }
+                                }
+                            }
+                        }
+                        if (mealType != null) {
+                            if (meal.getMealType().equalsIgnoreCase(mealType) && !searchedMeals.contains(meal)) {
+                                searchedMeals.add(meal);
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+
 
     }
 

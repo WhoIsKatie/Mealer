@@ -94,7 +94,8 @@
                             android:text="Modify"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/forest_moss"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:visibility="visible" />
 
                         <Switch
                             android:id="@+id/offerToggle"
@@ -108,7 +109,20 @@
                             android:textColor="@color/black"
                             android:textColorHighlight="@color/black"
                             android:textColorLink="@color/mustard"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            tools:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Cook Profile"
+                            android:textColor="#FFFFFF"
+                            app:backgroundTint="#000000"
+                            app:cornerRadius="30dp"
+                            app:elevation="0dp"
+                            tools:visibility="gone" />
 
                     </LinearLayout>
 
@@ -314,8 +328,10 @@
                     android:textAlignment="center"
                     android:textColor="#BA0041"
                     android:textSize="16sp"
+                    android:visibility="visible"
                     app:backgroundTint="#FEFEFE"
-                    app:cornerRadius="30dp" />
+                    app:cornerRadius="30dp"
+                    tools:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
