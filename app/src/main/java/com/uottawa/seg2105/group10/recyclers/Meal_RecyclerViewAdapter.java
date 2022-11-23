@@ -15,11 +15,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,9 +26,8 @@ import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.Menu;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_RecyclerViewAdapter.MyViewHolder>{
+public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
@@ -51,52 +47,58 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         this.type = type;
     }
 
-    @NonNull
     @Override
-    public Meal_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // This method inflates the layout and gives a look to our rows
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.compressed_menu_card_view_format, parent, false);
-        return new Meal_RecyclerViewAdapter.MyViewHolder(view, recyclerViewInterface);
+        View view = inflater.inflate(R.layout.menu_card_view_format, parent, false);
+        //if user is client
+        if (type.equals("Client")) {
+            view = inflater.inflate(R.layout.search_card_view_format, parent, false);
+            return new SearchViewHolder(view, recyclerViewInterface);
+        }
+        return new MenuViewHolder(view, recyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        holder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
-        String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
-        holder.price.setText(price);
 
         if(type.equals("Client")){
+            SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
             String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getCookUID();
             firebaseMeal = dBase.collection("users").document(cookUID).collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
-            // now you could change view & stuff
-        }
-        if(type.equals("Cook")){
-            firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+            // now you could update view & stuff
+
+        } else if(type.equals("Cook")){
+            MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
+            menuViewHolder.name.setText(meals.get(menuViewHolder.getLayoutPosition()).getMealName());
+            String price = meals.get(menuViewHolder.getLayoutPosition()).getPrice() + "";
+            menuViewHolder.price.setText(price);
+
+            firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
             firebaseMeal.get().addOnSuccessListener(snapshot -> {
                 if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
-                    holder.offerStatus.setText("Offered");
-                    holder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
+                    menuViewHolder.offerStatus.setText("Offered");
+                    menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                    menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                    menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
                 }
                 else {
-                    holder.offerStatus.setText("Not Offered");
-                    holder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                    holder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
-                    holder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
+                    menuViewHolder.offerStatus.setText("Not Offered");
+                    menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
+                    menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
+                    menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
                 }
             });
 
             if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(holder.getAdapterPosition()).getImageID());
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(menuViewHolder.getAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    Glide.with(context).load(uri).into(holder.mealImage);
+                    Glide.with(context).load(uri).into(menuViewHolder.mealImage);
                 });
             }
         }
-
     }
 
     @Override
@@ -105,7 +107,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         return meals.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MenuViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mealImage;
         TextView name, price, view, offerStatus;
@@ -113,7 +115,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         Button menuRemoveButt, menuModifyButt;
         CardView backgroundCard;
 
-        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+        public MenuViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             name = itemView.findViewById(R.id.compMealName);
@@ -126,10 +128,6 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
             menuRemoveButt = itemView.findViewById(R.id.menuRemoveButt);
             menuModifyButt = itemView.findViewById(R.id.menuModifyButt);
             backgroundCard = itemView.findViewById(R.id.backgroundCard);
-            //TODO: determine if user is client or cook.
-            // If cook, set context components for cook info to GONE.
-            // If client, set context components for meal modification to GONE.
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,6 +173,35 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
                     }
                     Intent intent = new Intent(context, Menu.class);
                     context.startActivity(intent);
+                }
+            });
+        }
+    }
+
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView mealImage;
+        TextView name, price, rating, location;
+
+        public SearchViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
+            super(itemView);
+
+            name = itemView.findViewById(R.id.clientMealTitle);
+            price = itemView.findViewById(R.id.clientMealPrice);
+            mealImage = itemView.findViewById(R.id.clientMealImgView);
+            rating = itemView.findViewById(R.id.rating);
+            location = itemView.findViewById(R.id.location);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
                 }
             });
         }

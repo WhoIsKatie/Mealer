@@ -3,8 +3,6 @@ package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 import java.util.ArrayList;
 
 public class Meal {
-	//private Cook cook;
-	//TODO: add cook UID field, getter & setter
 	private float price;
 	private String mealName, description, mealType, cookUID;
 	ArrayList<String> cuisine;
