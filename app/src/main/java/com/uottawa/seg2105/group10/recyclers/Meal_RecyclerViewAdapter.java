@@ -15,12 +15,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
@@ -64,18 +61,21 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
         String price = meals.get(holder.getLayoutPosition()).getPrice() + "";
         holder.price.setText(price);
 
-        userRef.collection("meals").limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        //TODO: consider moving this into MyViewHolder, since the info you're fetching will determine changes for all recycler items.
+        /*userRef.collection("meals").limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.getResult().isEmpty()){ // no meals sub-collection
+                    // so... the user is client? -Katie
                     String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getDocID();
-                    firebaseMeal = dBase.collection("users").document(cookUID).collection("meals").document(meals.get(holder.getAbsoluteAdapterPosition()).getMealName());
+                    firebaseMeal = dBase.collection("users").document(cookUID).
+                            collection("meals").document(meals.get(holder.getAbsoluteAdapterPosition()).getMealName());
                 }
                 else{
                     firebaseMeal = userRef.collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
                 }
             }
-        });
+        });*/
 
         firebaseMeal.get().addOnSuccessListener(snapshot -> {
             if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
@@ -126,6 +126,9 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<Meal_Recycler
             menuRemoveButt = itemView.findViewById(R.id.menuRemoveButt);
             menuModifyButt = itemView.findViewById(R.id.menuModifyButt);
             backgroundCard = itemView.findViewById(R.id.backgroundCard);
+            //TODO: determine if user is client or cook.
+            // If cook, set context components for cook info to GONE.
+            // If client, set context components for meal modification to GONE.
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
