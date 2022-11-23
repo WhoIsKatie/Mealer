@@ -66,14 +66,15 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if(type.equals("Client")){
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
-            String cookUID = meals.get(holder.getAbsoluteAdapterPosition()).getCookUID();
-            firebaseMeal = dBase.collection("users").document(cookUID).collection("meals").document(meals.get(holder.getAdapterPosition()).getMealName());
+            String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
+            firebaseMeal = dBase.collection("users").document(cookUID).collection("meals")
+                    .document(meals.get(searchViewHolder.getAdapterPosition()).getMealName());
             // now you could update view & stuff
 
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-            menuViewHolder.name.setText(meals.get(menuViewHolder.getLayoutPosition()).getMealName());
-            String price = meals.get(menuViewHolder.getLayoutPosition()).getPrice() + "";
+            menuViewHolder.name.setText(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
+            String price = meals.get(menuViewHolder.getAdapterPosition()).getPrice() + "";
             menuViewHolder.price.setText(price);
 
             firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
