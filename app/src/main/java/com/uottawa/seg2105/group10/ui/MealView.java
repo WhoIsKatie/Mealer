@@ -21,6 +21,8 @@ import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class MealView extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MealView extends AppCompatActivity {
     private DocumentSnapshot document;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
+    private float price;
     DocumentReference firebaseMeal, userRef;
     String visibleIngredients, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3;
     Switch offerToggle;
@@ -41,13 +44,16 @@ public class MealView extends AppCompatActivity {
         dBase = FirebaseFirestore.getInstance();
 
         String name = getIntent().getStringExtra("MEAL NAME");
-        float price = getIntent().getFloatExtra("PRICE", 0);
+        price = getIntent().getExtras().getFloat("PRICE");
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
         ArrayList<String> ingredients = getIntent().getStringArrayListExtra("INGREDIENTS");
         ArrayList<String> allergens = getIntent().getStringArrayListExtra("ALLERGENS");
         ArrayList<String> cuisine = getIntent().getStringArrayListExtra("CUISINE");
         String mealType = getIntent().getStringExtra("MEAL TYPE");
+
+        BigDecimal bd = new BigDecimal(price + "");
+        String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
 
         //Initializing buttons
         Button modifyButt = findViewById(R.id.modifyButt);
@@ -58,7 +64,7 @@ public class MealView extends AppCompatActivity {
         firebaseMeal = userRef.collection("meals").document(name);
 
         TextView nameTextView = findViewById(R.id.mealName);
-        TextView ingreidnentTextView = findViewById(R.id.ingredientText);
+        TextView ingredientTextView = findViewById(R.id.ingredientText);
         TextView cuisineTextView = findViewById(R.id.cuisineText);
         TextView allergensTextView = findViewById(R.id.allergensText);
         TextView meatTypeTextView = findViewById(R.id.mealTypeview);
@@ -68,9 +74,10 @@ public class MealView extends AppCompatActivity {
 
         meatTypeTextView.setText(mealType);
         nameTextView.setText(name);
-        priceTextView.setText(Float.toString(price));
+
+        priceTextView.setText(textPrice);
         descriptionTextView.setText(description);
-        ingreidnentTextView.setText(createTextViewForIngredient(ingredients));
+        ingredientTextView.setText(createTextViewForIngredient(ingredients));
         cuisineTextView.setText(createTextViewForCuisine(cuisine));
         allergensTextView.setText(createTextViewForAllergens(allergens));
 
@@ -86,7 +93,7 @@ public class MealView extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, AddMeal.class);
                 intent.putExtra("MEAL NAME", name);
-                intent.putExtra("PRICE", Double.toString(price));
+                intent.putExtra("PRICE", price);
                 intent.putExtra("MEAL TYPE", mealType);
                 intent.putExtra("CUISINE", cuisine);
                 intent.putExtra("DESCRIPTION", description);
