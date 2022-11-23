@@ -40,7 +40,6 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
-
         recyclerView = findViewById(R.id.mealsRecyclerView);
     }
 

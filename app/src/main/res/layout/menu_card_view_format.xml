@@ -4,124 +4,182 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:background="#00000000"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    app:layout_constraintCircleRadius="30dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/clientMealImgCardView"
+        android:id="@+id/backgroundCard"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        android:layout_marginEnd="10dp"
-        app:cardBackgroundColor="@color/ic_launcher_background"
+        android:layout_height="100dp"
+        app:cardBackgroundColor="@color/flour"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000000">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-            <ImageView
-                android:id="@+id/clientMealImgView"
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/oatmeal" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/clientMealCardView"
-        android:layout_width="wrap_content"
-        android:layout_height="92dp"
-        android:layout_marginTop="110dp"
-        app:cardBackgroundColor="#EEFFFFFF"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/clientMealTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_black"
-                android:text="Morning Breakfast"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/clientMealPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="$15.00"
-                android:textColor="@color/froggy_leaf_green"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:paddingTop="15dp">
-
-
-                <TextView
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="4.35 stars"
-                    android:textColor="@color/mustard"
-                    android:textSize="12dp" />
+                android:layout_weight="1.3">
 
                 <ImageView
-                    android:id="@+id/locationImg"
-                    android:layout_width="15dp"
-                    android:layout_height="14dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerInside"
-                    android:tint="@color/darkGray"
-                    android:translationY="1dp"
-                    app:srcCompat="@drawable/location" />
+                    android:id="@+id/compMealImgView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:srcCompat="@drawable/oatmeal" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.6"
+                app:layout_constraintBottom_toBottomOf="@+id/menuOfferToggle"
+                app:layout_constraintTop_toBottomOf="@+id/menuOfferToggle">
 
                 <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/compMealName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Sandy Hill"
-                    android:textColor="@color/black_overlay"
-                    android:textSize="12dp" />
+                    android:text="Morning Breakfast"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/compMealPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="15.00"
+                    android:textColor="@color/mustard"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/compMealName"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealName" />
+
+                <TextView
+                    android:id="@+id/dollar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="$"
+                    android:textColor="@color/mustard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealName" />
+
+                <TextView
+                    android:id="@+id/offerStatusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Offered"
+                    android:textColor="@color/forest_moss"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.802"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/menuRemoveButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginBottom="8dp"
+                    android:insetTop="16dp"
+                    android:text="remove"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:backgroundTint="@color/main_yellow"
+                    app:cornerRadius="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.905"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/menuModifyButt"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/menuModifyButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#00000000"
+                    android:fontFamily="@font/roboto"
+                    android:text="modify"
+                    android:textColor="@color/forest_moss"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.91"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+
+                <Switch
+                    android:id="@+id/menuOfferToggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:fontFamily="@font/roboto"
+                    android:minHeight="48dp"
+                    android:text="Offer"
+                    android:textColor="@color/main_yellow"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealName"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <TextView
+                    android:id="@+id/compressedCookNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="cookName"
+                    android:textColor="#000000"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/compMealPrice" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
