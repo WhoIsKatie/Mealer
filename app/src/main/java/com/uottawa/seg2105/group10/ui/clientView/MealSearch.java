@@ -37,7 +37,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     private EditText mealNameSearch, cuisineTypeSearch, mealTypeSearch;
     protected Meal_RecyclerViewAdapter adapter;
     private Button searchBut;
-    public String mealName, cuisineType, mealType;
+    public String mealNamefromSearch, cuisineTypefromSearch, mealTypefromSearch;
     public ArrayList<Meal> searchedMeals;
 
     @Override
@@ -53,6 +53,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         mealNameSearch = findViewById(R.id.mealNameSearchBar);
         cuisineTypeSearch = findViewById(R.id.cuisineTypeSearch);
         mealTypeSearch = findViewById(R.id.mealTypeSearchBar);
+        searchedMeals = new ArrayList<>();
 
 
         meals = new ArrayList<>();
@@ -62,45 +63,6 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         //meals.add(josh);
         adapter = new Meal_RecyclerViewAdapter("Cook",this, meals, this);
         updateView();
-
-
-
-        mealName = mealNameSearch.getText().toString();
-        cuisineType = cuisineTypeSearch.getText().toString();
-        mealType = mealTypeSearch.getText().toString();
-
-//changed
-
-        searchBut.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                setUpMealModels();
-                for (Meal meal : meals) {
-                    if (mealName != null) {
-                        if (meal.getMealName().equalsIgnoreCase(mealName) && !searchedMeals.contains(meal)) {
-                            searchedMeals.add(meal);
-                        }
-                        if (cuisineType != null) {
-                            String[] cuisineList = cuisineType.split(",");
-                            for (String cuisine : cuisineList) {
-                                for (String mealCuisine : meal.getCuisine()) {
-                                    if (cuisine.equalsIgnoreCase(mealCuisine) && !searchedMeals.contains(meal)) {
-                                        searchedMeals.add(meal);
-                                    }
-                                }
-                            }
-                        }
-                        if (mealType != null) {
-                            if (meal.getMealType().equalsIgnoreCase(mealType) && !searchedMeals.contains(meal)) {
-                                searchedMeals.add(meal);
-                            }
-                        }
-                    }
-                }
-
-            }
-        });
-
-
     }
 
     @Override
@@ -116,15 +78,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
 
     private void setUpMealModels(){
         // initializing all lists of fields
-        ArrayList<String> mealName = new ArrayList<>();
-        ArrayList<String> description = new ArrayList<>();
-        ArrayList<String> mealType = new ArrayList<>();
-        ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
-        ArrayList<ArrayList<String>> ingredients = new ArrayList<>();
-        ArrayList<ArrayList<String>> allergens = new ArrayList<>();
-        ArrayList<Float> price = new ArrayList<>();
-        ArrayList<String> image = new ArrayList<>();
-        ArrayList<String> documents = new ArrayList<>();
+
         meals = new ArrayList<>();
 
         dBase.collection("users").whereEqualTo("type", "Cook").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -138,7 +92,17 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                         cook.getReference().collection("meals").whereEqualTo("offered", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                                 if(task.isSuccessful()){
+                                    ArrayList<String> mealName = new ArrayList<>();
+                                    ArrayList<String> description = new ArrayList<>();
+                                    ArrayList<String> mealType = new ArrayList<>();
+                                    ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
+                                    ArrayList<ArrayList<String>> ingredients = new ArrayList<>();
+                                    ArrayList<ArrayList<String>> allergens = new ArrayList<>();
+                                    ArrayList<Float> price = new ArrayList<>();
+                                    ArrayList<String> image = new ArrayList<>();
+                                    ArrayList<String> documents = new ArrayList<>();
                                     for (DocumentSnapshot meal : task.getResult()) {
                                         Log.d(TAG, meal.getId() + "=>" + meal.getData());
                                         Map<String, Object> data = meal.getData();
@@ -159,20 +123,57 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                         } else {
                                             image.add(null);
                                         }
+                                        //Meal toAdd = new Meal(data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(),)
+                                    }
+                                    Log.d(TAG, Integer.toString(mealName.size()));
+                                    for (int i = 0; i < mealName.size(); i++){
+                                        Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
+                                        meal.setImageID(image.get(i));
+                                        meals.add(meal);
                                     }
                                 }
                             }
                         });
-                        for (int i = 0; i < mealName.size(); i++){
-                            Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                            meal.setImageID(image.get(i));
-                            meals.add(meal);
-                        }
                     }
                 }
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
                 updateView();
                 Log.d(TAG, "Second query should be complete");
+                System.out.println(meals.size());
+                searchBut.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        searchedMeals = new ArrayList<>();
+                        mealNamefromSearch = mealNameSearch.getText().toString();
+                        cuisineTypefromSearch = cuisineTypeSearch.getText().toString();
+                        mealTypefromSearch = mealTypeSearch.getText().toString();
+                        if(mealNamefromSearch.isEmpty() && cuisineTypefromSearch.isEmpty() && mealTypefromSearch.isEmpty()){
+                            //todo: jsut add a message for user ehre!
+                            return;
+                        }
+                        for (Meal meal : meals) {
+                            if (!mealNamefromSearch.isEmpty()) {
+                                if (meal.getMealName().equalsIgnoreCase(mealNamefromSearch) && !searchedMeals.contains(meal)) {
+                                    searchedMeals.add(meal);
+                                }
+                            }
+                            if (!cuisineTypefromSearch.isEmpty()) {
+                                String[] cuisineList = cuisineTypefromSearch.split(",");
+                                for (String cuisine : cuisineList) {
+                                    for (String mealCuisine : meal.getCuisine()) {
+                                        if (cuisine.equalsIgnoreCase(mealCuisine) && !searchedMeals.contains(meal)) {
+                                            searchedMeals.add(meal);
+                                        }
+                                    }
+                                }
+                            }
+                            if (!mealTypefromSearch.isEmpty()) {
+                                if (meal.getMealType().equalsIgnoreCase(mealTypefromSearch) && !searchedMeals.contains(meal)) {
+                                    searchedMeals.add(meal);
+                                }
+                            }
+                        }
+                    }
+                });
             }
         });
     }
