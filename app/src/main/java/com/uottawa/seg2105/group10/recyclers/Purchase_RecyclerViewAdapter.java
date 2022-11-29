@@ -50,7 +50,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         holder.mealName.setText(purchases.get(holder.getLayoutPosition()).getMealName());
         holder.clientName.setText(purchases.get(holder.getLayoutPosition()).getClientName());
-        holder.pickUpTime.setText(purchases.get(holder.getLayoutPosition()).getDate());
+        holder.pickUpTime.setText(purchases.get(holder.getLayoutPosition()).getPickUpTime());
     }
 
     @Override
