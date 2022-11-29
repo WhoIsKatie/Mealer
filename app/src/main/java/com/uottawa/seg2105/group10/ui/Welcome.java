@@ -30,7 +30,6 @@ import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 
 public class Welcome extends AppCompatActivity {
 
@@ -169,7 +168,7 @@ public class Welcome extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         final DocumentReference[] purchaseRef = new DocumentReference[1];
-        dBase.collection("purchases").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
