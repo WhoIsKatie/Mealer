@@ -62,16 +62,16 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView mealName, clientName, pickUpTime;
-        Button removeButt, rejectButt;
+        Button approveButt, rejectButt;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
-            mealName = itemView.findViewById(R.id.compMealName);
-            clientName = itemView.findViewById(R.id.compMealPrice);
-            pickUpTime = itemView.findViewById(R.id.compMealImgView);
-            removeButt = itemView.findViewById(R.id.textView6);
-            rejectButt = itemView.findViewById(R.id.offerStatusTextView);
+            mealName = itemView.findViewById(R.id.compMealNameTextView);
+            clientName = itemView.findViewById(R.id.compClientNameTextView);
+            pickUpTime = itemView.findViewById(R.id.compPickUpTimeTextView);
+            approveButt = itemView.findViewById(R.id.compApproveButt);
+            rejectButt = itemView.findViewById(R.id.compRejectButt);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
