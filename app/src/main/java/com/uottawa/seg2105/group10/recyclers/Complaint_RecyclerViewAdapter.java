@@ -54,9 +54,9 @@ public class Complaint_RecyclerViewAdapter extends RecyclerView.Adapter<Complain
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
-            nameOfUser = itemView.findViewById(R.id.textView5);
+            nameOfUser = itemView.findViewById(R.id.compMealNameTextView);
             raisedAComplaint = itemView.findViewById(R.id.textView7);
-            timeOfComplaint = itemView.findViewById(R.id.textView3);
+            timeOfComplaint = itemView.findViewById(R.id.compClientNameTextView);
             view = itemView.findViewById(R.id.textView6);
 
             itemView.setOnClickListener(new View.OnClickListener() {

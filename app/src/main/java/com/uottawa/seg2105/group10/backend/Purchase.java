@@ -14,14 +14,12 @@ import java.text.SimpleDateFormat;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, clientName, mealName, pickupTime;
+    private final String cookUID, clientUID, mealID, clientName, mealName, pickupTime, docID;
     private long requestDate;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
     private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
     private static final String TAG = "Purchase Class";
-
-
 
     @Retention(SOURCE) //https://stackoverflow.com/questions/24715096/how-to-only-allow-certain-values-as-parameter-for-a-method-in-java
     @StringDef({"PENDING", "ACCEPTED", "REJECTED"})
@@ -33,11 +31,11 @@ public class Purchase {
     //should we keep a connection to complaints or just let complaint see us?
     // method to make a purchase inside meal? or just make new document in fb?
 
-    public Purchase(String cookUID, String clientUID, String mealID, long date, String clientName, String mealName, SimpleDateFormat pickupTime){
+    public Purchase(String docID, String cookUID, String clientUID, String mealID, String clientName, String mealName, SimpleDateFormat pickupTime){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.mealID = mealID;
-        this.requestDate = date;
+        this.docID = docID;
         this.clientName = clientName;
         this.mealName = mealName;
         complaint = null;
