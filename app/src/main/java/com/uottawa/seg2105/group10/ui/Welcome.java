@@ -11,20 +11,26 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Map;
 
 public class Welcome extends AppCompatActivity {
 
@@ -157,6 +163,27 @@ public class Welcome extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final DocumentReference[] purchaseRef = new DocumentReference[1];
+        dBase.collection("purchases").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<DocumentSnapshot> purchases = task.getResult().getDocuments();
+                    for(DocumentSnapshot snapshot:purchases){
+                        if(snapshot.getString("clientUID").equals(document.getId()) || snapshot.getString("cookUID").equals(document.getId())){
+                            purchaseRef[0] = snapshot.getReference();
+                            return;
+                        }
+                    }
+                }
+            }
+        });
+        setPurchaseRef(purchaseRef[0]);
     }
 
     public boolean setPurchaseRef(DocumentReference doc) {
