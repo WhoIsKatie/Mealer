@@ -18,7 +18,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Utility{
     private Uri filePath;
@@ -44,7 +43,6 @@ public class Utility{
 
     @Deprecated
     public void setURI(ImageView imageView, int requestCode, int resultCode, @Nullable Intent data) {
-        //TODO: FIGURE OUT IF THIS METHOD IS NECESSARY? HOW TO USE IT?
         if(resultCode == RESULT_OK){
             if(requestCode == 1000){
                 filePath = data.getData();
@@ -68,8 +66,6 @@ public class Utility{
             });
         }
         else{
-            // I feel like toasts are more for users. Since this message is exclusively for us, it can just be printed thru system output - Katie
-            Toast.makeText(context, "Either filePath is null or FirebaseStorage not Initialized (wrong constructor)", Toast.LENGTH_LONG).show();
             System.out.println("Either filePath is null or FirebaseStorage not Initialized (wrong constructor)");
         }
         return result;

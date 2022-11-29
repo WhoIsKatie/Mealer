@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,25 +90,7 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            // Calling method to initialize notification channel
-                            /*createNotificationChannel();
-                            final DocumentReference docRef = purchaseRef;
-                            docRef.addSnapshotListener((snapshot, e) -> {
-                                if (e != null) {
-                                    Log.w(TAG, "Listen failed.", e);
-                                    return;
-                                }
-                                if (snapshot != null && snapshot.exists()) {
-                                    Log.d(TAG, "Current data: " + snapshot.getData());
-                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
-                                            .setSmallIcon(R.drawable.real_logo)
-                                            .setContentTitle("Status Change")
-                                            .setContentText("Open Mealer to see more.")
-                                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                                } else {
-                                    Log.d(TAG, "Current data: null");
-                                }
-                            });*/
+
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
@@ -193,5 +176,28 @@ public class Welcome extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private boolean startNotifications() {
+        // Calling method to initialize notification channel
+        createNotificationChannel();
+        final DocumentReference docRef = purchaseRef;
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
+            if (snapshot != null && snapshot.exists()) {
+                Log.d(TAG, "Current data: " + snapshot.getData());
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
+                        .setSmallIcon(R.drawable.real_logo)
+                        .setContentTitle("Status Change")
+                        .setContentText("Open Mealer to see more.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            } else {
+                Log.d(TAG, "Current data: null");
+            }
+        });
+        return true;
     }
 }
