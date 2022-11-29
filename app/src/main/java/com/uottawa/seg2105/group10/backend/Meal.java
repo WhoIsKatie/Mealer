@@ -1,6 +1,6 @@
 package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Meal {
@@ -52,7 +52,7 @@ public class Meal {
 	public void setCookUID(String cookUID){this.cookUID = cookUID;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
-	public Purchase createPurchase(String docID, String cookUID, String clientUID, String date, String mealName, String clientName, SimpleDateFormat pickTime){
-		return new Purchase(docID, cookUID, clientUID, mealName, date, mealName, clientName, pickTime);
+	public Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, LocalDateTime pickTime, String clientName){
+		return new Purchase(docID, cookUID, clientUID, mealName, pickTime.toString(), clientName);
 	}
 }
