@@ -115,7 +115,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mealImage;
-        TextView name, price, view, offerStatus;
+        TextView name, price, view, offerStatus, cookName;
         //Switch menuOfferToggle;
         Button menuRemoveButt, menuModifyButt;
         CardView backgroundCard;
@@ -133,6 +133,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             menuRemoveButt = itemView.findViewById(R.id.menuRemoveButt);
             menuModifyButt = itemView.findViewById(R.id.menuModifyButt);
             backgroundCard = itemView.findViewById(R.id.backgroundCard);
+            cookName = itemView.findViewById(R.id.compressedCookNameTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
