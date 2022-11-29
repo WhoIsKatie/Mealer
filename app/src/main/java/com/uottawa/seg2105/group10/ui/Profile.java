@@ -68,11 +68,10 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
                     pickUpTime.add(data.get("pickUpTime").toString());
                     cookUID.add(data.get("cookUID").toString());
                     clientUID.add(data.get("clientUID").toString());
-                    mealID.add(data.get("mealID").toString());
                     documents.add(document.getReference().getId());
                 }
                 for (int i = 0; i < mealName.size(); i++){
-                    Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), pickUpTime.get(i), clientName.get(i), mealName.get(i));
+                    Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealName.get(i), pickUpTime.get(i), clientName.get(i));
                     purchases.add(cm);
                 }
                 updateView();

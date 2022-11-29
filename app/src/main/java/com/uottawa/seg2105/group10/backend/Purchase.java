@@ -10,18 +10,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.annotation.Retention;
-import java.text.SimpleDateFormat;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, clientName, mealName, pickupTime;
-    private long requestDate;
+    private final String cookUID, clientUID, mealID, clientName, pickupTime, docID;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
     private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
     private static final String TAG = "Purchase Class";
-
-
 
     @Retention(SOURCE) //https://stackoverflow.com/questions/24715096/how-to-only-allow-certain-values-as-parameter-for-a-method-in-java
     @StringDef({"PENDING", "ACCEPTED", "REJECTED"})
@@ -30,16 +26,12 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    //should we keep a connection to complaints or just let complaint see us?
-    // method to make a purchase inside meal? or just make new document in fb?
-
-    public Purchase(String cookUID, String clientUID, String mealID, long date, String clientName, String mealName, SimpleDateFormat pickupTime){
+    public Purchase(String docID, String cookUID, String clientUID, String mealName, String pickupTime, String clientName){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
-        this.mealID = mealID;
-        this.requestDate = date;
+        this.docID = docID;             // the creation time of this instance
+        this.mealID = mealName;         // the meal name
         this.clientName = clientName;
-        this.mealName = mealName;
         complaint = null;
         status = "PENDING";
         this.pickupTime = pickupTime.toString();
@@ -47,12 +39,11 @@ public class Purchase {
     }
 
     //getters
-    public String getMealName(){return mealName;}
+    public String getMealName(){return mealID;}
     public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
-    public String getMealID() {return mealID;}
-    public long getRequestDate() {return requestDate;}
+    public String getRequestDate() {return docID;}
     public DocumentReference getComplaint() {return complaint;}
     public String getStatus(){return status;}
     public String getPickUpTime() {return pickupTime;}
@@ -71,7 +62,7 @@ public class Purchase {
     public boolean updateFireStore() { //the purchase itself interacts with firebase so hopefully outside classes don't have to
         final boolean[] flag = new boolean[1];
         //collection purchases => document with ID = cook UID (so cook can easily find their sales) => collection with client UID => new document with object = this purchase instance
-        dBase.collection("purchases").document(cookUID).collection(clientUID).document(String.valueOf(requestDate)).set(this).addOnSuccessListener(v -> {
+        dBase.collection("purchases").document(cookUID).collection(clientUID).document(docID).set(this).addOnSuccessListener(v -> {
             Log.d(TAG, "Purchase added successfully");
             flag[0] = true;
         }).addOnFailureListener(e -> {
