@@ -54,17 +54,12 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         cuisineTypeSearch = findViewById(R.id.cuisineTypeSearch);
         mealTypeSearch = findViewById(R.id.mealTypeSearchBar);
         searchedMeals = new ArrayList<>();
-
-
         meals = new ArrayList<>();
-        // ArrayList<String> tess = new ArrayList<String>();
-        // tess.add("tess");
-        //Meal josh = new Meal(8, "Tess", "Tess","Tess", tess,tess,tess);
-        //meals.add(josh);
-        adapter = new Meal_RecyclerViewAdapter("Cook",this, meals, this);
-        updateView();
-    }
 
+    }
+    protected void setAdapter(){
+        adapter = new Meal_RecyclerViewAdapter("Client",this, searchedMeals, this);
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -72,8 +67,9 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     }
 
     private void updateView(){
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
     }
 
     private void setUpMealModels(){
@@ -137,7 +133,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                     }
                 }
                 //adapter.notifyDataSetChanged();
-                updateView();
+                // updateView();
                 Log.d(TAG, "Second query should be complete");
                 System.out.println(meals.size());
                 searchBut.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +168,8 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                 }
                             }
                         }
+                        setAdapter();
+                        updateView();
                     }
                 });
             }

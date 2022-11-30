@@ -66,13 +66,23 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
 
-        if(type.equals("Client")){
+        if(type.equals("Client")) {
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
             String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
-            firebaseMeal = dBase.collection("users").document(cookUID).collection("meals")
-                    .document(meals.get(searchViewHolder.getAdapterPosition()).getMealName());
-            // now you could update view & stuff
+            // firebaseMeal = dBase.collection("users").document(cookUID).collection("meals")
+            // .document(meals.get(searchViewHolder.getAdapterPosition()).getMealName());
+            searchViewHolder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
+            float price = meals.get(searchViewHolder.getAdapterPosition()).getPrice();
+            BigDecimal bd = new BigDecimal(price + "");
+            String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
+            searchViewHolder.price.setText(textPrice);
 
+            if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(searchViewHolder.getAdapterPosition()).getImageID());
+                imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Glide.with(context).load(uri).into(searchViewHolder.mealImage);
+                });
+            }
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
             menuViewHolder.name.setText(meals.get(menuViewHolder.getAdapterPosition()).getMealName());

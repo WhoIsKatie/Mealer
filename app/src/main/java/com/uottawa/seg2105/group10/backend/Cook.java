@@ -57,6 +57,7 @@ public class Cook extends User{
 						//variable from inst of this class, Cook.java
 						description = document.getString("description");
 						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
+						ratingSum = document.getDouble("rating");
 
 						//cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
 						userDoc.collection("meals").get().addOnSuccessListener(QuerySnapshot -> {
