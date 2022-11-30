@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/submitComplaint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Submit a Complaint"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="93dp"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/titleComplaint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:hint="Title of Complaint"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottonOf="@id+/submitComplaint"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <EditText
+        android:id="@+id/cookName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:hint="Name of Cook"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottonOf="@id+/titleComplaintt"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="205dp" />
+
+    <EditText
+        android:id="@+id/complaint"
+        android:layout_width="413dp"
+        android:layout_height="128dp"
+        android:gravity="center_horizontal"
+        android:hint="Description of Complaint"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottonOf="@id+/cookName"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="301dp" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="170dp"
+        android:layout_height="55dp"
+        android:text="Submit"
+        app:layout_constraintTop_toBottonOf="@id+/complaint"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="489dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="172dp"
+        android:layout_height="53dp"
+        android:text="Cancel"
+        app:layout_constraintTop_toBottonOf="@id+/complaint"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="491dp"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,6 +22,16 @@ public class ComplaintModel{
         this.docID = docID;
     }
 
+    public ComplaintModel(String nameOfClient, String nameOfCook,String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookUid, String clientUid){
+        this.nameOfClient = nameOfClient;
+        this.nameOfCook = nameOfCook;
+        this.timeOfComplaint = timeOfComplaint;
+        this.titleOfComplaint = titleOfComplaint;
+        this.descriptionOfComplaint = descriptionOfComplaint;
+        this.cookUid = cookUid;
+        this.clientUid = clientUid;
+    }
+
     public String getDocID(){
         return docID;
     }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/rateTheCook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center_horizontal"
+        android:text="Rate your Cook!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="84dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/explain"
+        android:layout_width="377dp"
+        android:layout_height="39dp"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center_horizontal"
+        android:text="Rate your cook from a scale of 1 to 5. Only use numbers. 1 being poor and 5 being excellent."
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="135dp" />
+
+
+    <EditText
+        android:id="@+id/cookName2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:hint="Name of Cook"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottonOf="@id+/explain"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="257dp" />
+
+
+    <EditText
+        android:id="@+id/rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="Rate your cook from 1 to 5"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottonOf="@id+/cookName"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="369dp" />
+
+    <Button
+        android:id="@+id/submitButton2"
+        android:layout_width="170dp"
+        android:layout_height="55dp"
+        android:text="Submit"
+        app:layout_constraintTop_toBottonOf="@id+/rate"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="489dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/cancelButton2"
+        android:layout_width="172dp"
+        android:layout_height="53dp"
+        android:text="Cancel"
+        app:layout_constraintTop_toBottonOf="@id+/submitButton"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="491dp"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
