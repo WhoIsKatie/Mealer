@@ -19,7 +19,7 @@ public class Meal {
 		allergens = new ArrayList<>();
 	}
 
-	public Meal(float price, String mealName, String description, String mealType, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
+	public Meal(float price, String cookUID, String mealName, String description, String mealType, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
 		this.price = price;
 		this.description = description;
 		this.mealType = mealType;
