@@ -13,7 +13,7 @@ import java.lang.annotation.Retention;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, clientName, pickupTime, docID;
+    private final String cookUID, clientUID, mealID, clientName, pickupTime, requestTime;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
     private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
@@ -26,11 +26,11 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String docID, String cookUID, String clientUID, String mealName, String pickupTime, String clientName){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String pickupTime, String clientName){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
-        this.docID = docID;             // the creation time of this instance
-        this.mealID = mealName;         // the meal name
+        this.requestTime = requestTime;             // the creation time of this instance
+        this.mealID = mealName;                     // the meal name
         this.clientName = clientName;
         complaint = null;
         status = "PENDING";
@@ -43,10 +43,11 @@ public class Purchase {
     public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
-    public String getRequestDate() {return docID;}
+    public String getRequestDate() {return requestTime;}
     public DocumentReference getComplaint() {return complaint;}
     public String getStatus(){return status;}
     public String getPickUpTime() {return pickupTime;}
+    public String getRequestTime() {return requestTime;}
 
     //complaint setter (the only one that can be set after creation)
     public boolean setComplaint(DocumentReference complaint){
@@ -62,7 +63,7 @@ public class Purchase {
     public boolean updateFireStore() { //the purchase itself interacts with firebase so hopefully outside classes don't have to
         final boolean[] flag = new boolean[1];
         //collection purchases => document with ID = cook UID (so cook can easily find their sales) => collection with client UID => new document with object = this purchase instance
-        dBase.collection("purchases").document(cookUID).collection(clientUID).document(docID).set(this).addOnSuccessListener(v -> {
+        dBase.collection("purchases").document(cookUID).collection(clientUID).document(requestTime).set(this).addOnSuccessListener(v -> {
             Log.d(TAG, "Purchase added successfully");
             flag[0] = true;
         }).addOnFailureListener(e -> {
