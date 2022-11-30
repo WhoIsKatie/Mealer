@@ -76,7 +76,6 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             BigDecimal bd = new BigDecimal(price + "");
             String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
             searchViewHolder.price.setText(textPrice);
-            firebaseMeal = dBase.collection("users").document(cookUID);
             if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(searchViewHolder.getAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
