@@ -1,6 +1,10 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
@@ -24,21 +30,18 @@ import java.time.temporal.ChronoUnit;
 
 public class Welcome extends AppCompatActivity {
 
-    private TextView typeText;
-    private TextView isSuspended;
-    private TextView suspensionDeets;
+    private TextView typeText,  isSuspended, suspensionDeets;
+    private Button logOffButt, homepageButt;
+    private ImageButton profileButt;
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private DocumentReference userDoc;
-
+    private DocumentReference userDoc, purchaseRef;
     private final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
-    private final DocumentReference[] purchaseRef = new DocumentReference[1];
-    private Button logOffButt;
-    private Button homepageButt;
-    private ImageButton profileButt;
+
     private static final String TAG = "Welcome";
     private String type;
-
+    private Purchase recentPurchase;
 
     @Override
     // Turns off the android back button => User cannot go back to login page unless logged out
@@ -87,7 +90,7 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            //startPurchaseStatusListener();
+                            //startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
@@ -156,10 +159,10 @@ public class Welcome extends AppCompatActivity {
 
     }
 
- /*   @Override
-   protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
-        dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        /*dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -176,11 +179,13 @@ public class Welcome extends AppCompatActivity {
 
     }
 
-    /*private boolean startNotifications() {
+    private boolean startNotifications() {
         // Calling method to initialize notification channel
+        startPurchaseStatusListener();
         createNotificationChannel();
-        if (purchaseRef[0] == null) return false;
-        purchaseRef[0].addSnapshotListener((snapshot, e) -> {
+        if (recentPurchase == null) return false;
+        purchaseRef = dBase.collection("purchases").document(recentPurchase.getCookUID()).collection(recentPurchase.getClientUID()).document(recentPurchase.getRequestTime());
+        purchaseRef.addSnapshotListener((snapshot, e) -> {
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e);
                 return;
@@ -204,42 +209,15 @@ public class Welcome extends AppCompatActivity {
             }
         });
         return true;
-    }*/
+    }
 
-   /* public void startPurchaseStatusListener() {
-
+    public void startPurchaseStatusListener() {
         //.orderBy("docID", Query.Direction.DESCENDING).limit(1)
         if (userSnapshot[0] != null) {
-            String meow = userSnapshot[0].getId();
             dBase.collectionGroup(userSnapshot[0].getId()).get().addOnSuccessListener(queryDocumentSnapshots -> {
-                purchaseRef[0] = queryDocumentSnapshots.getDocuments().get(0).getReference();
-                createNotificationChannel();
-                if (purchaseRef[0] == null) return;
-                purchaseRef[0].addSnapshotListener((snapshot, e) -> {
-                    if (e != null) {
-                        Log.w(TAG, "Listen failed.", e);
-                        return;
-                    }
-                    if (snapshot != null && snapshot.exists()) {
-                        if ((snapshot.get("status") == "PENDING") || snapshot.get("complaint") != null) return;
-
-                        Intent intent = new Intent(this, MealSearch.class); //Should be ClientHome.class but it currently dne
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
-                                .setSmallIcon(R.drawable.real_logo)
-                                .setContentTitle("Status Change")
-                                .setContentText("Open Mealer to see more.")
-                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                .setContentIntent(pendingIntent)
-                                .setAutoCancel(true);
-                    } else {
-                        Log.d(TAG, "Current data: null");
-                    }
+                queryDocumentSnapshots.getDocuments().get(0).getReference().get().addOnSuccessListener(snapshot -> {
+                    recentPurchase = snapshot.toObject(Purchase.class);
                 });
-
-                Log.w(TAG,  purchaseRef[0].getId().toString());
             }).addOnFailureListener(e -> {
                 Log.w(TAG, "mians :(");
             });
@@ -248,7 +226,7 @@ public class Welcome extends AppCompatActivity {
 
     public boolean setPurchaseRef(DocumentReference doc) {
         if (doc == null) return false;
-        purchaseRef[0] = doc;
+        purchaseRef = doc;
         return true;
     }
 
@@ -264,5 +242,4 @@ public class Welcome extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-*/
-
+}

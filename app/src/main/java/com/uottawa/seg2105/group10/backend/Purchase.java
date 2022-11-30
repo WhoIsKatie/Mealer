@@ -38,12 +38,23 @@ public class Purchase {
         updateFireStore();
     }
 
+    public Purchase(){
+        clientUID = "";
+        cookUID = "";
+        requestTime = "";
+        mealID = "";
+        clientName = "";
+        complaint = null;
+        status = "PENDING";
+        pickupTime = "";
+    }
+
     //getters
     public String getMealName(){return mealID;}
+    public String getMealID(){return mealID;}
     public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
-    public String getRequestDate() {return requestTime;}
     public DocumentReference getComplaint() {return complaint;}
     public String getStatus(){return status;}
     public String getPickUpTime() {return pickupTime;}
