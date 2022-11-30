@@ -1,10 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -92,7 +87,7 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            startPurchaseStatusListener();
+                            //startPurchaseStatusListener();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
@@ -161,10 +156,10 @@ public class Welcome extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
+ /*   @Override
+   protected void onStart() {
         super.onStart();
-        /*dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -211,7 +206,7 @@ public class Welcome extends AppCompatActivity {
         return true;
     }*/
 
-    public void startPurchaseStatusListener() {
+   /* public void startPurchaseStatusListener() {
 
         //.orderBy("docID", Query.Direction.DESCENDING).limit(1)
         if (userSnapshot[0] != null) {
@@ -269,6 +264,5 @@ public class Welcome extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+*/
 
-
-}

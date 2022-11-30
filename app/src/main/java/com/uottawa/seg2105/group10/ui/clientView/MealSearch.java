@@ -98,6 +98,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                     ArrayList<ArrayList<String>> allergens = new ArrayList<>();
                                     ArrayList<Float> price = new ArrayList<>();
                                     ArrayList<String> image = new ArrayList<>();
+                                    ArrayList<String> cookUID = new ArrayList<>();
                                     ArrayList<String> documents = new ArrayList<>();
                                     for (DocumentSnapshot meal : task.getResult()) {
                                         Log.d(TAG, meal.getId() + "=>" + meal.getData());
@@ -123,7 +124,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                     }
                                     Log.d(TAG, Integer.toString(mealName.size()));
                                     for (int i = 0; i < mealName.size(); i++){
-                                        Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
+                                        Meal meal = new Meal(price.get(i), cookUID.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
                                         meal.setImageID(image.get(i));
                                         meals.add(meal);
                                     }
@@ -143,7 +144,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                         cuisineTypefromSearch = cuisineTypeSearch.getText().toString();
                         mealTypefromSearch = mealTypeSearch.getText().toString();
                         if(mealNamefromSearch.isEmpty() && cuisineTypefromSearch.isEmpty() && mealTypefromSearch.isEmpty()){
-                            //todo: jsut add a message for user ehre!
+                            //todo: jsut add a message for user here!
                             return;
                         }
                         for (Meal meal : meals) {
