@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.ui;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,25 +12,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 public class Welcome extends AppCompatActivity {
 
@@ -40,13 +36,14 @@ public class Welcome extends AppCompatActivity {
     private FirebaseFirestore dBase;
     private DocumentReference userDoc;
 
-    private DocumentSnapshot document;
-    private DocumentReference purchaseRef;
+    private final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
+    private final DocumentReference[] purchaseRef = new DocumentReference[1];
     private Button logOffButt;
     private Button homepageButt;
     private ImageButton profileButt;
     private static final String TAG = "Welcome";
     private String type;
+
 
     @Override
     // Turns off the android back button => User cannot go back to login page unless logged out
@@ -79,12 +76,12 @@ public class Welcome extends AppCompatActivity {
 
         userDoc.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                document = task.getResult();
+                userSnapshot[0] = task.getResult();
                 // if user specific document exists,
                 // set text field to display user type (Client, Cook, or Admin)
-                if (document.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    type = document.getString("type");
+                if (userSnapshot[0].exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + userSnapshot[0].getData());
+                    type = userSnapshot[0].getString("type");
                     typeText.setText(type);
                     switch(type){
                         case "Admin":
@@ -95,13 +92,13 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-
+                            startPurchaseStatusListener();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
 
-                    if(document.contains("isSuspended")) {
-                        if(Boolean.TRUE.equals(document.getBoolean("isSuspended"))){
+                    if(userSnapshot[0].contains("isSuspended")) {
+                        if(Boolean.TRUE.equals(userSnapshot[0].getBoolean("isSuspended"))){
                             isSuspended.setText(R.string.general_suspend_message);
                             userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
                                 Cook thisCook = snapshot.toObject(Cook.class);
@@ -157,7 +154,7 @@ public class Welcome extends AppCompatActivity {
         profileButt.setOnClickListener(view -> {
             Intent intent = new Intent(Welcome.this, Profile.class);
             intent.putExtra("TYPE", type);
-            intent.putExtra("UID", document.getId());
+            intent.putExtra("UID", userSnapshot[0].getId());
             startActivity(intent);
         });
 
@@ -167,8 +164,7 @@ public class Welcome extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        final DocumentReference[] purchaseRef = new DocumentReference[1];
-        dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        /*dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -181,13 +177,83 @@ public class Welcome extends AppCompatActivity {
                     }
                 }
             }
+        });*/
+
+    }
+
+    /*private boolean startNotifications() {
+        // Calling method to initialize notification channel
+        createNotificationChannel();
+        if (purchaseRef[0] == null) return false;
+        purchaseRef[0].addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e);
+                return;
+            }
+            if (snapshot != null && snapshot.exists()) {
+                if ((snapshot.get("status") == "PENDING") || snapshot.get("complaint") != null) return;
+
+                Intent intent = new Intent(this, MealSearch.class); //Should be ClientHome.class but it currently dne
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
+                        .setSmallIcon(R.drawable.real_logo)
+                        .setContentTitle("Status Change")
+                        .setContentText("Open Mealer to see more.")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+            } else {
+                Log.d(TAG, "Current data: null");
+            }
         });
-        setPurchaseRef(purchaseRef[0]);
+        return true;
+    }*/
+
+    public void startPurchaseStatusListener() {
+
+        //.orderBy("docID", Query.Direction.DESCENDING).limit(1)
+        if (userSnapshot[0] != null) {
+            String meow = userSnapshot[0].getId();
+            dBase.collectionGroup(userSnapshot[0].getId()).get().addOnSuccessListener(queryDocumentSnapshots -> {
+                purchaseRef[0] = queryDocumentSnapshots.getDocuments().get(0).getReference();
+                createNotificationChannel();
+                if (purchaseRef[0] == null) return;
+                purchaseRef[0].addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        if ((snapshot.get("status") == "PENDING") || snapshot.get("complaint") != null) return;
+
+                        Intent intent = new Intent(this, MealSearch.class); //Should be ClientHome.class but it currently dne
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
+                                .setSmallIcon(R.drawable.real_logo)
+                                .setContentTitle("Status Change")
+                                .setContentText("Open Mealer to see more.")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setContentIntent(pendingIntent)
+                                .setAutoCancel(true);
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });
+
+                Log.w(TAG,  purchaseRef[0].getId().toString());
+            }).addOnFailureListener(e -> {
+                Log.w(TAG, "mians :(");
+            });
+        } else Log.w(TAG, "No purchases exist for you :(");
     }
 
     public boolean setPurchaseRef(DocumentReference doc) {
         if (doc == null) return false;
-        purchaseRef = doc;
+        purchaseRef[0] = doc;
         return true;
     }
 
@@ -204,26 +270,5 @@ public class Welcome extends AppCompatActivity {
         }
     }
 
-    private boolean startNotifications() {
-        // Calling method to initialize notification channel
-        createNotificationChannel();
-        final DocumentReference docRef = purchaseRef;
-        docRef.addSnapshotListener((snapshot, e) -> {
-            if (e != null) {
-                Log.w(TAG, "Listen failed.", e);
-                return;
-            }
-            if (snapshot != null && snapshot.exists()) {
-                Log.d(TAG, "Current data: " + snapshot.getData());
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
-                        .setSmallIcon(R.drawable.real_logo)
-                        .setContentTitle("Status Change")
-                        .setContentText("Open Mealer to see more.")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            } else {
-                Log.d(TAG, "Current data: null");
-            }
-        });
-        return true;
-    }
+
 }
