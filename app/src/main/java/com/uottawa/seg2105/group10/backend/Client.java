@@ -9,11 +9,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.Map;
+
 public class Client extends User {
 
     private String address, ccNumber, ccHolderName, expiryDate, cvc;
+
     private DocumentSnapshot document;
-    private static final String TAG = "Client.java";
 
     public Client(DocumentReference userDoc) {
         if (userDoc == null) return;
@@ -31,6 +33,7 @@ public class Client extends User {
                         password = document.getString("password");
                         address = document.getString("address");
                         type = document.getString("type");
+                        uid = document.getString("uid");
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -41,23 +44,25 @@ public class Client extends User {
         });
     }
 
-    // Dummy constructor for testing :)
+    // Dummy constructor
     public Client() {
-        super("", "", "", "", "Client");
+        super("Client Class", "", "", "", "", "Client", "");
+    }
+
+    public Client(Map<String, String> data) {
+        super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
     }
 
     // Setter method for Credit Card information
-    // If CC number, expiry date, and cvc are of correct format, returns true. Otherwise, returns false.
-    public boolean setCC(String num, String name, String expiry, String cvc) {
+    public void setCC(String num, String name, String expiry, String cvc) {
         if (expiry.matches("(?:0[1-9]|1[0-2])[0-9]{2}") && !name.isEmpty() &&
             num.matches("[0-9]{16}") && cvc.matches("[0-9]{3}")) {
             ccNumber = num;
             ccHolderName = name;
             expiryDate = expiry;
             this.cvc = cvc;
-            return true;
+            //this.updateFireStore();
         }
-        return false;
     }
 
     // Getter methods for testing purposes :)
@@ -65,4 +70,6 @@ public class Client extends User {
     public String getCcHolderName() {return ccHolderName;}
     public String getExpiryDate() {return expiryDate;}
     public String getCvc() {return cvc;}
+
+
 }

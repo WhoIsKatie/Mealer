@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.backend.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class Register2 extends AppCompatActivity {
     private TextInputEditText emailField, firstNameField, lastNameField, passField, addressField;
     private Button login;
     protected static Map<String, String> data;
+    protected static User newUser;
 
     TextInputLayout firstName, lastName, username, password, address;
 
@@ -106,17 +108,16 @@ public class Register2 extends AppCompatActivity {
                             }
 
                             //Change UI according to user data.
+                            // if new register 2 is made then static var data will be reset
                             public void updateUI(FirebaseUser account){
                                 if(account != null){
-                                    // Initializes a Mealer user object
-                                    //DocumentReference userDoc = dBase.collection("users").document(account.getUid());
-                                    data = new HashMap<>(); //if new register 2 is made then static var data will be reset
+                                    data = new HashMap<>();
                                     data.put("firstName", firstName);
                                     data.put("lastName", lastName);
                                     data.put("email", email);
                                     data.put("password", password);
                                     data.put("address", address);
-                                    //userDoc.set(data);
+                                    data.put("uid", account.getUid());
 
                                     // Directs user to step 2 of registration process:
                                     // If user is NOT a cook, directs to Register3 activity.

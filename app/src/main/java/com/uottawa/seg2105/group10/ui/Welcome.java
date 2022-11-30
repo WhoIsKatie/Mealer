@@ -90,15 +90,15 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            //startNotifications();
+                            startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
 
-                    if(userSnapshot[0].contains("isSuspended")) {
-                        if(Boolean.TRUE.equals(userSnapshot[0].getBoolean("isSuspended"))){
+                    if(userSnapshot[0].contains("suspended")) {
+                        if(Boolean.TRUE.equals(userSnapshot[0].getBoolean("suspended"))) {
                             isSuspended.setText(R.string.general_suspend_message);
-                            userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
+                            userDoc.get().addOnSuccessListener(snapshot -> {
                                 Cook thisCook = snapshot.toObject(Cook.class);
                                 String endDate = thisCook.getSuspensionEnd();
                                 // Displaying suspension message for both indefinite and temporary
@@ -143,7 +143,7 @@ public class Welcome extends AppCompatActivity {
                     break;
                 case "Client":
                     Intent intent = new Intent(Welcome.this, MealSearch.class);
-                    intent.putExtra("TYPE", "Cook");
+                    intent.putExtra("TYPE", type);
                     startActivity(intent);
                     break;
             }

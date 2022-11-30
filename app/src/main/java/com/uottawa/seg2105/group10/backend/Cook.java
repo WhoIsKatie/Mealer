@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cook extends User{
-	private String description, address;
+	private String description, address, cheque;
 	private double ratingSum = 0;
 	private boolean suspended = false;
 	private static final String TAG = "Cook.java";
@@ -26,17 +26,6 @@ public class Cook extends User{
 
 	private int completedOrders, numReviews;
 	private Map<String, Meal> cookMenu = new HashMap<>();
-
-	//TODO: implement allergen object/data-type
-	//public Hashmap<String, List<Meal>> allergen = new Hashmap<String, List<Meal>>();
-	// String (key) is the allergen, List<Meal> for list of meals containing the allergen
-	// scrapped this implementation, too complicated. still need a way to filter though right? tbd
-
-	public Map<String, Meal> getCookMenu(){
-		return cookMenu;
-	}
-
-
 
 	public Cook (DocumentReference userDoc) {
 		this.userDoc = userDoc;
@@ -58,6 +47,7 @@ public class Cook extends User{
 						description = document.getString("description");
 						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
 						ratingSum = document.getDouble("rating");
+						uid = document.getString("uid");
 
 						//cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
 						userDoc.collection("meals").get().addOnSuccessListener(QuerySnapshot -> {
@@ -81,13 +71,26 @@ public class Cook extends User{
 		numReviews = 0;
 	}
 
-	// Dummy constructor for testing :)
+	// Dummy constructor
 	public Cook() {
-		super("Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook");
+		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
 	}
 
+	public Cook(Map<String, String> data) {
+		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
+	}
+
+	//Getter methods
+	public Map<String, Meal> getCookMenu(){return cookMenu;}
 	public double getRating() {return ratingSum/completedOrders;}
+	public String getSuspensionEnd() {return suspensionEnd;}
+	public String getDescription() {return description;}
+	public String getAddress() {return address;}
+	public String getCheque() {return cheque;}
+
 	public void setSuspended(){suspended = true;}
+	public boolean isSuspended() {return suspended;}
+
 	public boolean addRating(double x) {
 		if (x > 5 || x < 0) {
 			return false;
@@ -95,19 +98,16 @@ public class Cook extends User{
 		ratingSum += x;
 		numReviews++;
 		return true;
+		//return this.updateFireStore();
 	}
 
-	public void createMeal(String name, String cookUID, float price, String descr, String type, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
+	public boolean createMeal(String name, String cookUID, float price, String descr, String type, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
 		Meal meal = new Meal(price, name, descr, type, cuisine, ingredients, allergens);
 		cookMenu.put(name, meal);
 		userDoc.collection("meals").document(name).set(cookMenu);
+		return true;
+		//return this.updateFireStore();
 	}
-
-
-
-	public boolean isSuspended() {return suspended;}
-
-	public String getSuspensionEnd() {return suspensionEnd;}
 
 	public boolean addSuspension(Duration length) {
 		if (length != null) {
@@ -123,6 +123,7 @@ public class Cook extends User{
 		} else suspensionEnd = null;
 		suspended = true;
 		return true;
+		//return this.updateFireStore();
 	}
 
 }
