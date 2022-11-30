@@ -42,7 +42,7 @@ public class AddMeal extends AppCompatActivity {
     private FirebaseAuth mAuth;
     DocumentReference firebaseMeal, userRef;
     private TextView showIngredients, showAllergens, mealNameFinal;
-    private String imageID, name;
+    private String imageID, name, cookUID;
 
     // Assuming we'll be using a multi-selection list/combo box that accepts user input as values
     private ArrayList<String> ingredients;
@@ -169,7 +169,7 @@ public class AddMeal extends AppCompatActivity {
                 String description = mealDesc.getText().toString();
 
                 firebaseMeal = userRef.collection("meals").document(name);
-                Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
+                Meal mealToAdd = new Meal(price, cookUID,  name, description, mealType, cuisine, ingredients, allergies);
                 mealToAdd.setCookUID(userRef.getId());
 
                 Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
