@@ -80,14 +80,9 @@ public class Register3 extends AppCompatActivity {
                 data.put("ccNum", ccNum);
                 data.put("expDate", expiry);
                 data.put("cvcField", cvc);
-                data.put("type", "Client");
 
                 user = new Client(data);
                 userRef.set(user);
-                //userRef.set(data);
-                //user = new Client(userRef);
-                // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
-                //userRef.collection("userObject").document("Client").update("User", user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));

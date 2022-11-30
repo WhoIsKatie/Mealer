@@ -1,5 +1,12 @@
 package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,6 +18,8 @@ public class Meal {
 	String imageID;
 	public boolean offered = true; 				// by default the meal is offered
 
+	protected final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
+	protected final static String TAG = "Meal";
 
 	public Meal(float price) {
 		this.price = price;
@@ -54,5 +63,20 @@ public class Meal {
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
 	public static Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, LocalDateTime pickTime, String clientName){
 		return new Purchase(docID, cookUID, clientUID, mealName, pickTime.toString(), clientName);
+	}
+
+	public boolean updateFirestore(Context c) {
+		DocumentReference mealRef = dBase.collection("users").document(cookUID).collection("meals").document(mealName);
+		final boolean[] flag = new boolean[1];
+		mealRef.set(this).addOnSuccessListener(v -> {
+			Log.d(TAG, "Added meal successfully.");
+			Toast.makeText(c, "Added meal!", Toast.LENGTH_SHORT).show();
+			flag[0] = true;
+		}).addOnFailureListener(unused -> {
+			Log.d(TAG, "Could not add the meal.");
+			Toast.makeText(c, "Could not add the meal.", Toast.LENGTH_SHORT).show();
+			flag[0] = false;
+		});
+		return flag[0];
 	}
 }

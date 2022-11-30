@@ -1,88 +1,48 @@
 package com.uottawa.seg2105.group10.backend;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Cook extends User{
 	private String description, address, cheque;
-	private double ratingSum = 0;
+	private double ratingSum = 0.0;
 	private boolean suspended = false;
 	private static final String TAG = "Cook.java";
 	private String suspensionEnd = null;
 	private DocumentReference userDoc = null;
-	DocumentSnapshot document;
-
 	private int completedOrders, numReviews;
-	private Map<String, Meal> cookMenu = new HashMap<>();
 
-	public Cook (DocumentReference userDoc) {
-		this.userDoc = userDoc;
-		userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-			@Override
-			public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-				if (task.isSuccessful()) {
-					document = task.getResult();
-					if (document.exists()) {
-						Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-						//variables from user super
-						firstName = document.getString("firstName");
-						lastName = document.getString("lastName");
-						email = document.getString("email");
-						password = document.getString("password");
-						address = document.getString("address");
-						type = document.getString("type");
-						//variable from inst of this class, Cook.java
-						description = document.getString("description");
-						suspended = Boolean.TRUE.equals(document.getBoolean("isSuspended"));
-						ratingSum = document.getDouble("rating");
-						uid = document.getString("uid");
-
-						//cookMenu = ((HashMap<String, Meal>)document.getData().get("meals"));
-						userDoc.collection("meals").get().addOnSuccessListener(QuerySnapshot -> {
-							for (DocumentSnapshot document : QuerySnapshot.getDocuments()) {
-								Log.d(TAG, document.getId() + " => " + document.getData());
-								Meal currentMeal = document.toObject(Meal.class);
-								cookMenu.put(currentMeal.getMealName(), currentMeal);
-							}
-						});
-					} else {
-						Log.d(TAG, "No such document");
-					}
-				} else {
-					Log.d(TAG, "get failed with ", task.getException());
-				}
-			}
-		});
-
+	// Dummy constructor
+	public Cook() {
+		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
 		ratingSum = 0.0;
 		completedOrders = 0;
 		numReviews = 0;
 	}
 
-	// Dummy constructor
-	public Cook() {
-		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
-	}
-
 	public Cook(Map<String, String> data) {
-		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
+		super("Cook Class",
+				data.get("firstName"),
+				data.get("lastName"),
+				data.get("email"),
+				data.get("password"),
+				"Cook",
+				data.get("uid"));
+		description = data.get("description");
+		address = data.get("address");
+		cheque = data.get("cheque");
+		ratingSum = 0.0;
+		completedOrders = 0;
+		numReviews = 0;
 	}
 
 	//Getter methods
-	public Map<String, Meal> getCookMenu(){return cookMenu;}
 	public double getRating() {return ratingSum/completedOrders;}
+	public int getNumReviews() {return numReviews;}
+	public int getCompletedOrders() {return completedOrders;}
 	public String getSuspensionEnd() {return suspensionEnd;}
 	public String getDescription() {return description;}
 	public String getAddress() {return address;}
@@ -97,14 +57,6 @@ public class Cook extends User{
 		}
 		ratingSum += x;
 		numReviews++;
-		return true;
-		//return this.updateFireStore();
-	}
-
-	public boolean createMeal(String name, String cookUID, float price, String descr, String type, ArrayList<String> cuisine, ArrayList<String> ingredients, ArrayList<String> allergens) {
-		Meal meal = new Meal(price, name, descr, type, cuisine, ingredients, allergens);
-		cookMenu.put(name, meal);
-		userDoc.collection("meals").document(name).set(cookMenu);
 		return true;
 		//return this.updateFireStore();
 	}
