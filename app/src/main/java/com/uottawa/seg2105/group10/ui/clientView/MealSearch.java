@@ -151,7 +151,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                         cuisineTypefromSearch = cuisineTypeSearch.getText().toString();
                         mealTypefromSearch = mealTypeSearch.getText().toString();
                         if(mealNamefromSearch.isEmpty() && cuisineTypefromSearch.isEmpty() && mealTypefromSearch.isEmpty()){
-                            //todo: jsut add a message for user here!
+
                             return;
                         }
                         for (Meal meal : meals) {
