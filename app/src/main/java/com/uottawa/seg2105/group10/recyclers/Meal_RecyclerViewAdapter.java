@@ -170,6 +170,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                         intent.putExtra("PRICE", thisMeal.getPrice());
                         intent.putExtra("DESCRIPTION", thisMeal.getDescription());
                         intent.putExtra("IMAGE", thisMeal.getImageID());
+                        intent.putExtra("COOKUID", thisMeal.getCookUID());
                         context.startActivity(intent);
                     });
                 }

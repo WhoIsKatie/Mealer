@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -26,10 +27,13 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class MealView extends AppCompatActivity {
 
@@ -38,10 +42,11 @@ public class MealView extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private float price;
-    private Timestamp stringPickupTime;
-    private DocumentReference firebaseMeal, userRef, pruchaseRef, mealRef;
-    private String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, firstName, cookUID, cookref;
-    private Switch offerToggle;
+    DocumentReference firebaseMeal, userRef;
+    String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, firstName, cookUID, userID;
+    Switch offerToggle;
+    private EditText pickUpTimeTextView;
+    String pickUpTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class MealView extends AppCompatActivity {
         dBase = FirebaseFirestore.getInstance();
 
         String name = getIntent().getStringExtra("MEAL NAME");
+        String cookUID2 = getIntent().getStringExtra("COOKUID");
         price = getIntent().getExtras().getFloat("PRICE");
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
@@ -67,6 +73,7 @@ public class MealView extends AppCompatActivity {
         Button removeButt = findViewById(R.id.removeButt);
         Button purchaseButt = findViewById(R.id.purchaseButt);
         offerToggle = findViewById(R.id.offerToggle);
+        pickUpTimeTextView = findViewById(R.id.pickUpTimeTextView);
 
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         userRef.get().addOnCompleteListener(task -> {
@@ -144,6 +151,7 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                    cookUID = snapshot.getString("cookUID");
                     if (Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
@@ -159,54 +167,28 @@ public class MealView extends AppCompatActivity {
         });
         purchaseButt.setOnClickListener(new View.OnClickListener() {
             @Override
-            //using multipule listeners becuase you cant reference a feild without looking at the entire document
             public void onClick(View view) {
                 //gets the firstname
                 userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 userRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         document = task.getResult();
-
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             firstName = document.getString("firstName");
+
+                            userID = userRef.getPath().split("/")[8];
+
+                            String pattern = "MMM dd, yyyy HH:mm";
+                            pickUpTime = pickUpTimeTextView.getText().toString();
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                            LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
+                            String docID = System.currentTimeMillis() + "";
+                            Purchase newPurchase = Meal.createPurchase(docID, cookUID2, userID, name, pickup, firstName);
+
                         }
                     }
                 });
-                //get the pickuptime
-                pruchaseRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid()).collection("purchases").document(mAuth.getCurrentUser().getUid());
-                pruchaseRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        document = task.getResult();
-
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            stringPickupTime = document.getTimestamp("pickUpTime");
-                        }
-                    }
-                });
-                //gets the cookUID based on the meal chosen to purchase
-                mealRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid()).collection("meals").document(name);
-                mealRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        document = task.getResult();
-
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            cookUID = document.getString("cookUID");
-                        }
-                    }
-                });
-                //lines 206-209 are to be able to change stringPickupTime into a localDateTime object
-                Date date = new Date();
-                Timestamp currentTime = new Timestamp(date);
-                String docUID = currentTime.toString();
-                LocalDateTime currentLocalTime = LocalDateTime.ofInstant(stringPickupTime.toDate().toInstant(), ZoneId.systemDefault());
-                //gets userID and turns it into a string
-                String userRefString = userRef.toString();
-                //uses the method createPurchase in meal class to create a new purchase
-                Purchase newPurchase = Meal.createPurchase(docUID, cookUID, userRefString, name, currentLocalTime, firstName);
-
             }
         });
 
