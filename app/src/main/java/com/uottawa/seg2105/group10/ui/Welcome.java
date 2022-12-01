@@ -92,6 +92,7 @@ public class Welcome extends AppCompatActivity {
                         case "Client":
                             //startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
+                            profileButt.setVisibility(View.GONE);
                             break;
                     }
 
@@ -143,7 +144,6 @@ public class Welcome extends AppCompatActivity {
                     break;
                 case "Client":
                     Intent intent = new Intent(Welcome.this, MealSearch.class);
-                    intent.putExtra("TYPE", type);
                     startActivity(intent);
                     break;
             }
@@ -151,8 +151,13 @@ public class Welcome extends AppCompatActivity {
 
         profileButt.setOnClickListener(view -> {
             Intent intent = new Intent(Welcome.this, Profile.class);
-            intent.putExtra("TYPE", type);
-            intent.putExtra("UID", userSnapshot[0].getId());
+            intent.putExtra("firstName", userSnapshot[0].get("cookName").toString());
+            intent.putExtra("lastName", userSnapshot[0].get("lastName").toString());
+            intent.putExtra("email", userSnapshot[0].get("email").toString());
+            intent.putExtra("address", userSnapshot[0].get("email").toString());
+            intent.putExtra("completedOrders", userSnapshot[0].get("completedOrders").toString());
+            intent.putExtra("rating", userSnapshot[0].get("rating").toString());
+
             startActivity(intent);
         });
 

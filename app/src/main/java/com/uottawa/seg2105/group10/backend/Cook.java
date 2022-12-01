@@ -8,11 +8,12 @@ import java.util.Map;
 
 public class Cook extends User{
 	private String description, address, cheque;
-	private double ratingSum = 0.0;
 	private boolean suspended = false;
 	private static final String TAG = "Cook.java";
 	private String suspensionEnd = null;
 	private DocumentReference userDoc = null;
+
+	private double ratingSum = 0.0;
 	private int completedOrders, numReviews;
 
 	// Dummy constructor
@@ -40,7 +41,7 @@ public class Cook extends User{
 	}
 
 	//Getter methods
-	public double getRating() {return ratingSum/completedOrders;}
+	public double getRating() {return ratingSum/numReviews;}
 	public int getNumReviews() {return numReviews;}
 	public int getCompletedOrders() {return completedOrders;}
 	public String getSuspensionEnd() {return suspensionEnd;}
@@ -50,6 +51,8 @@ public class Cook extends User{
 
 	public void setSuspended(){suspended = true;}
 	public boolean isSuspended() {return suspended;}
+
+	public void incrementCompletedOrder() {completedOrders++;}
 
 	public boolean addRating(double x) {
 		if (x > 5 || x < 0) {

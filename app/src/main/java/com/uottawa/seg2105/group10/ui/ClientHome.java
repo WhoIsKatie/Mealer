@@ -129,7 +129,6 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //cancel button
                 dialog.dismiss();
 
             }
