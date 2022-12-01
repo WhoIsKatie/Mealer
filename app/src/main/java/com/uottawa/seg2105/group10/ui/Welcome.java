@@ -90,7 +90,7 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            startNotifications();
+                            //startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
@@ -159,24 +159,10 @@ public class Welcome extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        /*dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    List<DocumentSnapshot> purchases = task.getResult().getDocuments();
-                    for(DocumentSnapshot snapshot:purchases){
-                        if(snapshot.getString("clientUID").equals(document.getId()) || snapshot.getString("cookUID").equals(document.getId())){
-                            purchaseRef[0] = snapshot.getReference();
-                            return;
-                        }
-                    }
-                }
-            }
-        });*/
-
+    public boolean setPurchaseRef(DocumentReference doc) {
+        if (doc == null) return false;
+        purchaseRef = doc;
+        return true;
     }
 
     private boolean startNotifications() {
@@ -222,12 +208,6 @@ public class Welcome extends AppCompatActivity {
                 Log.w(TAG, "mians :(");
             });
         } else Log.w(TAG, "No purchases exist for you :(");
-    }
-
-    public boolean setPurchaseRef(DocumentReference doc) {
-        if (doc == null) return false;
-        purchaseRef = doc;
-        return true;
     }
 
     private void createNotificationChannel() {

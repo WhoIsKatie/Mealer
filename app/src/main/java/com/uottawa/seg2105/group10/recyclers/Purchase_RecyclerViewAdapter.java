@@ -73,6 +73,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -85,6 +86,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
                     }
                 }
             });
+
+            //TODO: complete on-click buttons for cook to action purchase request
         }
     }
 }

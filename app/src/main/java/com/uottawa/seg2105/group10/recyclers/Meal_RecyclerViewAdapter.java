@@ -82,6 +82,8 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     Glide.with(context).load(uri).into(searchViewHolder.mealImage);
                 });
             }
+            //TODO: update rating and location on meal model for clients
+
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
             menuViewHolder.name.setText(meals.get(menuViewHolder.getAdapterPosition()).getMealName());

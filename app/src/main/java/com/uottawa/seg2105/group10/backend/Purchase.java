@@ -74,7 +74,7 @@ public class Purchase {
     public boolean updateFireStore() { //the purchase itself interacts with firebase so hopefully outside classes don't have to
         final boolean[] flag = new boolean[1];
         //collection purchases => document with ID = cook UID (so cook can easily find their sales) => collection with client UID => new document with object = this purchase instance
-        dBase.collection("purchases").document(cookUID).collection(clientUID).document(requestTime).set(this).addOnSuccessListener(v -> {
+        dBase.collection("purchases").document(requestTime).set(this).addOnSuccessListener(v -> {
             Log.d(TAG, "Purchase added successfully");
             flag[0] = true;
         }).addOnFailureListener(e -> {
