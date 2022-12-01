@@ -177,7 +177,7 @@ public class MealView extends AppCompatActivity {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             firstName = document.getString("firstName");
 
-                            userID = userRef.getPath().split("/")[8];
+                            userID = userRef.getPath().split("/")[1];
 
                             String pattern = "MMM dd, yyyy HH:mm";
                             pickUpTime = pickUpTimeTextView.getText().toString();
