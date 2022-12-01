@@ -74,21 +74,13 @@ public class Register4 extends AppCompatActivity {
                 Map<String, String> data = Register2.data;
 
                 data.put("description", profDesc);
-                data.put("type", "Cook");
                 Utility util = new Utility(Register4.this, filePath, mAuth, storage);
                 data.put("cheque", util.uploadImage("cheques/" + mAuth.getUid() + "/"));
 
                 user = new Cook(data);
                 userRef.set(user);
-                //userRef.set(data);
-                //userRef.update("isSuspended", false);
-                //user = new Cook(userRef);
-                // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
-                //userRef.collection("userObject").document("Cook").set(user);
-                //userRef.update("meals", null);
 
                 // Redirects user to login activity
-
                 startActivity(new Intent(Register4.this, Login.class));
             }
 

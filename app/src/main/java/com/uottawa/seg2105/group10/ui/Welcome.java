@@ -90,8 +90,9 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
- //                           startNotifications();
+                            //startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
+                            profileButt.setVisibility(View.GONE);
                             break;
                     }
 
@@ -143,7 +144,6 @@ public class Welcome extends AppCompatActivity {
                     break;
                 case "Client":
                     Intent intent = new Intent(Welcome.this, MealSearch.class);
-                    intent.putExtra("TYPE", type);
                     startActivity(intent);
                     break;
             }
@@ -151,32 +151,23 @@ public class Welcome extends AppCompatActivity {
 
         profileButt.setOnClickListener(view -> {
             Intent intent = new Intent(Welcome.this, Profile.class);
-            intent.putExtra("TYPE", type);
-            intent.putExtra("UID", userSnapshot[0].getId());
+            intent.putExtra("firstName", userSnapshot[0].get("cookName").toString());
+            intent.putExtra("lastName", userSnapshot[0].get("lastName").toString());
+            intent.putExtra("email", userSnapshot[0].get("email").toString());
+            intent.putExtra("address", userSnapshot[0].get("email").toString());
+            intent.putExtra("completedOrders", userSnapshot[0].get("completedOrders").toString());
+            intent.putExtra("rating", userSnapshot[0].get("rating").toString());
+
             startActivity(intent);
         });
 
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        /*dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    List<DocumentSnapshot> purchases = task.getResult().getDocuments();
-                    for(DocumentSnapshot snapshot:purchases){
-                        if(snapshot.getString("clientUID").equals(document.getId()) || snapshot.getString("cookUID").equals(document.getId())){
-                            purchaseRef[0] = snapshot.getReference();
-                            return;
-                        }
-                    }
-                }
-            }
-        });*/
-
+    public boolean setPurchaseRef(DocumentReference doc) {
+        if (doc == null) return false;
+        purchaseRef = doc;
+        return true;
     }
 
     private boolean startNotifications() {
@@ -222,12 +213,6 @@ public class Welcome extends AppCompatActivity {
                 Log.w(TAG, "mians :(");
             });
         } else Log.w(TAG, "No purchases exist for you :(");
-    }
-
-    public boolean setPurchaseRef(DocumentReference doc) {
-        if (doc == null) return false;
-        purchaseRef = doc;
-        return true;
     }
 
     private void createNotificationChannel() {

@@ -1,30 +1,23 @@
 package com.uottawa.seg2105.group10.ui;
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.time.LocalDateTime;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Client;
 import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
@@ -51,10 +44,13 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clienthome);
 
+
         // Initialize Firebase Authority and Firebase Firestore objects
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
+
+        //TODO: query for most recent purchase with field clientUID and display in card
 
         rateCook = (Button)findViewById(R.id.rateCook);
         complain = (Button)findViewById(R.id.complain);
@@ -79,6 +75,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
 
     @Override
     public void onItemClick(int position) {
+        //TODO: send client to mealview
         return;
 
     }
@@ -132,7 +129,6 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //cancel button
                 dialog.dismiss();
 
             }
@@ -164,7 +160,8 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         submitButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //submit button
+                //TODO: submit button.
+                // collect user input from text fields, call addRating() on cook object, update cook.
 
             }
         });

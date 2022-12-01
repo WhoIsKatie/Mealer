@@ -30,13 +30,17 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        purchases = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //TODO: set up cook profile with description, address, email, # meals sold, average rating
+
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
+
+        purchases = new ArrayList<>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);
         setUpPurchase();
     }
@@ -80,6 +84,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
     @Override
     public void onItemClick(int position) {
-
+        //TODO: send cook to purchase request view?? or not...
     }
 }

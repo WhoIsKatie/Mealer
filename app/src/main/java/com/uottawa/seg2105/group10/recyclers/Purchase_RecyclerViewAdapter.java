@@ -1,7 +1,6 @@
 package com.uottawa.seg2105.group10.recyclers;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Purchase;
-import com.uottawa.seg2105.group10.ui.AddMeal;
 
 import java.util.ArrayList;
 
@@ -76,6 +73,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -89,26 +87,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<Purchase_
                 }
             });
 
-            approveButt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-
-
-
-//                    Intent intent = new Intent(context, AddMeal.class);
-//                    firebaseMeal = userRef.collection("meals").document(meals.get(getAdapterPosition()).getMealName());
-//                    firebaseMeal.get().addOnSuccessListener(snapshot -> {
-//                        Meal thisMeal = snapshot.toObject(Meal.class);
-//                        intent.putExtra("MEAL NAME", thisMeal.getMealName());
-//                        intent.putExtra("PRICE", thisMeal.getPrice());
-//                        intent.putExtra("DESCRIPTION", thisMeal.getDescription());
-//                        intent.putExtra("IMAGE", thisMeal.getImageID());
-//                        context.startActivity(intent);
-//                    });
-                }
-            });
+            //TODO: complete on-click buttons for cook to action purchase request
         }
     }
 }
