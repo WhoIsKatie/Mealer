@@ -66,7 +66,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<ArrayList<String>> allergens = new ArrayList<>();
         ArrayList<Float> price = new ArrayList<>();
         ArrayList<String> image = new ArrayList<>();
-        ArrayList<String> documents = new ArrayList<>();
+        ArrayList<String> cookUIDs = new ArrayList<>();
         meals = new ArrayList<>();
 
         userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -82,7 +82,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 else{
                     cuisine.add(null);
                 }
-                documents.add(document.getReference().getParent().getId()); //parent's reference (Cook's uid)
+                cookUIDs.add(document.getReference().getParent().getParent().getId()); //parent's reference (Cook's uid)
 
                 if(! (data.get("ingredients").toString().equals("None"))){
                     ingredients.add((ArrayList<String>) data.get("ingredients"));
@@ -106,7 +106,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
             }
             for (int i = 0; i < mealName.size(); i++){
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                meal.setCookUID(documents.get(i));
+                meal.setCookUID(cookUIDs.get(i));
                 meal.setImageID(image.get(i));
                 meals.add(meal);
             }

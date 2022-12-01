@@ -125,6 +125,22 @@ public class Welcome extends AppCompatActivity {
                         }
                         startActivity(intent);
                     });
+
+                    // Sends Cook to their homepage to view their menu.
+                    homepageButt.setOnClickListener(view -> {
+                        switch (type) {
+                            case "Admin":
+                                startActivity(new Intent(Welcome.this, AdminHome.class));
+                                break;
+                            case "Cook":
+                                startActivity(new Intent(Welcome.this, Menu.class));
+                                break;
+                            case "Client":
+                                Intent intent = new Intent(Welcome.this, MealSearch.class);
+                                startActivity(intent);
+                                break;
+                        }
+                    });
                 } else {
                     Log.d(TAG, "No such document");
                 }
@@ -143,21 +159,7 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
-        // Sends Cook to their homepage to view their menu.
-        homepageButt.setOnClickListener(view -> {
-            switch (type) {
-                case "Admin":
-                    startActivity(new Intent(Welcome.this, AdminHome.class));
-                    break;
-                case "Cook":
-                    startActivity(new Intent(Welcome.this, Menu.class));
-                    break;
-                case "Client":
-                    Intent intent = new Intent(Welcome.this, MealSearch.class);
-                    startActivity(intent);
-                    break;
-            }
-        });
+
 
 
 
