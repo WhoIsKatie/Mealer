@@ -93,6 +93,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                     ArrayList<String> mealName = new ArrayList<>();
                                     ArrayList<String> description = new ArrayList<>();
                                     ArrayList<String> mealType = new ArrayList<>();
+                                    ArrayList<String> cookUid = new ArrayList<>();
                                     ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
                                     ArrayList<ArrayList<String>> ingredients = new ArrayList<>();
                                     ArrayList<ArrayList<String>> allergens = new ArrayList<>();
@@ -120,12 +121,18 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                         } else {
                                             image.add(null);
                                         }
+                                        if (data.get("cookUID") != null) {
+                                            cookUid.add(data.get("cookUID").toString()); // you might want to double check what the name is: image or imageID?
+                                        } else {
+                                            cookUid.add(null);
+                                        }
                                         //Meal toAdd = new Meal(data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(), data.get("mealName").toString(),)
                                     }
                                     Log.d(TAG, Integer.toString(mealName.size()));
                                     for (int i = 0; i < mealName.size(); i++){
                                         Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
                                         meal.setImageID(image.get(i));
+                                        meal.setCookUID(cookUid.get(i));
                                         meals.add(meal);
                                     }
                                 }
@@ -191,6 +198,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
         intent.putExtra("ALLERGENS", doc.getAllergens());
         intent.putExtra("IMAGE", doc.getImageID());
         intent.putExtra("OFFERED", doc.getOfferStatus());
+        intent.putExtra("COOKUID", doc.getCookUID());
         startActivity(intent);
     }
 }

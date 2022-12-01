@@ -29,8 +29,8 @@ public class Del3MainTests {
         allergens.add("potato");
 
         Meal testMeal = new Meal(10, "poutine", "delicious", "snack", cuisine, ingredients, allergens);
-
-        assertEquals("Your getName method is incorrect", "poutine", testMeal.getMealName());
+//        testMeal.getCookUID();
+        assertEquals("Your getName method is incorrect", "poutine", testMeal.getCookUID());
 
     }
 

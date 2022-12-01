@@ -162,6 +162,18 @@
                             android:textSize="12sp"
                             tools:visibility="visible"
                             android:text="Purchase" />
+
+                        <EditText
+                            android:id="@+id/pickUpTimeTextView"
+                            android:layout_width="170dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="Pick up time"
+                            android:textColor="@color/black"
+                            android:visibility="visible" />
+
                     </LinearLayout>
 
                     <View

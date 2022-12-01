@@ -132,6 +132,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         intent.putExtra("ALLERGENS", doc.getAllergens());
         intent.putExtra("IMAGE", doc.getImageID());
         intent.putExtra("OFFERED", doc.getOfferStatus());
+        intent.putExtra("COOKUID", doc.getCookUID());
         startActivity(intent);
     }
 }

@@ -90,7 +90,7 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            startNotifications();
+ //                           startNotifications();
                             homepageButt.setText(R.string.clientNextButtText);
                             break;
                     }
