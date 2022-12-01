@@ -154,7 +154,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone"
-                        app:singleSelection="true">
+                        app:singleSelection="true"
+                        tools:visibility="visible">
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"
@@ -226,7 +227,8 @@
                         android:id="@+id/cuisineChipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <com.google.android.material.chip.Chip
                             style="@style/CustomChipStyle"

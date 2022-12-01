@@ -98,7 +98,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
                 }
                 price.add(Float.valueOf(data.get("price").toString()));
                 if(data.get("imageID") != null){
-                    image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
+                    image.add(data.get("imageID").toString());
                 }
                 else {
                     image.add(null);

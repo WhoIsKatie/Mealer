@@ -21,26 +21,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
+import com.uottawa.seg2105.group10.backend.User;
 import com.uottawa.seg2105.group10.backend.Utility;
 
 import java.util.Map;
 
 public class Register4 extends AppCompatActivity {
 
-    private static final String TAG = "Register4(Cooks)";
+    private static final String TAG = "Register4 (Cooks)";
 
-    private Button submitButt;
-    private Button login;
-    private ImageButton back;
-    private Button galleryButt;
     private TextInputEditText profile;
     private ImageView voidCheque;
     private final int GALLERY_REQ_CODE = 1000;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private FirebaseStorage storage;
-    private Cook user;
+    private User user;
 
     TextInputLayout descriptionField;
     private Uri filePath;
@@ -51,19 +47,17 @@ public class Register4 extends AppCompatActivity {
         setContentView(R.layout.activity_register4);
 
         // Initialize FirebaseAuth and FirebaseStorage objects
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
-        submitButt = findViewById(R.id.cookSubmitButt);
-        login = findViewById(R.id.reg4LoginButt);
-        back = findViewById(R.id.reg4BackButt);
+        Button submitButt = findViewById(R.id.cookSubmitButt);
+        Button login = findViewById(R.id.reg4LoginButt);
+        ImageButton back = findViewById(R.id.reg4BackButt);
         voidCheque = findViewById(R.id.peekChequeImg);
-        galleryButt = findViewById(R.id.galleryLaunchButt);
+        Button galleryButt = findViewById(R.id.galleryLaunchButt);
         descriptionField = findViewById(R.id.profileDescLayout);
 
-        // Create a storage reference from our app
-        FirebaseStorage storage = FirebaseStorage.getInstance();
 
         submitButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,15 +74,11 @@ public class Register4 extends AppCompatActivity {
                 Map<String, String> data = Register2.data;
 
                 data.put("description", profDesc);
-                data.put("type", "Cook");
-                userRef.set(data);
-                userRef.update("isSuspended", false);
-                user = new Cook(userRef);
-                // adding a sub-collection to user document to keep Mealer User object and DateTime suspensionEnd
-                userRef.collection("userObject").document("Cook").set(user);
-                userRef.update("meals", null);
                 Utility util = new Utility(Register4.this, filePath, mAuth, storage);
-                userRef.update("cheque", util.uploadImage("cheques/" + mAuth.getUid() + "/"));
+                data.put("cheque", util.uploadImage("cheques/" + mAuth.getUid() + "/"));
+
+                user = new Cook(data);
+                userRef.set(user);
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
@@ -135,6 +125,21 @@ public class Register4 extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == GALLERY_REQ_CODE){
+                filePath = data.getData();
+                voidCheque.setImageURI(filePath);
+            }
+        }
+    }
+
+
+    // Description Helper Method
     private boolean validateDescription(){
         String val = descriptionField.getEditText().getText().toString().trim();
 
@@ -153,49 +158,5 @@ public class Register4 extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQ_CODE){
-                filePath = data.getData();
-                voidCheque.setImageURI(filePath);
-            }
-        }
-    }
-
-    /*// UploadImage method
-    public void uploadImage()
-    {
-        if (filePath != null) {
-
-            // Code for showing progressDialog while uploading
-            ProgressDialog progressDialog
-                    = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            // Defining the child of storageReference
-            StorageReference chequeRef = storage.getReference().child(mAuth.getUid() + "/cheque/" + filePath.getLastPathSegment());
-
-            // Register observers to listen for when the download is done or if it fails
-            chequeRef.putFile(filePath).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception exception) {
-                    // Error, Image not uploaded
-                    progressDialog.dismiss();
-                    Toast.makeText(Register4.this, "Failed " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // Image uploaded successfully
-                    // Dismiss dialog
-                    progressDialog.dismiss();
-                    Toast.makeText(Register4.this, "Upload success!", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }*/
 }

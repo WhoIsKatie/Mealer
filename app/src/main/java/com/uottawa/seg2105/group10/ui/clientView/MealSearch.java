@@ -82,7 +82,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for (DocumentSnapshot cook : task.getResult()) {
-                        if(cook.getBoolean("isSuspended")){
+                        if(Boolean.TRUE.equals(cook.getBoolean("suspended"))){
                             continue;
                         }
                         cook.getReference().collection("meals").whereEqualTo("offered", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

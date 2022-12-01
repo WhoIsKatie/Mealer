@@ -9,10 +9,11 @@ public class Admin extends User{
     //create singular object of Admin
     private static Admin instance = new Admin("Jacob", "Maurice", "admin@mealer.com", "admin123!", "Admin");
     private static FirebaseFirestore dBase = FirebaseFirestore.getInstance();
+    private static String adminUid = "Co2j8sQg30apXoMfgRZOXYeWt1C2";
 
     //class cannot be instantiated
     private Admin(String firstName, String lastName, String email, String password, String type) {
-        super(firstName, lastName, email, password, type);
+        super("Admin Class", firstName, lastName, email, password, type, adminUid);
     }
 
     // Returns the only UserManager instance available
@@ -33,10 +34,10 @@ public class Admin extends User{
             DocumentReference userDoc = dBase.collection("users").document(cookid);
             userDoc.update("isSuspended", true);
 
-            userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
+            userDoc.get().addOnSuccessListener(snapshot -> {
                 Cook thisCook = snapshot.toObject(Cook.class);
                 thisCook.addSuspension(length);
-                userDoc.collection("userObject").document("Cook").set(thisCook);
+                userDoc.set(thisCook);
             });
         });
         dismissComplaint(docRef);

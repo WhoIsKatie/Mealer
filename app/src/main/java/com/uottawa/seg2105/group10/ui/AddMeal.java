@@ -176,13 +176,7 @@ public class AddMeal extends AppCompatActivity {
                 imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
                 mealToAdd.setImageID(imageID);
 
-                firebaseMeal.set(mealToAdd).addOnFailureListener(e -> {
-                    Toast.makeText(AddMeal.this, "Could not add the meal.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }).addOnSuccessListener(unused -> {
-                    Toast.makeText(AddMeal.this, "Added meal!", Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+                mealToAdd.updateFirestore(AddMeal.this);
             }
         });
 
