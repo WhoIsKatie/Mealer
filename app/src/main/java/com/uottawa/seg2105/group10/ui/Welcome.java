@@ -1,10 +1,6 @@
 package com.uottawa.seg2105.group10.ui;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -115,6 +110,21 @@ public class Welcome extends AppCompatActivity {
                             });
                         }
                     }
+
+                    profileButt.setOnClickListener(view -> {
+                        Intent intent = new Intent(Welcome.this, Profile.class);
+                        if (userSnapshot[0].exists()) {
+                            intent.putExtra("firstName", (String) userSnapshot[0].get("firstName"));
+                            intent.putExtra("lastName", (String) userSnapshot[0].get("lastName"));
+                            intent.putExtra("email", (String) userSnapshot[0].get("email"));
+                            intent.putExtra("description", (String) userSnapshot[0].get("description"));
+                            intent.putExtra("address", (String) userSnapshot[0].get("address"));
+                            intent.putExtra("completedOrders", (String) userSnapshot[0].get("completedOrders"));
+                            intent.putExtra("numReviews", (String) userSnapshot[0].get("numReviews"));
+                            intent.putExtra("rating", (String) userSnapshot[0].get("ratingSum"));
+                        }
+                        startActivity(intent);
+                    });
                 } else {
                     Log.d(TAG, "No such document");
                 }
@@ -149,22 +159,12 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
-        profileButt.setOnClickListener(view -> {
-            Intent intent = new Intent(Welcome.this, Profile.class);
-            intent.putExtra("firstName", userSnapshot[0].get("cookName").toString());
-            intent.putExtra("lastName", userSnapshot[0].get("lastName").toString());
-            intent.putExtra("email", userSnapshot[0].get("email").toString());
-            intent.putExtra("address", userSnapshot[0].get("email").toString());
-            intent.putExtra("completedOrders", userSnapshot[0].get("completedOrders").toString());
-            intent.putExtra("rating", userSnapshot[0].get("rating").toString());
 
-            startActivity(intent);
-        });
 
 
     }
 
-    public boolean setPurchaseRef(DocumentReference doc) {
+    /*public boolean setPurchaseRef(DocumentReference doc) {
         if (doc == null) return false;
         purchaseRef = doc;
         return true;
@@ -226,5 +226,5 @@ public class Welcome extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
+    }*/
 }

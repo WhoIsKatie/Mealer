@@ -26,12 +26,10 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class MealView extends AppCompatActivity {
 
@@ -40,10 +38,10 @@ public class MealView extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private float price;
-    Timestamp stringPickupTime;
-    DocumentReference firebaseMeal, userRef, pruchaseRef, mealRef;
-    String visibleIngredients, temp1,  visibleCuisine, temp2,  visibleAllergens, temp3, type, firstName, cookUID, cookref;
-    Switch offerToggle;
+    private Timestamp stringPickupTime;
+    private DocumentReference firebaseMeal, userRef, pruchaseRef, mealRef;
+    private String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, firstName, cookUID, cookref;
+    private Switch offerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,31 +70,29 @@ public class MealView extends AppCompatActivity {
 
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         userRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        document = task.getResult();
-                        // if user specific document exists,
-                        // set text field to display user type (Client, Cook)
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            type = document.getString("type");
-                            switch (type) {
-                                case "Client":
-                                    offerToggle.setVisibility(View.GONE);
-                                    modifyButt.setVisibility(View.GONE);
-                                    purchaseButt.setVisibility(View.VISIBLE);
-                                    break;
-                                case "Cook":
-                                    offerToggle.setVisibility(View.VISIBLE);
-                                    modifyButt.setVisibility(View.VISIBLE);
-                                    purchaseButt.setVisibility(View.GONE);
-                                    break;
+            if (task.isSuccessful()) {
+                document = task.getResult();
+                // if user specific document exists,
+                // set text field to display user type (Client, Cook)
+                if (document.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    type = document.getString("type");
+                    switch (type) {
+                        case "Client":
+                            offerToggle.setVisibility(View.GONE);
+                            modifyButt.setVisibility(View.GONE);
+                            purchaseButt.setVisibility(View.VISIBLE);
+                            break;
+                        case "Cook":
+                            offerToggle.setVisibility(View.VISIBLE);
+                            modifyButt.setVisibility(View.VISIBLE);
+                            purchaseButt.setVisibility(View.GONE);
+                            break;
 
-                            }
-                        }
                     }
+                }
+            }
         });
-
-
 
 
         firebaseMeal = userRef.collection("meals").document(name);
@@ -151,8 +147,7 @@ public class MealView extends AppCompatActivity {
                     if (Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                         userRef.collection("meals").document(name).delete();
                         Toast.makeText(MealView.this, "The meal has been successfully removed.",
@@ -224,8 +219,7 @@ public class MealView extends AppCompatActivity {
                         thisMeal.offerMeal();
                         firebaseMeal.update("offered", true);
                         offerToggle.setText("Offered");
-                    }
-                    else {
+                    } else {
                         thisMeal.stopOffering();
                         firebaseMeal.update("offered", false);
                         offerToggle.setText("Not Offered");
@@ -239,36 +233,37 @@ public class MealView extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseMeal.get().addOnSuccessListener(documentSnapshot -> {
-            if(Boolean.TRUE.equals(documentSnapshot.getBoolean("offered"))) {
+            if (Boolean.TRUE.equals(documentSnapshot.getBoolean("offered"))) {
                 offerToggle.setChecked(true);
                 offerToggle.setText("Offered");
-            }
-            else{
+            } else {
                 offerToggle.setChecked(false);
                 offerToggle.setText("Not Offered");
             }
         });
     }
 
-    public String createTextViewForIngredient(ArrayList<String> list){
+    public String createTextViewForIngredient(ArrayList<String> list) {
         visibleIngredients = "";
-        for(String s: list){
+        for (String s : list) {
             if (list.get(0) != s) visibleIngredients += ", ";
             visibleIngredients += s;
         }
         return visibleIngredients;
     }
-    public String createTextViewForAllergens(ArrayList<String> list){
+
+    public String createTextViewForAllergens(ArrayList<String> list) {
         visibleAllergens = "";
-        for(String s: list){
+        for (String s : list) {
             if (list.get(0) != s) visibleAllergens += ", ";
             visibleAllergens += s;
         }
         return visibleAllergens;
     }
-    public String createTextViewForCuisine(ArrayList<String> list){
+
+    public String createTextViewForCuisine(ArrayList<String> list) {
         visibleCuisine = "";
-        for(String s: list){
+        for (String s : list) {
             if (list.get(0) != s) visibleCuisine += ", ";
             visibleCuisine += s;
         }

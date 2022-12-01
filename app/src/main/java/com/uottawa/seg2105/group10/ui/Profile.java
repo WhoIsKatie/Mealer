@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,12 +34,37 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        //TODO: set up cook profile with description, address, email, # meals sold, average rating
-
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
+
+        TextView cookName = findViewById(R.id.cookNameTextView);
+        String name = getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName");
+        cookName.setText(name);
+
+        TextView cookDescription = findViewById(R.id.descProfTextView);
+        String description = getIntent().getStringExtra("description");
+        cookDescription.setText(description);
+
+        TextView cookAddress = findViewById(R.id.addressTextView);
+        String address = getIntent().getStringExtra("address");
+        cookAddress.setText(address);
+
+        TextView cookEmail = findViewById(R.id.emailAddressTextView);
+        String email = getIntent().getStringExtra("email");
+        cookEmail.setText(email);
+
+        TextView cookCompletedOrders = findViewById(R.id.numOfMealsSoldTextView);
+        String completedOrders = getIntent().getStringExtra("completedOrders");
+        // TODO: write if-statement for the cases when rating is null
+        cookCompletedOrders.setText(completedOrders);
+
+        TextView cookRating = findViewById(R.id.ratingTextView);
+        String rating = getIntent().getStringExtra("rating");
+        String numReviews = getIntent().getStringExtra("numReviews");
+        // TODO: write if-statement for the cases when rating is null, otherwise calculate rating by dividing by numReviews
+        cookRating.setText(rating);
 
         purchases = new ArrayList<>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);
@@ -82,8 +108,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         });
     }
 
+    // Should not be clickable
     @Override
-    public void onItemClick(int position) {
-        //TODO: send cook to purchase request view?? or not...
-    }
+    public void onItemClick(int position) {}
 }

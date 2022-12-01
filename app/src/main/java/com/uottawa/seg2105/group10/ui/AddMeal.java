@@ -176,6 +176,8 @@ public class AddMeal extends AppCompatActivity {
                 imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
                 mealToAdd.setImageID(imageID);
 
+                mealToAdd.setCookUID("");
+
                 mealToAdd.updateFirestore(AddMeal.this);
             }
         });
