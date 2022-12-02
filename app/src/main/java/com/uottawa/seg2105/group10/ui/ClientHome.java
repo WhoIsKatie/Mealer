@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,18 +24,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ClientHome extends AppCompatActivity {
@@ -51,7 +45,7 @@ public class ClientHome extends AppCompatActivity {
     private AlertDialog dialog;
     private EditText cookName, complaint, cookName2, rate, titleComplaint;
     private TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime,purchaseStatus, clientName2;
-    private Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
+    private Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2, searchButton;
     private DocumentReference clientRef, cookRef, complaintRef, userRef;
     private CollectionReference purchaseRef;
     private ArrayList<Purchase> purchasesArrayList;
@@ -106,8 +100,8 @@ public class ClientHome extends AppCompatActivity {
             }
         });
 
-        TextView search = (TextView) findViewById(R.id.searchQuery);
-        search.setOnClickListener(new View.OnClickListener() {
+        searchButton = (Button)findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ClientHome.this, MealSearch.class));
@@ -115,28 +109,12 @@ public class ClientHome extends AppCompatActivity {
 
         });
 
-        /*purchaseRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                document2 = task.getResult();
-                if (document2.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
-                    clientName = document2.getString("clientName");
-                    clientUID2 = document2.getString("clientUID");
-                    cookUID2 = document2.getString("cookUID");
-                    mealID = document2.getString("mealID");
-                    status = document2.getString("status");
-                    mealName = document2.getString("mealName");
-                    pickUpTime2 = document2.getString("pickUpTime");
-                    request_Time = document2.getString("requestTime");
-
-                }
-            }*/
         purchaseRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     long mostRecent = 0;
-                    for(DocumentSnapshot doc : task.getResult().getDocuments()){
+                    for(DocumentSnapshot document2 : task.getResult().getDocuments()){
                         Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
                         clientName = document2.getString("clientName");
                         clientUID2 = document2.getString("clientUID");
@@ -146,21 +124,10 @@ public class ClientHome extends AppCompatActivity {
                         mealName = document2.getString("mealName");
                         pickUpTime2 = document2.getString("pickUpTime");
                         request_Time = document2.getString("requestTime");
-                        if(userName.equals(doc.getString("clientUID")) && Long.parseLong(doc.getString("requestTime"))>mostRecent){
+                        if(userName.equals(document2.getString("clientUID")) && Long.parseLong(document2.getString("requestTime"))>mostRecent){
 
-                            mostRecent = Long.parseLong(doc.getString("requestTime"));
+                            mostRecent = Long.parseLong(document2.getString("requestTime"));
                         }
-
-                        Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
-                        clientName = document2.getString("clientName");
-                        clientUID2 = document2.getString("clientUID");
-                        cookUID2 = document2.getString("cookUID");
-                        mealID = document2.getString("mealID");
-                        status = document2.getString("status");
-                        mealName = document2.getString("mealName");
-                        pickUpTime2 = document2.getString("pickUpTime");
-                        request_Time = document2.getString("requestTime");
-
 
                 }updateClientHome();
             }
