@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/clientMealImgCardView"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="205dp"
         app:cardBackgroundColor="@color/ic_launcher_background"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
@@ -40,7 +40,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/clientMealCardView"
         android:layout_width="wrap_content"
-        android:layout_height="92dp"
+        android:layout_height="110dp"
         android:layout_marginTop="95dp"
         app:cardBackgroundColor="#EEFFFFFF"
         app:cardCornerRadius="20dp"
@@ -75,12 +75,27 @@
                 android:textColor="@color/froggy_leaf_green"
                 android:textSize="14sp" />
 
+            <View
+                android:id="@+id/divider12"
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+                android:background="?android:attr/listDivider"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="Cook Rating"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:orientation="horizontal"
-                android:paddingTop="15dp">
+                android:orientation="horizontal">
 
 
                 <TextView

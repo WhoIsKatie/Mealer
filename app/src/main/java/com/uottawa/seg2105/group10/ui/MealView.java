@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,13 +26,9 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class MealView extends AppCompatActivity {
 
@@ -72,6 +67,7 @@ public class MealView extends AppCompatActivity {
         Button modifyButt = findViewById(R.id.modifyButt);
         Button removeButt = findViewById(R.id.removeButt);
         Button purchaseButt = findViewById(R.id.purchaseButt);
+        Button cookProfileButt = findViewById(R.id.cookProfileButt);
         offerToggle = findViewById(R.id.offerToggle);
         pickUpTimeTextView = findViewById(R.id.pickUpTimeTextView);
 
@@ -128,6 +124,15 @@ public class MealView extends AppCompatActivity {
                 Glide.with(MealView.this).load(uri).into(mealImageView);
             });
         }
+
+        cookProfileButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MealView.this, Profile.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         modifyButt.setOnClickListener(new View.OnClickListener() {
             @Override

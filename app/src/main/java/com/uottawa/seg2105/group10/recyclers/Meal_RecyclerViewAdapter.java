@@ -1,7 +1,10 @@
 package com.uottawa.seg2105.group10.recyclers;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -33,6 +37,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
+    private DocumentSnapshot document;
     ArrayList<Meal> meals;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
@@ -65,10 +70,25 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-
         if(type.equals("Client")) {
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
             String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
+            userRef = dBase.collection("users").document(cookUID);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        double ratingSum;
+                        String address;
+                        ratingSum = document.getDouble("ratingSum");
+                        address = document.getString("address");
+                        searchViewHolder.location.setText(address);
+                        searchViewHolder.rating.setText(String.valueOf(ratingSum));
+                    }
+                }
+            });
+            // String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
             // firebaseMeal = dBase.collection("users").document(cookUID).collection("meals")
             // .document(meals.get(searchViewHolder.getAdapterPosition()).getMealName());
             searchViewHolder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
