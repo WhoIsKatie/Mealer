@@ -106,7 +106,7 @@ public class ClientHome extends AppCompatActivity {
             }
         });
 
-        SearchView search = (SearchView) findViewById(R.id.searchQuery);
+        TextView search = (TextView) findViewById(R.id.searchQuery);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
