@@ -17,7 +17,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
@@ -25,18 +24,21 @@ import java.time.temporal.ChronoUnit;
 
 public class Welcome extends AppCompatActivity {
 
-    private TextView typeText,  isSuspended, suspensionDeets;
-    private Button logOffButt, homepageButt;
-    private ImageButton profileButt;
-
+    private TextView typeText;
+    private TextView isSuspended;
+    private TextView suspensionDeets;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private DocumentReference userDoc, purchaseRef;
-    private final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
+    private DocumentReference userDoc;
 
+    private final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
+    private final DocumentReference[] purchaseRef = new DocumentReference[1];
+    private Button logOffButt;
+    private Button homepageButt;
+    private ImageButton profileButt;
     private static final String TAG = "Welcome";
     private String type;
-    private Purchase recentPurchase;
+
 
     @Override
     // Turns off the android back button => User cannot go back to login page unless logged out
@@ -85,16 +87,15 @@ public class Welcome extends AppCompatActivity {
                             homepageButt.setText(R.string.cookNextButtText);
                             break;
                         case "Client":
-                            //startNotifications();
+                            //startPurchaseStatusListener();
                             homepageButt.setText(R.string.clientNextButtText);
-                            profileButt.setVisibility(View.GONE);
                             break;
                     }
 
-                    if(userSnapshot[0].contains("suspended")) {
-                        if(Boolean.TRUE.equals(userSnapshot[0].getBoolean("suspended"))) {
+                    if(userSnapshot[0].contains("isSuspended")) {
+                        if(Boolean.TRUE.equals(userSnapshot[0].getBoolean("isSuspended"))){
                             isSuspended.setText(R.string.general_suspend_message);
-                            userDoc.get().addOnSuccessListener(snapshot -> {
+                            userDoc.collection("userObject").document("Cook").get().addOnSuccessListener(snapshot -> {
                                 Cook thisCook = snapshot.toObject(Cook.class);
                                 String endDate = thisCook.getSuspensionEnd();
                                 // Displaying suspension message for both indefinite and temporary
@@ -110,37 +111,6 @@ public class Welcome extends AppCompatActivity {
                             });
                         }
                     }
-
-                    profileButt.setOnClickListener(view -> {
-                        Intent intent = new Intent(Welcome.this, Profile.class);
-                        if (userSnapshot[0].exists()) {
-                            intent.putExtra("firstName", (String) userSnapshot[0].get("firstName"));
-                            intent.putExtra("lastName", (String) userSnapshot[0].get("lastName"));
-                            intent.putExtra("email", (String) userSnapshot[0].get("email"));
-                            intent.putExtra("description", (String) userSnapshot[0].get("description"));
-                            intent.putExtra("address", (String) userSnapshot[0].get("address"));
-                            intent.putExtra("completedOrders", (String) userSnapshot[0].get("completedOrders"));
-                            intent.putExtra("numReviews", (String) userSnapshot[0].get("numReviews"));
-                            intent.putExtra("rating", (String) userSnapshot[0].get("ratingSum"));
-                        }
-                        startActivity(intent);
-                    });
-
-                    // Sends Cook to their homepage to view their menu.
-                    homepageButt.setOnClickListener(view -> {
-                        switch (type) {
-                            case "Admin":
-                                startActivity(new Intent(Welcome.this, AdminHome.class));
-                                break;
-                            case "Cook":
-                                startActivity(new Intent(Welcome.this, Menu.class));
-                                break;
-                            case "Client":
-                                Intent intent = new Intent(Welcome.this, MealSearch.class);
-                                startActivity(intent);
-                                break;
-                        }
-                    });
                 } else {
                     Log.d(TAG, "No such document");
                 }
@@ -159,26 +129,58 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
+        // Sends Cook to their homepage to view their menu.
+        homepageButt.setOnClickListener(view -> {
+            switch (type) {
+                case "Admin":
+                    startActivity(new Intent(Welcome.this, AdminHome.class));
+                    break;
+                case "Cook":
+                    startActivity(new Intent(Welcome.this, Menu.class));
+                    break;
+                case "Client":
+                    Intent intent = new Intent(Welcome.this, ClientHome.class);
+                    intent.putExtra("TYPE", "Cook");
+                    startActivity(intent);
+                    break;
+            }
+        });
 
-
-
+        profileButt.setOnClickListener(view -> {
+            Intent intent = new Intent(Welcome.this, Profile.class);
+            intent.putExtra("TYPE", type);
+            intent.putExtra("UID", userSnapshot[0].getId());
+            startActivity(intent);
+        });
 
 
     }
 
-    /*public boolean setPurchaseRef(DocumentReference doc) {
-        if (doc == null) return false;
-        purchaseRef = doc;
-        return true;
+ /*   @Override
+   protected void onStart() {
+        super.onStart();
+        dBase.collection("purchases").orderBy("requestTime").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<DocumentSnapshot> purchases = task.getResult().getDocuments();
+                    for(DocumentSnapshot snapshot:purchases){
+                        if(snapshot.getString("clientUID").equals(document.getId()) || snapshot.getString("cookUID").equals(document.getId())){
+                            purchaseRef[0] = snapshot.getReference();
+                            return;
+                        }
+                    }
+                }
+            }
+        });*/
+
     }
 
-    private boolean startNotifications() {
+    /*private boolean startNotifications() {
         // Calling method to initialize notification channel
-        startPurchaseStatusListener();
         createNotificationChannel();
-        if (recentPurchase == null) return false;
-        purchaseRef = dBase.collection("purchases").document(recentPurchase.getCookUID()).collection(recentPurchase.getClientUID()).document(recentPurchase.getRequestTime());
-        purchaseRef.addSnapshotListener((snapshot, e) -> {
+        if (purchaseRef[0] == null) return false;
+        purchaseRef[0].addSnapshotListener((snapshot, e) -> {
             if (e != null) {
                 Log.w(TAG, "Listen failed.", e);
                 return;
@@ -202,19 +204,52 @@ public class Welcome extends AppCompatActivity {
             }
         });
         return true;
-    }
+    }*/
 
-    public void startPurchaseStatusListener() {
+   /* public void startPurchaseStatusListener() {
+
         //.orderBy("docID", Query.Direction.DESCENDING).limit(1)
         if (userSnapshot[0] != null) {
+            String meow = userSnapshot[0].getId();
             dBase.collectionGroup(userSnapshot[0].getId()).get().addOnSuccessListener(queryDocumentSnapshots -> {
-                queryDocumentSnapshots.getDocuments().get(0).getReference().get().addOnSuccessListener(snapshot -> {
-                    recentPurchase = snapshot.toObject(Purchase.class);
+                purchaseRef[0] = queryDocumentSnapshots.getDocuments().get(0).getReference();
+                createNotificationChannel();
+                if (purchaseRef[0] == null) return;
+                purchaseRef[0].addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        if ((snapshot.get("status") == "PENDING") || snapshot.get("complaint") != null) return;
+
+                        Intent intent = new Intent(this, MealSearch.class); //Should be ClientHome.class but it currently dne
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "CLIENT_STATUS_CHANGE")
+                                .setSmallIcon(R.drawable.real_logo)
+                                .setContentTitle("Status Change")
+                                .setContentText("Open Mealer to see more.")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                .setContentIntent(pendingIntent)
+                                .setAutoCancel(true);
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
                 });
+
+                Log.w(TAG,  purchaseRef[0].getId().toString());
             }).addOnFailureListener(e -> {
                 Log.w(TAG, "mians :(");
             });
         } else Log.w(TAG, "No purchases exist for you :(");
+    }
+
+    public boolean setPurchaseRef(DocumentReference doc) {
+        if (doc == null) return false;
+        purchaseRef[0] = doc;
+        return true;
     }
 
     private void createNotificationChannel() {
@@ -228,5 +263,6 @@ public class Welcome extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }*/
-}
+    }
+*/
+
