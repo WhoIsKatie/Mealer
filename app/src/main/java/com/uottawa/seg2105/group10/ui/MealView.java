@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -14,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,7 +23,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
-import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,9 +38,10 @@ public class MealView extends AppCompatActivity {
     private FirebaseFirestore dBase;
     private float price;
     DocumentReference firebaseMeal, userRef;
-    String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, firstName, cookUID, userID;
+    String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, cookName, cookUID, userID;
     Switch offerToggle;
-    private EditText pickUpTimeTextView;
+    private TextInputEditText pickupTimeText;
+    private TextInputLayout pickupTimeLayout;
     String pickUpTime;
 
     @Override
@@ -69,7 +70,8 @@ public class MealView extends AppCompatActivity {
         Button purchaseButt = findViewById(R.id.purchaseButt);
         Button cookProfileButt = findViewById(R.id.cookProfileButt);
         offerToggle = findViewById(R.id.offerToggle);
-        pickUpTimeTextView = findViewById(R.id.pickUpTimeTextView);
+        pickupTimeText = (TextInputEditText) findViewById(R.id.pickupTimeEditText);
+        pickupTimeLayout = findViewById(R.id.pickupTimeInputLayout);
 
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         userRef.get().addOnCompleteListener(task -> {
@@ -84,12 +86,11 @@ public class MealView extends AppCompatActivity {
                         case "Client":
                             offerToggle.setVisibility(View.GONE);
                             modifyButt.setVisibility(View.GONE);
-                            purchaseButt.setVisibility(View.VISIBLE);
+                            removeButt.setVisibility(View.GONE);
                             break;
                         case "Cook":
-                            offerToggle.setVisibility(View.VISIBLE);
-                            modifyButt.setVisibility(View.VISIBLE);
                             purchaseButt.setVisibility(View.GONE);
+                            pickupTimeLayout.setVisibility(View.GONE);
                             break;
 
                     }
@@ -199,6 +200,9 @@ public class MealView extends AppCompatActivity {
         purchaseButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Ensures user input is satisfactory before continuing method.
+                if (!validateDateTime()) return;
+
                 //gets the firstname
                 userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 userRef.get().addOnCompleteListener(task -> {
@@ -206,20 +210,27 @@ public class MealView extends AppCompatActivity {
                         document = task.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            firstName = document.getString("firstName");
+                            cookName = document.getString("firstName") + " " + document.getString("lastName");
 
                             userID = userRef.getPath().split("/")[1];
 
-                            String pattern = "MMM dd, yyyy HH:mm";
-                            pickUpTime = pickUpTimeTextView.getText().toString();
+                            String pattern = "yy/MM/dd-HH:mm";
+                            pickUpTime = pickupTimeText.getText().toString();
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
                             LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
                             String docID = System.currentTimeMillis() + "";
-                            Purchase newPurchase = Meal.createPurchase(docID, cookUID2, userID, name, pickup, firstName);
+                            try {
+                                Meal.createPurchase(docID, cookUID2, userID, name, pickup, cookName);
+                                Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
+                            }
+
 
                         }
                     }
                 });
+                finish();
             }
         });
 
@@ -281,6 +292,29 @@ public class MealView extends AppCompatActivity {
             visibleCuisine += s;
         }
         return visibleCuisine;
+    }
+
+    // Returns true if expiry-date is of yy/MM/dd-HH:mm format; returns false otherwise.
+    public boolean validateDateTime() {
+        String val = pickupTimeText.getText().toString().trim();
+
+        String pattern = "yy/MM/dd-HH:mm";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+
+        if (val.isEmpty()) {
+            pickupTimeLayout.setError("Field cannot be empty");
+            return false;
+        }
+
+        try {
+            formatter.parse(val);
+        } catch (Exception e) {
+            pickupTimeLayout.setError("Invalid date and time! Must be of " + pattern + " format.");
+            return false;
+        }
+        pickupTimeLayout.setError(null);
+        pickupTimeLayout.setErrorEnabled(false);
+        return true;
     }
 
 }

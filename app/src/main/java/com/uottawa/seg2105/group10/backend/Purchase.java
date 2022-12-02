@@ -51,7 +51,6 @@ public class Purchase {
 
     //getters
     public String getMealName(){return mealID;}
-    public String getMealID(){return mealID;}
     public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}

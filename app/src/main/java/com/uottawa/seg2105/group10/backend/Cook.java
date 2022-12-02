@@ -42,6 +42,7 @@ public class Cook extends User{
 
 	//Getter methods
 	public double getRating() {return ratingSum/numReviews;}
+	public double getRatingSum() {return ratingSum;}
 	public int getNumReviews() {return numReviews;}
 	public int getCompletedOrders() {return completedOrders;}
 	public String getSuspensionEnd() {return suspensionEnd;}

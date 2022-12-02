@@ -61,7 +61,7 @@ public class Meal {
 	public void setCookUID(String cookUID){this.cookUID = cookUID;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
-	public static Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, LocalDateTime pickTime, String clientName){
+	public static Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, LocalDateTime pickTime, String clientName) {
 		return new Purchase(docID, cookUID, clientUID, mealName, pickTime.toString(), clientName);
 	}
 

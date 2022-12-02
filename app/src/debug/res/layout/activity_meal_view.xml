@@ -86,16 +86,16 @@
 
                         <Button
                             android:id="@+id/modifyButt"
-                            android:text="Modify"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="#00000000"
                             android:fontFamily="@font/roboto_bold"
+                            android:text="Modify"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/forest_moss"
                             android:textSize="12sp"
-                            tools:visibility="visible" />
+                            tools:visibility="gone" />
 
                         <Switch
                             android:id="@+id/offerToggle"
@@ -110,7 +110,7 @@
                             android:textColorHighlight="@color/black"
                             android:textColorLink="@color/mustard"
                             android:textSize="12sp"
-                            tools:visibility="visible" />
+                            tools:visibility="gone" />
 
                         <Button
                             android:id="@+id/cookProfileButt"
@@ -121,8 +121,7 @@
                             android:textColor="#FFFFFF"
                             app:backgroundTint="#000000"
                             app:cornerRadius="30dp"
-                            app:elevation="0dp"
-                            tools:visibility="gone" />
+                            app:elevation="0dp" />
 
                     </LinearLayout>
 
@@ -130,6 +129,7 @@
                         android:id="@+id/priceLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -150,30 +150,50 @@
                             android:textColor="@color/mustard"
                             android:textSize="16sp" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="351dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal|fill"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/pickupTimeInputLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="185dp"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/enter_pickup"
+                            android:textColorHint="#00000000"
+                            app:boxStrokeColor="@color/forest_moss"
+                            app:boxStrokeWidthFocused="2dp"
+                            app:hintTextColor="@color/forest_moss">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/pickupTimeEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto"
+                                android:hint="@string/dateTimeFormat"
+                                android:inputType="datetime|textPersonName"
+                                android:textColor="@color/forest_moss"
+                                android:textColorHint="@color/black_overlay"
+                                android:textCursorDrawable="@null"
+                                android:textSize="15sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
                         <Button
                             android:id="@+id/purchaseButt"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:background="#00000000"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textAlignment="viewEnd"
+                            android:fontFamily="@font/roboto_black"
+                            android:text="Purchase"
                             android:textColor="@color/forest_moss"
-                            android:textSize="12sp"
-                            tools:visibility="visible"
-                            android:text="Purchase" />
-
-                        <EditText
-                            android:id="@+id/pickUpTimeTextView"
-                            android:layout_width="170dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:minHeight="48dp"
-                            android:text="Pick up time"
-                            android:textColor="@color/black"
-                            android:visibility="visible" />
+                            android:textSize="12dp"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
@@ -354,7 +374,6 @@
                     android:textAlignment="center"
                     android:textColor="#BA0041"
                     android:textSize="16sp"
-                    android:visibility="visible"
                     app:backgroundTint="#FEFEFE"
                     app:cornerRadius="30dp"
                     tools:visibility="gone" />
