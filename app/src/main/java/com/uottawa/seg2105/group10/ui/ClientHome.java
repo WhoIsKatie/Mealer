@@ -20,20 +20,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ClientHome extends AppCompatActivity {
@@ -102,7 +96,7 @@ public class ClientHome extends AppCompatActivity {
             }
         });
 
-        SearchView search = (SearchView) findViewById(R.id.searchQuery);
+        SearchView search = (SearchView) findViewById(R.id.searchBar);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,7 +140,7 @@ public class ClientHome extends AppCompatActivity {
                 complain.setVisibility(View.GONE);
                 rateCook.setVisibility(View.GONE);
                 break;
-            case" ACCEPTED":
+            case "ACCEPTED":
                 complain.setVisibility(View.VISIBLE);
                 rateCook.setVisibility(View.VISIBLE);
                 break;

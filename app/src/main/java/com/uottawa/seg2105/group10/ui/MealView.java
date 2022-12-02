@@ -135,6 +135,7 @@ public class MealView extends AppCompatActivity {
                     // userRef = dBase.collection("users").document(cookUID);
                 userRef = dBase.collection("users").document(cookUID2);
                 userRef.get().addOnCompleteListener(task -> {
+                        // public void onComplete(task) {
                         if (task.isSuccessful()) {
                             document = task.getResult();
                             if (document.exists()) {
@@ -155,6 +156,7 @@ public class MealView extends AppCompatActivity {
                                 intent.putExtra("rating", ratingSum);
                             }
                         }
+                    // }
                     });
                 // });
                 startActivity(intent);
