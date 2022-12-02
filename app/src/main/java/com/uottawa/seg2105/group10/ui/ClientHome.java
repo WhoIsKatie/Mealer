@@ -14,9 +14,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -49,7 +52,8 @@ public class ClientHome extends AppCompatActivity {
     private EditText cookName, complaint, cookName2, rate, titleComplaint;
     private TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime,purchaseStatus, clientName2;
     private Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
-    private DocumentReference clientRef, cookRef, complaintRef, userRef, purchaseRef;
+    private DocumentReference clientRef, cookRef, complaintRef, userRef;
+    private CollectionReference purchaseRef;
     private ArrayList<Purchase> purchasesArrayList;
     private Purchase_RecyclerViewAdapter purchasesRVAdapter;
     String clientName, cookUID2, mealID, status, mealName, pickUpTime2, request_Time, clientUID2;
@@ -75,7 +79,7 @@ public class ClientHome extends AppCompatActivity {
 
         String userName = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userName);
-        purchaseRef = dBase.collection("purchases").document(mAuth.getCurrentUser().getUid());
+        purchaseRef = dBase.collection("purchases");
 
 
         purchasesArrayList = new ArrayList<>();
@@ -111,7 +115,7 @@ public class ClientHome extends AppCompatActivity {
 
         });
 
-        purchaseRef.get().addOnCompleteListener(task -> {
+        /*purchaseRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 document2 = task.getResult();
                 if (document2.exists()) {
@@ -126,8 +130,42 @@ public class ClientHome extends AppCompatActivity {
                     request_Time = document2.getString("requestTime");
 
                 }
+            }*/
+        purchaseRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    long mostRecent = 0;
+                    for(DocumentSnapshot doc : task.getResult().getDocuments()){
+                        Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
+                        clientName = document2.getString("clientName");
+                        clientUID2 = document2.getString("clientUID");
+                        cookUID2 = document2.getString("cookUID");
+                        mealID = document2.getString("mealID");
+                        status = document2.getString("status");
+                        mealName = document2.getString("mealName");
+                        pickUpTime2 = document2.getString("pickUpTime");
+                        request_Time = document2.getString("requestTime");
+                        if(userName.equals(doc.getString("clientUID")) && Long.parseLong(doc.getString("requestTime"))>mostRecent){
+
+                            mostRecent = Long.parseLong(doc.getString("requestTime"));
+                        }
+
+                        Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
+                        clientName = document2.getString("clientName");
+                        clientUID2 = document2.getString("clientUID");
+                        cookUID2 = document2.getString("cookUID");
+                        mealID = document2.getString("mealID");
+                        status = document2.getString("status");
+                        mealName = document2.getString("mealName");
+                        pickUpTime2 = document2.getString("pickUpTime");
+                        request_Time = document2.getString("requestTime");
+
+
+                }updateClientHome();
             }
-            updateClientHome();
+        }
+
         });
 
     }
