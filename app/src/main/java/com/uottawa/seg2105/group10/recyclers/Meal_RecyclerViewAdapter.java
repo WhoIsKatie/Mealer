@@ -81,6 +81,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         double ratingSum;
                         String address;
+                        //TODO: Add null check for ratingSum
                         ratingSum = document.getDouble("ratingSum");
                         address = document.getString("address");
                         searchViewHolder.location.setText(address);
@@ -88,9 +89,6 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 }
             });
-            // String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
-            // firebaseMeal = dBase.collection("users").document(cookUID).collection("meals")
-            // .document(meals.get(searchViewHolder.getAdapterPosition()).getMealName());
             searchViewHolder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
             float price = meals.get(searchViewHolder.getAdapterPosition()).getPrice();
             BigDecimal bd = new BigDecimal(price + "");
@@ -102,7 +100,6 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     Glide.with(context).load(uri).into(searchViewHolder.mealImage);
                 });
             }
-            //TODO: update rating and location on meal model for clients
 
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;

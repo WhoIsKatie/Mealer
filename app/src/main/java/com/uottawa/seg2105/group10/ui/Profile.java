@@ -57,14 +57,18 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         TextView cookCompletedOrders = findViewById(R.id.numOfMealsSoldTextView);
         String completedOrders = getIntent().getStringExtra("completedOrders");
-        // TODO: write if-statement for the cases when rating is null
+        // TODO: write if-statement for the cases when rating is null -> What do you mean here? (Jacob)
         cookCompletedOrders.setText(completedOrders);
 
         TextView cookRating = findViewById(R.id.ratingTextView);
         String rating = getIntent().getStringExtra("rating");
         String numReviews = getIntent().getStringExtra("numReviews");
-        // TODO: write if-statement for the cases when rating is null, otherwise calculate rating by dividing by numReviews
-        cookRating.setText(rating);
+        if (rating == null) {
+            cookRating.setText("Undetermined");
+        }
+        else{
+                cookRating.setText(rating);
+            }
 
         purchases = new ArrayList<>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);

@@ -129,8 +129,34 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, Profile.class);
+                // firebaseMeal.get().addOnSuccessListener(snapshot -> {
+                //    cookUID = snapshot.getString("cookUID");
+                    // userRef = dBase.collection("users").document(cookUID);
+                userRef = dBase.collection("users").document(cookUID2);
+                userRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                String email, description, address, cookFirstName, cookLastName;
+                                double ratingSum;
+                                ratingSum = document.getDouble("ratingSum");
+                                address = document.getString("address");
+                                cookFirstName = document.getString("firstName");
+                                cookLastName = document.getString("lastName");
+                                email = document.getString("email");
+                                description = document.getString("description");
+                                intent.putExtra("firstName", cookFirstName);
+                                intent.putExtra("lastName", cookLastName);
+                                intent.putExtra("email", email);
+                                intent.putExtra("description", description);
+                                intent.putExtra("address", address);
+                                intent.putExtra("rating", ratingSum);
+                            }
+                        }
+                    });
+                // });
                 startActivity(intent);
-                finish();
             }
         });
 
