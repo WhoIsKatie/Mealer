@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -151,8 +152,8 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                         cuisineTypefromSearch = cuisineTypeSearch.getText().toString();
                         mealTypefromSearch = mealTypeSearch.getText().toString();
                         if(mealNamefromSearch.isEmpty() && cuisineTypefromSearch.isEmpty() && mealTypefromSearch.isEmpty()){
+                            Toast.makeText(MealSearch.this, "Must enter a value to search.", Toast.LENGTH_SHORT).show();
 
-                            return;
                         }
                         for (Meal meal : meals) {
                             if (!mealNamefromSearch.isEmpty()) {
