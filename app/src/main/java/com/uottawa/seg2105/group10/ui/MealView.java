@@ -205,7 +205,7 @@ public class MealView extends AppCompatActivity {
                 // Ensures user input is satisfactory before continuing method.
                 if (!validateDateTime()) return;
 
-                //gets the firstname
+                // fetches the cook's information
                 userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
                 userRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -298,7 +298,7 @@ public class MealView extends AppCompatActivity {
 
     // Returns true if expiry-date is of yy/MM/dd-HH:mm format; returns false otherwise.
     public boolean validateDateTime() {
-        String val = pickupTimeText.getText().toString().trim();
+        String val = String.valueOf(pickupTimeText.getText()).trim();
 
         String pattern = "yy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
