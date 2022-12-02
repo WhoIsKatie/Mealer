@@ -139,7 +139,7 @@ public class Welcome extends AppCompatActivity {
                     startActivity(new Intent(Welcome.this, Menu.class));
                     break;
                 case "Client":
-                    Intent intent = new Intent(Welcome.this, MealSearch.class);
+                    Intent intent = new Intent(Welcome.this, ClientHome.class);
                     intent.putExtra("TYPE", "Cook");
                     startActivity(intent);
                     break;
