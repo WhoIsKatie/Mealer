@@ -18,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 import com.uottawa.seg2105.group10.backend.Purchase;
-import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -49,7 +48,6 @@ public class Welcome extends AppCompatActivity {
         // Load welcome activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
 
         // initialize TextView and Button
         typeText = findViewById(R.id.userTypeText);
