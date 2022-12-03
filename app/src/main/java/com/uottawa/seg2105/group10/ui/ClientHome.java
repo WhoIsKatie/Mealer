@@ -114,7 +114,7 @@ public class ClientHome extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     long mostRecent = 0;
-                    for(DocumentSnapshot document2 : task.getResult().getDocuments()){
+                    for(DocumentSnapshot document2 : task.getResult()){
                         Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
                         clientName = document2.getString("clientName");
                         clientUID2 = document2.getString("clientUID");
