@@ -72,7 +72,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             String clientPickupTime = purchases.get(clientViewHolder.getLayoutPosition()).getPickUpTime();
             String purchaseStatus = purchases.get(clientViewHolder.getLayoutPosition()).getStatus();
 
-            clientViewHolder.requestTime.setText(requestTime);
             clientViewHolder.purchasedName.setText(purchasedName);
             clientViewHolder.purchasedCook.setText(cookUID); //cry erytim
             // purchasedPrice.setText(--);
