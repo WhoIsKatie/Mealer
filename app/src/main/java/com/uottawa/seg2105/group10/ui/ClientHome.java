@@ -8,32 +8,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Purchase;
-import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 
-public class ClientHome extends AppCompatActivity {
+public class ClientHome extends AppCompatActivity implements RecyclerViewInterface {
 
     //initializing variables or instances
     RecyclerView recyclerView;
@@ -60,30 +57,21 @@ public class ClientHome extends AppCompatActivity {
         // Initialize Firebase Authority and Firebase Firestore objects
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
+        String userName = mAuth.getCurrentUser().getUid();
+        userRef = dBase.collection("users").document(userName);
+        purchaseRef = dBase.collection("purchases");
 
+        recyclerView = findViewById(R.id.clientRecyclerView);
 
         //initializing textviews
-        requestTime = findViewById(R.id.requestTime);
+        /*requestTime = findViewById(R.id.requestTime);
         purchasedName = findViewById(R.id.purchasedName);
         purchasedCook = findViewById(R.id.purchasedCook);
         purchasedPrice = findViewById(R.id.purchasedPrice);
         clientPickupTime = findViewById(R.id.clientPickupTime);
         purchaseStatus = findViewById(R.id.purchaseStatus);
-        clientName2 = findViewById(R.id.clientName);
-
-        String userName = mAuth.getCurrentUser().getUid();
-        userRef = dBase.collection("users").document(userName);
-        purchaseRef = dBase.collection("purchases");
-
-
-        purchasesArrayList = new ArrayList<>();
-        //purchasesRVAdapter = new Purchase_RecyclerViewAdapter(this, purchasesArrayList, this);
-        //TODO link the arraylist to your RV adapter
-
-        //TODO: query for most recent purchase with field clientUID and display in card
-
-
-        complain = (Button)findViewById(R.id.complain);
+        clientName2 = findViewById(R.id.clientName);*/
+        /*complain = (Button)findViewById(R.id.complain);
         complain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +86,7 @@ public class ClientHome extends AppCompatActivity {
                 //add rate your cook method here
                 rateYourCook();
             }
-        });
+        });*/
 
         searchButton = (Button)findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +97,7 @@ public class ClientHome extends AppCompatActivity {
 
         });
 
-        purchaseRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        /*purchaseRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -129,16 +117,71 @@ public class ClientHome extends AppCompatActivity {
                             mostRecent = Long.parseLong(document2.getString("requestTime"));
                         }
 
-                }updateClientHome();
+                    }
+                    updateClientHome();
+                }
             }
-        }
+        });*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUpPurchaseModels();
+    }
+
+    private void setUpPurchaseModels(){
+        // initializing all lists of fields
+        ArrayList<String> cookUID = new ArrayList<>();
+        ArrayList<String> clientUID = new ArrayList<>();
+        ArrayList<String> mealID = new ArrayList<>();
+        ArrayList<String> clientName = new ArrayList<>();
+        ArrayList<String>  pickupTime = new ArrayList<>();
+        ArrayList<String>  requestTime = new ArrayList<>();
+        purchasesArrayList = new ArrayList<>();
+        //TODO: you can also decide whether to forgo fetching the meal image to display
+
+        purchaseRef.whereEqualTo("clientUID", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for(QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, document.getId() + "=>" + document.getData());
+                    Map<String, Object> data = document.getData();
+                    if(!Objects.equals(data.get("cookUID"), null))
+                        cookUID.add((String) data.get("cookUID"));
+                    else cookUID.add(null);
+
+                    if(!Objects.equals(data.get("clientUID"), null))
+                        clientUID.add((String) data.get("clientUID"));
+                    else clientUID.add(null);
+
+                    if(!Objects.equals(data.get("mealID"), null))
+                        mealID.add((String) data.get("mealID"));
+                    else mealID.add(null);
+
+                    if(!Objects.equals(data.get("clientName"), null))
+                        clientName.add((String) data.get("clientName"));
+                    else clientName.add(null);
+
+                    if(!Objects.equals(data.get("pickUpTime"), null))
+                        pickupTime.add((String) data.get("pickUpTime"));
+                    else pickupTime.add(null);
+
+                    if(!Objects.equals(data.get("requestTime"), null))
+                        requestTime.add((String) data.get("requestTime"));
+                    else requestTime.add(null);
+                }
+                for (int i = 0; i < clientUID.size(); i++){
+                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), pickupTime.get(i), clientName.get(i));
+                    purchasesArrayList.add(purchase);
+                }
+                updateClientHome();
+            }
 
         });
-
     }
 
     private void updateClientHome(){
-        clientName2.setText(clientName);
+        /*clientName2.setText(clientName);
         requestTime.setText(request_Time);
         purchasedName.setText(mealName);
         purchasedCook.setText(cookUID2);
@@ -155,10 +198,14 @@ public class ClientHome extends AppCompatActivity {
                 complain.setVisibility(View.VISIBLE);
                 rateCook.setVisibility(View.VISIBLE);
                 break;
-        }
+        }*/
+
+        purchasesRVAdapter = new Purchase_RecyclerViewAdapter("Client", this, purchasesArrayList, this);
+        recyclerView.setAdapter(purchasesRVAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    public void submitComplaint(){
+    /*public void submitComplaint(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View complaintPopup = getLayoutInflater().inflate(R.layout.activity_complaintpopup, null);
 
@@ -206,9 +253,9 @@ public class ClientHome extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
-    public void rateYourCook(){
+    /*public void rateYourCook(){
         dialogBuilder = new AlertDialog.Builder(this);
         final View ratePopup = getLayoutInflater().inflate(R.layout.activity_ratecook, null);
 
@@ -233,7 +280,6 @@ public class ClientHome extends AppCompatActivity {
         submitButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: submit button.
                 // collect user input from text fields, call addRating() on cook object, update cook.
                 cookRef = dBase.collection("users").document(cookUID2);
                 cookRef
@@ -260,7 +306,9 @@ public class ClientHome extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-    }
+    }*/
 
-
+    // Should not be clickable
+    @Override
+    public void onItemClick(int position) {}
 }

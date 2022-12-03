@@ -28,6 +28,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private DocumentReference userRef;
     private static final String TAG = "Profile";
     RecyclerView recyclerView;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
+
+        //TODO: fetch user type
 
         TextView cookName = findViewById(R.id.cookNameTextView);
         String name = getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName");
@@ -65,18 +68,18 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         String numReviews = getIntent().getStringExtra("numReviews");
         if (rating == null) {
             cookRating.setText("Undetermined");
+        } else {
+            cookRating.setText(rating);
         }
-        else{
-                cookRating.setText(rating);
-            }
 
+        // TODO: only display recycler when user type is "Cook"
         purchases = new ArrayList<>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);
         setUpPurchase();
     }
 
-    private void updateView(){
-        Purchase_RecyclerViewAdapter adapter = new Purchase_RecyclerViewAdapter(this, purchases, this);
+    private void updateView() {
+        Purchase_RecyclerViewAdapter adapter = new Purchase_RecyclerViewAdapter("Cook", this, purchases, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -114,5 +117,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
     // Should not be clickable
     @Override
-    public void onItemClick(int position) {}
+    public void onItemClick(int position) {
+    }
 }

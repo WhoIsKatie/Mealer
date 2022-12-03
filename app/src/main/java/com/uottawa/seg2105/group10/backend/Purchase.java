@@ -34,7 +34,7 @@ public class Purchase {
         this.clientName = clientName;
         complaint = null;
         status = "PENDING";
-        this.pickupTime = pickupTime.toString();
+        this.pickupTime = pickupTime;
         updateFireStore();
     }
 
