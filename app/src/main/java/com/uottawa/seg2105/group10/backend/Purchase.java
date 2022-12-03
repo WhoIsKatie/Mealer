@@ -14,6 +14,7 @@ import java.lang.annotation.Retention;
 public class Purchase {
 
     private final String cookUID, clientUID, mealID, clientName, pickupTime, requestTime;
+    private String imageID = null;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
     private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
@@ -26,19 +27,20 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String pickupTime, String clientName){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String clientName){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.requestTime = requestTime;             // the creation time of this instance
         this.mealID = mealName;                     // the meal name
         this.clientName = clientName;
+        this.imageID = imageID;
         complaint = null;
         status = "PENDING";
         this.pickupTime = pickupTime;
         updateFireStore();
     }
 
-    public Purchase(){
+    public Purchase(){ //ALERT!!!! IF YOU DO THIS SINCE FIELDS ARE FINAL U CAN NEVER CHANGE THEM TO NOT BE EMPTY
         clientUID = "";
         cookUID = "";
         requestTime = "";
@@ -50,7 +52,7 @@ public class Purchase {
     }
 
     //getters
-    public String getMealName(){return mealID;}
+    public String getMealID(){return mealID;}
     public String getClientName(){return clientName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
@@ -58,10 +60,16 @@ public class Purchase {
     public String getStatus(){return status;}
     public String getPickUpTime() {return pickupTime;}
     public String getRequestTime() {return requestTime;}
+    public String getImageID(){return imageID;}
 
     //complaint setter (the only one that can be set after creation)
     public boolean setComplaint(DocumentReference complaint){
         this.complaint = complaint;
+        return updateFireStore();
+    }
+
+    public boolean setImageID(String imageID){
+        this.imageID = imageID;
         return updateFireStore();
     }
 

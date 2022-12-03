@@ -220,7 +220,7 @@ public class MealView extends AppCompatActivity {
                             LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
                             String docID = System.currentTimeMillis() + "";
                             try {
-                                Meal.createPurchase(docID, cookUID2, userID, name, pickup, cookName);
+                                Meal.createPurchase(docID, cookUID2, userID, name, image, pickup, cookName);
                                 Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
