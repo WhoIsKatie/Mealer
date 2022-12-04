@@ -191,7 +191,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MealSearch.this, MealView.class);
-        //todo: edit mealview to only show editing elements if user is a cook
+
         Meal doc = searchedMeals.get(position);
         intent.putExtra("MEAL NAME", doc.getMealName());
         intent.putExtra("PRICE", doc.getPrice());
