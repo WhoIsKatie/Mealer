@@ -273,28 +273,29 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         }
 
         public void submitComplaint(){
-            dialogBuilder = new AlertDialog.Builder(context);
-            final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
 
-            titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-            String titleComplaintString = titleComplaint.getText().toString();
-
-            cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
-            String cookNameString = cookName.getText().toString();
-
-            complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
-            String complaintString = complaint.getText().toString();
-
-            submitButton =(Button) complaintPopup.findViewById(R.id.submitButton);
-            cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
-
-            dialogBuilder.setView(complaintPopup);
-            dialog = dialogBuilder.create();
-            dialog.show();
 
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    dialogBuilder = new AlertDialog.Builder(context);
+                    final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
+
+                    titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
+                    String titleComplaintString = titleComplaint.getText().toString();
+
+                    cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
+                    String cookNameString = cookName.getText().toString();
+
+                    complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
+                    String complaintString = complaint.getText().toString();
+
+                    submitButton =(Button) complaintPopup.findViewById(R.id.submitButton);
+                    cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
+
+                    dialogBuilder.setView(complaintPopup);
+                    dialog = dialogBuilder.create();
+                    dialog.show();
                     ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
                     dBase.collection("complaints").add(complaint);
                     dBase.collection("complaints")
