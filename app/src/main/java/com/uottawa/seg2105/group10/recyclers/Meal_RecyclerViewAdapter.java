@@ -72,7 +72,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         if(type.equals("Client")) {
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
-            String cookUID = userRef.getId();
+            String cookUID = meals.get(searchViewHolder.getBindingAdapterPosition()).getCookUID();
             userRef = dBase.collection("users").document(cookUID);
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -93,13 +93,13 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 }
             });
-            searchViewHolder.name.setText(meals.get(holder.getLayoutPosition()).getMealName());
-            float price = meals.get(searchViewHolder.getAdapterPosition()).getPrice();
+            searchViewHolder.name.setText(meals.get(searchViewHolder.getBindingAdapterPosition()).getMealName());
+            float price = meals.get(searchViewHolder.getBindingAdapterPosition()).getPrice();
             BigDecimal bd = new BigDecimal(price + "");
             String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
             searchViewHolder.price.setText(textPrice);
-            if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(searchViewHolder.getAdapterPosition()).getImageID());
+            if(meals.get(searchViewHolder.getBindingAdapterPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(searchViewHolder.getBindingAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(searchViewHolder.mealImage);
                 });
@@ -107,13 +107,13 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         } else if(type.equals("Cook")){
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-            menuViewHolder.name.setText(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
-            float price = meals.get(menuViewHolder.getAdapterPosition()).getPrice();
+            menuViewHolder.name.setText(meals.get(menuViewHolder.getBindingAdapterPosition()).getMealName());
+            float price = meals.get(menuViewHolder.getBindingAdapterPosition()).getPrice();
             BigDecimal bd = new BigDecimal(price + "");
             String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
             menuViewHolder.price.setText(textPrice);
 
-            firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getAdapterPosition()).getMealName());
+            firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getBindingAdapterPosition()).getMealName());
             firebaseMeal.get().addOnSuccessListener(snapshot -> {
                 if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                     menuViewHolder.offerStatus.setText("Offered");
@@ -129,8 +129,8 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
             });
 
-            if(meals.get(holder.getAdapterPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(menuViewHolder.getAdapterPosition()).getImageID());
+            if(meals.get(holder.getBindingAdapterPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(menuViewHolder.getBindingAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(menuViewHolder.mealImage);
                 });
@@ -171,7 +171,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     if (recyclerViewInterface != null){
-                        int pos = getAdapterPosition();
+                        int pos = getBindingAdapterPosition();
 
                         if(pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
@@ -184,7 +184,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AddMeal.class);
-                    firebaseMeal = userRef.collection("meals").document(meals.get(getAdapterPosition()).getMealName());
+                    firebaseMeal = userRef.collection("meals").document(meals.get(getBindingAdapterPosition()).getMealName());
                     firebaseMeal.get().addOnSuccessListener(snapshot -> {
                         Meal thisMeal = snapshot.toObject(Meal.class);
                         intent.putExtra("MEAL NAME", thisMeal.getMealName());
@@ -205,7 +205,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        userRef.collection("meals").document(meals.get(getAdapterPosition()).getMealName()).delete();
+                        userRef.collection("meals").document(meals.get(getBindingAdapterPosition()).getMealName()).delete();
                         Toast.makeText(context, "The meal has been successfully removed.",
                                 Toast.LENGTH_SHORT).show();
 
@@ -235,7 +235,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     if (recyclerViewInterface != null) {
-                        int pos = getAdapterPosition();
+                        int pos = getBindingAdapterPosition();
 
                         if (pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);

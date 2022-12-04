@@ -175,7 +175,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                         imageID.add((String) data.get("imageID"));
                     else imageID.add(null);
                     if(!Objects.equals(data.get("status"), null))
-                        status.add((String) data.get("imageID"));
+                        status.add((String) data.get("status"));
                     else status.add(null);
                 }
                 for (int i = 0; i < clientUID.size(); i++){

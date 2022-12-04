@@ -118,12 +118,12 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                         }
                                         price.add(Float.valueOf(data.get("price").toString()));
                                         if (data.get("imageID") != null) {
-                                            image.add(data.get("imageID").toString()); // you might want to double check what the name is: image or imageID?
+                                            image.add(data.get("imageID").toString());
                                         } else {
                                             image.add(null);
                                         }
                                         if (data.get("cookUID") != null) {
-                                            cookUid.add(data.get("cookUID").toString()); // you might want to double check what the name is: image or imageID?
+                                            cookUid.add(data.get("cookUID").toString());
                                         } else {
                                             cookUid.add(null);
                                         }
@@ -192,7 +192,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     public void onItemClick(int position) {
         Intent intent = new Intent(MealSearch.this, MealView.class);
         //todo: edit mealview to only show editing elements if user is a cook
-        Meal doc = meals.get(position);
+        Meal doc = searchedMeals.get(position);
         intent.putExtra("MEAL NAME", doc.getMealName());
         intent.putExtra("PRICE", doc.getPrice());
         intent.putExtra("MEAL TYPE", doc.getMealType());
