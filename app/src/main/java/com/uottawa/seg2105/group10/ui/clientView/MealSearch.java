@@ -177,7 +177,7 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
                                 }
                             }
                         }
-                        if(mealTypefromSearch.isEmpty()){
+                        if(searchedMeals.isEmpty()){
                             Toast.makeText(MealSearch.this, "No meal exist", Toast.LENGTH_SHORT).show();
                         }
                         setAdapter();
