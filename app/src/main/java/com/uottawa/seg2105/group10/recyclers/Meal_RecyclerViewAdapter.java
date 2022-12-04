@@ -72,7 +72,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         if(type.equals("Client")) {
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
-            String cookUID = meals.get(searchViewHolder.getAdapterPosition()).getCookUID();
+            String cookUID = userRef.getId();
             userRef = dBase.collection("users").document(cookUID);
             userRef.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -81,8 +81,12 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         double ratingSum;
                         String address;
-                        //TODO: Add null check for ratingSum
-                        ratingSum = document.getDouble("ratingSum");
+                        if(document.getDouble("ratingSum") != null){
+                            ratingSum = document.getDouble("ratingSum");
+                        }
+                        else{
+                            ratingSum = 0;
+                        }
                         address = document.getString("address");
                         searchViewHolder.location.setText(address);
                         searchViewHolder.rating.setText(String.valueOf(ratingSum));
