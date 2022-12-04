@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, clientName, pickupTime, requestTime;
+    private final String cookUID, clientUID, mealID, cookName, pickupTime, requestTime;
     private String imageID = null;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
@@ -28,32 +28,32 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String clientName){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String cookName, String status){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.requestTime = requestTime;             // the creation time of this instance
         this.mealID = mealName;                     // the meal name
-        this.clientName = clientName;
+        this.cookName = cookName;
         this.imageID = imageID;
         complaint = null;
-        status = "PENDING";
+        this.status = status;
         this.pickupTime = pickupTime;
-        if(!Objects.equals(clientName, "")) {
+        if(!Objects.equals(cookName, "")) {
             dBase = FirebaseFirestore.getInstance();
             updateFireStore();
         }
     }
 
 
-
-
-
-    public Purchase(){ //ALERT!!!! IF YOU DO THIS SINCE FIELDS ARE FINAL U CAN NEVER CHANGE THEM TO NOT BE EMPTY
+    /** Constructor for Firebase access.
+     *  Do not use locally unless you want an empty purchase.
+     */
+    public Purchase(){
         clientUID = "";
         cookUID = "";
         requestTime = "";
         mealID = "";
-        clientName = "";
+        cookName = "";
         complaint = null;
         status = "PENDING";
         pickupTime = "";
@@ -61,7 +61,7 @@ public class Purchase {
 
     //getters
     public String getMealID(){return mealID;}
-    public String getClientName(){return clientName;}
+    public String getCookName(){return cookName;}
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
     public DocumentReference getComplaint() {return complaint;}

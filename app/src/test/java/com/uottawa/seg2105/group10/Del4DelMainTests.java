@@ -2,16 +2,13 @@ package com.uottawa.seg2105.group10;
 
 import static org.junit.Assert.assertEquals;
 
-import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Purchase;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 public class Del4DelMainTests {
 
-    public Purchase purchaseForTest = new Purchase("5:00", "cookUID",  "clientUID",  "putine",  "imageID",  "6:00",  "");
+    public Purchase purchaseForTest = new Purchase("5:00", "cookUID",  "clientUID",  "poutine",  "imageID",  "6:00",  "", "APPROVED");
 
 
 

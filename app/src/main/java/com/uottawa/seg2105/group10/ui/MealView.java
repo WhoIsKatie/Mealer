@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
+import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -225,7 +226,7 @@ public class MealView extends AppCompatActivity {
                             LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
                             String docID = System.currentTimeMillis() + "";
                             try {
-                                Meal.createPurchase(docID, cookUID2, userID, name, image, pickup, cookName);
+                                Meal.createPurchase(docID, cookUID2, userID, name, image, pickup, cookName, Purchase.PENDING);
                                 Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
