@@ -118,7 +118,7 @@ public class Welcome extends AppCompatActivity {
                             intent.putExtra("email", (String) userSnapshot[0].get("email"));
                             intent.putExtra("description", (String) userSnapshot[0].get("description"));
                             intent.putExtra("address", (String) userSnapshot[0].get("address"));
-                            intent.putExtra("completedOrders", (String) userSnapshot[0].get("completedOrders"));
+                            intent.putExtra("completedOrders", String.valueOf(userSnapshot[0].get("completedOrders")));
                             intent.putExtra("numReviews", (String) userSnapshot[0].get("numReviews"));
                             intent.putExtra("rating", Objects.requireNonNull(userSnapshot[0].get("ratingSum")).toString());
                         }
@@ -157,6 +157,11 @@ public class Welcome extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+
+
 
     }
 

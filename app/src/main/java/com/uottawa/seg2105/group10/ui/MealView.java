@@ -10,9 +10,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -130,36 +133,36 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, Profile.class);
-                // firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                //    cookUID = snapshot.getString("cookUID");
-                    // userRef = dBase.collection("users").document(cookUID);
                 userRef = dBase.collection("users").document(cookUID2);
-                userRef.get().addOnCompleteListener(task -> {
-                        // public void onComplete(task) {
+                userRef.get().addOnCompleteListener(MealView.this, new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 String email, description, address, cookFirstName, cookLastName;
                                 double ratingSum;
+                                String completedOrders;
                                 ratingSum = document.getDouble("ratingSum");
                                 address = document.getString("address");
                                 cookFirstName = document.getString("firstName");
                                 cookLastName = document.getString("lastName");
                                 email = document.getString("email");
                                 description = document.getString("description");
+                                completedOrders = String.valueOf(document.get("completedOrders"));
                                 intent.putExtra("firstName", cookFirstName);
                                 intent.putExtra("lastName", cookLastName);
                                 intent.putExtra("email", email);
                                 intent.putExtra("description", description);
                                 intent.putExtra("address", address);
                                 intent.putExtra("rating", ratingSum);
+                                intent.putExtra("completedOrders", completedOrders );
+                                startActivity(intent);
                             }
                         }
-                    // }
+                    }
                     });
-                // });
-                startActivity(intent);
             }
         });
 

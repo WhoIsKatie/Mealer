@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,9 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private DocumentReference userRef;
+    private DocumentSnapshot document;
+    private TextView purchaseTextView;
+    private RecyclerView purchaseRecyclerView;
     private static final String TAG = "Profile";
     RecyclerView recyclerView;
     String type;
@@ -39,9 +43,23 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
+        purchaseTextView = findViewById(R.id.textView);
+        recyclerView = findViewById(R.id.purchaseRecyclerView);
 
-        //TODO: fetch user type
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                document = task.getResult();
+                if (document.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    type = document.getString("type");
+                }
+            }
+        });
 
+        if (type == "Client"){
+            purchaseTextView.setVisibility(View.GONE);
+            purchaseRecyclerView.setVisibility(View.GONE);
+        }
         TextView cookName = findViewById(R.id.cookNameTextView);
         String name = getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName");
         cookName.setText(name);
@@ -72,8 +90,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
             cookRating.setText(rating);
         }
 
-        // TODO: only display recycler when user type is "Cook"
-        purchases = new ArrayList<>();
+        purchases = new ArrayList<Purchase>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);
         setUpPurchase();
     }
@@ -96,21 +113,21 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         ArrayList<String> documents = new ArrayList<>();
 
         // used official docs: https://firebase.google.com/docs/firestore/query-data/queries#simple_queries
-        userRef.collection("purchases").get().addOnSuccessListener(queryDocumentSnapshots -> {
+        dBase.collection("purchases").get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                 Log.d(TAG, document.getId() + "=>" + document.getData());
                 Map<String, Object> data = document.getData();
-                mealName.add(data.get("mealName").toString());
                 clientName.add(data.get("clientName").toString());
                 pickUpTime.add(data.get("pickUpTime").toString());
                 cookUID.add(data.get("cookUID").toString());
+                //TODO: ImageID and mealID have to be non-null
                 mealID.add(data.get("mealID").toString());
                 imageID.add(data.get("imageID").toString());
                 clientUID.add(data.get("clientUID").toString());
                 documents.add(document.getReference().getId());
             }
-            for (int i = 0; i < mealName.size(); i++) {
-                Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealName.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i));
+            for (int i = 0; i < mealID.size(); i++) {
+                Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i));
                 purchases.add(cm);
             }
             updateView();
