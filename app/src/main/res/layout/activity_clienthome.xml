@@ -47,12 +47,12 @@
                 android:text="SEARCH" />
 
             <TextView
-                android:id="@+id/clientName"
+                android:id="@+id/clientNameHeadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_black"
                 android:gravity="center_horizontal"
-                android:text="[blank]'s Purchase"
+                android:text="Your Purchases"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <androidx.recyclerview.widget.RecyclerView

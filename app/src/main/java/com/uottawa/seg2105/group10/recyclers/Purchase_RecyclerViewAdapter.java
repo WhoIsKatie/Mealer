@@ -18,7 +18,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,12 +34,16 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     private static final String TAG = "Purchase_Adapter";
     private final RecyclerViewInterface recyclerViewInterface;
+    private CollectionReference purchaseRef;
     Context context;
     ArrayList<Purchase> purchases;
+    private DocumentSnapshot document, document2, document3;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
+    private AlertDialog.Builder dialogBuilder, dialogBuilder2;
+    private AlertDialog dialog, dialog2;
     DocumentReference firebasePurchase, userRef, clientRef, cookRef, complaintRef;
-    String clientName, cookUID, clientUID;
+    String clientName, cookUID, clientUID, cookName;
     private String type;
 
     public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface){
@@ -73,20 +79,37 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             cookUID = purchases.get(clientViewHolder.getLayoutPosition()).getCookUID();
             //String cookName = purchases.get(clientViewHolder.getLayoutPosition()).getCookName();
             String requestTime = purchases.get(clientViewHolder.getLayoutPosition()).getRequestTime();
+            String clientName2 = purchases.get(clientViewHolder.getLayoutPosition()).getClientName();
             String purchasedName = purchases.get(clientViewHolder.getLayoutPosition()).getMealID();
             String clientPickupTime = purchases.get(clientViewHolder.getLayoutPosition()).getPickUpTime();
             String purchaseStatus = purchases.get(clientViewHolder.getLayoutPosition()).getStatus();
 
             clientViewHolder.purchasedName.setText(purchasedName);
-            clientViewHolder.purchasedCook.setText(cookUID);
-            // purchasedPrice.setText(--);
+
+            clientViewHolder.purchasedCook.setText(cookUID); //cry erytim
+            cookRef = dBase.collection("users").document(cookUID);
+            cookRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    document3 = task.getResult();
+                    if (document3.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document3.getData());
+                        cookName = document3.getString("firstName");
+                    }
+                }
+            });
+            clientViewHolder.purchasedCook.setText(cookName);
+
             clientViewHolder.clientPickupTime.setText(clientPickupTime);
             clientViewHolder.purchaseStatus.setText(purchaseStatus);
 
-            cookRef = dBase.collection("users").document(cookUID);
 
-            switch (purchaseStatus) {
-                case "PENDING":
+
+
+            clientViewHolder.complain.setVisibility(View.VISIBLE);
+            clientViewHolder.rateCook.setVisibility(View.VISIBLE);
+
+            /*switch (purchaseStatus) {
+              //  case "PENDING":
                     clientViewHolder.complain.setVisibility(View.GONE);
                     clientViewHolder.rateCook.setVisibility(View.GONE);
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.mustard));
@@ -97,9 +120,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.red));
                     break;
                 case" ACCEPTED":
+                    clientViewHolder.complain.setVisibility(View.VISIBLE);
+                    clientViewHolder.rateCook.setVisibility(View.VISIBLE);
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
                     break;
-            }
+            }*/
 
             final String[] imageID = {""};
             cookRef.collection("meals").document(purchases.get(holder.getAdapterPosition()).getMealID()).get().addOnCompleteListener(task -> {
@@ -170,9 +195,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public class ClientViewHolder extends RecyclerView.ViewHolder {
 
         EditText cookName, complaint, cookName2, rate, titleComplaint;
-        TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime,purchaseStatus, clientName2;
+        TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientNameHeadline, clientPickupTime, purchaseStatus;
+
         Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
         ImageView mealImage;
+        String clientName, cookUID2, mealID, status, mealName, pickUpTime2, request_Time, clientUID2, clientName2;
 
         private AlertDialog.Builder dialogBuilder;
         private AlertDialog dialog;
@@ -186,9 +213,13 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             clientPickupTime = itemView.findViewById(R.id.clientPickupTime);
             purchaseStatus = itemView.findViewById(R.id.purchaseStatus);
             mealImage = itemView.findViewById(R.id.purchaseMealImage);
+            clientNameHeadline = itemView.findViewById(R.id.clientNameHeadline);
+
 
             complain = itemView.findViewById(R.id.complain);
             rateCook = itemView.findViewById(R.id.rateCook);
+            purchaseRef = dBase.collection("purchases");
+            String userName = mAuth.getCurrentUser().getUid();
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -203,10 +234,14 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 }
             });
 
+
+
+
+
             complain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //submitComplaint();
+                    submitComplaint();
                 }
             });
 
@@ -214,15 +249,80 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             rateCook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //add rate your cook method here
-                    //rateYourCook();
+                    rateYourCook();
                 }
             });
 
+
+
+        }
+
+       private void updateClientHome(){
+            firebasePurchase = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+            firebasePurchase.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        clientName2 = document.getString("firstName");
+                    }
+                }
+
+            });
+       }
+
+
+        public void submitComplaint(){
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogBuilder = new AlertDialog.Builder(context);
+                    final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
+
+                    titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
+                    String titleComplaintString = titleComplaint.getText().toString();
+
+                    cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
+                    String cookNameString = cookName.getText().toString();
+
+                    complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
+                    String complaintString = complaint.getText().toString();
+
+                    submitButton =(Button) complaintPopup.findViewById(R.id.submitButton);
+                    cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
+
+                    dialogBuilder.setView(complaintPopup);
+                    dialog = dialogBuilder.create();
+                    dialog.show();
+
+                    ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
+                    dBase.collection("complaints").add(complaint);
+                    dBase.collection("complaints")
+                            .add(complaint)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("ClientHome", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("ClientHome", "Error adding document", e);
+                                }
+                            });
+                }});
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
         }
 
         public void rateYourCook(){
-            dialogBuilder = new AlertDialog.Builder(context);
+            dialogBuilder2 = new AlertDialog.Builder(context);
             final View ratePopup = LayoutInflater.from(context).inflate(R.layout.activity_ratecook, null);
 
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
@@ -238,9 +338,9 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             submitButton =(Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton = (Button) ratePopup.findViewById(R.id.cancelButton2);
 
-            dialogBuilder.setView(ratePopup);
-            dialog = dialogBuilder.create();
-            dialog.show();
+            dialogBuilder2.setView(ratePopup);
+            dialog2 = dialogBuilder2.create();
+            dialog2.show();
 
             submitButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,56 +365,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             });
 
             cancelButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
-        public void submitComplaint(){
-
-
-            submitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialogBuilder = new AlertDialog.Builder(context);
-                    final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
-
-                    titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-                    String titleComplaintString = titleComplaint.getText().toString();
-
-                    cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
-                    String cookNameString = cookName.getText().toString();
-
-                    complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
-                    String complaintString = complaint.getText().toString();
-
-                    submitButton =(Button) complaintPopup.findViewById(R.id.submitButton);
-                    cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
-
-                    dialogBuilder.setView(complaintPopup);
-                    dialog = dialogBuilder.create();
-                    dialog.show();
-                    ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
-                    dBase.collection("complaints").add(complaint);
-                    dBase.collection("complaints")
-                            .add(complaint)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d("ClientHome", "DocumentSnapshot written with ID: " + documentReference.getId());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("ClientHome", "Error adding document", e);
-                                }
-                            });
-                }});
-
-            cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     dialog.dismiss();
