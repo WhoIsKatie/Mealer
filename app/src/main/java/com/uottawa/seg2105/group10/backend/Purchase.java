@@ -28,7 +28,7 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String clientName){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String clientName, String status){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.requestTime = requestTime;             // the creation time of this instance
@@ -36,7 +36,7 @@ public class Purchase {
         this.clientName = clientName;
         this.imageID = imageID;
         complaint = null;
-        status = "PENDING";
+        this.status = status;
         this.pickupTime = pickupTime;
         if(!Objects.equals(clientName, "")) {
             dBase = FirebaseFirestore.getInstance();
