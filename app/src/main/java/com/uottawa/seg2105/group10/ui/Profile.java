@@ -129,9 +129,10 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
             }
             for (int i = 0; i < mealID.size(); i++) {
                 Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i), status.get(i));
-                if (status.get(i) == "APPROVED" || status.get(i) == "PENDING") {
-                    purchases.add(cm);
+                if (status.get(i) == "REJECTED") {
+                    continue;
                 }
+                purchases.add(cm);
             }
             updateView();
         });
