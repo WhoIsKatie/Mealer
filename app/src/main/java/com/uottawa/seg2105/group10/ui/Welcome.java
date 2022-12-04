@@ -21,6 +21,7 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Welcome extends AppCompatActivity {
 
@@ -119,7 +120,7 @@ public class Welcome extends AppCompatActivity {
                             intent.putExtra("address", (String) userSnapshot[0].get("address"));
                             intent.putExtra("completedOrders", (String) userSnapshot[0].get("completedOrders"));
                             intent.putExtra("numReviews", (String) userSnapshot[0].get("numReviews"));
-                            intent.putExtra("rating", (String) userSnapshot[0].get("ratingSum"));
+                            intent.putExtra("rating", Objects.requireNonNull(userSnapshot[0].get("ratingSum")).toString());
                         }
                         startActivity(intent);
                     });
@@ -156,11 +157,6 @@ public class Welcome extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
-
 
     }
 

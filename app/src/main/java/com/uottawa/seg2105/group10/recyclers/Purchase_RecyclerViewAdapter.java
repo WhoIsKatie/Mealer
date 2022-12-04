@@ -7,17 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Purchase;
 
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 
 public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
+    private static final String TAG = "Purchase_Adapter";
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<Purchase> purchases;
@@ -68,16 +73,17 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             cookUID = purchases.get(clientViewHolder.getLayoutPosition()).getCookUID();
             //String cookName = purchases.get(clientViewHolder.getLayoutPosition()).getCookName();
             String requestTime = purchases.get(clientViewHolder.getLayoutPosition()).getRequestTime();
-            String purchasedName = purchases.get(clientViewHolder.getLayoutPosition()).getMealName();
+            String purchasedName = purchases.get(clientViewHolder.getLayoutPosition()).getMealID();
             String clientPickupTime = purchases.get(clientViewHolder.getLayoutPosition()).getPickUpTime();
             String purchaseStatus = purchases.get(clientViewHolder.getLayoutPosition()).getStatus();
 
-            clientViewHolder.requestTime.setText(requestTime);
             clientViewHolder.purchasedName.setText(purchasedName);
             clientViewHolder.purchasedCook.setText(cookUID); //cry erytim
             // purchasedPrice.setText(--);
             clientViewHolder.clientPickupTime.setText(clientPickupTime);
             clientViewHolder.purchaseStatus.setText(purchaseStatus);
+
+            cookRef = dBase.collection("users").document(cookUID);
 
             switch (purchaseStatus) {
                 case "PENDING":
@@ -95,9 +101,29 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     break;
             }
 
+            final String[] imageID = {""};
+            cookRef.collection("meals").document(purchases.get(holder.getAdapterPosition()).getMealID()).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                        Object result = task.getResult().get("imageID");
+                        if(result != null){
+                            imageID[0] = result.toString();
+                            purchases.get(holder.getAdapterPosition()).setImageID(purchases.get(holder.getAdapterPosition()).getImageID());
+                        }
+                }
+                else{
+                    Log.d(TAG, "Could not fetch mealID");
+                }
+            });
+            if(purchases.get(holder.getAdapterPosition()).getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(purchases.get(clientViewHolder.getAdapterPosition()).getImageID());
+                imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Glide.with(context).load(uri).into(clientViewHolder.mealImage);
+                });
+            }
+
         } else if(type.equals("Cook")) {
             CookViewHolder cookViewHolder = (CookViewHolder) holder;
-            cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getLayoutPosition()).getMealName());
+            cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getLayoutPosition()).getMealID());
             cookViewHolder.clientName.setText(purchases.get(cookViewHolder.getLayoutPosition()).getClientName());
             cookViewHolder.pickUpTime.setText(purchases.get(cookViewHolder.getLayoutPosition()).getPickUpTime());
         }
@@ -146,6 +172,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         EditText cookName, complaint, cookName2, rate, titleComplaint;
         TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime,purchaseStatus, clientName2;
         Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
+        ImageView mealImage;
 
         private AlertDialog.Builder dialogBuilder;
         private AlertDialog dialog;
@@ -158,6 +185,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             purchasedPrice = itemView.findViewById(R.id.purchasedPrice);
             clientPickupTime = itemView.findViewById(R.id.clientPickupTime);
             purchaseStatus = itemView.findViewById(R.id.purchaseStatus);
+            mealImage = itemView.findViewById(R.id.purchaseMealImage);
 
             complain = itemView.findViewById(R.id.complain);
             rateCook = itemView.findViewById(R.id.rateCook);

@@ -33,7 +33,7 @@ import java.util.Objects;
 public class ClientHome extends AppCompatActivity implements RecyclerViewInterface {
 
     //initializing variables or instances
-    RecyclerView recyclerView;
+    protected RecyclerView recyclerView;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private DocumentSnapshot document2, document3;
@@ -135,6 +135,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> cookUID = new ArrayList<>();
         ArrayList<String> clientUID = new ArrayList<>();
         ArrayList<String> mealID = new ArrayList<>();
+        ArrayList<String> imageID = new ArrayList<>();
         ArrayList<String> clientName = new ArrayList<>();
         ArrayList<String>  pickupTime = new ArrayList<>();
         ArrayList<String>  requestTime = new ArrayList<>();
@@ -169,9 +170,12 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                     if(!Objects.equals(data.get("requestTime"), null))
                         requestTime.add((String) data.get("requestTime"));
                     else requestTime.add(null);
+                    if(!Objects.equals(data.get("imageID"), null))
+                        imageID.add((String) data.get("imageID"));
+                    else imageID.add(null);
                 }
                 for (int i = 0; i < clientUID.size(); i++){
-                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), pickupTime.get(i), clientName.get(i));
+                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), clientName.get(i));
                     purchasesArrayList.add(purchase);
                 }
                 updateClientHome();
