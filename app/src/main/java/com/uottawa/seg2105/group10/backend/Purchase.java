@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.annotation.Retention;
+import java.util.Objects;
 
 public class Purchase {
 
@@ -17,7 +18,7 @@ public class Purchase {
     private String imageID = null;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
-    private final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
+    private FirebaseFirestore dBase;
     private static final String TAG = "Purchase Class";
 
     @Retention(SOURCE) //https://stackoverflow.com/questions/24715096/how-to-only-allow-certain-values-as-parameter-for-a-method-in-java
@@ -37,8 +38,15 @@ public class Purchase {
         complaint = null;
         status = "PENDING";
         this.pickupTime = pickupTime;
-        updateFireStore();
+        if(!Objects.equals(clientName, "")) {
+            dBase = FirebaseFirestore.getInstance();
+            updateFireStore();
+        }
     }
+
+
+
+
 
     public Purchase(){ //ALERT!!!! IF YOU DO THIS SINCE FIELDS ARE FINAL U CAN NEVER CHANGE THEM TO NOT BE EMPTY
         clientUID = "";
