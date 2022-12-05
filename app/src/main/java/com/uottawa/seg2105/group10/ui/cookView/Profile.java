@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.ui;
+package com.uottawa.seg2105.group10.ui.cookView;
 
 import android.os.Bundle;
 import android.util.Log;

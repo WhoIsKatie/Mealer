@@ -18,6 +18,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Cook;
 import com.uottawa.seg2105.group10.backend.Purchase;
+import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
+import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
+import com.uottawa.seg2105.group10.ui.cookView.Menu;
+import com.uottawa.seg2105.group10.ui.cookView.Profile;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
