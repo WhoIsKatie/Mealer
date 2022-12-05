@@ -41,13 +41,14 @@ public class MealView extends AppCompatActivity {
     private DocumentSnapshot document;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private float price;
     DocumentReference firebaseMeal, userRef;
-    String visibleIngredients, temp1, visibleCuisine, temp2, visibleAllergens, temp3, type, cookName, cookUID, userID;
+
+    String visibleIngredients, visibleCuisine, visibleAllergens, type, cookName, clientName, cookUID, clientUID, pickUpTime;
+    private float price;
+
     Switch offerToggle;
     private TextInputEditText pickupTimeText;
     private TextInputLayout pickupTimeLayout;
-    String pickUpTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,8 @@ public class MealView extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
-        String name = getIntent().getStringExtra("MEAL NAME");
-        String cookUID2 = getIntent().getStringExtra("COOKUID");
+        String mealName = getIntent().getStringExtra("MEAL NAME");
+        cookUID = getIntent().getStringExtra("COOKUID");
         price = getIntent().getExtras().getFloat("PRICE");
         String image = getIntent().getStringExtra("IMAGE");
         String description = getIntent().getStringExtra("DESCRIPTION");
@@ -89,11 +90,13 @@ public class MealView extends AppCompatActivity {
                     type = document.getString("type");
                     switch (type) {
                         case "Client":
+                            clientUID = mAuth.getCurrentUser().getUid();
                             offerToggle.setVisibility(View.GONE);
                             modifyButt.setVisibility(View.GONE);
                             removeButt.setVisibility(View.GONE);
                             break;
                         case "Cook":
+                            cookUID = mAuth.getCurrentUser().getUid();
                             purchaseButt.setVisibility(View.GONE);
                             pickupTimeLayout.setVisibility(View.GONE);
                             break;
@@ -104,7 +107,7 @@ public class MealView extends AppCompatActivity {
         });
 
 
-        firebaseMeal = userRef.collection("meals").document(name);
+        firebaseMeal = userRef.collection("meals").document(mealName);
 
         TextView nameTextView = findViewById(R.id.mealName);
         TextView ingredientTextView = findViewById(R.id.ingredientText);
@@ -116,7 +119,7 @@ public class MealView extends AppCompatActivity {
         ImageView mealImageView = findViewById(R.id.mealImage);
 
         meatTypeTextView.setText(mealType);
-        nameTextView.setText(name);
+        nameTextView.setText(mealName);
 
         priceTextView.setText(textPrice);
         descriptionTextView.setText(description);
@@ -135,7 +138,7 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, Profile.class);
-                userRef = dBase.collection("users").document(cookUID2);
+                userRef = dBase.collection("users").document(cookUID);
                 userRef.get().addOnCompleteListener(MealView.this, new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -172,7 +175,7 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MealView.this, AddMeal.class);
-                intent.putExtra("MEAL NAME", name);
+                intent.putExtra("MEAL NAME", mealName);
                 intent.putExtra("PRICE", price);
                 intent.putExtra("MEAL TYPE", mealType);
                 intent.putExtra("CUISINE", cuisine);
@@ -190,13 +193,12 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    cookUID = snapshot.getString("cookUID");
                     if (Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        userRef.collection("meals").document(name).delete();
+                        userRef.collection("meals").document(mealName).delete();
                         Toast.makeText(MealView.this, "The meal has been successfully removed.",
                                 Toast.LENGTH_SHORT).show();
                         finish();
@@ -211,27 +213,36 @@ public class MealView extends AppCompatActivity {
                 if (!validateDateTime()) return;
 
                 // fetches the cook's information
-                userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                userRef.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        document = task.getResult();
+                userRef = dBase.collection("users").document(cookUID);
+                userRef.get().addOnCompleteListener(cookTask -> {
+                    if (cookTask.isSuccessful()) {
+                        document = cookTask.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             cookName = document.getString("firstName") + " " + document.getString("lastName");
 
-                            userID = userRef.getPath().split("/")[1];
+                            dBase.collection("users").document(clientUID).get().addOnCompleteListener(clientTask -> {
+                                if (cookTask.isSuccessful()) {
+                                    document = cookTask.getResult();
+                                    if (document.exists()) {
+                                        clientName = document.getString("firstName") + " " + document.getString("lastName");
 
-                            String pattern = "yy/MM/dd-HH:mm";
-                            pickUpTime = pickupTimeText.getText().toString();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-                            LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
-                            String docID = System.currentTimeMillis() + "";
-                            try {
-                                Meal.createPurchase(docID, cookUID2, userID, name, image, pickup, cookName, Purchase.PENDING);
-                                Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
-                            }
+                                        String pattern = "yy/MM/dd-HH:mm";
+                                        pickUpTime = pickupTimeText.getText().toString();
+                                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                                        LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
+                                        String docID = System.currentTimeMillis() + "";
+                                        try {
+                                            Meal.createPurchase(docID, cookUID, clientUID, mealName, image, pickup, clientName, cookName, Purchase.PENDING);
+                                            Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            });
+
+
 
 
                         }

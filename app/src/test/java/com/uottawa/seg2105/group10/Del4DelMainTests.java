@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class Del4DelMainTests {
 
-    public Purchase purchaseForTest = new Purchase("5:00", "cookUID",  "clientUID",  "poutine",  "imageID",  "6:00",  "", "APPROVED");
+    public Purchase purchaseForTest = new Purchase("5:00", "cookUID",  "clientUID",  "poutine",  "imageID",  "6:00",  "", "", "APPROVED");
 
 
 

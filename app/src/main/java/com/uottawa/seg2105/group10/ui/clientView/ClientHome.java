@@ -84,6 +84,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> mealID = new ArrayList<>();
         ArrayList<String> imageID = new ArrayList<>();
         ArrayList<String> clientName = new ArrayList<>();
+        ArrayList<String> cookName = new ArrayList<>();
         ArrayList<String>  pickupTime = new ArrayList<>();
         ArrayList<String>  requestTime = new ArrayList<>();
         ArrayList<String> status = new ArrayList<>();
@@ -111,6 +112,10 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                         clientName.add((String) data.get("clientName"));
                     else clientName.add(null);
 
+                    if(!Objects.equals(data.get("cookName"), null))
+                        cookName.add((String) data.get("cookName"));
+                    else cookName.add(null);
+
                     if(!Objects.equals(data.get("pickUpTime"), null))
                         pickupTime.add((String) data.get("pickUpTime"));
                     else pickupTime.add(null);
@@ -129,7 +134,8 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                     clientName2 = document.getString("clientName");
                 }
                 for (int i = 0; i < clientUID.size(); i++){
-                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), clientName.get(i), status.get(i));
+                    //String imageID, String pickupTime, String cookName, String clientName, PurchaseStatus status
+                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), cookName.get(i), clientName.get(i), status.get(i));
                     purchasesArrayList.add(purchase);
                 }
 

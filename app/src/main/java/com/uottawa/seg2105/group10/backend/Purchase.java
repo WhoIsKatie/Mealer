@@ -28,7 +28,7 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String cookName, String status, String clientName){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String cookName, String clientName, String status){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.requestTime = requestTime;             // the creation time of this instance
@@ -38,7 +38,7 @@ public class Purchase {
         complaint = null;
         this.clientName = clientName;
         complaint = null;
-        this.status = status;
+        this.status = status.toString();
         this.pickupTime = pickupTime;
         if(!Objects.equals(cookName, "")) {
             dBase = FirebaseFirestore.getInstance();
@@ -48,17 +48,9 @@ public class Purchase {
 
 
     /** Constructor for Firebase access.
-     *  Do not use locally unless you want an empty purchase.
-     * @param s
-     * @param s1
-     * @param s2
-     * @param s3
-     * @param s4
-     * @param s5
-     * @param s6
-     * @param s7
+     *  Do NOT use locally unless you want an empty purchase.
      */
-    public Purchase(String s, String s1, String s2, String s3, String s4, String s5, String s6, String s7){
+    public Purchase(){
         clientUID = "";
         cookUID = "";
         requestTime = "";
@@ -93,7 +85,7 @@ public class Purchase {
         return updateFireStore();
     }
 
-    public boolean updateStatus(@PurchaseStatus String status){
+    public boolean updateStatus(String status){
         this.status = status;
         return updateFireStore();
     }

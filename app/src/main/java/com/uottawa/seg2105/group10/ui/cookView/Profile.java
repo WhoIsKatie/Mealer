@@ -105,6 +105,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         // initializing all lists of fields for complaints that are active
         ArrayList<String> status = new ArrayList<>();
         ArrayList<String> clientName = new ArrayList<>();
+        ArrayList<String> cookName = new ArrayList<>();
         ArrayList<String> pickUpTime = new ArrayList<>();
         ArrayList<String> cookUID = new ArrayList<>();
         ArrayList<String> clientUID = new ArrayList<>();
@@ -119,6 +120,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
                 Map<String, Object> data = document.getData();
                 status.add(data.get("status").toString());
                 clientName.add(data.get("clientName").toString());
+                cookName.add(data.get("cookName").toString());
                 pickUpTime.add(data.get("pickUpTime").toString());
                 cookUID.add(data.get("cookUID").toString());
                 //TODO: ImageID and mealID have to be non-null
@@ -128,7 +130,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
                 documents.add(document.getReference().getId());
             }
             for (int i = 0; i < mealID.size(); i++) {
-                Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i), status.get(i));
+                Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i), cookName.get(i), status.get(i));
                 if (status.get(i) == "REJECTED") {
                     continue;
                 }

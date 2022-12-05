@@ -79,8 +79,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         if (type.equals("Client")) {
             ClientViewHolder clientViewHolder = (ClientViewHolder) holder;
             cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
-            //String cookName = purchases.get(clientViewHolder.getLayoutPosition()).getCookName();
-            String requestTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getRequestTime();
+            String cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
             String purchasedName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getMealID();
             String clientPickupTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getPickUpTime();
             String purchaseStatus = purchases.get(clientViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
@@ -103,9 +102,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     clientViewHolder.rateCook.setVisibility(View.GONE);
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.red));
                     break;
-                case" ACCEPTED":
-                    clientViewHolder.complain.setVisibility(View.VISIBLE);
-                    clientViewHolder.rateCook.setVisibility(View.VISIBLE);
+                case " ACCEPTED":
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
                     break;
             }
@@ -231,9 +228,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     rateYourCook();
                 }
             });
-
-
-
         }
 
        private void updateClientHome(){
@@ -252,27 +246,29 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
 
         public void submitComplaint(){
+            dialogBuilder = new AlertDialog.Builder(context);
+            final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
+
+            titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
+            String titleComplaintString = titleComplaint.getText().toString();
+
+            cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
+            String cookNameString = cookName.getText().toString();
+
+            complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
+            String complaintString = complaint.getText().toString();
+
+            submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
+            cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
+            submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
+
+            dialogBuilder.setView(complaintPopup);
+            dialog = dialogBuilder.create();
+            dialog.show();
+
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialogBuilder = new AlertDialog.Builder(context);
-                    final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
-
-                    titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-                    String titleComplaintString = titleComplaint.getText().toString();
-
-                    cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
-                    String cookNameString = cookName.getText().toString();
-
-                    complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
-                    String complaintString = complaint.getText().toString();
-
-                    submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
-                    cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
-
-                    dialogBuilder.setView(complaintPopup);
-                    dialog = dialogBuilder.create();
-                    dialog.show();
 
                     ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
                     dBase.collection("complaints").add(complaint);
@@ -314,7 +310,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
             rate = (EditText) ratePopup.findViewById(R.id.rate);
             String rateString = rate.getText().toString();
-            int rateNum = Integer.parseInt(rateString);
+
 
             submitButton =(Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton = (Button) ratePopup.findViewById(R.id.cancelButton2);
@@ -326,8 +322,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             submitButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO: submit button.
-                    // collect user input from text fields, call addRating() on cook object, update cook.
+                    //TODO: validate rating & complaint
+                    int rateNum = Integer.parseInt(rateString);
                     clientRef = dBase.collection("users").document(cookUID);
                     clientRef.update("ratingSum", Integer.parseInt(rateString))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
