@@ -250,13 +250,9 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
 
             titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-            String titleComplaintString = titleComplaint.getText().toString();
-
             cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
-            String cookNameString = cookName.getText().toString();
 
             complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
-            String complaintString = complaint.getText().toString();
 
             submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
             cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
@@ -269,6 +265,10 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             submitButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String titleComplaintString = titleComplaint.getText().toString();
+                    String cookNameString = cookName.getText().toString();
+                    String complaintString = complaint.getText().toString();
+
 
                     ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
                     dBase.collection("complaints").add(complaint);
