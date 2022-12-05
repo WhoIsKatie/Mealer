@@ -29,7 +29,7 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "Purchase_Adapter";
     private final RecyclerViewInterface recyclerViewInterface;
@@ -42,7 +42,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     String clientName, cookUID, clientUID;
     private String type;
 
-    public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface){
+    public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.purchases = purchases;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -70,7 +70,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        if(type.equals("Client")) {
+        if (type.equals("Client")) {
             ClientViewHolder clientViewHolder = (ClientViewHolder) holder;
             cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
             //String cookName = purchases.get(clientViewHolder.getLayoutPosition()).getCookName();
@@ -98,32 +98,31 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     clientViewHolder.rateCook.setVisibility(View.GONE);
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.red));
                     break;
-                case" ACCEPTED":
+                case " ACCEPTED":
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
                     break;
             }
 
             final String[] imageID = {""};
             cookRef.collection("meals").document(purchasedName).get().addOnCompleteListener(task -> {
-                if(task.isSuccessful()){
-                        Object result = task.getResult().get("imageID");
-                        if(result != null){
-                            imageID[0] = result.toString();
-                            purchases.get(clientViewHolder.getBindingAdapterPosition()).setImageID(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
-                        }
-                }
-                else{
+                if (task.isSuccessful()) {
+                    Object result = task.getResult().get("imageID");
+                    if (result != null) {
+                        imageID[0] = result.toString();
+                        purchases.get(clientViewHolder.getBindingAdapterPosition()).setImageID(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
+                    }
+                } else {
                     Log.d(TAG, "Could not fetch mealID");
                 }
             });
-            if(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID() != null) {
+            if (purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID() != null) {
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(clientViewHolder.mealImage);
                 });
             }
 
-        } else if(type.equals("Cook")) {
+        } else if (type.equals("Cook")) {
             CookViewHolder cookViewHolder = (CookViewHolder) holder;
             cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getMealID());
             cookViewHolder.clientName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getCookName());
@@ -224,7 +223,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public class ClientViewHolder extends RecyclerView.ViewHolder {
 
         EditText cookName, complaint, cookName2, rate, titleComplaint;
-        TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime,purchaseStatus, clientName2;
+        TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientPickupTime, purchaseStatus, clientName2;
         Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
         ImageView mealImage;
 
@@ -247,10 +246,10 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (recyclerViewInterface != null){
+                    if (recyclerViewInterface != null) {
                         int pos = getBindingAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION) {
+                        if (pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
                         }
                     }
@@ -275,7 +274,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         }
 
-        public void rateYourCook(){
+        public void rateYourCook() {
             dialogBuilder = new AlertDialog.Builder(context);
             final View ratePopup = LayoutInflater.from(context).inflate(R.layout.activity_ratecook, null);
 
@@ -289,7 +288,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             String rateString = rate.getText().toString();
             int rateNum = Integer.parseInt(rateString);
 
-            submitButton =(Button) ratePopup.findViewById(R.id.submitButton2);
+            submitButton = (Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton = (Button) ratePopup.findViewById(R.id.cancelButton2);
 
             dialogBuilder.setView(ratePopup);
@@ -326,7 +325,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             });
         }
 
-        public void submitComplaint(){
+        public void submitComplaint() {
 
 
             submitButton.setOnClickListener(new View.OnClickListener() {
@@ -344,13 +343,13 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
                     String complaintString = complaint.getText().toString();
 
-                    submitButton =(Button) complaintPopup.findViewById(R.id.submitButton);
+                    submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
                     cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
 
                     dialogBuilder.setView(complaintPopup);
                     dialog = dialogBuilder.create();
                     dialog.show();
-                    ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
+                    ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()), titleComplaintString, complaintString, cookUID, clientUID);
                     dBase.collection("complaints").add(complaint);
                     dBase.collection("complaints")
                             .add(complaint)
@@ -366,7 +365,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                                     Log.w("ClientHome", "Error adding document", e);
                                 }
                             });
-                }});
+                }
+            });
 
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override

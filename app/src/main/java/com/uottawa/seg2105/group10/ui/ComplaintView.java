@@ -1,6 +1,5 @@
 package com.uottawa.seg2105.group10.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -17,7 +16,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Admin;
-import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 
 import java.time.Duration;
 
@@ -114,7 +112,6 @@ public class ComplaintView extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         });
 

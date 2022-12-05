@@ -19,6 +19,9 @@ public abstract class User {
 		this.uid = uid;
 	}
 
+	/** Constructor for Firebase access.
+	 *  Do not use locally unless you want an empty user.
+	 */
 	public User(){}
 	public String getTAG(){return TAG;}
 	public String getFirstName(){return firstName;}

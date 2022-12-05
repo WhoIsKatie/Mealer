@@ -6,7 +6,10 @@ public class Client extends User {
 
     private String address, ccNumber, ccHolderName, expiryDate, cvc;
 
-    // Dummy constructor
+    /**
+     * Constructor for Firebase access.
+     * Do not use locally unless you want an empty client user.
+     */
     public Client() {
         super("Client Class", "", "", "", "", "Client", "");
     }
@@ -19,8 +22,8 @@ public class Client extends User {
                 data.get("password"),
                 "Client",
                 data.get("uid"));
-        setCC(data.get("nameOnCard"),
-                data.get("ccNum"),
+        setCC(data.get("ccNum"),
+                data.get("nameOnCard"),
                 data.get("expDate"),
                 data.get("cvcField"));
     }
@@ -28,21 +31,29 @@ public class Client extends User {
     // Setter method for Credit Card information
     public void setCC(String num, String name, String expiry, String cvc) {
         if (num == null || name == null || expiry == null || cvc == null) return;
-        if (expiry.matches("(?:0[1-9]|1[0-2])[0-9]{2}") && !name.isEmpty() &&
-            num.matches("[0-9]{16}") && cvc.matches("[0-9]{3}")) {
-            ccNumber = num;
-            ccHolderName = name;
-            expiryDate = expiry;
-            this.cvc = cvc;
-            //this.updateFireStore();
-        }
+        ccNumber = num;
+        ccHolderName = name;
+        expiryDate = expiry;
+        this.cvc = cvc;
+        //this.updateFireStore();
     }
 
     // Getter methods for testing purposes :)
-    public String getCcNumber() {return ccNumber;}
-    public String getCcHolderName() {return ccHolderName;}
-    public String getExpiryDate() {return expiryDate;}
-    public String getCvc() {return cvc;}
+    public String getCcNumber() {
+        return ccNumber;
+    }
+
+    public String getCcHolderName() {
+        return ccHolderName;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public String getCvc() {
+        return cvc;
+    }
 
 
 }

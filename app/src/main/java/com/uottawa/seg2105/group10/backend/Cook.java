@@ -16,7 +16,9 @@ public class Cook extends User{
 	private double ratingSum = 0.0;
 	private int completedOrders, numReviews;
 
-	// Dummy constructor
+	/** Constructor for Firebase access.
+	 *  Do not use locally unless you want an empty cook user.
+	 */
 	public Cook() {
 		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
 		ratingSum = 0.0;
