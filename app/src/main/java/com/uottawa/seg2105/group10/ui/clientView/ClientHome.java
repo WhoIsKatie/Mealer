@@ -61,7 +61,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
             public void onClick(View view) {
 
                 startActivity(new Intent(ClientHome.this, MealSearch.class));
-
+               // clientNameHeadline.setText(clientName2);
             }
 
         });
@@ -86,6 +86,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> clientName = new ArrayList<>();
         ArrayList<String>  pickupTime = new ArrayList<>();
         ArrayList<String>  requestTime = new ArrayList<>();
+        ArrayList<String> status = new ArrayList<>();
         purchasesArrayList = new ArrayList<>();
         //TODO: you can also decide whether to forgo fetching the meal image to display
 
@@ -121,10 +122,14 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                         imageID.add((String) data.get("imageID"));
                     else imageID.add(null);
 
+                    if(!Objects.equals(data.get("status"), null))
+                        status.add((String) data.get("status"));
+                    else status.add(null);
+
                     clientName2 = document.getString("clientName");
                 }
                 for (int i = 0; i < clientUID.size(); i++){
-                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), clientName.get(i));
+                    Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), clientName.get(i), status.get(i));
                     purchasesArrayList.add(purchase);
                 }
 

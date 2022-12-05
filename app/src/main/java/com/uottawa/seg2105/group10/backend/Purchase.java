@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Purchase {
 
-    private final String cookUID, clientUID, mealID, cookName, pickupTime, requestTime;
+    private final String cookUID, clientUID, mealID, cookName, pickupTime, requestTime, clientName;
     private String imageID = null;
     private @PurchaseStatus String status;
     private DocumentReference complaint;
@@ -28,13 +28,15 @@ public class Purchase {
     public static final String ACCEPTED = "accepted";
     public static final String REJECTED = "rejected";
 
-    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String cookName, String status){
+    public Purchase(String requestTime, String cookUID, String clientUID, String mealName, String imageID, String pickupTime, String cookName, String status, String clientName){
         this.clientUID = clientUID;
         this.cookUID = cookUID;
         this.requestTime = requestTime;             // the creation time of this instance
         this.mealID = mealName;                     // the meal name
         this.cookName = cookName;
         this.imageID = imageID;
+        complaint = null;
+        this.clientName = clientName;
         complaint = null;
         this.status = status;
         this.pickupTime = pickupTime;
@@ -47,13 +49,22 @@ public class Purchase {
 
     /** Constructor for Firebase access.
      *  Do not use locally unless you want an empty purchase.
+     * @param s
+     * @param s1
+     * @param s2
+     * @param s3
+     * @param s4
+     * @param s5
+     * @param s6
+     * @param s7
      */
-    public Purchase(){
+    public Purchase(String s, String s1, String s2, String s3, String s4, String s5, String s6, String s7){
         clientUID = "";
         cookUID = "";
         requestTime = "";
         mealID = "";
         cookName = "";
+        clientName = "";
         complaint = null;
         status = "PENDING";
         pickupTime = "";
@@ -65,6 +76,7 @@ public class Purchase {
     public String getCookUID() {return cookUID;}
     public String getClientUID() {return clientUID;}
     public DocumentReference getComplaint() {return complaint;}
+    public String getClientName(){return clientName;}
     public String getStatus(){return status;}
     public String getPickUpTime() {return pickupTime;}
     public String getRequestTime() {return requestTime;}
@@ -98,5 +110,5 @@ public class Purchase {
         });
         return flag[0];
     }
-    
+
 }
