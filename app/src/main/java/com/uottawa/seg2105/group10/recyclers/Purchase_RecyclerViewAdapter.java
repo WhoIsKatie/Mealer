@@ -305,15 +305,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
             explain = (TextView) ratePopup.findViewById(R.id.explain);
 
+            //TODO: remove cookName.
             cookName2 = (EditText) ratePopup.findViewById(R.id.cookName2);
-            String cookName2String = cookName2.getText().toString();
-
             rate = (EditText) ratePopup.findViewById(R.id.rate);
-            String rateString = rate.getText().toString();
-
-
-            submitButton =(Button) ratePopup.findViewById(R.id.submitButton2);
-            cancelButton = (Button) ratePopup.findViewById(R.id.cancelButton2);
+            submitButton2 =(Button) ratePopup.findViewById(R.id.submitButton2);
+            cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);
 
             dialogBuilder2.setView(ratePopup);
             dialog2 = dialogBuilder2.create();
@@ -323,6 +319,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View view) {
                     //TODO: validate rating & complaint
+                    String rateString = rate.getText().toString();
                     int rateNum = Integer.parseInt(rateString);
                     clientRef = dBase.collection("users").document(cookUID);
                     clientRef.update("ratingSum", Integer.parseInt(rateString))
