@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.ui;
+package com.uottawa.seg2105.group10.ui.adminView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
 import com.uottawa.seg2105.group10.recyclers.Complaint_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.ui.ComplaintView;
 
 import java.util.ArrayList;
 import java.util.Map;

@@ -27,7 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.ui.AddMeal;
-import com.uottawa.seg2105.group10.ui.Menu;
+import com.uottawa.seg2105.group10.ui.cookView.Menu;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

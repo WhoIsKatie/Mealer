@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Admin;
+import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 
 import java.time.Duration;
 
@@ -109,7 +110,6 @@ public class ComplaintView extends AppCompatActivity {
                                     break;
                             }
                             suspensionLengthCard.setVisibility(View.GONE);
-                            startActivity(new Intent(ComplaintView.this, AdminHome.class));
                             finish();
                         }
                     });
@@ -123,7 +123,6 @@ public class ComplaintView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Admin.dismissComplaint(docRef);
-                startActivity(new Intent(ComplaintView.this, AdminHome.class));
                 finish();
             }
         });

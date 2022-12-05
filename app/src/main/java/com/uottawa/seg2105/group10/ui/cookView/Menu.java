@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.ui;
+package com.uottawa.seg2105.group10.ui.cookView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.recyclers.Meal_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.ui.AddMeal;
+import com.uottawa.seg2105.group10.ui.MealView;
 
 import java.util.ArrayList;
 import java.util.Map;

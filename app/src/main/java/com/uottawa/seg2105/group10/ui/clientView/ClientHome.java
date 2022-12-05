@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.ui;
+package com.uottawa.seg2105.group10.ui.clientView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,6 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
-import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.util.ArrayList;
 import java.util.Map;
