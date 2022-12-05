@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.backend.Meal;
 import com.uottawa.seg2105.group10.backend.Utility;
+import com.uottawa.seg2105.group10.ui.clientView.MealSearch;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -91,7 +92,7 @@ public class AddMeal extends AppCompatActivity {
             startActivityForResult(iGallery, 1000);
         });
 
-        if(getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null) {
             mealName.setVisibility(View.GONE);
             mealNameFinal.setVisibility(View.VISIBLE);
             mealNameFinal.setText(getIntent().getExtras().getString("MEAL NAME"));
@@ -116,9 +117,9 @@ public class AddMeal extends AppCompatActivity {
             // validating ingredient(s)
             if (!validateIndividualIngr(ingredientEditText.getText().toString())) return;
             String[] inputIngredients = ingredientEditText.getText().toString().split(",");   // get everything inside the field
-            if(!validateIngredients(inputIngredients)) return;
+            if (!validateIngredients(inputIngredients)) return;
 
-            for(String s : inputIngredients){
+            for (String s : inputIngredients) {
                 if ((ingredients.size() < 1) && !validateIndividualIngr(s)) return;
                 if (ingredients.size() >= 30) break;
                 ingredients.add(s);
@@ -135,7 +136,7 @@ public class AddMeal extends AppCompatActivity {
             String[] inputAllergens = allergenEditText.getText().toString().split(",");       // storing user input for allergens
             if (!validateAllergies(inputAllergens)) return;
 
-            for(String a : inputAllergens) {
+            for (String a : inputAllergens) {
                 if (!validateIndividualAllergen(a)) break;
                 allergies.add(a);
             }
@@ -146,38 +147,39 @@ public class AddMeal extends AppCompatActivity {
 
         confirmButt.setOnClickListener(view -> {
             // Validating fields before adding meal!
-            if (validatePrice() & validateDescription() & validateIngredientMap() & validateMealType() & validateCuisineTypes()) {
-                if (getIntent().getExtras() == null) {
-                    validateMealName();
-                    name = mealName.getText().toString();
-                } else name = mealNameFinal.getText().toString();
+            if (!(validatePrice() & validateDescription() & validateIngredientMap() & validateMealType() & validateCuisineTypes()))
+                return;
+            if (getIntent().getExtras() == null) {
+                validateMealName();
+                name = mealName.getText().toString();
+            } else name = mealNameFinal.getText().toString();
 
-                float price = Float.parseFloat(mealPrice.getText().toString());
-                BigDecimal bd = new BigDecimal(price + "");
-                price = bd.setScale(2, RoundingMode.HALF_EVEN).floatValue();
+            float price = Float.parseFloat(mealPrice.getText().toString());
+            BigDecimal bd = new BigDecimal(price + "");
+            price = bd.setScale(2, RoundingMode.HALF_EVEN).floatValue();
 
-                ArrayList<String> cuisine = new ArrayList<>();
+            ArrayList<String> cuisine = new ArrayList<>();
 
-                Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
-                String mealType = mealChip.getText().toString();                                    // turning the selected chips into String data
+            Chip mealChip = mealTypeChipGroup.findViewById(mealTypeChipGroup.getCheckedChipId());
+            String mealType = mealChip.getText().toString();                                    // turning the selected chips into String data
 
-                for(int chipID : cuisineChipGroup.getCheckedChipIds()){
-                    Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
-                    cuisine.add(cuisineChip.getText().toString());
-                }
-
-                String description = mealDesc.getText().toString();
-
-                firebaseMeal = userRef.collection("meals").document(name);
-                Meal mealToAdd = new Meal(price,  name, description, mealType, cuisine, ingredients, allergies);
-                mealToAdd.setCookUID(userRef.getId());
-
-                Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
-                imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
-                mealToAdd.setImageID(imageID);
-
-                mealToAdd.updateFirestore(AddMeal.this);
+            for (int chipID : cuisineChipGroup.getCheckedChipIds()) {
+                Chip cuisineChip = cuisineChipGroup.findViewById(chipID);
+                cuisine.add(cuisineChip.getText().toString());
             }
+
+            String description = mealDesc.getText().toString();
+
+            firebaseMeal = userRef.collection("meals").document(name);
+            Meal mealToAdd = new Meal(price, name, description, mealType, cuisine, ingredients, allergies);
+            mealToAdd.setCookUID(userRef.getId());
+
+            Utility util = new Utility(AddMeal.this, filePath, mAuth, FirebaseStorage.getInstance());
+            imageID = util.uploadImage("mealImages/" + mAuth.getUid() + "/");
+            mealToAdd.setImageID(imageID);
+
+            mealToAdd.updateFirestore(AddMeal.this);
+
             finish();
         });
 
@@ -194,8 +196,7 @@ public class AddMeal extends AppCompatActivity {
         cuisineTypeButt.setOnClickListener(view -> {
             if (cuisineChipGroup.getVisibility() != View.GONE) {
                 cuisineChipGroup.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 cuisineChipGroup.setVisibility(View.VISIBLE);
             }
         });
@@ -204,8 +205,8 @@ public class AddMeal extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == 1000){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
                 assert data != null;
                 filePath = data.getData();
                 mealImage.setImageURI(filePath);
@@ -214,18 +215,19 @@ public class AddMeal extends AppCompatActivity {
     }
 
     //method to update ingredient text-box
-    private void updateIngredientBox(){
+    private void updateIngredientBox() {
         String visibleIngredients = "Ingredients: ";
-        for(String s: this.ingredients) {
+        for (String s : this.ingredients) {
             if (ingredients.get(0) != s) visibleIngredients += ", ";
             visibleIngredients += s;
         }
         showIngredients.setText(visibleIngredients);
     }
+
     // method to update Allergen box
-    private void updateAllergiesBox(){
+    private void updateAllergiesBox() {
         String visibleAllergens = "Allergens: ";
-        for(String s: this.allergies){
+        for (String s : this.allergies) {
             if (allergies.get(0) != s) visibleAllergens += ", ";
             visibleAllergens += s;
         }
@@ -236,27 +238,26 @@ public class AddMeal extends AppCompatActivity {
     // Meal Validation Helper Methods -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
     // Returns true if meal name length is 1-30 characters; returns false otherwise.
-    private boolean validateMealName(){
+    private boolean validateMealName() {
         String name = mealName.getText().toString().trim();
 
-        if(name.isEmpty()) {
+        if (name.isEmpty()) {
             mealName.setError("Field cannot be empty");
             return false;
         }
-        if(name.length() > 30 ){
+        if (name.length() > 30) {
             mealName.setError("Field must not go over 30 characters");
             return false;
-        }
-        else{
+        } else {
             mealName.setError(null);
             return true;
         }
     }
 
     // Returns true if card number only contains 16 integers; returns false otherwise.
-    private boolean validatePrice(){
+    private boolean validatePrice() {
         String val = mealPrice.getText().toString().trim();
-        if(val.isEmpty()) {
+        if (val.isEmpty()) {
             mealPrice.setError("Field cannot be empty");
             return false;
         }
@@ -284,7 +285,7 @@ public class AddMeal extends AppCompatActivity {
     }
 
     private boolean validateAllergies(String[] inputAllergens) {
-        if(inputAllergens.length == 0){
+        if (inputAllergens.length == 0) {
             allergenEditText.setError("Field cannot be empty");
             return false;
         }
@@ -292,8 +293,8 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIngredients(String[] inputIngredients){
-        if(inputIngredients.length == 0){
+    private boolean validateIngredients(String[] inputIngredients) {
+        if (inputIngredients.length == 0) {
             ingredientEditText.setError("Field cannot be empty");
             return false;
         }
@@ -308,7 +309,7 @@ public class AddMeal extends AppCompatActivity {
             return false;
         }
 
-        if(ingredientEditText.getText().toString().trim().isEmpty()){
+        if (ingredientEditText.getText().toString().trim().isEmpty()) {
             ingredientEditText.setError("Field cannot be empty!");
             ingredientEditText.setText("");
             return false;
@@ -325,7 +326,7 @@ public class AddMeal extends AppCompatActivity {
             return false;
         }
 
-        if(allergenEditText.getText().toString().trim().isEmpty()){
+        if (allergenEditText.getText().toString().trim().isEmpty()) {
             allergenEditText.setError("Field cannot be empty!");
             allergenEditText.setText("");
             return false;
@@ -335,7 +336,7 @@ public class AddMeal extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateIngredientMap(){
+    private boolean validateIngredientMap() {
         if (ingredients.isEmpty()) {
             ingredientEditText.setError("Must have at least one (1) ingredient listed.");
             return false;

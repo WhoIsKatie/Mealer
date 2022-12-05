@@ -38,6 +38,9 @@ public class Meal {
 		this.mealName = mealName;
 	}
 
+	/** Constructor for Firebase access.
+	 *  Do not use locally unless you want an empty meal.
+	 */
 	public Meal() {}
 
 	public void offerMeal(){offered = true;}
