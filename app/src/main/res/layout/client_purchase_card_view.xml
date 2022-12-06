@@ -109,19 +109,18 @@
 
                     <Button
                         android:id="@+id/complain"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
                         android:text="Submit Complaint"
+                        android:textAlignment="textStart"
                         android:textColor="@color/mustard"
-                        android:textSize="13dp"
-                        app:backgroundTint="@color/flour" />
+                        android:textSize="13dp" />
 
                     <Button
                         android:id="@+id/rateCook"
                         android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:text="Rate Cook"
                         android:textSize="13dp" />
                 </LinearLayout>

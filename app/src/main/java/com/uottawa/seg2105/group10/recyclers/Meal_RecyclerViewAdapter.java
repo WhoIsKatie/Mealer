@@ -126,6 +126,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
                     menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
                     menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
+                    menuViewHolder.name.setTextColor(context.getResources().getColor(R.color.main_yellow));
                 }
             });
 

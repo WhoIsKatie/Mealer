@@ -99,6 +99,7 @@ public class MealView extends AppCompatActivity {
                             cookUID = mAuth.getCurrentUser().getUid();
                             purchaseButt.setVisibility(View.GONE);
                             pickupTimeLayout.setVisibility(View.GONE);
+                            cookProfileButt.setVisibility(View.GONE);
                             break;
 
                     }
