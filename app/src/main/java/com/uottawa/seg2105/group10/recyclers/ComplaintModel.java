@@ -1,45 +1,48 @@
 package com.uottawa.seg2105.group10.recyclers;
 
+import com.google.firebase.firestore.DocumentReference;
+
 public class ComplaintModel{
 
     String cookName;
     String clientName;
-    String timeOfComplaint;
-    String titleOfComplaint;
-    String descriptionOfComplaint;
+    String time;
+    String title;
+    String description;
     String cookUid, clientUid;
     String docID;
-    boolean status;
+    boolean status = true;
 
 
 
-    public ComplaintModel(String nameOfClient, String nameOfCook,String timeOfComplaint, String titleOfComplaint, String descriptionOfComplaint, String cookUid, String clientUid){
+    public ComplaintModel(String nameOfClient, String cookName, String time, String title, String description, String cookUid, String clientUid){
         this.clientName = nameOfClient;
-        this.cookName = nameOfCook;
-        this.timeOfComplaint = timeOfComplaint;
-        this.titleOfComplaint = titleOfComplaint;
-        this.descriptionOfComplaint = descriptionOfComplaint;
+        this.cookName = cookName;
+        this.time = time;
+        this.title = title;
+        this.description = description;
         this.cookUid = cookUid;
         this.clientUid = clientUid;
-        this.status = true;
     }
 
     public String getDocID(){
         return docID;
     }
 
-    public String getNameOfCook() {
+    public String getCookName() {
         return cookName;
     }
     public String getClientName() {return clientName;}
-    public String getTimeOfComplaint() {
-        return timeOfComplaint;
+    public String getTime() {
+        return time;
     }
-    public String getTitleOfComplaint(){return titleOfComplaint;}
-    public String getDescriptionOfComplaint(){return descriptionOfComplaint;}
+    public String getTitle(){return title;}
+    public String getDescription(){return description;}
     public String getCookUid(){return cookUid;}
     public String getClientUid(){return clientUid;}
+    public boolean getStatus(){return status;}
 
+    public void setDocID(String id){this.docID = id;}
 }
 
 

@@ -77,6 +77,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                 }
                 for (int i = 0; i < titleOfComplaint.size(); i++){
                     ComplaintModel cm = new ComplaintModel(clientName.get(i), cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
+                    cm.setDocID(documents.get(i));
                     complaints.add(cm);
                 }
                 updateView();
@@ -90,10 +91,10 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         ComplaintModel doc = complaints.get(position);
         intent.putExtra("CLIENT NAME", doc.getClientName());
         intent.putExtra("DOCUMENT", doc.getDocID());
-        intent.putExtra("COOK NAME", doc.getNameOfCook());
-        intent.putExtra("TIME", doc.getTimeOfComplaint());
-        intent.putExtra("TITLE", doc.getTitleOfComplaint());
-        intent.putExtra("DESCRIPTION", doc.getDescriptionOfComplaint());
+        intent.putExtra("COOK NAME", doc.getCookName());
+        intent.putExtra("TIME", doc.getTime());
+        intent.putExtra("TITLE", doc.getTitle());
+        intent.putExtra("DESCRIPTION", doc.getDescription());
         intent.putExtra("COOK", doc.getCookUid());
         intent.putExtra("CLIENT", doc.getClientUid());
         startActivity(intent);

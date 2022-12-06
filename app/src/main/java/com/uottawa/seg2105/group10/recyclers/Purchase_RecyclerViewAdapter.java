@@ -322,9 +322,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                         return;
                     }
                     ComplaintModel complaint = new ComplaintModel(clientName, cookName, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, mAuth.getCurrentUser().getUid());
-                    dBase.collection("complaints").add(complaint);
-                    dBase.collection("complaints")
-                            .add(complaint)
+                    dBase.collection("complaints").add(complaint)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
