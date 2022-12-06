@@ -37,7 +37,7 @@ public class Complaint_RecyclerViewAdapter extends RecyclerView.Adapter<Complain
     @Override
     public void onBindViewHolder(@NonNull Complaint_RecyclerViewAdapter.MyViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        holder.nameOfUser.setText(complaints.get(position).getNameOfClient());
+        holder.nameOfUser.setText(complaints.get(position).getClientName());
         holder.timeOfComplaint.setText(complaints.get(position).getTimeOfComplaint());
     }
 

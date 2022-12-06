@@ -39,13 +39,12 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private CollectionReference purchaseRef;
     Context context;
     ArrayList<Purchase> purchases;
-    private DocumentSnapshot document, document2, document3;
+    private DocumentSnapshot document;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private AlertDialog.Builder dialogBuilder, dialogBuilder2;
-    private AlertDialog dialog, dialog2;
-    DocumentReference firebasePurchase, userRef, clientRef, cookRef, complaintRef;
-    String clientName4, cookUID, clientUID, cookName4;
+    private AlertDialog dialog;
+    DocumentReference userRef, clientRef, cookRef;
+    String clientName, cookUID, cookName;
     private String type;
 
     public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface) {
@@ -79,17 +78,36 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         if (type.equals("Client")) {
             ClientViewHolder clientViewHolder = (ClientViewHolder) holder;
             cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
-            String cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
+                    //cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
             String purchasedName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getMealID();
             String clientPickupTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getPickUpTime();
             String purchaseStatus = purchases.get(clientViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
+
+            cookRef = dBase.collection("users").document(cookUID);
+            cookRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        cookName = document.getString("firstName") + " " + document.getString("lastName");
+                    }
+                }});
+
+            userRef.get().addOnCompleteListener(task->{
+                if (task.isSuccessful()) {
+                    document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        clientName = document.getString("firstName") + " " + document.getString("lastName");
+                    }
+                }
+            });
 
             clientViewHolder.purchasedName.setText(purchasedName);
             clientViewHolder.purchasedCook.setText(cookName);
             clientViewHolder.clientPickupTime.setText(clientPickupTime);
             clientViewHolder.purchaseStatus.setText(purchaseStatus);
 
-            cookRef = dBase.collection("users").document(cookUID);
 
             switch (purchaseStatus) {
                 case "PENDING":
@@ -154,7 +172,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
 
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -174,12 +191,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public class ClientViewHolder extends RecyclerView.ViewHolder {
 
-        EditText cookName, complaint, cookName2, rate, titleComplaint;
+        EditText complaint, rate, titleComplaint;
         TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientNameHeadline, clientPickupTime, purchaseStatus;
 
         Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
         ImageView mealImage;
-        String clientName, cookUID2, mealID, status, mealName, pickUpTime2, request_Time, clientUID2, clientName2;
 
         private AlertDialog.Builder dialogBuilder;
         private AlertDialog dialog;
@@ -199,7 +215,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             complain = itemView.findViewById(R.id.complain);
             rateCook = itemView.findViewById(R.id.rateCook);
             purchaseRef = dBase.collection("purchases");
-            String userName = mAuth.getCurrentUser().getUid();
+            purchasedCook.setText(cookName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -235,12 +251,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             dialogBuilder = new AlertDialog.Builder(context);
             final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
 
-            titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-            complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
+            titleComplaint = complaintPopup.findViewById(R.id.titleComplaint);
+            complaint = complaintPopup.findViewById(R.id.complaint);
 
-            submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
-            cancelButton = (Button) complaintPopup.findViewById(R.id.cancelButton);
-            submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
+            submitButton = complaintPopup.findViewById(R.id.submitButton);
+            cancelButton = complaintPopup.findViewById(R.id.cancelButton);
 
             dialogBuilder.setView(complaintPopup);
             dialog = dialogBuilder.create();
@@ -254,7 +269,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     if(!validateTitle() | !validateComplaint()) {
                         return;
                     }
-                    ComplaintModel complaint = new ComplaintModel(clientName4, cookName4, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
+                    ComplaintModel complaint = new ComplaintModel(clientName, cookName, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, mAuth.getCurrentUser().getUid());
                     dBase.collection("complaints").add(complaint);
                     dBase.collection("complaints")
                             .add(complaint)
@@ -272,6 +287,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                                     Toast.makeText(context, "Complaint incomplete", Toast.LENGTH_SHORT).show();
                                 }
                             });
+                    dialog.dismiss();
                 }});
 
             cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -283,7 +299,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         }
 
         public void rateYourCook(){
-            dialogBuilder2 = new AlertDialog.Builder(context);
+            AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(context);
             final View ratePopup = LayoutInflater.from(context).inflate(R.layout.activity_ratecook, null);
 
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
@@ -295,8 +311,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);
 
             dialogBuilder2.setView(ratePopup);
-            dialog2 = dialogBuilder2.create();
-            dialog2.show();
+            Purchase_RecyclerViewAdapter.this.dialog = dialogBuilder2.create();
+            Purchase_RecyclerViewAdapter.this.dialog.show();
 
             submitButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -323,13 +339,14 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                                     Log.w("ClientHome", "Error updating document", e);
                                 }
                             });
+                    Purchase_RecyclerViewAdapter.this.dialog.dismiss();
                 }
             });
 
             cancelButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    dialog.dismiss();
+                    Purchase_RecyclerViewAdapter.this.dialog.dismiss();
                 }
             });
         }
