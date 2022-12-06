@@ -18,6 +18,7 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -77,12 +78,13 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         TextView cookCompletedOrders = findViewById(R.id.numOfMealsSoldTextView);
         String completedOrders = getIntent().getStringExtra("completedOrders");
-        // TODO: write if-statement for the cases when rating is null -> What do you mean here? (Jacob)
         cookCompletedOrders.setText(completedOrders);
 
         TextView cookRating = findViewById(R.id.ratingTextView);
-        String rating = getIntent().getStringExtra("rating");
-        String numReviews = getIntent().getStringExtra("numReviews");
+        DecimalFormat decfor = new DecimalFormat("0.00");
+        Double ratingSum = getIntent().getDoubleExtra("ratingSum", 0) ;
+        Double numReviews = getIntent().getDoubleExtra("numReviews", 0);
+        String rating = decfor.format(ratingSum / numReviews);
         if (rating == null) {
             cookRating.setText("Undetermined");
         } else {
@@ -128,7 +130,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
                 cookName.add(data.get("cookName").toString());
                 pickUpTime.add(data.get("pickUpTime").toString());
                 cookUID.add(data.get("cookUID").toString());
-                //TODO: ImageID and mealID have to be non-null
                 mealID.add(data.get("mealID").toString());
                 imageID.add(data.get("imageID").toString());
                 clientUID.add(data.get("clientUID").toString());

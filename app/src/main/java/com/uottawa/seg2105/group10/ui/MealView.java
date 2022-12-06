@@ -148,8 +148,9 @@ public class MealView extends AppCompatActivity {
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                 String email, description, address, cookFirstName, cookLastName;
-                                double ratingSum;
+                                double ratingSum, numReviews;
                                 String completedOrders;
+                                numReviews = document.getDouble("numReviews");
                                 ratingSum = document.getDouble("ratingSum");
                                 address = document.getString("address");
                                 cookFirstName = document.getString("firstName");
@@ -157,6 +158,8 @@ public class MealView extends AppCompatActivity {
                                 email = document.getString("email");
                                 description = document.getString("description");
                                 completedOrders = String.valueOf(document.get("completedOrders"));
+                                intent.putExtra("numReviews", numReviews);
+                                intent.putExtra("ratingSum", ratingSum);
                                 intent.putExtra("firstName", cookFirstName);
                                 intent.putExtra("lastName", cookLastName);
                                 intent.putExtra("email", email);

@@ -203,16 +203,12 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                                     Log.w(TAG, "Error updating document", e);
                                 }
                             });
-                    String completedOrders;
                     userRef.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                //TODO: Make completedOrders a field for cooks
-                                /*completedOrders = String.valueOf(document.get("CompletedOrders"));
-
-                                cookRef.update("completedOrders", completedOrders + 1);*/
+                                cookRef.update("completedOrders", FieldValue.increment(1));
                             }
                         }
                     });
@@ -374,7 +370,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     }
                     int rateNum = Integer.parseInt(rateString);
                     clientRef = dBase.collection("users").document(cookUID);
-                    clientRef.update("ratingSum", Integer.parseInt(rateString))
+                    clientRef.update("ratingSum", FieldValue.increment(Long.parseLong(rateString)))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

@@ -31,6 +31,7 @@ import com.uottawa.seg2105.group10.ui.cookView.Menu;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -79,17 +80,21 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     document = task.getResult();
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        double ratingSum;
+                        DecimalFormat decfor = new DecimalFormat("0.00");
+                        Double ratingSum, numReviews;
+                        String rating;
                         String address;
                         if(document.getDouble("ratingSum") != null){
                             ratingSum = document.getDouble("ratingSum");
+                            numReviews = document.getDouble("numReviews");
+                            rating = decfor.format(ratingSum / numReviews);
                         }
                         else{
-                            ratingSum = 0;
+                            rating = "Undetermined";
                         }
                         address = document.getString("address");
                         searchViewHolder.location.setText(address);
-                        searchViewHolder.rating.setText(String.valueOf(ratingSum));
+                        searchViewHolder.rating.setText(rating);
                     }
                 }
             });
