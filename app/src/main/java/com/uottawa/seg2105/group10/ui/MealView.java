@@ -163,6 +163,7 @@ public class MealView extends AppCompatActivity {
                                 intent.putExtra("address", address);
                                 intent.putExtra("rating", ratingSum);
                                 intent.putExtra("completedOrders", completedOrders );
+                                intent.putExtra("type", type);
                                 startActivity(intent);
                             }
                         }

@@ -32,7 +32,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private RecyclerView purchaseRecyclerView;
     private static final String TAG = "Profile";
     RecyclerView recyclerView;
-    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +45,20 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         purchaseTextView = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.purchaseRecyclerView);
 
-        userRef.get().addOnCompleteListener(task -> {
+        /*userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 document = task.getResult();
                 if (document.exists()) {
                     Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    type = document.getString("type");
+                    type[0] = document.getString("type");
                 }
-            }
-        });
 
-        if (type == "Client"){
-            purchaseTextView.setVisibility(View.GONE);
-            purchaseRecyclerView.setVisibility(View.GONE);
-        }
+            }
+
+        });*/
+
+        String type = getIntent().getStringExtra("type");
+
         TextView cookName = findViewById(R.id.cookNameTextView);
         String name = getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName");
         cookName.setText(name);
@@ -92,7 +91,13 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         purchases = new ArrayList<Purchase>();
         recyclerView = findViewById(R.id.purchaseRecyclerView);
-        setUpPurchase();
+        if (type.equals("Client")) {
+            purchaseTextView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        else if(type.equals("Cook")) {
+            setUpPurchase();
+        }
     }
 
     private void updateView() {
@@ -131,7 +136,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
             }
             for (int i = 0; i < mealID.size(); i++) {
                 Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i), cookName.get(i), status.get(i));
-                if (status.get(i) == "REJECTED") {
+                if (status.get(i).equalsIgnoreCase("REJECTED") || status.get(i).equalsIgnoreCase("ACCEPTED")) {
                     continue;
                 }
                 purchases.add(cm);

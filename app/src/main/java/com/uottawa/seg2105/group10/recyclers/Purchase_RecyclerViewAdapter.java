@@ -43,7 +43,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private AlertDialog dialog;
-    DocumentReference userRef, clientRef, cookRef;
+    DocumentReference userRef, clientRef, cookRef, firebasePurchase;
     String clientName, cookUID, cookName;
     private String type;
 
@@ -185,7 +185,59 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 }
             });
 
-            //TODO: complete on-click buttons for cook to action purchase request
+            approveButt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String purchaseStatus = "ACCEPTED";
+                    firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
+                    firebasePurchase.update("status", purchaseStatus)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                }
+                            });
+                    String completedOrders;
+                    userRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                //TODO: Make completedOrders a field for cooks
+                                /*completedOrders = String.valueOf(document.get("CompletedOrders"));
+
+                                cookRef.update("completedOrders", completedOrders + 1);*/
+                            }
+                        }
+                    });
+                }
+            });
+            rejectButt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String purchaseStatus = "REJECTED";
+                    firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
+                    firebasePurchase.update("status", purchaseStatus)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                }
+                            });
+                }
+            });
         }
     }
 
