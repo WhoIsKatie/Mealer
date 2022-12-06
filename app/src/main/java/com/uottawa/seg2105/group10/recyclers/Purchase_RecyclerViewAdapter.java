@@ -45,7 +45,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     private AlertDialog.Builder dialogBuilder, dialogBuilder2;
     private AlertDialog dialog, dialog2;
     DocumentReference firebasePurchase, userRef, clientRef, cookRef, complaintRef;
-    String clientName, cookUID, clientUID, cookName;
+    String clientName4, cookUID, clientUID, cookName4;
     private String type;
 
     public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface) {
@@ -230,28 +230,12 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             });
         }
 
-       private void updateClientHome(){
-            firebasePurchase = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-            firebasePurchase.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        clientName2 = document.getString("firstName");
-                    }
-                }
-
-            });
-       }
-
 
         public void submitComplaint(){
             dialogBuilder = new AlertDialog.Builder(context);
             final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
 
             titleComplaint = (EditText) complaintPopup.findViewById(R.id.titleComplaint);
-            cookName = (EditText) complaintPopup.findViewById(R.id.cookName);
-
             complaint = (EditText) complaintPopup.findViewById(R.id.complaint);
 
             submitButton = (Button) complaintPopup.findViewById(R.id.submitButton);
@@ -266,11 +250,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View view) {
                     String titleComplaintString = titleComplaint.getText().toString();
-                    String cookNameString = cookName.getText().toString();
                     String complaintString = complaint.getText().toString();
-
-
-                    ComplaintModel complaint = new ComplaintModel(clientName, cookNameString, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
+                    if(!validateTitle() | !validateComplaint()) {
+                        return;
+                    }
+                    ComplaintModel complaint = new ComplaintModel(clientName4, cookName4, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, clientUID);
                     dBase.collection("complaints").add(complaint);
                     dBase.collection("complaints")
                             .add(complaint)
@@ -306,7 +290,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             explain = (TextView) ratePopup.findViewById(R.id.explain);
 
             //TODO: remove cookName.
-            cookName2 = (EditText) ratePopup.findViewById(R.id.cookName2);
             rate = (EditText) ratePopup.findViewById(R.id.rate);
             submitButton2 =(Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);
@@ -320,6 +303,9 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 public void onClick(View view) {
                     //TODO: validate rating & complaint
                     String rateString = rate.getText().toString();
+                    if(!validateRating()) {
+                        return;
+                    }
                     int rateNum = Integer.parseInt(rateString);
                     clientRef = dBase.collection("users").document(cookUID);
                     clientRef.update("ratingSum", Integer.parseInt(rateString))
@@ -347,6 +333,52 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 }
             });
         }
+
+        private boolean validateComplaint(){
+            String val = complaint.getText().toString().trim();
+
+            if(val.isEmpty()) {
+                complaint.setError("Field can not be empty");
+                return false;
+            }
+            else{
+                complaint.setError(null);
+                return true;
+            }
+        }
+
+        private boolean validateTitle(){
+            String val = titleComplaint.getText().toString().trim();
+
+            if(val.isEmpty()) {
+                titleComplaint.setError("Field can not be empty");
+                return false;
+            }
+            else{
+                titleComplaint.setError(null);
+                return true;
+            }
+        }
+
+        private boolean validateRating(){
+            String val = rate.getText().toString();
+            String numFormat = "[1-5]";
+
+            if(val.isEmpty()) {
+                rate.setError("Field can not be empty");
+                return false;
+            }
+
+            if (!val.matches(numFormat)){
+                rate.setError("Rating must be a number from 1 to 5");
+                return false;
+            }
+            else{
+                rate.setError(null);
+                return true;
+            }
+        }
+
     }
 }
 

@@ -56,19 +56,26 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         recyclerView = findViewById(R.id.clientRecyclerView);
         searchButton = (Button)findViewById(R.id.searchButton);
         TextView clientNameHeadline = (TextView)findViewById(R.id.clientNameHeadline);
+
+        clientRef = dBase.collection("users").document(userName);
+        userRef.get().addOnCompleteListener(cookTask -> {
+            if (cookTask.isSuccessful()) {
+                document2 = cookTask.getResult();
+                if (document2.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
+                    clientName2 = document2.getString("firstName") + " " + document2.getString("lastName");
+                }
+
+                    clientNameHeadline.setText(clientName2);
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(ClientHome.this, MealSearch.class));
-               // clientNameHeadline.setText(clientName2);
             }
-
-        });
-        clientNameHeadline.setText(clientName2);
-
-
-
+    });
+            }});
     }
 
     @Override

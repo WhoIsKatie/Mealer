@@ -40,17 +40,6 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <EditText
-            android:id="@+id/cookName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:layout_marginBottom="51dp"
-            android:gravity="center_horizontal"
-            android:hint="Name of Cook"
-            android:textAlignment="center"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <EditText
             android:id="@+id/complaint"
             android:layout_width="413dp"
             android:layout_height="128dp"

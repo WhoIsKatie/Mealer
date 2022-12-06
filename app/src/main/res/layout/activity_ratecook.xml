@@ -39,16 +39,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
-            android:id="@+id/cookName2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:hint="Name of Cook"
-            android:textAlignment="center"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <EditText
             android:id="@+id/rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
