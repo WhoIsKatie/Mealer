@@ -32,23 +32,29 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        complaints = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminhome);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
 
+        complaints = new ArrayList<>();
         recyclerView = findViewById(R.id.complaint_recycler_view);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        complaints.clear();
         setUpComplaintModels();
     }
 
-    private void updateView(){
+    private void updateView() {
         Complaint_RecyclerViewAdapter adapter = new Complaint_RecyclerViewAdapter(this, complaints, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    private void setUpComplaintModels(){
+    private void setUpComplaintModels() {
         // initializing all lists of fields for complaints that are active
         ArrayList<String> clientName = new ArrayList<>();
         ArrayList<String> descriptionOfComplaint = new ArrayList<>();
@@ -63,7 +69,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
         dBase.collection("complaints").whereEqualTo("status", true).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                     Log.d(TAG, document.getId() + "=>" + document.getData());
                     Map<String, Object> data = document.getData();
                     clientName.add(data.get("clientName").toString());
@@ -75,8 +81,8 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                     clientUid.add(data.get("clientUid").toString());
                     documents.add(document.getReference().getId());
                 }
-                for (int i = 0; i < titleOfComplaint.size(); i++){
-                    ComplaintModel cm = new ComplaintModel(clientName.get(i), cookName.get(i),timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
+                for (int i = 0; i < titleOfComplaint.size(); i++) {
+                    ComplaintModel cm = new ComplaintModel(clientName.get(i), cookName.get(i), timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
                     cm.setDocID(documents.get(i));
                     complaints.add(cm);
                 }

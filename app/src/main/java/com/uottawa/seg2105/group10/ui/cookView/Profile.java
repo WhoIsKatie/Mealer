@@ -33,6 +33,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private RecyclerView purchaseRecyclerView;
     private static final String TAG = "Profile";
     RecyclerView recyclerView;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         });*/
 
-        String type = getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra("type");
 
         TextView cookName = findViewById(R.id.cookNameTextView);
         String name = getIntent().getStringExtra("firstName") + " " + getIntent().getStringExtra("lastName");
@@ -82,7 +83,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         TextView cookRating = findViewById(R.id.ratingTextView);
         DecimalFormat decfor = new DecimalFormat("0.00");
-        Double ratingSum = getIntent().getDoubleExtra("ratingSum", 0) ;
+        Double ratingSum = getIntent().getDoubleExtra("ratingSum", 0);
         Double numReviews = getIntent().getDoubleExtra("numReviews", 0);
         String rating = decfor.format(ratingSum / numReviews);
         if (rating == null) {
@@ -97,7 +98,13 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
             purchaseTextView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
         }
-        else if(type.equals("Cook")) {
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (type.equals("Cook")) {
+            purchases.clear();
             setUpPurchase();
         }
     }

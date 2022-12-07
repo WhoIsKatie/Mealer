@@ -43,7 +43,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     String clientName2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clienthome);
 
@@ -54,8 +54,8 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         userRef = dBase.collection("users").document(userName);
         purchaseRef = dBase.collection("purchases");
         recyclerView = findViewById(R.id.clientRecyclerView);
-        searchButton = (Button)findViewById(R.id.searchButton);
-        TextView clientNameHeadline = (TextView)findViewById(R.id.clientNameHeadline);
+        searchButton = (Button) findViewById(R.id.searchButton);
+        TextView clientNameHeadline = (TextView) findViewById(R.id.clientNameHeadline);
 
         clientRef = dBase.collection("users").document(userName);
         userRef.get().addOnCompleteListener(cookTask -> {
@@ -66,25 +66,27 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                     clientName2 = document2.getString("firstName") + " " + document2.getString("lastName");
                 }
 
-                    clientNameHeadline.setText(clientName2);
+                clientNameHeadline.setText(clientName2);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                searchButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                startActivity(new Intent(ClientHome.this, MealSearch.class));
+                        startActivity(new Intent(ClientHome.this, MealSearch.class));
+                    }
+                });
             }
-    });
-            }});
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        purchasesArrayList.clear();
         setUpPurchaseModels();
     }
 
-    private void setUpPurchaseModels(){
+    private void setUpPurchaseModels() {
         // initializing all lists of fields
         ArrayList<String> cookUID = new ArrayList<>();
         ArrayList<String> clientUID = new ArrayList<>();
@@ -92,55 +94,54 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> imageID = new ArrayList<>();
         ArrayList<String> clientName = new ArrayList<>();
         ArrayList<String> cookName = new ArrayList<>();
-        ArrayList<String>  pickupTime = new ArrayList<>();
-        ArrayList<String>  requestTime = new ArrayList<>();
+        ArrayList<String> pickupTime = new ArrayList<>();
+        ArrayList<String> requestTime = new ArrayList<>();
         ArrayList<String> status = new ArrayList<>();
-        purchasesArrayList = new ArrayList<>();
         //TODO: you can also decide whether to forgo fetching the meal image to display
 
         purchaseRef.whereEqualTo("clientUID", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                for(QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
                     Log.d(TAG, document.getId() + "=>" + document.getData());
                     Map<String, Object> data = document.getData();
-                    if(!Objects.equals(data.get("cookUID"), null))
+                    if (!Objects.equals(data.get("cookUID"), null))
                         cookUID.add((String) data.get("cookUID"));
                     else cookUID.add(null);
 
-                    if(!Objects.equals(data.get("clientUID"), null))
+                    if (!Objects.equals(data.get("clientUID"), null))
                         clientUID.add((String) data.get("clientUID"));
                     else clientUID.add(null);
 
-                    if(!Objects.equals(data.get("mealID"), null))
+                    if (!Objects.equals(data.get("mealID"), null))
                         mealID.add((String) data.get("mealID"));
                     else mealID.add(null);
 
-                    if(!Objects.equals(data.get("clientName"), null))
+                    if (!Objects.equals(data.get("clientName"), null))
                         clientName.add((String) data.get("clientName"));
                     else clientName.add(null);
 
-                    if(!Objects.equals(data.get("cookName"), null))
+                    if (!Objects.equals(data.get("cookName"), null))
                         cookName.add((String) data.get("cookName"));
                     else cookName.add(null);
 
-                    if(!Objects.equals(data.get("pickUpTime"), null))
+                    if (!Objects.equals(data.get("pickUpTime"), null))
                         pickupTime.add((String) data.get("pickUpTime"));
                     else pickupTime.add(null);
 
-                    if(!Objects.equals(data.get("requestTime"), null))
+                    if (!Objects.equals(data.get("requestTime"), null))
                         requestTime.add((String) data.get("requestTime"));
                     else requestTime.add(null);
-                    if(!Objects.equals(data.get("imageID"), null))
+                    if (!Objects.equals(data.get("imageID"), null))
                         imageID.add((String) data.get("imageID"));
                     else imageID.add(null);
 
-                    if(!Objects.equals(data.get("status"), null))
+                    if (!Objects.equals(data.get("status"), null))
                         status.add((String) data.get("status"));
                     else status.add(null);
 
                     clientName2 = document.getString("clientName");
                 }
-                for (int i = 0; i < clientUID.size(); i++){
+                for (int i = 0; i < clientUID.size(); i++) {
                     //String imageID, String pickupTime, String cookName, String clientName, PurchaseStatus status
                     Purchase purchase = new Purchase(requestTime.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickupTime.get(i), cookName.get(i), clientName.get(i), status.get(i));
                     purchasesArrayList.add(purchase);
@@ -153,7 +154,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         });
     }
 
-    private void updateClientHome(){
+    private void updateClientHome() {
 
         purchasesRVAdapter = new Purchase_RecyclerViewAdapter("Client", this, purchasesArrayList, this);
         recyclerView.setAdapter(purchasesRVAdapter);

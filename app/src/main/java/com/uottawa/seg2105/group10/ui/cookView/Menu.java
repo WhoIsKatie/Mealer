@@ -42,22 +42,24 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
         userRef = dBase.collection("users").document(userUID);
+        meals = new ArrayList<>();
         recyclerView = findViewById(R.id.mealsRecyclerView);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        meals.clear();
         setUpMealModels();
     }
 
-    private void updateView(){
-        Meal_RecyclerViewAdapter adapter = new Meal_RecyclerViewAdapter("Cook",this, meals, this);
+    private void updateView() {
+        Meal_RecyclerViewAdapter adapter = new Meal_RecyclerViewAdapter("Cook", this, meals, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    private void setUpMealModels(){
+    private void setUpMealModels() {
         // initializing all lists of fields
         ArrayList<String> mealName = new ArrayList<>();
         ArrayList<String> cookUID = new ArrayList<>();
@@ -69,44 +71,39 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
         ArrayList<Float> price = new ArrayList<>();
         ArrayList<String> image = new ArrayList<>();
         ArrayList<String> cookUIDs = new ArrayList<>();
-        meals = new ArrayList<>();
 
         userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for(DocumentSnapshot document : queryDocumentSnapshots.getDocuments()){
+            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                 Log.d(TAG, document.getId() + "=>" + document.getData());
                 Map<String, Object> data = document.getData();
                 mealName.add(data.get("mealName").toString());
                 description.add(data.get("description").toString());
                 mealType.add(data.get("mealType").toString());
-                if(!(data.get("cuisine").toString().equals("None"))){
+                if (!(data.get("cuisine").toString().equals("None"))) {
                     cuisine.add((ArrayList<String>) data.get("cuisine"));
-                }
-                else{
+                } else {
                     cuisine.add(null);
                 }
                 cookUIDs.add(document.getReference().getParent().getParent().getId()); //parent's reference (Cook's uid)
 
-                if(! (data.get("ingredients").toString().equals("None"))){
+                if (!(data.get("ingredients").toString().equals("None"))) {
                     ingredients.add((ArrayList<String>) data.get("ingredients"));
-                }
-                else{
+                } else {
                     ingredients.add(null);
                 }
-                if(! (data.get("allergens").toString().equals("None"))){
+                if (!(data.get("allergens").toString().equals("None"))) {
                     allergens.add((ArrayList<String>) data.get("allergens"));
-                }
-                else{
+                } else {
                     allergens.add(null);
                 }
                 price.add(Float.valueOf(data.get("price").toString()));
-                if(data.get("imageID") != null){
+                if (data.get("imageID") != null) {
                     image.add(data.get("imageID").toString());
-                }
-                else {
+                } else {
                     image.add(null);
                 }
             }
-            for (int i = 0; i < mealName.size(); i++){
+            for (int i = 0; i < mealName.size(); i++) {
                 Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
                 meal.setCookUID(cookUIDs.get(i));
                 meal.setImageID(image.get(i));
