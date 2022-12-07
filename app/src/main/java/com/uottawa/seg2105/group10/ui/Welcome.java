@@ -123,8 +123,8 @@ public class Welcome extends AppCompatActivity {
                             intent.putExtra("description", (String) userSnapshot[0].get("description"));
                             intent.putExtra("address", (String) userSnapshot[0].get("address"));
                             intent.putExtra("completedOrders", String.valueOf(userSnapshot[0].get("completedOrders")));
-                            intent.putExtra("numReviews", String.valueOf(userSnapshot[0].get("numReviews")));
-                            intent.putExtra("rating", Objects.requireNonNull(userSnapshot[0].get("ratingSum")).toString());
+                            intent.putExtra("numReviews", userSnapshot[0].getDouble("numReviews"));
+                            intent.putExtra("ratingSum", Objects.requireNonNull(userSnapshot[0].getDouble("ratingSum")));
                             intent.putExtra("type", String.valueOf(userSnapshot[0].get("type")));
                         }
                         startActivity(intent);

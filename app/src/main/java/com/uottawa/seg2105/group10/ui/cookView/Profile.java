@@ -32,7 +32,9 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private TextView purchaseTextView;
     private RecyclerView purchaseRecyclerView;
     private static final String TAG = "Profile";
+    private String currentCookUID;
     RecyclerView recyclerView;
+    private final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
     private String type;
 
     @Override
@@ -46,6 +48,16 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         userRef = dBase.collection("users").document(userUID);
         purchaseTextView = findViewById(R.id.textView);
         recyclerView = findViewById(R.id.purchaseRecyclerView);
+
+        userRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        userSnapshot[0] = task.getResult();
+                        if (userSnapshot[0].exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + userSnapshot[0].getData());
+                            currentCookUID = userSnapshot[0].getString("uid");
+                        }
+                    }
+                });
 
         /*userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -144,7 +156,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
             }
             for (int i = 0; i < mealID.size(); i++) {
                 Purchase cm = new Purchase(documents.get(i), cookUID.get(i), clientUID.get(i), mealID.get(i), imageID.get(i), pickUpTime.get(i), clientName.get(i), cookName.get(i), status.get(i));
-                if (status.get(i).equalsIgnoreCase("REJECTED") || status.get(i).equalsIgnoreCase("ACCEPTED")) {
+                if (status.get(i).equalsIgnoreCase("REJECTED") || !(cookUID.get(i).equals(currentCookUID))) {
                     continue;
                 }
                 purchases.add(cm);

@@ -146,9 +146,15 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         } else if (type.equals("Cook")) {
             CookViewHolder cookViewHolder = (CookViewHolder) holder;
+            String purchaseStatus = purchases.get(cookViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
             cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getMealID());
             cookViewHolder.clientName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getCookName());
             cookViewHolder.pickUpTime.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getPickUpTime());
+            if(purchaseStatus.equalsIgnoreCase("accepted")){
+                cookViewHolder.approveButt.setVisibility(View.GONE);
+                cookViewHolder.rejectButt.setVisibility(View.GONE);
+                cookViewHolder.approvedMessage.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -160,7 +166,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     public class CookViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mealName, clientName, pickUpTime;
+        TextView mealName, clientName, pickUpTime, approvedMessage;
         Button approveButt, rejectButt;
 
         public CookViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
@@ -171,6 +177,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             pickUpTime = itemView.findViewById(R.id.compPickUpTimeTextView);
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
+            approvedMessage = itemView.findViewById(R.id.textView4);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,6 +196,9 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View v) {
                     String purchaseStatus = "ACCEPTED";
+                    approveButt.setVisibility(View.GONE);
+                    rejectButt.setVisibility(View.GONE);
+                    approvedMessage.setVisibility(View.VISIBLE);
                     firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
                     firebasePurchase.update("status", purchaseStatus)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -208,7 +218,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                             document = task.getResult();
                             if (document.exists()) {
                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                cookRef.update("completedOrders", FieldValue.increment(1));
+                                userRef.update("completedOrders", FieldValue.increment(1));
                             }
                         }
                     });
