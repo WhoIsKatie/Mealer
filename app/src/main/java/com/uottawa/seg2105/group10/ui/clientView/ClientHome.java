@@ -22,6 +22,8 @@ import com.uottawa.seg2105.group10.backend.Purchase;
 import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -82,7 +84,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     @Override
     protected void onStart() {
         super.onStart();
-        purchasesArrayList.clear();
+        purchasesArrayList = new ArrayList<>();
         setUpPurchaseModels();
     }
 
