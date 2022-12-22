@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +18,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Purchase;
-import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
-
-import org.checkerframework.checker.units.qual.A;
+import com.uottawa.seg2105.group10.repositories.Purchase;
+import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,15 +32,11 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     //initializing variables or instances
     protected RecyclerView recyclerView;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore dBase;
-    private DocumentSnapshot document2, document3;
     private static final String TAG = "Client Home";
-    private Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2, searchButton;
-    private DocumentReference clientRef, cookRef, complaintRef, userRef;
+    private ImageButton searchButton;
     private CollectionReference purchaseRef;
     private ArrayList<Purchase> purchasesArrayList;
-    private Purchase_RecyclerViewAdapter purchasesRVAdapter;
-    String clientName2;
+    String clientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +45,23 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
 
         // Initialize Firebase Authority and Firebase Firestore objects
         mAuth = FirebaseAuth.getInstance();
-        dBase = FirebaseFirestore.getInstance();
+        FirebaseFirestore dBase = FirebaseFirestore.getInstance();
         String userName = mAuth.getCurrentUser().getUid();
-        userRef = dBase.collection("users").document(userName);
+        DocumentReference userRef = dBase.collection("users").document(userName);
         purchaseRef = dBase.collection("purchases");
         recyclerView = findViewById(R.id.clientRecyclerView);
-        searchButton = (Button) findViewById(R.id.searchButton);
+        searchButton = findViewById(R.id.searchButton);
         TextView clientNameHeadline = (TextView) findViewById(R.id.clientNameHeadline);
 
-        clientRef = dBase.collection("users").document(userName);
         userRef.get().addOnCompleteListener(cookTask -> {
             if (cookTask.isSuccessful()) {
-                document2 = cookTask.getResult();
-                if (document2.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document2.getData());
-                    clientName2 = document2.getString("firstName") + " " + document2.getString("lastName");
+                DocumentSnapshot document = cookTask.getResult();
+                if (document.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    clientName = document.getString("firstName") + " " + document.getString("lastName");
                 }
 
-                clientNameHeadline.setText(clientName2);
+                clientNameHeadline.setText(clientName);
 
                 searchButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -99,7 +92,6 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         ArrayList<String> pickupTime = new ArrayList<>();
         ArrayList<String> requestTime = new ArrayList<>();
         ArrayList<String> status = new ArrayList<>();
-        //TODO: you can also decide whether to forgo fetching the meal image to display
 
         purchaseRef.whereEqualTo("clientUID", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -141,7 +133,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
                         status.add((String) data.get("status"));
                     else status.add(null);
 
-                    clientName2 = document.getString("clientName");
+                    this.clientName = document.getString("clientName");
                 }
                 for (int i = 0; i < clientUID.size(); i++) {
                     //String imageID, String pickupTime, String cookName, String clientName, PurchaseStatus status
@@ -157,8 +149,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     }
 
     private void updateClientHome() {
-
-        purchasesRVAdapter = new Purchase_RecyclerViewAdapter("Client", this, purchasesArrayList, this);
+        Purchase_RecyclerViewAdapter purchasesRVAdapter = new Purchase_RecyclerViewAdapter("Client", this, purchasesArrayList, this);
         recyclerView.setAdapter(purchasesRVAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }

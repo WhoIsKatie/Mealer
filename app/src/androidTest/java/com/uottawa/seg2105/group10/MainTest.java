@@ -12,8 +12,8 @@ import static org.junit.Assert.assertEquals;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
-import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.User;
+import com.uottawa.seg2105.group10.repositories.Cook;
+import com.uottawa.seg2105.group10.repositories.User;
 import com.uottawa.seg2105.group10.ui.Register2;
 
 import org.junit.Rule;

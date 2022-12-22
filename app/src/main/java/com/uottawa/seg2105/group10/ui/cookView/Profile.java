@@ -14,9 +14,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Purchase;
-import com.uottawa.seg2105.group10.recyclers.Purchase_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.repositories.Purchase;
+import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

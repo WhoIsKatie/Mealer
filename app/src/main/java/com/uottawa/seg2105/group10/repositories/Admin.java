@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.backend;
+package com.uottawa.seg2105.group10.repositories;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;

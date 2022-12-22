@@ -4,7 +4,7 @@ package com.uottawa.seg2105.group10;
 import static org.junit.Assert.assertEquals;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.uottawa.seg2105.group10.backend.Meal;
+import com.uottawa.seg2105.group10.repositories.Meal;
 
 import org.junit.Test;
 

@@ -14,9 +14,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Meal;
-import com.uottawa.seg2105.group10.recyclers.Meal_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.repositories.Meal;
+import com.uottawa.seg2105.group10.ui.recyclers.Meal_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.MealView;
 

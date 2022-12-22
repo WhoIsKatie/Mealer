@@ -1,10 +1,10 @@
-package com.uottawa.seg2105.group10.backend;
+package com.uottawa.seg2105.group10.repositories;
 
 import java.util.Map;
 
 public class Client extends User {
 
-    private String address, ccNumber, ccHolderName, expiryDate, cvc;
+    private String ccNumber, ccHolderName, expiryDate, cvc;
 
     /**
      * Constructor for Firebase access.
@@ -26,6 +26,18 @@ public class Client extends User {
                 data.get("nameOnCard"),
                 data.get("expDate"),
                 data.get("cvcField"));
+    }
+
+    public Client(String firstName, String lastName, String email, String password,
+                  String num, String name, String expiry, String cvc, String uid) {
+        super("Client Class",
+                firstName,
+                lastName,
+                email,
+                password,
+                "Client",
+                uid);
+        setCC(num, name, expiry, cvc);
     }
 
     // Setter method for Credit Card information

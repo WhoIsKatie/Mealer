@@ -16,8 +16,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.Purchase;
+import com.uottawa.seg2105.group10.repositories.Cook;
+import com.uottawa.seg2105.group10.repositories.Purchase;
 import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
 import com.uottawa.seg2105.group10.ui.cookView.Menu;
@@ -158,7 +158,7 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Welcome.this, MainActivity.class));
+                startActivity(new Intent(Welcome.this, Landing.class));
                 finish();
             }
         });

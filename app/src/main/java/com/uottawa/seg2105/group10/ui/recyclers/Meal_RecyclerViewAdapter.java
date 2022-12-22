@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.recyclers;
+package com.uottawa.seg2105.group10.ui.recyclers;
 
 import static android.content.ContentValues.TAG;
 
@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Meal;
+import com.uottawa.seg2105.group10.repositories.Meal;
 import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.cookView.Menu;
 

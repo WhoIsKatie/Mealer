@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.recyclers;
+package com.uottawa.seg2105.group10.ui.recyclers;
 
 import android.content.Context;
 import android.util.Log;
@@ -27,7 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Purchase;
+import com.uottawa.seg2105.group10.repositories.Complaint;
+import com.uottawa.seg2105.group10.repositories.Purchase;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -327,7 +328,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     if(!validateTitle() | !validateComplaint()) {
                         return;
                     }
-                    ComplaintModel complaint = new ComplaintModel(clientName, cookName, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, mAuth.getCurrentUser().getUid());
+                    Complaint complaint = new Complaint(clientName, cookName, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, mAuth.getCurrentUser().getUid());
                     dBase.collection("complaints").add(complaint)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
@@ -359,9 +360,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             final View ratePopup = LayoutInflater.from(context).inflate(R.layout.activity_ratecook, null);
 
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
-            explain = (TextView) ratePopup.findViewById(R.id.explain);
 
-            //TODO: remove cookName.
+            //TODO: implement rating bar
             rate = (EditText) ratePopup.findViewById(R.id.rate);
             submitButton2 =(Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);
@@ -373,7 +373,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             submitButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //TODO: validate rating & complaint
                     String rateString = rate.getText().toString();
                     if(!validateRating()) {
                         return;

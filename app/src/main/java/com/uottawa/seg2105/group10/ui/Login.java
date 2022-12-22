@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // if back button is clicked, login activity ends
-                startActivity(new Intent(Login.this, MainActivity.class));
+                startActivity(new Intent(Login.this, Landing.class));
                 finish();
             }
         });

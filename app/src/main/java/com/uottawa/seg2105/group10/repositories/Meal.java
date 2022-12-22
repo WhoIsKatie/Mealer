@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.backend;//import java.util.ArrayList;
+package com.uottawa.seg2105.group10.repositories;//import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.Log;

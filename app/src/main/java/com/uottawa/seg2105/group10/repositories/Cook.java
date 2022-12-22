@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.backend;
+package com.uottawa.seg2105.group10.repositories;
 
 import com.google.firebase.firestore.DocumentReference;
 
@@ -40,6 +40,23 @@ public class Cook extends User{
 		ratingSum = 0.0;
 		completedOrders = 0;
 		numReviews = 0;
+	}
+
+	public Cook(String firstName, String lastName, String email, String password, String address,
+				String description, String cheque, int orders, int reviews, double ratingSum, String uid) {
+		super("Cook Class",
+				firstName,
+				lastName,
+				email,
+				password,
+				"Cook",
+				uid);
+		this.description = description;
+		this.address = address;
+		this.cheque = cheque;
+		this.ratingSum = ratingSum;
+		completedOrders = orders;
+		numReviews = reviews;
 	}
 
 	//Getter methods

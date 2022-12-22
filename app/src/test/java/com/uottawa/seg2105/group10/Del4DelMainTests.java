@@ -2,7 +2,7 @@ package com.uottawa.seg2105.group10;
 
 import static org.junit.Assert.assertEquals;
 
-import com.uottawa.seg2105.group10.backend.Purchase;
+import com.uottawa.seg2105.group10.repositories.Purchase;
 
 import org.junit.Test;
 

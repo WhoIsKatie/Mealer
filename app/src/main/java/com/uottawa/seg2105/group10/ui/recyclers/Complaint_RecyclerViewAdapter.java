@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.recyclers;
+package com.uottawa.seg2105.group10.ui.recyclers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.repositories.Complaint;
 
 import java.util.ArrayList;
 
@@ -17,9 +18,9 @@ public class Complaint_RecyclerViewAdapter extends RecyclerView.Adapter<Complain
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
-    ArrayList<ComplaintModel> complaints;
+    ArrayList<Complaint> complaints;
 
-    public Complaint_RecyclerViewAdapter(Context context, ArrayList<ComplaintModel> complaints, RecyclerViewInterface recyclerViewInterface){
+    public Complaint_RecyclerViewAdapter(Context context, ArrayList<Complaint> complaints, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.complaints = complaints;
         this.recyclerViewInterface = recyclerViewInterface;

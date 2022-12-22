@@ -14,8 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Client;
-import com.uottawa.seg2105.group10.backend.User;
+import com.uottawa.seg2105.group10.repositories.Client;
+import com.uottawa.seg2105.group10.repositories.User;
 
 import java.util.Map;
 

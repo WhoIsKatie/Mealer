@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.uottawa.seg2105.group10.R;
 
-public class MainActivity extends AppCompatActivity {
+public class Landing extends AppCompatActivity {
 
     private Button registrationButt, signInButt;
 
@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         registrationButt.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, Register1.class));
+                    startActivity(new Intent(Landing.this, Register1.class));
             }
         });
 
         signInButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, Login.class));
+                startActivity(new Intent(Landing.this, Login.class));
             }
         });
 

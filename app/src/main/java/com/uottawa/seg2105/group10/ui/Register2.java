@@ -18,9 +18,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.User;
+import com.uottawa.seg2105.group10.repositories.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,6 +98,10 @@ public class Register2 extends AppCompatActivity {
                                     // registration success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    UserProfileChangeRequest profileCompletion = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(data.get("firstName") + " " + data.get("lastName")).build();
+                                    if (user != null)
+                                        user.updateProfile(profileCompletion);
                                     updateUI(user);
                                 } else {
                                     // If registration fails, display a message to the user.

@@ -14,9 +14,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.recyclers.ComplaintModel;
-import com.uottawa.seg2105.group10.recyclers.Complaint_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.recyclers.RecyclerViewInterface;
+import com.uottawa.seg2105.group10.repositories.Complaint;
+import com.uottawa.seg2105.group10.ui.recyclers.Complaint_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.ComplaintView;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class AdminHome extends AppCompatActivity implements RecyclerViewInterface {
 
-    public ArrayList<ComplaintModel> complaints;
+    public ArrayList<Complaint> complaints;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     private static final String TAG = "AdminHome";
@@ -82,7 +82,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
                     documents.add(document.getReference().getId());
                 }
                 for (int i = 0; i < titleOfComplaint.size(); i++) {
-                    ComplaintModel cm = new ComplaintModel(clientName.get(i), cookName.get(i), timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
+                    Complaint cm = new Complaint(clientName.get(i), cookName.get(i), timeOfComplaint.get(i), titleOfComplaint.get(i), descriptionOfComplaint.get(i), cookUid.get(i), clientUid.get(i));
                     cm.setDocID(documents.get(i));
                     complaints.add(cm);
                 }
@@ -94,7 +94,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(AdminHome.this, ComplaintView.class);
-        ComplaintModel doc = complaints.get(position);
+        Complaint doc = complaints.get(position);
         intent.putExtra("CLIENT NAME", doc.getClientName());
         intent.putExtra("DOCUMENT", doc.getDocID());
         intent.putExtra("COOK NAME", doc.getCookName());

@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,21 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/roboto_black"
             android:gravity="center_horizontal"
-            android:text="Rate your Cook!"
+            android:text="Rate Your Cook!"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/explain"
-            android:layout_width="377dp"
-            android:layout_height="39dp"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center_horizontal"
-            android:text="Rate your cook from a scale of 1 to 5. Only use numbers. 1 being poor and 5 being excellent."
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <EditText
             android:id="@+id/rate"
@@ -48,7 +39,18 @@
             android:hint="Rate your cook from 1 to 5"
             android:inputType="number"
             android:textAlignment="center"
+            android:visibility="gone"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="0.5"
+            android:theme="@style/RatingBar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,15 +61,15 @@
 
             <Button
                 android:id="@+id/submitButton2"
-                android:layout_width="170dp"
-                android:layout_height="55dp"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
                 android:layout_marginRight="10dp"
-                android:text="Submit"/>
+                android:text="Submit" />
 
             <Button
                 android:id="@+id/cancelButton2"
-                android:layout_width="172dp"
-                android:layout_height="53dp"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
                 android:text="Cancel" />
         </LinearLayout>
@@ -76,3 +78,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

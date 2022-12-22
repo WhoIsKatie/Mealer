@@ -5,4 +5,9 @@
         <item name="checkedIconTint">@color/white</item>
      </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/black_overlay</item>
+        <item name="colorControlActivated">@color/mustard</item>
+    </style>
+
 </resources>

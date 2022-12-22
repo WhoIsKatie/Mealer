@@ -20,9 +20,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.uottawa.seg2105.group10.R;
-import com.uottawa.seg2105.group10.backend.Cook;
-import com.uottawa.seg2105.group10.backend.User;
-import com.uottawa.seg2105.group10.backend.Utility;
+import com.uottawa.seg2105.group10.repositories.Cook;
+import com.uottawa.seg2105.group10.repositories.User;
+import com.uottawa.seg2105.group10.repositories.Utility;
 
 import java.util.Map;
 

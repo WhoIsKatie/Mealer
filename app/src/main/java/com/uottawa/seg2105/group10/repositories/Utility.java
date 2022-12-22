@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.backend;
+package com.uottawa.seg2105.group10.repositories;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -32,13 +32,6 @@ public class Utility{
         this.mAuth = mAuth;
         this.context = context;
         this.storage = storage;
-    }
-
-    public Utility(Context context, Uri filePath, FirebaseAuth mAuth, DocumentReference doc){
-        this.filePath = filePath;
-        this.mAuth = mAuth;
-        this.context = context;
-        this.doc = doc;
     }
 
     @Deprecated
