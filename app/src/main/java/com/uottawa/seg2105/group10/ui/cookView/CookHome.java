@@ -2,30 +2,29 @@ package com.uottawa.seg2105.group10.ui.cookView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Meal;
-import com.uottawa.seg2105.group10.ui.recyclers.Meal_RecyclerViewAdapter;
-import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 import com.uottawa.seg2105.group10.ui.AddMeal;
 import com.uottawa.seg2105.group10.ui.MealView;
+import com.uottawa.seg2105.group10.ui.recyclers.Meal_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public class CookHome extends AppCompatActivity implements RecyclerViewInterface {
 
+    private CookHomeViewModel model;
     public ArrayList<Meal> meals;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
@@ -38,12 +37,17 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cookhome);
-        mAuth = FirebaseAuth.getInstance();
-        dBase = FirebaseFirestore.getInstance();
-        String userUID = mAuth.getCurrentUser().getUid();
-        userRef = dBase.collection("users").document(userUID);
+        model = new ViewModelProvider(this).get(CookHomeViewModel.class);
+
         meals = new ArrayList<>();
         recyclerView = findViewById(R.id.mealsRecyclerView);
+
+        addMeal = findViewById(R.id.addMeal);
+        addMeal.setOnClickListener(view -> {
+            startActivity(new Intent(CookHome.this, AddMeal.class));
+        });
+
+        //TODO: implement logout button
     }
 
     @Override
@@ -60,78 +64,26 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
     }
 
     private void setUpMealModels() {
-        // initializing all lists of fields
-        ArrayList<String> mealName = new ArrayList<>();
-        ArrayList<String> cookUID = new ArrayList<>();
-        ArrayList<String> description = new ArrayList<>();
-        ArrayList<String> mealType = new ArrayList<>();
-        ArrayList<ArrayList<String>> cuisine = new ArrayList<>();
-        ArrayList<ArrayList<String>> ingredients = new ArrayList<>();
-        ArrayList<ArrayList<String>> allergens = new ArrayList<>();
-        ArrayList<Float> price = new ArrayList<>();
-        ArrayList<String> image = new ArrayList<>();
-        ArrayList<String> cookUIDs = new ArrayList<>();
-
-        userRef.collection("meals").get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                Log.d(TAG, document.getId() + "=>" + document.getData());
-                Map<String, Object> data = document.getData();
-                mealName.add(data.get("mealName").toString());
-                description.add(data.get("description").toString());
-                mealType.add(data.get("mealType").toString());
-                if (!(data.get("cuisine").toString().equals("None"))) {
-                    cuisine.add((ArrayList<String>) data.get("cuisine"));
-                } else {
-                    cuisine.add(null);
-                }
-                cookUIDs.add(document.getReference().getParent().getParent().getId()); //parent's reference (Cook's uid)
-
-                if (!(data.get("ingredients").toString().equals("None"))) {
-                    ingredients.add((ArrayList<String>) data.get("ingredients"));
-                } else {
-                    ingredients.add(null);
-                }
-                if (!(data.get("allergens").toString().equals("None"))) {
-                    allergens.add((ArrayList<String>) data.get("allergens"));
-                } else {
-                    allergens.add(null);
-                }
-                price.add(Float.valueOf(data.get("price").toString()));
-                if (data.get("imageID") != null) {
-                    image.add(data.get("imageID").toString());
-                } else {
-                    image.add(null);
-                }
-            }
-            for (int i = 0; i < mealName.size(); i++) {
-                Meal meal = new Meal(price.get(i), mealName.get(i), description.get(i), mealType.get(i), cuisine.get(i), ingredients.get(i), allergens.get(i));
-                meal.setCookUID(cookUIDs.get(i));
-                meal.setImageID(image.get(i));
-                meals.add(meal);
-            }
+        model.getMeals().observe(CookHome.this, list -> {
+            meals.addAll(list);
             updateView();
-        });
-
-        addMeal = findViewById(R.id.addMeal);
-        addMeal.setOnClickListener(view -> {
-            startActivity(new Intent(CookHome.this, AddMeal.class));
         });
     }
 
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(CookHome.this, MealView.class);
-        Meal doc = meals.get(position);
-        intent.putExtra("MEAL NAME", doc.getMealName());
-        intent.putExtra("PRICE", doc.getPrice());
-        intent.putExtra("MEAL TYPE", doc.getMealType());
-        intent.putExtra("CUISINE", doc.getCuisine());
-        intent.putExtra("DESCRIPTION", doc.getDescription());
-        intent.putExtra("INGREDIENTS", doc.getIngredients());
-        intent.putExtra("ALLERGENS", doc.getAllergens());
-        intent.putExtra("IMAGE", doc.getImageID());
-        intent.putExtra("OFFERED", doc.getOfferStatus());
-        intent.putExtra("COOKUID", doc.getCookUID());
+        Meal m = meals.get(position);
+        intent.putExtra("MEAL NAME", m.getMealName());
+        intent.putExtra("PRICE", m.getPrice());
+        intent.putExtra("MEAL TYPE", m.getMealType());
+        intent.putExtra("CUISINE", m.getCuisine());
+        intent.putExtra("DESCRIPTION", m.getDescription());
+        intent.putExtra("INGREDIENTS", m.getIngredients());
+        intent.putExtra("ALLERGENS", m.getAllergens());
+        intent.putExtra("IMAGE", m.getImageID());
+        intent.putExtra("OFFERED", m.getOfferStatus());
+        intent.putExtra("COOKUID", m.getCookUID());
         startActivity(intent);
     }
 }

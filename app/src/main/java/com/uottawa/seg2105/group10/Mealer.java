@@ -1,7 +1,6 @@
 package com.uottawa.seg2105.group10;
 
 import android.app.Application;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.util.Log;
 
@@ -12,9 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.repositories.Client;
 import com.uottawa.seg2105.group10.repositories.Cook;
 import com.uottawa.seg2105.group10.repositories.User;
-import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
-import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
-import com.uottawa.seg2105.group10.ui.cookView.CookHome;
 
 import java.util.Objects;
 
@@ -36,17 +32,7 @@ public class Mealer extends Application {
 
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
-        if (getUser() != null) {
-            Intent intent;
-            if (Objects.equals(user.getType(), "Cook"))
-                intent = new Intent(this, CookHome.class);
-            else if (Objects.equals(user.getType(), "Client"))
-                intent = new Intent(this, ClientHome.class);
-            else
-                intent = new Intent(this, AdminHome.class);
-            startActivity(intent);
-        }
-
+        if (getUser() != null) type = user.getType();
     }
 
     /** Called when the device configuration changes while the component is running.
@@ -66,9 +52,10 @@ public class Mealer extends Application {
         super.onLowMemory();
     }
 
-    public static void initializeUser() {
+    public void initializeUser() {
         // create reference to current user document
-        DocumentReference userDoc = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+        DocumentReference userDoc = dBase.collection("users")
+                .document(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
 
         userDoc.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -87,9 +74,13 @@ public class Mealer extends Application {
         });
     }
 
-    public static User getUser() {
+    public User getUser() {
         if (mAuth.getCurrentUser() != null)
             initializeUser();
         return user;
+    }
+
+    public String getType() {
+        return type;
     }
 }

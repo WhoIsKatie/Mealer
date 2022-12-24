@@ -21,6 +21,12 @@ public class Complaint {
         this.clientUid = clientUid;
     }
 
+    /**
+     * Constructor for Firebase access.
+     * Do not use locally unless you want an empty complaint.
+     */
+    public Complaint(){}
+
     public String getDocID(){return docID;}
 
     public String getCookName(){return cookName;}

@@ -2,32 +2,27 @@ package com.uottawa.seg2105.group10.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.uottawa.seg2105.group10.Mealer;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
+import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
+import com.uottawa.seg2105.group10.ui.cookView.CookHome;
 
 public class Login extends AppCompatActivity {
 
-    private Button letTheUserLogIn; //button that says 'Login' which should bring to welcome page
-    private ImageButton back;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore dBase;
-    private static final String TAG = "EmailPassword";
 
     private String email, password;
 
@@ -42,47 +37,35 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        LoginViewModel model = new ViewModelProvider(this).get(LoginViewModel.class);
 
         //initializing
         mAuth = FirebaseAuth.getInstance();
-        letTheUserLogIn = findViewById(R.id.letTheUserLogIn);
-        back = findViewById(R.id.back);
+
+        // 'Login' button launches user's homepage respective to type.
+        Button login = findViewById(R.id.letTheUserLogIn);
+        ImageButton back = findViewById(R.id.back);
         EditText login_username = findViewById(R.id.loginUserEditText);
-        EditText login_password2 = findViewById(R.id.loginPassEditText);
+        EditText login_password = findViewById(R.id.loginPassEditText);
 
         usernameLayout = findViewById(R.id.loginUserLayout);
         passwordLayout = findViewById(R.id.loginPassLayout);
 
-        letTheUserLogIn.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // getting fields for username and password
-                // idea from https://stackoverflow.com/questions/37352871/firebase-9-0-0-mauth-signinwithemailandpassword-how-to-pass-it-to-a-button
-                // bug fix from https://stackoverflow.com/questions/39486937/getting-cannot-resolve-method-addoncompletionlistener-while-trying
+                // retrieving user input from fields for username and password
                 email = login_username.getText().toString().trim();
-                password = login_password2.getText().toString().trim();
+                password = login_password.getText().toString().trim();
 
                 if(!validateEmail() | !validatePassword()) {
                     return;
                 }
-                FirebaseUser user = mAuth.getCurrentUser();
-                // this is inside onclick so it doesn't run immediately when the activity begins
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "signInWithEmail:success");
-                                    updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(Login.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                model.login(email, password).observe(Login.this, user -> {
+                    if (user != null)
+                        Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    updateUI(user);
+                });
             }
         });
 
@@ -102,6 +85,7 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
             currentUser.reload();
+
         }
     }
 
@@ -109,8 +93,19 @@ public class Login extends AppCompatActivity {
         if (user != null) {
             // if valid user is passed, they have signed in
             // direct user to welcome page and notify with toast
-            Toast.makeText(this, "Welcome back to Mealer", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, Welcome.class));
+            Toast.makeText(this, "Welcome back to Mealer!", Toast.LENGTH_LONG).show();
+            Mealer app = (Mealer) getApplicationContext();
+            app.initializeUser();
+            switch (app.getType()) {
+                case "Admin":
+                    startActivity(new Intent(this, AdminHome.class));
+                    break;
+                case "Cook":
+                    startActivity(new Intent(this, CookHome.class));
+                    break;
+                default:
+                    startActivity(new Intent(this, ClientHome.class));
+            }
             finish();
         }
     }

@@ -12,8 +12,6 @@ import com.uottawa.seg2105.group10.R;
 
 public class Landing extends AppCompatActivity {
 
-    private Button registrationButt, signInButt;
-
     @Override
     public void onBackPressed() {
         moveTaskToBack(false);
@@ -25,9 +23,8 @@ public class Landing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        registrationButt = findViewById(R.id.registrationButt);
-        signInButt = findViewById(R.id.signInButt);
-
+        Button registrationButt = findViewById(R.id.registrationButt);
+        Button signInButt = findViewById(R.id.signInButt);
 
         registrationButt.setOnClickListener(new View.OnClickListener() {
             @Override
