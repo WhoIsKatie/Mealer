@@ -20,7 +20,7 @@ import com.uottawa.seg2105.group10.repositories.Cook;
 import com.uottawa.seg2105.group10.repositories.Purchase;
 import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
-import com.uottawa.seg2105.group10.ui.cookView.Menu;
+import com.uottawa.seg2105.group10.ui.cookView.CookHome;
 import com.uottawa.seg2105.group10.ui.cookView.Profile;
 
 import java.time.LocalDateTime;
@@ -137,7 +137,7 @@ public class Welcome extends AppCompatActivity {
                                 startActivity(new Intent(Welcome.this, AdminHome.class));
                                 break;
                             case "Cook":
-                                startActivity(new Intent(Welcome.this, Menu.class));
+                                startActivity(new Intent(Welcome.this, CookHome.class));
                                 break;
                             case "Client":
                                 Intent intent = new Intent(Welcome.this, ClientHome.class);

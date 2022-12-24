@@ -28,7 +28,7 @@ public class Client extends User {
                 data.get("cvcField"));
     }
 
-    public Client(String firstName, String lastName, String email, String password,
+    /*public Client(String firstName, String lastName, String email, String password,
                   String num, String name, String expiry, String cvc, String uid) {
         super("Client Class",
                 firstName,
@@ -39,7 +39,7 @@ public class Client extends User {
                 uid);
         setCC(num, name, expiry, cvc);
     }
-
+*/
     // Setter method for Credit Card information
     public void setCC(String num, String name, String expiry, String cvc) {
         if (num == null || name == null || expiry == null || cvc == null) return;

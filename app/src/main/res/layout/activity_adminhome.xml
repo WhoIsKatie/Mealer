@@ -78,25 +78,33 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="30dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_black"
+                            android:gravity="center_vertical"
                             android:text="Notice Board"
                             android:textColor="@color/black"
                             android:textSize="30sp" />
 
-                        <TextView
+                        <Button
+                            android:id="@+id/adminSignOutButt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="See more →"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:layout_weight="0.25"
+                            android:fontFamily="@font/roboto_black"
+                            android:shadowColor="#00FFFFFF"
+                            android:text="@string/logoff"
+                            android:textColor="@color/black_overlay"
+                            app:backgroundTint="#00F9D706"
+                            app:elevation="0dp"
+                            app:iconTint="#00FFFFFF"
+                            app:rippleColor="#00FFFFFF" />
 
                     </LinearLayout>
 

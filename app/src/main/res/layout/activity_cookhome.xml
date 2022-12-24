@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/flour"
-    tools:context=".ui.cookView.Menu">
+    tools:context=".ui.cookView.CookHome">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,56 +31,49 @@
                     android:orientation="vertical"
                     android:weightSum="2">
 
-                    <ImageView
-                        android:id="@+id/homeLogo"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#00FFFFFF"
-                        android:scaleType="fitCenter"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        app:srcCompat="@drawable/home_logo"
-                        app:tint="@color/flour" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="136dp"
-                        android:layout_height="66dp"
-                        android:layout_marginLeft="25dp"
-                        android:background="#00FFFFFF"
-                        android:scaleType="centerInside"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/home_logo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:fontFamily="@font/roboto_black"
-                        android:text="HOME"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/black"
-                        android:textSize="40sp"
-                        android:visibility="gone" />
-
-                    <View
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="14dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/cookSignOutButt"
+                            android:layout_width="61dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_black"
+                            android:includeFontPadding="false"
+                            android:padding="0dp"
+                            android:shadowColor="#00FFFFFF"
+                            android:text="@string/logoff"
+                            android:textColor="@color/black_overlay"
+                            android:textSize="10sp"
+                            app:backgroundTint="#00F9D706"
+                            app:elevation="0dp"
+                            app:iconTint="#00FFFFFF"
+                            app:rippleColor="#00FFFFFF" />
+
+                        <ImageView
+                            android:id="@+id/homeLogo"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="60dp"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#00FFFFFF"
+                            android:scaleType="fitCenter"
+                            android:scaleX="1"
+                            android:scaleY="1"
+                            app:srcCompat="@drawable/home_logo"
+                            app:tint="@color/flour" />
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="13dp"
                         android:background="@color/black" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="13dp"
-                        android:background="?android:attr/listDivider"
-                        android:visibility="invisible" />
 
                     <LinearLayout
                         android:layout_width="fill_parent"

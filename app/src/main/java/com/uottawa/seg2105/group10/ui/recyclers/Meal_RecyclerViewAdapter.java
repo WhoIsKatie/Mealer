@@ -27,7 +27,7 @@ import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Meal;
 import com.uottawa.seg2105.group10.ui.AddMeal;
-import com.uottawa.seg2105.group10.ui.cookView.Menu;
+import com.uottawa.seg2105.group10.ui.cookView.CookHome;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -216,7 +216,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                                 Toast.LENGTH_SHORT).show();
 
                     }
-                    Intent intent = new Intent(context, Menu.class);
+                    Intent intent = new Intent(context, CookHome.class);
                     context.startActivity(intent);
                 }
             });

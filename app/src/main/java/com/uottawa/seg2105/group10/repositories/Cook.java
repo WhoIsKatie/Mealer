@@ -42,7 +42,7 @@ public class Cook extends User{
 		numReviews = 0;
 	}
 
-	public Cook(String firstName, String lastName, String email, String password, String address,
+	/*public Cook(String firstName, String lastName, String email, String password, String address,
 				String description, String cheque, int orders, int reviews, double ratingSum, String uid) {
 		super("Cook Class",
 				firstName,
@@ -57,7 +57,7 @@ public class Cook extends User{
 		this.ratingSum = ratingSum;
 		completedOrders = orders;
 		numReviews = reviews;
-	}
+	}*/
 
 	//Getter methods
 	public double getRating() {return ratingSum/numReviews;}

@@ -21,7 +21,7 @@
             android:layout_height="48dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/back"
-            app:srcCompat="@drawable/general_back_icon" />
+            app:srcCompat="@drawable/back_icon" />
 
         <RelativeLayout
             android:layout_width="match_parent"

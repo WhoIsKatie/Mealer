@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class Menu extends AppCompatActivity implements RecyclerViewInterface {
+public class CookHome extends AppCompatActivity implements RecyclerViewInterface {
 
     public ArrayList<Meal> meals;
     private FirebaseAuth mAuth;
@@ -37,7 +37,7 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.activity_cookhome);
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
         String userUID = mAuth.getCurrentUser().getUid();
@@ -114,13 +114,13 @@ public class Menu extends AppCompatActivity implements RecyclerViewInterface {
 
         addMeal = findViewById(R.id.addMeal);
         addMeal.setOnClickListener(view -> {
-            startActivity(new Intent(Menu.this, AddMeal.class));
+            startActivity(new Intent(CookHome.this, AddMeal.class));
         });
     }
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(Menu.this, MealView.class);
+        Intent intent = new Intent(CookHome.this, MealView.class);
         Meal doc = meals.get(position);
         intent.putExtra("MEAL NAME", doc.getMealName());
         intent.putExtra("PRICE", doc.getPrice());
