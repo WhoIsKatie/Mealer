@@ -58,9 +58,7 @@ public class Welcome extends AppCompatActivity {
         typeText = findViewById(R.id.userTypeText);
         logOffButt = findViewById(R.id.logOffButt);
         homepageButt = findViewById(R.id.homepageButt);
-        isSuspended = findViewById(R.id.isSuspended);
-        suspensionDeets = findViewById(R.id.suspensionDetails);
-        profileButt = findViewById(R.id.profileButt);
+
 
         // get instances of Firebase Authentication and Firestore
         mAuth = FirebaseAuth.getInstance();

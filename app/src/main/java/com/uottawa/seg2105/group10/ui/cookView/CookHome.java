@@ -3,6 +3,7 @@ package com.uottawa.seg2105.group10.ui.cookView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,11 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Meal;
 import com.uottawa.seg2105.group10.ui.AddMeal;
+import com.uottawa.seg2105.group10.ui.Landing;
 import com.uottawa.seg2105.group10.ui.MealView;
 import com.uottawa.seg2105.group10.ui.recyclers.Meal_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
@@ -26,12 +26,13 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
 
     private CookHomeViewModel model;
     public ArrayList<Meal> meals;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore dBase;
-    private DocumentReference userRef;
-    private static final String TAG = "Menu";
     RecyclerView recyclerView;
-    private Button addMeal;
+
+    @Override
+    // Turns off the android back button => User cannot go back to login page unless logged out
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,23 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
         meals = new ArrayList<>();
         recyclerView = findViewById(R.id.mealsRecyclerView);
 
-        addMeal = findViewById(R.id.addMeal);
+        Button addMeal = findViewById(R.id.addMeal);
+        Button logout = findViewById(R.id.cookSignOutButt);
+        ImageButton profile = findViewById(R.id.cookProfile);
+
         addMeal.setOnClickListener(view -> {
             startActivity(new Intent(CookHome.this, AddMeal.class));
         });
 
-        //TODO: implement logout button
+        logout.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(CookHome.this, Landing.class));
+            finish();
+        });
+
+        profile.setOnClickListener(view -> {
+            startActivity(new Intent(CookHome.this, Profile.class));
+        });
     }
 
     @Override

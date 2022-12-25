@@ -35,7 +35,7 @@ public class ComplaintView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaintview);
 
-        dBase = dBase.getInstance();
+        dBase = FirebaseFirestore.getInstance();
 
         String clientName = getIntent().getStringExtra("CLIENT NAME");
         String time = getIntent().getStringExtra("TIME");

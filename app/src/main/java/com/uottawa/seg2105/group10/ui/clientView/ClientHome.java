@@ -3,6 +3,7 @@ package com.uottawa.seg2105.group10.ui.clientView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Purchase;
+import com.uottawa.seg2105.group10.ui.Landing;
 import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
@@ -27,12 +28,14 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     private ClientHomeViewModel model;
     //initializing variables or instances
     protected RecyclerView recyclerView;
-    private FirebaseAuth mAuth;
-    private static final String TAG = "Client Home";
-    private ImageButton searchButton;
-    private CollectionReference purchaseRef;
     private ArrayList<Purchase> purchases;
     String clientName;
+
+    @Override
+    // Turns off the android back button => User cannot go back to login page unless logged out
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +44,12 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
         model = new ViewModelProvider(this).get(ClientHomeViewModel.class);
 
         // Initialize Firebase Authority and Firebase Firestore objects
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.clientRecyclerView);
-        searchButton = findViewById(R.id.searchButton);
-        TextView clientNameHeadline = (TextView) findViewById(R.id.clientNameHeadline);
+        ImageButton searchButton = findViewById(R.id.searchButton);
+        Button logout = findViewById(R.id.clientSignOutButt);
+        TextView clientNameHeadline = findViewById(R.id.clientNameHeadline);
 
         clientName = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName();
         clientNameHeadline.setText(clientName);
@@ -57,7 +61,11 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
             }
         });
 
-        //TODO: implement logout button
+        logout.setOnClickListener(view -> {
+            mAuth.signOut();
+            startActivity(new Intent(ClientHome.this, Landing.class));
+            finish();
+        });
     }
 
     @Override

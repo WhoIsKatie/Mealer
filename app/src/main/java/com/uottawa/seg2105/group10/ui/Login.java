@@ -1,14 +1,20 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -16,15 +22,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.uottawa.seg2105.group10.Mealer;
 import com.uottawa.seg2105.group10.R;
+import com.uottawa.seg2105.group10.repositories.Cook;
 import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
 import com.uottawa.seg2105.group10.ui.cookView.CookHome;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Objects;
+
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-
     private String email, password;
+    private static Cook c;
 
     TextInputLayout usernameLayout, passwordLayout;
 
@@ -62,7 +73,7 @@ public class Login extends AppCompatActivity {
                     return;
                 }
                 model.login(email, password).observe(Login.this, user -> {
-                    if (user != null)
+                    if (user == null)
                         Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                     updateUI(user);
                 });
@@ -99,15 +110,55 @@ public class Login extends AppCompatActivity {
             switch (app.getType()) {
                 case "Admin":
                     startActivity(new Intent(this, AdminHome.class));
+                    finish();
                     break;
                 case "Cook":
-                    startActivity(new Intent(this, CookHome.class));
+                    c = (Cook) app.getUser();
+                    if (!c.isSuspended()) {
+                        startActivity(new Intent(this, CookHome.class));
+                        finish();
+                    }
+                    else showSuspensionAlert();
                     break;
                 default:
                     startActivity(new Intent(this, ClientHome.class));
+                    finish();
             }
-            finish();
         }
+    }
+
+    public static class StartSuspensionDialogFragment extends DialogFragment {
+        private Button okButt;
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = requireActivity().getLayoutInflater();
+            View v = inflater.inflate(R.layout.activity_suspension_dialog, null);
+            TextView suspensionDeets = v.findViewById(R.id.suspensionDetails);
+            okButt = v.findViewById(R.id.okButt);
+
+            if (c.getSuspensionEnd() == null)
+                suspensionDeets.setText(R.string.perm_suspend_message);
+            else {
+                String msg = "Your suspension will be lifted by " +
+                        LocalDateTime.parse(c.getSuspensionEnd()).truncatedTo(ChronoUnit.HOURS);
+                suspensionDeets.setText(msg);
+            }
+
+            okButt.setOnClickListener(view -> {
+                Objects.requireNonNull(this.getDialog()).dismiss();
+            });
+
+            builder.setView(v);
+            return builder.create();
+        }
+    }
+
+    public void showSuspensionAlert() {
+        DialogFragment fragment = new StartSuspensionDialogFragment();
+        fragment.show(getSupportFragmentManager(), "Login Suspended Cook");
+        FirebaseAuth.getInstance().signOut();
     }
 
     private boolean validateEmail(){

@@ -180,70 +180,61 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             rejectButt = itemView.findViewById(R.id.compRejectButt);
             approvedMessage = itemView.findViewById(R.id.textView4);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
-                        int pos = getBindingAdapterPosition();
+            itemView.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getBindingAdapterPosition();
 
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
-                        }
+                    if (pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(pos);
                     }
                 }
             });
 
-            approveButt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String purchaseStatus = "ACCEPTED";
-                    approveButt.setVisibility(View.GONE);
-                    rejectButt.setVisibility(View.GONE);
-                    approvedMessage.setVisibility(View.VISIBLE);
-                    firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
-                    firebasePurchase.update("status", purchaseStatus)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error updating document", e);
-                                }
-                            });
-                    userRef.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                userRef.update("completedOrders", FieldValue.increment(1));
+            approveButt.setOnClickListener(v -> {
+                String purchaseStatus = "ACCEPTED";
+                approveButt.setVisibility(View.GONE);
+                rejectButt.setVisibility(View.GONE);
+                approvedMessage.setVisibility(View.VISIBLE);
+                firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
+                firebasePurchase.update("status", purchaseStatus)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully updated!");
                             }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error updating document", e);
+                            }
+                        });
+                userRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            userRef.update("completedOrders", FieldValue.increment(1));
                         }
-                    });
-                }
+                    }
+                });
             });
-            rejectButt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String purchaseStatus = "REJECTED";
-                    firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
-                    firebasePurchase.update("status", purchaseStatus)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error updating document", e);
-                                }
-                            });
-                }
+            rejectButt.setOnClickListener(v -> {
+                String purchaseStatus = "REJECTED";
+                firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
+                firebasePurchase.update("status", purchaseStatus)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error updating document", e);
+                            }
+                        });
             });
         }
     }
@@ -251,7 +242,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     public class ClientViewHolder extends RecyclerView.ViewHolder {
 
         EditText complaint, rate, titleComplaint;
-        TextView rateTheCook, explain, requestTime, purchasedName, purchasedCook, purchasedPrice, clientNameHeadline, clientPickupTime, purchaseStatus;
+        TextView rateTheCook, requestTime, purchasedName, purchasedCook, purchasedPrice, clientNameHeadline, clientPickupTime, purchaseStatus;
 
         Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
         ImageView mealImage;
@@ -276,15 +267,12 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             purchaseRef = dBase.collection("purchases");
             purchasedCook.setText(cookName);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
-                        int pos = getBindingAdapterPosition();
+            itemView.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getBindingAdapterPosition();
 
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
-                        }
+                    if (pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(pos);
                     }
                 }
             });

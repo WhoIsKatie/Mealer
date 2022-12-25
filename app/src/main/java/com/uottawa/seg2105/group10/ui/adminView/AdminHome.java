@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.ui.adminView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Complaint;
 import com.uottawa.seg2105.group10.ui.ComplaintView;
+import com.uottawa.seg2105.group10.ui.Landing;
 import com.uottawa.seg2105.group10.ui.recyclers.Complaint_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
@@ -22,10 +23,13 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
     private AdminHomeViewModel model;
     public ArrayList<Complaint> complaints;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore dBase;
-    private static final String TAG = "AdminHome";
     RecyclerView recyclerView;
+
+    @Override
+    // Turns off the android back button => User cannot go back to login page unless logged out
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,13 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
         complaints = new ArrayList<>();
         recyclerView = findViewById(R.id.complaint_recycler_view);
+        Button logout = findViewById(R.id.adminSignOutButt);
 
-        //TODO: implement logout button
+        logout.setOnClickListener(view -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(AdminHome.this, Landing.class));
+            finish();
+        });
     }
 
     @Override

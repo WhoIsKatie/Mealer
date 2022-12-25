@@ -21,7 +21,7 @@ public class Mealer extends Application {
     private static FirebaseFirestore dBase;
     private static final DocumentSnapshot[] userSnapshot = new DocumentSnapshot[1];
     private static String type;
-    private static User user;
+    private static final User[] user = new User[1];
 
     /**
      * Called when the application starts - before any other application objects are created.
@@ -32,7 +32,7 @@ public class Mealer extends Application {
 
         mAuth = FirebaseAuth.getInstance();
         dBase = FirebaseFirestore.getInstance();
-        if (getUser() != null) type = user.getType();
+        if (getUser() != null) type = user[0].getType();
     }
 
     /** Called when the device configuration changes while the component is running.
@@ -65,9 +65,9 @@ public class Mealer extends Application {
                     Log.d(TAG, "DocumentSnapshot data: " + userSnapshot[0].getData());
                     type = userSnapshot[0].getString("type");
                     if (type == "Cook") {
-                        user = userSnapshot[0].toObject(Cook.class);
+                        user[0] = userSnapshot[0].toObject(Cook.class);
                     } else if (type == "Client") {
-                        user = userSnapshot[0].toObject(Client.class);
+                        user[0] = userSnapshot[0].toObject(Client.class);
                     }
                 }
             }
@@ -77,10 +77,11 @@ public class Mealer extends Application {
     public User getUser() {
         if (mAuth.getCurrentUser() != null)
             initializeUser();
-        return user;
+        return user[0];
     }
 
     public String getType() {
         return type;
     }
+
 }

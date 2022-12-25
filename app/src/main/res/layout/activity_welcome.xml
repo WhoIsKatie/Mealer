@@ -25,21 +25,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.839" />
 
-    <ImageButton
-        android:id="@+id/profileButt"
-        android:layout_width="50dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="40dp"
-        android:background="#00FFFFFF"
-        android:contentDescription="@string/Profile"
-        android:paddingStart="10dp"
-        android:paddingTop="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.002"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/person" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -132,30 +117,5 @@
             android:textColor="@color/black" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/isSuspended"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_black"
-        android:textColor="@color/black"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/suspensionDetails"
-        android:layout_width="310dp"
-        android:layout_height="48dp"
-        android:fontFamily="@font/roboto_bold"
-        android:gravity="center|top"
-        android:textColor="@color/black_overlay"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isSuspended"
-        app:layout_constraintVertical_bias="0.152" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
