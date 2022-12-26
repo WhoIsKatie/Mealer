@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class MealView extends AppCompatActivity {
 
     private static final String TAG = "MEAL_VIEW";
-    private DocumentSnapshot document;
+    private DocumentSnapshot cookSnapshot, clientSnapshot;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
     DocumentReference firebaseMeal, userRef;
@@ -82,12 +82,12 @@ public class MealView extends AppCompatActivity {
         userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
         userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                document = task.getResult();
+                cookSnapshot = task.getResult();
                 // if user specific document exists,
                 // set text field to display user type (Client, Cook)
-                if (document.exists()) {
-                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    type = document.getString("type");
+                if (cookSnapshot.exists()) {
+                    Log.d(TAG, "DocumentSnapshot data: " + cookSnapshot.getData());
+                    type = cookSnapshot.getString("type");
                     switch (type) {
                         case "Client":
                             clientUID = mAuth.getCurrentUser().getUid();
@@ -144,20 +144,20 @@ public class MealView extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            cookSnapshot = task.getResult();
+                            if (cookSnapshot.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + cookSnapshot.getData());
                                 String email, description, address, cookFirstName, cookLastName;
                                 double ratingSum, numReviews;
                                 String completedOrders;
-                                numReviews = document.getDouble("numReviews");
-                                ratingSum = document.getDouble("ratingSum");
-                                address = document.getString("address");
-                                cookFirstName = document.getString("firstName");
-                                cookLastName = document.getString("lastName");
-                                email = document.getString("email");
-                                description = document.getString("description");
-                                completedOrders = String.valueOf(document.get("completedOrders"));
+                                numReviews = cookSnapshot.getDouble("numReviews");
+                                ratingSum = cookSnapshot.getDouble("ratingSum");
+                                address = cookSnapshot.getString("address");
+                                cookFirstName = cookSnapshot.getString("firstName");
+                                cookLastName = cookSnapshot.getString("lastName");
+                                email = cookSnapshot.getString("email");
+                                description = cookSnapshot.getString("description");
+                                completedOrders = String.valueOf(cookSnapshot.get("completedOrders"));
                                 intent.putExtra("numReviews", numReviews);
                                 intent.putExtra("ratingSum", ratingSum);
                                 intent.putExtra("firstName", cookFirstName);
@@ -221,16 +221,16 @@ public class MealView extends AppCompatActivity {
                 userRef = dBase.collection("users").document(cookUID);
                 userRef.get().addOnCompleteListener(cookTask -> {
                     if (cookTask.isSuccessful()) {
-                        document = cookTask.getResult();
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            cookName = document.getString("firstName") + " " + document.getString("lastName");
+                        cookSnapshot = cookTask.getResult();
+                        if (cookSnapshot.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + cookSnapshot.getData());
+                            cookName = cookSnapshot.getString("firstName") + " " + cookSnapshot.getString("lastName");
 
                             dBase.collection("users").document(clientUID).get().addOnCompleteListener(clientTask -> {
-                                if (cookTask.isSuccessful()) {
-                                    document = cookTask.getResult();
-                                    if (document.exists()) {
-                                        clientName = document.getString("firstName") + " " + document.getString("lastName");
+                                if (clientTask.isSuccessful()) {
+                                    clientSnapshot = clientTask.getResult();
+                                    if (clientSnapshot.exists()) {
+                                        clientName = clientSnapshot.getString("firstName") + " " + clientSnapshot.getString("lastName");
 
                                         String pattern = "yy/MM/dd-HH:mm";
                                         pickUpTime = pickupTimeText.getText().toString();

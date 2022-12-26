@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.uottawa.seg2105.group10.Mealer;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Purchase;
+import com.uottawa.seg2105.group10.repositories.User;
 import com.uottawa.seg2105.group10.ui.Landing;
 import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
@@ -25,10 +27,11 @@ import java.util.Objects;
 
 public class ClientHome extends AppCompatActivity implements RecyclerViewInterface {
 
-    private ClientHomeViewModel model;
+    private PurchasesViewModel model;
     //initializing variables or instances
     protected RecyclerView recyclerView;
     private ArrayList<Purchase> purchases;
+    private User user;
     String clientName;
 
     @Override
@@ -41,17 +44,20 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clienthome);
-        model = new ViewModelProvider(this).get(ClientHomeViewModel.class);
+        model = new ViewModelProvider(this).get(PurchasesViewModel.class);
 
         // Initialize Firebase Authority and Firebase Firestore objects
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+        purchases = new ArrayList<>();
         recyclerView = findViewById(R.id.clientRecyclerView);
-        ImageButton searchButton = findViewById(R.id.searchButton);
+        ImageButton searchButton = findViewById(R.id.searchButt);
         Button logout = findViewById(R.id.clientSignOutButt);
         TextView clientNameHeadline = findViewById(R.id.clientNameHeadline);
 
-        clientName = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName();
+        Mealer app = (Mealer) getApplicationContext();
+
+        clientName = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName() + "'s Purchases";
         clientNameHeadline.setText(clientName);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +77,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     @Override
     protected void onStart() {
         super.onStart();
-        purchases = new ArrayList<>();
+        purchases.clear();
         setUpPurchaseModels();
     }
 

@@ -17,7 +17,7 @@ public class Purchase {
     private final String cookUID, clientUID, mealID, cookName, pickupTime, requestTime, clientName;
     private String imageID = null;
     private @PurchaseStatus String status;
-    private DocumentReference complaint;
+    private DocumentReference complaint = null;
     private FirebaseFirestore dBase;
     private static final String TAG = "Purchase Class";
 
@@ -35,9 +35,7 @@ public class Purchase {
         this.mealID = mealName;                     // the meal name
         this.cookName = cookName;
         this.imageID = imageID;
-        complaint = null;
         this.clientName = clientName;
-        complaint = null;
         this.status = status.toString();
         this.pickupTime = pickupTime;
         if(!Objects.equals(cookName, "")) {
@@ -70,7 +68,7 @@ public class Purchase {
     public DocumentReference getComplaint() {return complaint;}
     public String getClientName(){return clientName;}
     public String getStatus(){return status;}
-    public String getPickUpTime() {return pickupTime;}
+    public String getPickupTime() {return pickupTime;}
     public String getRequestTime() {return requestTime;}
     public String getImageID(){return imageID;}
 

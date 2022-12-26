@@ -1,19 +1,26 @@
 package com.uottawa.seg2105.group10.ui;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.uottawa.seg2105.group10.Mealer;
+import com.uottawa.seg2105.group10.repositories.User;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
-    private MutableLiveData<FirebaseUser> user;
+    private MutableLiveData<User> user;
 
-    public LiveData<FirebaseUser> login(String email, String pass) {
+    public LoginViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public LiveData<User> login(String email, String pass) {
         user = new MutableLiveData<>();
         loginFirebase(email, pass);
         return user;
@@ -27,8 +34,11 @@ public class LoginViewModel extends ViewModel {
                     if (task.isSuccessful()) {
                         // Sign in success
                         Log.d("LoginViewModel", "signInWithEmail:success");
-                        user.setValue(mAuth.getCurrentUser());
-
+                        Mealer app = (Mealer) getApplication().getApplicationContext();
+                        app.initializeUser(result -> {
+                            Log.d("TAG", result.getFirstName());
+                            user.setValue(result);
+                        });
                     } else
                         Log.w("LoginViewModel", "signInWithEmail:failure", task.getException());
                 });

@@ -44,7 +44,7 @@ public class Register4 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register4);
+        setContentView(R.layout.register_fragment3_cook);
 
         // Initialize FirebaseAuth and FirebaseStorage objects
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -79,9 +79,11 @@ public class Register4 extends AppCompatActivity {
 
                 user = new Cook(data);
                 userRef.set(user);
+                mAuth.signOut();
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register4.this, Login.class));
+                finish();
             }
 
 
@@ -98,6 +100,7 @@ public class Register4 extends AppCompatActivity {
 
                 // Redirects user to login activity WITHOUT completing registration activities
                 startActivity(new Intent(Register4.this, Login.class));
+                finish();
             }
 
         });

@@ -20,15 +20,14 @@ public class Cook extends User{
 	 *  Do not use locally unless you want an empty cook user.
 	 */
 	public Cook() {
-		super("Cook Class", "Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
+		super("Tess", "Harper", "tessharp@outlook.com", "pass123!", "Cook", "");
 		ratingSum = 0.0;
 		completedOrders = 0;
 		numReviews = 0;
 	}
 
 	public Cook(Map<String, String> data) {
-		super("Cook Class",
-				data.get("firstName"),
+		super(data.get("firstName"),
 				data.get("lastName"),
 				data.get("email"),
 				data.get("password"),

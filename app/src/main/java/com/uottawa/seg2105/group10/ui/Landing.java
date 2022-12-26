@@ -21,7 +21,7 @@ public class Landing extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_landing);
 
         Button registrationButt = findViewById(R.id.registrationButt);
         Button signInButt = findViewById(R.id.signInButt);

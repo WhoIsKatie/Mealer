@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_yellow"
+    tools:context=".ui.Register1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/registerGreeting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:fontFamily="@font/roboto_black"
+            android:scaleX="1"
+            android:text="@string/hello"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="60sp" />
+
+        <TextView
+            android:id="@+id/userTypeInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="First things first, let's set up your account! \nTell us who you are."
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/cookOptionButt"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:fontFamily="@font/roboto"
+                android:text="Cook"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/black"
+                app:cornerRadius="50dp" />
+
+            <Button
+                android:id="@+id/clientOptionButt"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/roboto"
+                android:text="Client"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/black"
+                app:cornerRadius="50dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

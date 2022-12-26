@@ -13,7 +13,7 @@ public class Admin extends User{
 
     //class cannot be instantiated
     private Admin(String firstName, String lastName, String email, String password, String type) {
-        super("Admin Class", firstName, lastName, email, password, type, adminUid);
+        super(firstName, lastName, email, password, type, adminUid);
     }
 
     // Returns the only UserManager instance available

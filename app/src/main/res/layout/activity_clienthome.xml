@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/black">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,57 +24,88 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/clientSignOutButt"
-                        android:layout_width="61dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="top"
-                        android:background="#00FFFFFF"
-                        android:fontFamily="@font/roboto_black"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:includeFontPadding="false"
-                        android:padding="0dp"
-                        android:shadowColor="#00FFFFFF"
-                        android:text="@string/logoff"
-                        android:textColor="@color/black_overlay"
-                        android:textSize="10sp"
-                        app:backgroundTint="#00F9D706"
-                        app:elevation="0dp"
-                        app:iconTint="#00FFFFFF"
-                        app:rippleColor="#00FFFFFF" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="50dp"
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="312dp"
-                        android:layout_height="75dp"
-                        app:srcCompat="@drawable/home_logo" />
+                        android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/searchButton"
-                        android:layout_width="29dp"
-                        android:layout_height="28dp"
-                        android:background="#00FFFFFF"
-                        android:scaleType="centerInside"
-                        app:srcCompat="@drawable/search_icon" />
+                        <Button
+                            android:id="@+id/clientSignOutButt"
+                            android:layout_width="80dp"
+                            android:layout_height="36dp"
+                            android:background="#00FFFFFF"
+                            android:fontFamily="@font/roboto_black"
+                            android:padding="0dp"
+                            android:shadowColor="#00FFFFFF"
+                            android:text="@string/logoff"
+                            android:textColor="@color/black_overlay"
+                            android:textSize="11sp"
+                            app:backgroundTint="#00F9D706"
+                            app:elevation="0dp"
+                            app:iconTint="#00FFFFFF"
+                            app:rippleColor="#00FFFFFF" />
+
+                        <ImageView
+                            android:id="@+id/clientHomeLogo"
+                            android:layout_width="254dp"
+                            android:layout_height="50dp"
+                            app:srcCompat="@drawable/home_logo" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginBottom="13dp"
+                        android:background="@color/mustard" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/clientNameHeadline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_black"
+                            android:gravity="center_vertical"
+                            android:text="Client's Purchases"
+                            android:textColor="@color/black"
+                            android:textSize="24sp" />
+
+                        <ImageButton
+                            android:id="@+id/searchButt"
+                            android:layout_width="58dp"
+                            android:layout_height="53dp"
+                            android:background="#00FFFFFF"
+                            android:padding="15dp"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@drawable/search_icon"
+                            app:tint="@color/black" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/clientNameHeadline"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:fontFamily="@font/roboto_black"
-                android:gravity="center_horizontal"
-                android:text="Your Purchases"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/black" />
+            <View
+                android:id="@+id/headerShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="5dp"
+                android:background="@color/mustard" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/clientRecyclerView"

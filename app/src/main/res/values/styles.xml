@@ -10,4 +10,9 @@
         <item name="colorControlActivated">@color/mustard</item>
     </style>
 
+    <style name="simple_spinner_dropdown_item" parent="Theme.AppCompat">
+        <item name="fontFamily">@font/roboto_black</item>
+        <item name="android:fontFamily">@font/roboto_black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

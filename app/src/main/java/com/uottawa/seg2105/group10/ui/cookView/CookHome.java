@@ -43,7 +43,7 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
         meals = new ArrayList<>();
         recyclerView = findViewById(R.id.mealsRecyclerView);
 
-        Button addMeal = findViewById(R.id.addMeal);
+        ImageButton addMeal = findViewById(R.id.addMealButt);
         Button logout = findViewById(R.id.cookSignOutButt);
         ImageButton profile = findViewById(R.id.cookProfile);
 
@@ -58,7 +58,9 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
         });
 
         profile.setOnClickListener(view -> {
-            startActivity(new Intent(CookHome.this, Profile.class));
+            Intent intent = new Intent(CookHome.this, Profile.class);
+            intent.putExtra("type", "Cook");
+            startActivity(intent);
         });
     }
 

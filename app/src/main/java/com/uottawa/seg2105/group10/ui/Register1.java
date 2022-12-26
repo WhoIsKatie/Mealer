@@ -23,7 +23,7 @@ public class Register1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register1);
+        setContentView(R.layout.register_fragment1);
 
         //creating option based of off pulled id's
         cookOption = findViewById(R.id.cookOptionButt);

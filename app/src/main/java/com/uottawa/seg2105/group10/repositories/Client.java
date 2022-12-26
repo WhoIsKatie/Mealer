@@ -11,12 +11,11 @@ public class Client extends User {
      * Do not use locally unless you want an empty client user.
      */
     public Client() {
-        super("Client Class", "", "", "", "", "Client", "");
+        super("", "", "", "", "Client", "");
     }
 
     public Client(Map<String, String> data) {
-        super("Client Class",
-                data.get("firstName"),
+        super(data.get("firstName"),
                 data.get("lastName"),
                 data.get("email"),
                 data.get("password"),

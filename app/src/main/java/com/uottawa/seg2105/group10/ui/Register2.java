@@ -46,7 +46,7 @@ public class Register2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register2);
+        setContentView(R.layout.register_fragment2);
 
         // Initialize Firebase Authority and Firebase Firestore objects
         mAuth = FirebaseAuth.getInstance();
@@ -71,19 +71,19 @@ public class Register2 extends AppCompatActivity {
 
                 // collecting user information from text fields
                 firstNameField = (TextInputEditText)findViewById(R.id.firstNameEditText);
-                String firstName = firstNameField.getText().toString();
+                String firstName = firstNameField.getText().toString().trim();
 
                 lastNameField = (TextInputEditText)findViewById(R.id.lastNameEditText);
-                String lastName = lastNameField.getText().toString();
+                String lastName = lastNameField.getText().toString().trim();
 
                 emailField = (TextInputEditText)findViewById(R.id.emailEditText);
-                String email = emailField.getText().toString();
+                String email = emailField.getText().toString().trim();
 
                 passField = (TextInputEditText)findViewById(R.id.passEditText);
-                String password = passField.getText().toString();
+                String password = passField.getText().toString().trim();
 
                 addressField = (TextInputEditText)findViewById(R.id.addressEditText);
-                String address = addressField.getText().toString();
+                String address = addressField.getText().toString().trim();
 
                 if(!validateFirstName() | !validateLastName() | !validateEmail() | !validatePassword() | !validateAddress()) {
                     return;
@@ -99,7 +99,7 @@ public class Register2 extends AppCompatActivity {
                                     Log.d(TAG, "createUserWithEmail:success");
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     UserProfileChangeRequest profileCompletion = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(data.get("firstName") + " " + data.get("lastName")).build();
+                                            .setDisplayName(firstName + " " + lastName).build();
                                     if (user != null)
                                         user.updateProfile(profileCompletion);
                                     updateUI(user);
@@ -123,6 +123,7 @@ public class Register2 extends AppCompatActivity {
                                     data.put("password", password);
                                     data.put("address", address);
                                     data.put("uid", account.getUid());
+
 
                                     // Directs user to step 2 of registration process:
                                     // If user is NOT a cook, directs to Register3 activity.

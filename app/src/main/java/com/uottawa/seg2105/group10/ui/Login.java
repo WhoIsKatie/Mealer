@@ -20,9 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.uottawa.seg2105.group10.Mealer;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Cook;
+import com.uottawa.seg2105.group10.repositories.User;
 import com.uottawa.seg2105.group10.ui.adminView.AdminHome;
 import com.uottawa.seg2105.group10.ui.clientView.ClientHome;
 import com.uottawa.seg2105.group10.ui.cookView.CookHome;
@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private String email, password;
-    private static Cook c;
+    private static User user;
 
     TextInputLayout usernameLayout, passwordLayout;
 
@@ -62,31 +62,25 @@ public class Login extends AppCompatActivity {
         usernameLayout = findViewById(R.id.loginUserLayout);
         passwordLayout = findViewById(R.id.loginPassLayout);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // retrieving user input from fields for username and password
-                email = login_username.getText().toString().trim();
-                password = login_password.getText().toString().trim();
+        login.setOnClickListener(v -> {
+            // retrieving user input from fields for username and password
+            email = login_username.getText().toString().trim();
+            password = login_password.getText().toString().trim();
 
-                if(!validateEmail() | !validatePassword()) {
-                    return;
-                }
-                model.login(email, password).observe(Login.this, user -> {
-                    if (user == null)
-                        Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                    updateUI(user);
-                });
+            if(!validateEmail() | !validatePassword()) {
+                return;
             }
+            model.login(email, password).observe(Login.this, user -> {
+                if (user == null)
+                    Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                updateUI(user);
+            });
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // if back button is clicked, login activity ends
-                startActivity(new Intent(Login.this, Landing.class));
-                finish();
-            }
+        back.setOnClickListener(view -> {
+            // if back button is clicked, login activity ends
+            startActivity(new Intent(Login.this, Landing.class));
+            finish();
         });
     }
 
@@ -100,21 +94,18 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void updateUI(FirebaseUser user) {
+    public void updateUI(User user) {
         if (user != null) {
             // if valid user is passed, they have signed in
             // direct user to welcome page and notify with toast
             Toast.makeText(this, "Welcome back to Mealer!", Toast.LENGTH_LONG).show();
-            Mealer app = (Mealer) getApplicationContext();
-            app.initializeUser();
-            switch (app.getType()) {
+            switch (user.getType()) {
                 case "Admin":
                     startActivity(new Intent(this, AdminHome.class));
                     finish();
                     break;
                 case "Cook":
-                    c = (Cook) app.getUser();
-                    if (!c.isSuspended()) {
+                    if (!((Cook) user).isSuspended()) {
                         startActivity(new Intent(this, CookHome.class));
                         finish();
                     }
@@ -134,15 +125,15 @@ public class Login extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = requireActivity().getLayoutInflater();
-            View v = inflater.inflate(R.layout.activity_suspension_dialog, null);
+            View v = inflater.inflate(R.layout.suspension_dialog, null);
             TextView suspensionDeets = v.findViewById(R.id.suspensionDetails);
             okButt = v.findViewById(R.id.okButt);
 
-            if (c.getSuspensionEnd() == null)
+            if (((Cook) user).getSuspensionEnd() == null)
                 suspensionDeets.setText(R.string.perm_suspend_message);
             else {
                 String msg = "Your suspension will be lifted by " +
-                        LocalDateTime.parse(c.getSuspensionEnd()).truncatedTo(ChronoUnit.HOURS);
+                        LocalDateTime.parse(((Cook) user).getSuspensionEnd()).truncatedTo(ChronoUnit.HOURS);
                 suspensionDeets.setText(msg);
             }
 

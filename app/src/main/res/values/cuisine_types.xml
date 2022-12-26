@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cuisines">
+        <item>Korean</item>
+        <item>Thai</item>
+        <item>Asian</item>
+        <item>African</item>
+        <item>Mexican</item>
+        <item>Greek</item>
+        <item>Middle Eastern</item>
+        <item>Vietnamese</item>
+        <item>Caribbean</item>
+        <item>Japanese</item>
+        <item>Italian</item>
+        <item>Jamaican</item>
+        <item>Lebanese</item>
+        <item>American</item>
+        <item>Mediterranean</item>
+        <item>Western</item>
+        <item>French</item>
+        <item>Chinese</item>
+    </string-array>
+</resources>

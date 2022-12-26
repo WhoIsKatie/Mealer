@@ -15,7 +15,7 @@ public class Del4DelMainTests {
     @Test
     public void testgetPickUpTime() {
 
-        assertEquals("Your getPickUpTime method is incorrect", "6:00", purchaseForTest.getPickUpTime());
+        assertEquals("Your getPickUpTime method is incorrect", "6:00", purchaseForTest.getPickupTime());
 
 
     }

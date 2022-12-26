@@ -33,7 +33,7 @@ public class ComplaintView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complaintview);
+        setContentView(R.layout.activity_complaint_view);
 
         dBase = FirebaseFirestore.getInstance();
 

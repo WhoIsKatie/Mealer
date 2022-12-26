@@ -78,39 +78,19 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         if (type.equals("Client")) {
             ClientViewHolder clientViewHolder = (ClientViewHolder) holder;
-            cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
-                    //cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
-            String purchasedName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getMealID();
-            String clientPickupTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getPickUpTime();
-            String purchaseStatus = purchases.get(clientViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
 
-            cookRef = dBase.collection("users").document(cookUID);
-            cookRef.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        cookName = document.getString("firstName") + " " + document.getString("lastName");
-                    }
-                }});
+            //cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
+            cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
+            String purchasedMealName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getMealID();
+            String pickUpTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getPickupTime();
+            String status = purchases.get(clientViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
 
-            userRef.get().addOnCompleteListener(task->{
-                if (task.isSuccessful()) {
-                    document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        clientName = document.getString("firstName") + " " + document.getString("lastName");
-                    }
-                }
-            });
-
-            clientViewHolder.purchasedName.setText(purchasedName);
+            clientViewHolder.purchasedName.setText(purchasedMealName);
             clientViewHolder.purchasedCook.setText(cookName);
-            clientViewHolder.clientPickupTime.setText(clientPickupTime);
-            clientViewHolder.purchaseStatus.setText(purchaseStatus);
+            clientViewHolder.clientPickupTime.setText(pickUpTime);
+            clientViewHolder.purchaseStatus.setText(status);
 
-
-            switch (purchaseStatus) {
+            switch (status) {
                 case "PENDING":
                     clientViewHolder.complain.setVisibility(View.GONE);
                     clientViewHolder.rateCook.setVisibility(View.GONE);
@@ -121,23 +101,11 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     clientViewHolder.rateCook.setVisibility(View.GONE);
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.red));
                     break;
-                case " ACCEPTED":
+                case "ACCEPTED":
                     clientViewHolder.purchaseStatus.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
                     break;
             }
 
-            final String[] imageID = {""};
-            cookRef.collection("meals").document(purchasedName).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Object result = task.getResult().get("imageID");
-                    if (result != null) {
-                        imageID[0] = result.toString();
-                        purchases.get(clientViewHolder.getBindingAdapterPosition()).setImageID(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
-                    }
-                } else {
-                    Log.d(TAG, "Could not fetch mealID");
-                }
-            });
             if (purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID() != null) {
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -150,7 +118,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             String purchaseStatus = purchases.get(cookViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
             cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getMealID());
             cookViewHolder.clientName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getCookName());
-            cookViewHolder.pickUpTime.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getPickUpTime());
+            cookViewHolder.pickUpTime.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getPickupTime());
             if(purchaseStatus.equalsIgnoreCase("accepted")){
                 cookViewHolder.approveButt.setVisibility(View.GONE);
                 cookViewHolder.rejectButt.setVisibility(View.GONE);
@@ -265,7 +233,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             complain = itemView.findViewById(R.id.complain);
             rateCook = itemView.findViewById(R.id.rateCook);
             purchaseRef = dBase.collection("purchases");
-            purchasedCook.setText(cookName);
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {
@@ -296,7 +263,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         public void submitComplaint(){
             dialogBuilder = new AlertDialog.Builder(context);
-            final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.activity_complaintpopup, null);
+            final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.complaint_dialog, null);
 
             titleComplaint = complaintPopup.findViewById(R.id.titleComplaint);
             complaint = complaintPopup.findViewById(R.id.complaint);
@@ -345,7 +312,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         public void rateYourCook(){
             AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(context);
-            final View ratePopup = LayoutInflater.from(context).inflate(R.layout.activity_ratecook, null);
+            final View ratePopup = LayoutInflater.from(context).inflate(R.layout.ratecook_dialog, null);
 
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
 

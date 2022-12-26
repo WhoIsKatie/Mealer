@@ -38,7 +38,7 @@ public class Register3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register3);
+        setContentView(R.layout.register_fragment3_client);
 
         nextButt = findViewById(R.id.clientSubmitButt);
         login = findViewById(R.id.reg3LoginButt);
@@ -83,6 +83,7 @@ public class Register3 extends AppCompatActivity {
 
                 user = new Client(data);
                 userRef.set(user);
+                mAuth.signOut();
 
                 // Redirects user to login activity
                 startActivity(new Intent(Register3.this, Login.class));
@@ -101,6 +102,7 @@ public class Register3 extends AppCompatActivity {
 
                 // Redirects user to login activity WITHOUT completing registration activities
                 startActivity(new Intent(Register3.this, Login.class));
+                finish();
             }
 
         });
