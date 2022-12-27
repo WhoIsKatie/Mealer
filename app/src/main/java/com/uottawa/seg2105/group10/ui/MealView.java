@@ -168,6 +168,7 @@ public class MealView extends AppCompatActivity {
                                 intent.putExtra("rating", ratingSum);
                                 intent.putExtra("completedOrders", completedOrders );
                                 intent.putExtra("type", type);
+                                intent.putExtra("cookUID", cookUID);
                                 startActivity(intent);
                             }
                         }

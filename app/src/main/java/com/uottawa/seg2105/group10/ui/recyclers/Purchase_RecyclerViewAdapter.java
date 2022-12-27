@@ -146,7 +146,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             pickUpTime = itemView.findViewById(R.id.compPickUpTimeTextView);
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
-            approvedMessage = itemView.findViewById(R.id.textView4);
+            //approvedMessage = itemView.findViewById(R.id.textView4);
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {
@@ -160,9 +160,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
             approveButt.setOnClickListener(v -> {
                 String purchaseStatus = "ACCEPTED";
-                approveButt.setVisibility(View.GONE);
-                rejectButt.setVisibility(View.GONE);
-                approvedMessage.setVisibility(View.VISIBLE);
                 firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
                 firebasePurchase.update("status", purchaseStatus)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -186,6 +183,7 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                         }
                     }
                 });
+                notifyItemChanged(getBindingAdapterPosition());
             });
             rejectButt.setOnClickListener(v -> {
                 String purchaseStatus = "REJECTED";
@@ -316,7 +314,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
             rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
 
-            //TODO: implement rating bar
             rate = (EditText) ratePopup.findViewById(R.id.rate);
             submitButton2 =(Button) ratePopup.findViewById(R.id.submitButton2);
             cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);

@@ -36,7 +36,7 @@ public class Purchase {
         this.cookName = cookName;
         this.imageID = imageID;
         this.clientName = clientName;
-        this.status = status.toString();
+        this.status = status;
         this.pickupTime = pickupTime;
         if(!Objects.equals(cookName, "")) {
             dBase = FirebaseFirestore.getInstance();

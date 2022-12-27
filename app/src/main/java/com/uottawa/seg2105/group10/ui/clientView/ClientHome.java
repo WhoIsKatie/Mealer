@@ -82,7 +82,7 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
     }
 
     private void setUpPurchaseModels() {
-        model.getPurchases().observe(ClientHome.this, list -> {
+        model.getPurchases("Client").observe(ClientHome.this, list -> {
             purchases.addAll(list);
             updateView();
         });

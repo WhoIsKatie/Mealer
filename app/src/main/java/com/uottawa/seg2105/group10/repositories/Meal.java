@@ -16,7 +16,7 @@ public class Meal {
 	ArrayList<String> cuisine;
 	ArrayList<String> ingredients, allergens;
 	String imageID;
-	public boolean offered = true; 				// by default the meal is offered
+	public boolean offerStatus = true; 				// by default the meal is offered
 
 	protected final FirebaseFirestore dBase = FirebaseFirestore.getInstance();
 	protected final static String TAG = "Meal";
@@ -43,8 +43,8 @@ public class Meal {
 	 */
 	public Meal() {}
 
-	public void offerMeal(){offered = true;}
-	public void stopOffering() {offered = false;}
+	public void offerMeal(){offerStatus = true;}
+	public void stopOffering() {offerStatus = false;}
 
 	//getters
 	public String getMealName(){return mealName;}
@@ -55,7 +55,7 @@ public class Meal {
 	public ArrayList<String> getAllergens() {return allergens;}
 	public float getPrice() {return price;}
 	public String getImageID(){return imageID;}
-	public Boolean getOfferStatus(){return offered;}
+	public Boolean getOfferStatus(){return offerStatus;}
 	public String getCookUID(){return cookUID;}
 
 	//setters

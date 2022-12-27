@@ -3,15 +3,15 @@ package com.uottawa.seg2105.group10.ui.cookView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.uottawa.seg2105.group10.Mealer;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Cook;
 import com.uottawa.seg2105.group10.repositories.Purchase;
@@ -28,9 +28,9 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     private PurchasesViewModel model;
     public ArrayList<Purchase> purchases;
     private static final String TAG = "Profile";
-    RecyclerView recyclerView;
-
-    private User cookUser, currentUser;
+    private RecyclerView recyclerView;
+    private TextView cookName, cookDescription, cookAddress, cookCompletedOrders;
+    private RatingBar cookRating;
     private String type;
 
     @Override
@@ -41,39 +41,33 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         type = getIntent().getStringExtra("type");
 
-        TextView purchaseTextView = findViewById(R.id.textView);
+
         recyclerView = findViewById(R.id.purchaseRecyclerView);
-        TextView cookName = findViewById(R.id.cookNameTextView);
-        TextView cookDescription = findViewById(R.id.descProfTextView);
-        TextView cookAddress = findViewById(R.id.addressTextView);
-        TextView cookEmail = findViewById(R.id.emailAddressTextView);
-        TextView cookCompletedOrders = findViewById(R.id.numOfMealsSoldTextView);
-        TextView cookRating = findViewById(R.id.ratingTextView);
+        cookName = findViewById(R.id.cookNameTextView);
+        cookDescription = findViewById(R.id.cookDescription);
+        cookAddress = findViewById(R.id.addressTextView);
+        cookCompletedOrders = findViewById(R.id.numMealsSold);
+        cookRating = findViewById(R.id.cookRating);
 
-        MutableLiveData<User> tempUser = new MutableLiveData<>();
-        Mealer app = (Mealer) getApplication().getApplicationContext();
-        app.initializeUser(result -> {
-            Log.d("TAG", result.getFirstName());
-            currentUser = result;
-            if (Objects.equals(type, "Client")) {
-                purchaseTextView.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
+        model.getUser("").observe(Profile.this, user -> {
+            if (user == null)
+                Log.d("TAG", "failed to retrieve user object.");
+            else {
+                if (Objects.equals(type, "Client")) {
+                    //TextView requestsHeader = findViewById(R.id.requestsHeader);
+                    CardView purchaseRequestView = findViewById(R.id.purchaseRequestView);
+                    //requestsHeader.setVisibility(View.GONE);
+                    purchaseRequestView.setVisibility(View.GONE);
+                    //recyclerView.setVisibility(View.GONE);
+                    String cookUID = getIntent().getStringExtra("cookUID");
 
-                app.getUser(getIntent().getStringExtra("cookUID"), cookResult -> {
-                    Log.d("TAG", cookResult.getFirstName());
-                    cookUser = cookResult;
-                });
-            } else cookUser = currentUser;
-
-            String name = cookUser.getFirstName() + " " + cookUser.getLastName();
-            cookName.setText(name);
-            cookDescription.setText(((Cook)cookUser).getDescription());
-            cookAddress.setText(((Cook)cookUser).getAddress());
-            cookEmail.setText(((Cook)cookUser).getEmail());
-            String orders = ((Cook)cookUser).getCompletedOrders() + "";
-            cookCompletedOrders.setText(orders);
-            String rating = ((Cook)cookUser).getRating() + "";
-            cookRating.setText(rating);
+                    model.getUser(cookUID).observe(Profile.this, cook -> {
+                        if (cook == null)
+                            Log.d("TAG", "failed to retrieve user object.");
+                        updateTextViews(cook);
+                    });
+                } else updateTextViews(user);
+            }
         });
         purchases = new ArrayList<>();
     }
@@ -87,6 +81,16 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
         }
     }
 
+    private void updateTextViews(User user) {
+        String name = user.getFirstName() + " " + user.getLastName();
+        cookName.setText(name);
+        cookDescription.setText(((Cook)user).getDescription());
+        cookAddress.setText(((Cook)user).getAddress());
+        String orders = ((Cook)user).getCompletedOrders() + " orders";
+        cookCompletedOrders.setText(orders);
+        cookRating.setRating((float) ((Cook) user).getRating());
+    }
+
     private void updateView() {
         Purchase_RecyclerViewAdapter adapter = new Purchase_RecyclerViewAdapter("Cook", this, purchases, this);
         recyclerView.setAdapter(adapter);
@@ -94,7 +98,7 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     }
 
     private void setUpPurchaseModels() {
-        model.getPurchases().observe(Profile.this, list -> {
+        model.getPurchases("Cook").observe(Profile.this, list -> {
             purchases.addAll(list);
             updateView();
         });

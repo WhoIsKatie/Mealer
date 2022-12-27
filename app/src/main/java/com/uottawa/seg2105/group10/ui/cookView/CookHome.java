@@ -45,7 +45,7 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
 
         ImageButton addMeal = findViewById(R.id.addMealButt);
         Button logout = findViewById(R.id.cookSignOutButt);
-        ImageButton profile = findViewById(R.id.cookProfile);
+        ImageButton profile = findViewById(R.id.cookProfileView);
 
         addMeal.setOnClickListener(view -> {
             startActivity(new Intent(CookHome.this, AddMeal.class));

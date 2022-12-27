@@ -86,9 +86,9 @@ public class Mealer extends Application {
         userRef.get().addOnSuccessListener(snapshot -> {
             Log.d(TAG, "DocumentSnapshot data: " + snapshot.getData());
             User result;
-            if (Objects.equals(snapshot.getString("Type"), "Cook"))
+            if (Objects.equals(snapshot.getString("type"), "Cook"))
                 result = snapshot.toObject(Cook.class);
-            else if (Objects.equals(snapshot.getString("Type"), "Admin"))
+            else if (Objects.equals(snapshot.getString("type"), "Admin"))
                 result = Admin.getInstance();
             else
                 result = snapshot.toObject(Client.class);
