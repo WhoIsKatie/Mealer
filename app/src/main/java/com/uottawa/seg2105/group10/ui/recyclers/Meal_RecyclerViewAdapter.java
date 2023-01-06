@@ -2,6 +2,7 @@ package com.uottawa.seg2105.group10.ui.recyclers;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -34,7 +35,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
@@ -45,7 +46,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     DocumentReference firebaseMeal, userRef;
     private String type;
 
-    public Meal_RecyclerViewAdapter(String type, Context context, ArrayList<Meal> meals, RecyclerViewInterface recyclerViewInterface){
+    public Meal_RecyclerViewAdapter(String type, Context context, ArrayList<Meal> meals, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.meals = meals;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -71,7 +72,7 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
-        if(type.equals("Client")) {
+        if (type.equals("Client")) {
             SearchViewHolder searchViewHolder = (SearchViewHolder) holder;
             String cookUID = meals.get(searchViewHolder.getBindingAdapterPosition()).getCookUID();
             userRef = dBase.collection("users").document(cookUID);
@@ -84,17 +85,19 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                         Double ratingSum, numReviews;
                         String rating;
                         String address;
-                        if(document.getDouble("ratingSum") != null){
+                        if (document.getDouble("ratingSum") != 0) {
                             ratingSum = document.getDouble("ratingSum");
                             numReviews = document.getDouble("numReviews");
                             rating = decfor.format(ratingSum / numReviews);
-                        }
-                        else{
-                            rating = "Undetermined";
+                            searchViewHolder.rating.setText(rating);
+                        } else {
+                            searchViewHolder.ratingSubhead.setVisibility(View.GONE);
+                            searchViewHolder.rating.setVisibility(View.GONE);
+                            //searchViewHolder.locationImg.setmar
                         }
                         address = document.getString("address");
                         searchViewHolder.location.setText(address);
-                        searchViewHolder.rating.setText(rating);
+
                     }
                 }
             });
@@ -103,40 +106,40 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             BigDecimal bd = new BigDecimal(price + "");
             String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
             searchViewHolder.price.setText(textPrice);
-            if(meals.get(searchViewHolder.getBindingAdapterPosition()).getImageID() != null) {
+            if (meals.get(searchViewHolder.getBindingAdapterPosition()).getImageID() != null) {
                 StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(searchViewHolder.getBindingAdapterPosition()).getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(searchViewHolder.mealImage);
                 });
             }
 
-        } else if(type.equals("Cook")){
+        } else if (type.equals("Cook")) {
             MenuViewHolder menuViewHolder = (MenuViewHolder) holder;
-            menuViewHolder.name.setText(meals.get(menuViewHolder.getBindingAdapterPosition()).getMealName());
-            float price = meals.get(menuViewHolder.getBindingAdapterPosition()).getPrice();
+            menuViewHolder.position = menuViewHolder.getBindingAdapterPosition();
+            menuViewHolder.meal = meals.get(menuViewHolder.position);
+
+            menuViewHolder.name.setText(menuViewHolder.meal.getMealName());
+            String textPrice;
+            float price = menuViewHolder.meal.getPrice();
             BigDecimal bd = new BigDecimal(price + "");
-            String textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
+            textPrice = bd.setScale(2, RoundingMode.HALF_EVEN).toString();
             menuViewHolder.price.setText(textPrice);
 
-            firebaseMeal = userRef.collection("meals").document(meals.get(menuViewHolder.getBindingAdapterPosition()).getMealName());
-            firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                if(Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
-                    menuViewHolder.offerStatus.setText("Offered");
-                    menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
-                    menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
-                }
-                else {
-                    menuViewHolder.offerStatus.setText("Not Offered");
-                    menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                    menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
-                    menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.black_overlay));
-                    menuViewHolder.name.setTextColor(context.getResources().getColor(R.color.main_yellow));
-                }
-            });
+            if (menuViewHolder.meal.getOfferStatus()) {
+                menuViewHolder.offerStatus.setText("Offered");
+                menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.forest_moss));
+                menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour));
+            } else {
+                menuViewHolder.offerStatus.setText("Not Offered");
+                menuViewHolder.offerStatus.setTextColor(context.getResources().getColor(R.color.main_yellow));
+                menuViewHolder.menuModifyButt.setTextColor(context.getResources().getColor(R.color.froggy_leaf_green));
+                menuViewHolder.backgroundCard.setCardBackgroundColor(context.getResources().getColor(R.color.flour_overlay));
+                menuViewHolder.name.setTextColor(context.getResources().getColor(R.color.main_yellow));
+            }
 
-            if(meals.get(holder.getBindingAdapterPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(meals.get(menuViewHolder.getBindingAdapterPosition()).getImageID());
+            if (menuViewHolder.meal.getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(menuViewHolder.meal.getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     Glide.with(context).load(uri).into(menuViewHolder.mealImage);
                 });
@@ -153,10 +156,11 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mealImage;
-        TextView name, price, view, offerStatus, cookName;
-        //Switch menuOfferToggle;
+        TextView name, price, view, offerStatus;
         Button menuRemoveButt, menuModifyButt;
         CardView backgroundCard;
+        Meal meal;
+        int position;
 
         public MenuViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -166,67 +170,54 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             mealImage = itemView.findViewById(R.id.compMealImgView);
             view = itemView.findViewById(R.id.textView6);
             offerStatus = itemView.findViewById(R.id.offerStatusTextView);
-            //menuOfferToggle = itemView.findViewById(R.id.menuOfferToggle);
             offerStatus = itemView.findViewById(R.id.offerStatusTextView);
             menuRemoveButt = itemView.findViewById(R.id.menuRemoveButt);
             menuModifyButt = itemView.findViewById(R.id.menuModifyButt);
             backgroundCard = itemView.findViewById(R.id.backgroundCard);
-            cookName = itemView.findViewById(R.id.compressedCookNameTextView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (recyclerViewInterface != null){
-                        int pos = getBindingAdapterPosition();
+            itemView.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getBindingAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
-                        }
+                    if (pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(pos);
                     }
                 }
             });
 
-            menuModifyButt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, AddMeal.class);
-                    firebaseMeal = userRef.collection("meals").document(meals.get(getBindingAdapterPosition()).getMealName());
-                    firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                        Meal thisMeal = snapshot.toObject(Meal.class);
-                        intent.putExtra("MEAL NAME", thisMeal.getMealName());
-                        intent.putExtra("PRICE", thisMeal.getPrice());
-                        intent.putExtra("DESCRIPTION", thisMeal.getDescription());
-                        intent.putExtra("IMAGE", thisMeal.getImageID());
-                        intent.putExtra("COOKUID", thisMeal.getCookUID());
-                        context.startActivity(intent);
-                    });
-                }
+            menuModifyButt.setOnClickListener(view -> {
+                Intent intent = new Intent(context, AddMeal.class);
+                intent.putExtra("MEAL NAME", meal.getMealName());
+                intent.putExtra("PRICE", meal.getPrice());
+                intent.putExtra("DESCRIPTION", meal.getDescription());
+                intent.putExtra("IMAGE", meal.getImageID());
+                intent.putExtra("COOKUID", meal.getCookUID());
+                context.startActivity(intent);
             });
 
-            menuRemoveButt.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (offerStatus.getText() == "Offered"){
-                        Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
-                        userRef.collection("meals").document(meals.get(getBindingAdapterPosition()).getMealName()).delete();
-                        Toast.makeText(context, "The meal has been successfully removed.",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
-                    Intent intent = new Intent(context, CookHome.class);
-                    context.startActivity(intent);
+            menuRemoveButt.setOnClickListener(view -> {
+                if (offerStatus.getText() == "Offered") {
+                    Toast.makeText(context, "You cannot remove this meal as it is currently being offered.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    userRef = dBase.collection("users").document(mAuth.getCurrentUser().getUid());
+                    userRef.collection("meals").document(meals.get(getBindingAdapterPosition()).getMealName()).delete();
+                    Toast.makeText(context, "The meal has been successfully removed.",
+                            Toast.LENGTH_SHORT).show();
                 }
+
+                Intent intent = new Intent(context, CookHome.class);
+                intent.putExtra("type", "Cook");
+                context.startActivity(intent);
+                ((Activity)context).finish();
             });
         }
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView mealImage;
-        TextView name, price, rating, location;
+        ImageView mealImage, locationImg;
+        TextView name, price, rating, ratingSubhead, location;
 
         public SearchViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -236,16 +227,15 @@ public class Meal_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             mealImage = itemView.findViewById(R.id.clientMealImgView);
             rating = itemView.findViewById(R.id.rating);
             location = itemView.findViewById(R.id.location);
+            ratingSubhead = itemView.findViewById(R.id.ratingSubheader);
+            locationImg = itemView.findViewById(R.id.locationImg);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
-                        int pos = getBindingAdapterPosition();
+            itemView.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getBindingAdapterPosition();
 
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
-                        }
+                    if (pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onItemClick(pos);
                     }
                 }
             });

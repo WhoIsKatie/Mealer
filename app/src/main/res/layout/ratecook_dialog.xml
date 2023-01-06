@@ -11,6 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +24,7 @@
             android:id="@+id/rateTheCook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_black"
             android:gravity="center_horizontal"
             android:text="Rate Your Cook!"
@@ -60,18 +62,19 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/submitButton2"
+                android:id="@+id/ratingCancelButt"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginRight="10dp"
-                android:text="Submit" />
+                android:text="Cancel" />
 
             <Button
-                android:id="@+id/cancelButton2"
+                android:id="@+id/ratingSubmitButt"
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
-                android:text="Cancel" />
+                android:text="Submit" />
+
         </LinearLayout>
 
     </LinearLayout>

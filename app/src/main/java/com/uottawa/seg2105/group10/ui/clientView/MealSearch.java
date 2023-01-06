@@ -68,7 +68,6 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     @Override
     protected void onStart() {
         super.onStart();
-        searchedMeals.clear();
         setUpMealModels();
     }
 
@@ -100,8 +99,8 @@ public class MealSearch extends AppCompatActivity implements RecyclerViewInterfa
     }
 
     private void setUpMealModels(){
-        searchedMeals.clear();
         model.getQueryMeals(mealNameQuery, cuisineQuery, typeQuery).observe(MealSearch.this, list -> {
+            searchedMeals.clear();
             searchedMeals.addAll(list);
             updateView();
         });

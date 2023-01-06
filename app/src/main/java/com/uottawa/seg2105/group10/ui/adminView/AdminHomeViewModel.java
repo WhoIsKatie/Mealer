@@ -37,6 +37,7 @@ public class AdminHomeViewModel extends ViewModel {
                 for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                     Log.d("AdminHomeViewModel", document.getId() + "=>" + document.getData());
                     Complaint c = document.toObject(Complaint.class);
+                    c.setDocID(document.getId());
                     complaintList.add(c);
                 }
                 complaints.setValue(complaintList);

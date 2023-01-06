@@ -1,4 +1,4 @@
-package com.uottawa.seg2105.group10.ui.clientView;
+package com.uottawa.seg2105.group10.ui.recyclers;
 
 import android.app.Application;
 import android.util.Log;
@@ -22,6 +22,7 @@ import java.util.Objects;
 
 public class PurchasesViewModel extends AndroidViewModel {
 
+    private static final String TAG = "ClientHomeViewModel";
     private MutableLiveData<List<Purchase>> purchases;
     private MutableLiveData<User> currentUser, cookUser;
 
@@ -50,7 +51,7 @@ public class PurchasesViewModel extends AndroidViewModel {
         purchaseQuery.get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                        Log.d("ClientHomeViewModel", document.getId() + "=>" + document.getData());
+                        Log.d(TAG, document.getId() + "=>" + document.getData());
                         Purchase p = document.toObject(Purchase.class);
                         purchaseList.add(p);
                     }
@@ -73,7 +74,7 @@ public class PurchasesViewModel extends AndroidViewModel {
     public void loadUser() {
         Mealer app = (Mealer) getApplication().getApplicationContext();
         app.initializeUser(result -> {
-            Log.d("TAG", result.getFirstName());
+            Log.d(TAG, result.getFirstName());
             currentUser.setValue(result);
         });
     }
@@ -81,7 +82,7 @@ public class PurchasesViewModel extends AndroidViewModel {
     public void loadUser(String uid) {
         Mealer app = (Mealer) getApplication().getApplicationContext();
         app.getUser(uid, result -> {
-            Log.d("TAG", result.getFirstName());
+            Log.d(TAG, result.getFirstName());
             cookUser.setValue(result);
         });
     }

@@ -1,6 +1,8 @@
 package com.uottawa.seg2105.group10.ui.recyclers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -29,24 +29,29 @@ import com.google.firebase.storage.StorageReference;
 import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Complaint;
 import com.uottawa.seg2105.group10.repositories.Purchase;
+import com.uottawa.seg2105.group10.ui.cookView.Profile;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "Purchase_Adapter";
     private final RecyclerViewInterface recyclerViewInterface;
-    private CollectionReference purchaseRef;
     Context context;
     ArrayList<Purchase> purchases;
     private DocumentSnapshot document;
     private FirebaseAuth mAuth;
     private FirebaseFirestore dBase;
-    private AlertDialog dialog;
-    DocumentReference userRef, clientRef, cookRef, firebasePurchase;
-    String clientName, cookUID, cookName;
+    DocumentReference userRef, firebasePurchase;
+    String cookUID, cookName;
     private String type;
+    private int pos;
 
     public Purchase_RecyclerViewAdapter(String type, Context context, ArrayList<Purchase> purchases, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
@@ -78,17 +83,22 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         // This method assigns values to our rows as they come back on the screen, given the position of the recycler view
         if (type.equals("Client")) {
             ClientViewHolder clientViewHolder = (ClientViewHolder) holder;
+            clientViewHolder.position = clientViewHolder.getBindingAdapterPosition();
+            clientViewHolder.purchase = purchases.get(clientViewHolder.getBindingAdapterPosition());
 
-            //cookUID = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookUID();
-            cookName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getCookName();
-            String purchasedMealName = purchases.get(clientViewHolder.getBindingAdapterPosition()).getMealID();
-            String pickUpTime = purchases.get(clientViewHolder.getBindingAdapterPosition()).getPickupTime();
-            String status = purchases.get(clientViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
+            cookUID = clientViewHolder.purchase.getCookUID();
+            cookName = clientViewHolder.purchase.getCookName();
+            String purchasedMealName = clientViewHolder.purchase.getMealID();
+            String pickUpTime = clientViewHolder.purchase.getPickupTime();
+            String status = clientViewHolder.purchase.getStatus().toUpperCase();
+            long requestedMillis = Long.parseLong(clientViewHolder.purchase.getRequestTime());
+            LocalDateTime requestedStamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(requestedMillis), ZoneId.systemDefault());
 
-            clientViewHolder.purchasedName.setText(purchasedMealName);
-            clientViewHolder.purchasedCook.setText(cookName);
-            clientViewHolder.clientPickupTime.setText(pickUpTime);
+            clientViewHolder.mealName.setText(purchasedMealName);
+            clientViewHolder.cookNameText.setText(cookName);
+            clientViewHolder.pickupTime.setText(pickUpTime);
             clientViewHolder.purchaseStatus.setText(status);
+            clientViewHolder.requestTime.setText(requestedStamp.truncatedTo(ChronoUnit.MINUTES).toString());
 
             switch (status) {
                 case "PENDING":
@@ -106,20 +116,29 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     break;
             }
 
-            if (purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID() != null) {
-                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(purchases.get(clientViewHolder.getBindingAdapterPosition()).getImageID());
+            if (clientViewHolder.purchase.isRated())
+                clientViewHolder.rateCook.setVisibility(View.GONE);
+            if (clientViewHolder.purchase.isComplained())
+                clientViewHolder.complain.setVisibility(View.GONE);
+
+            if (clientViewHolder.purchase.getImageID() != null) {
+                StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(clientViewHolder.purchase.getImageID());
                 imgRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    Glide.with(context).load(uri).into(clientViewHolder.mealImage);
+                    Glide.with(context).load(uri).into(clientViewHolder.mealImg);
                 });
             }
 
         } else if (type.equals("Cook")) {
             CookViewHolder cookViewHolder = (CookViewHolder) holder;
-            String purchaseStatus = purchases.get(cookViewHolder.getBindingAdapterPosition()).getStatus().toUpperCase();
-            cookViewHolder.mealName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getMealID());
-            cookViewHolder.clientName.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getCookName());
-            cookViewHolder.pickUpTime.setText(purchases.get(cookViewHolder.getBindingAdapterPosition()).getPickupTime());
-            if(purchaseStatus.equalsIgnoreCase("accepted")){
+            cookViewHolder.position = cookViewHolder.getBindingAdapterPosition();
+            cookViewHolder.purchase = purchases.get(cookViewHolder.position);
+
+            String purchaseStatus = cookViewHolder.purchase.getStatus().toUpperCase();
+            cookViewHolder.mealName.setText(cookViewHolder.purchase.getMealID());
+            cookViewHolder.clientName.setText(cookViewHolder.purchase.getClientName());
+            cookViewHolder.pickUpTime.setText(cookViewHolder.purchase.getPickupTime());
+
+            if (purchaseStatus.equalsIgnoreCase("accepted")) {
                 cookViewHolder.approveButt.setVisibility(View.GONE);
                 cookViewHolder.rejectButt.setVisibility(View.GONE);
                 cookViewHolder.approvedMessage.setVisibility(View.VISIBLE);
@@ -137,6 +156,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
         TextView mealName, clientName, pickUpTime, approvedMessage;
         Button approveButt, rejectButt;
+        Purchase purchase;
+        int position;
 
         public CookViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -146,7 +167,6 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             pickUpTime = itemView.findViewById(R.id.compPickUpTimeTextView);
             approveButt = itemView.findViewById(R.id.compApproveButt);
             rejectButt = itemView.findViewById(R.id.compRejectButt);
-            //approvedMessage = itemView.findViewById(R.id.textView4);
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {
@@ -159,21 +179,8 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             });
 
             approveButt.setOnClickListener(v -> {
-                String purchaseStatus = "ACCEPTED";
-                firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
-                firebasePurchase.update("status", purchaseStatus)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error updating document", e);
-                            }
-                        });
+                purchase.updateStatus(Purchase.ACCEPTED.toUpperCase(Locale.ROOT));
+
                 userRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         document = task.getResult();
@@ -183,226 +190,159 @@ public class Purchase_RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                         }
                     }
                 });
-                notifyItemChanged(getBindingAdapterPosition());
+
+                Intent intent = new Intent(context, Profile.class);
+                intent.putExtra("type", "Cook");
+                context.startActivity(intent);
+                ((Activity)context).finish();
             });
+
             rejectButt.setOnClickListener(v -> {
-                String purchaseStatus = "REJECTED";
-                firebasePurchase = dBase.collection("purchases").document(purchases.get(getAdapterPosition()).getRequestTime());
-                firebasePurchase.update("status", purchaseStatus)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error updating document", e);
-                            }
-                        });
+                purchase.updateStatus(Purchase.REJECTED.toUpperCase(Locale.ROOT));
+
+                Intent intent = new Intent(context, Profile.class);
+                intent.putExtra("type", "Cook");
+                context.startActivity(intent);
+                ((Activity)context).finish();
             });
         }
     }
 
     public class ClientViewHolder extends RecyclerView.ViewHolder {
 
-        EditText complaint, rate, titleComplaint;
-        TextView rateTheCook, requestTime, purchasedName, purchasedCook, purchasedPrice, clientNameHeadline, clientPickupTime, purchaseStatus;
+        EditText complaint, title;
+        TextView requestTime, mealName, cookNameText, price, clientHeader, pickupTime, purchaseStatus;
+        Button complain, rateCook;
+        ImageView mealImg;
 
-        Button submitButton, cancelButton, complain, rateCook, submitButton2, cancelButton2;
-        ImageView mealImage;
-
-        private AlertDialog.Builder dialogBuilder;
-        private AlertDialog dialog;
+        Purchase purchase;
+        int position;
 
         public ClientViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             requestTime = itemView.findViewById(R.id.requestTime);
-            purchasedName = itemView.findViewById(R.id.purchasedName);
-            purchasedCook = itemView.findViewById(R.id.purchasedCook);
-            purchasedPrice = itemView.findViewById(R.id.purchasedPrice);
-            clientPickupTime = itemView.findViewById(R.id.clientPickupTime);
+            mealName = itemView.findViewById(R.id.purchasedName);
+            cookNameText = itemView.findViewById(R.id.purchasedCook);
+            price = itemView.findViewById(R.id.purchasedPrice);
+            pickupTime = itemView.findViewById(R.id.clientPickupTime);
             purchaseStatus = itemView.findViewById(R.id.purchaseStatus);
-            mealImage = itemView.findViewById(R.id.purchaseMealImage);
-            clientNameHeadline = itemView.findViewById(R.id.clientNameHeadline);
-
+            mealImg = itemView.findViewById(R.id.purchaseMealImage);
+            clientHeader = itemView.findViewById(R.id.clientNameHeadline);
 
             complain = itemView.findViewById(R.id.complain);
             rateCook = itemView.findViewById(R.id.rateCook);
-            purchaseRef = dBase.collection("purchases");
 
             itemView.setOnClickListener(view -> {
                 if (recyclerViewInterface != null) {
                     int pos = getBindingAdapterPosition();
-
-                    if (pos != RecyclerView.NO_POSITION) {
+                    if (pos != RecyclerView.NO_POSITION)
                         recyclerViewInterface.onItemClick(pos);
-                    }
                 }
             });
 
-            complain.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    submitComplaint();
-                }
-            });
+            complain.setOnClickListener(view -> {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.complaint_dialog, null);
+
+                title = complaintPopup.findViewById(R.id.titleComplaint);
+                complaint = complaintPopup.findViewById(R.id.complaint);
+
+                Button submitButton = complaintPopup.findViewById(R.id.submitButton);
+                Button cancelButton = complaintPopup.findViewById(R.id.cancelButton);
 
 
-            rateCook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    rateYourCook();
-                }
-            });
-        }
+                dialogBuilder.setView(complaintPopup);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.getWindow().setBackgroundDrawableResource(R.color.flour_overlay);
+                dialog.show();
 
+                cancelButton.setOnClickListener(view1 -> dialog.dismiss());
 
-        public void submitComplaint(){
-            dialogBuilder = new AlertDialog.Builder(context);
-            final View complaintPopup = LayoutInflater.from(context).inflate(R.layout.complaint_dialog, null);
-
-            titleComplaint = complaintPopup.findViewById(R.id.titleComplaint);
-            complaint = complaintPopup.findViewById(R.id.complaint);
-
-            submitButton = complaintPopup.findViewById(R.id.submitButton);
-            cancelButton = complaintPopup.findViewById(R.id.cancelButton);
-
-            dialogBuilder.setView(complaintPopup);
-            dialog = dialogBuilder.create();
-            dialog.show();
-
-            submitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String titleComplaintString = titleComplaint.getText().toString();
-                    String complaintString = complaint.getText().toString();
-                    if(!validateTitle() | !validateComplaint()) {
+                submitButton.setOnClickListener(view2 -> {
+                    String complaintTitle = title.getText().toString();
+                    String complaintDesc = complaint.getText().toString();
+                    if (!validateTitle() | !validateComplaint()) {
                         return;
                     }
-                    Complaint complaint = new Complaint(clientName, cookName, String.valueOf(LocalTime.now()),titleComplaintString, complaintString, cookUID, mAuth.getCurrentUser().getUid());
-                    dBase.collection("complaints").add(complaint)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d("ClientHome", "DocumentSnapshot written with ID: " + documentReference.getId());
-                                    Toast.makeText(context, "Complaint submitted", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("ClientHome", "Error adding document", e);
-                                    Toast.makeText(context, "Complaint incomplete", Toast.LENGTH_SHORT).show();
-                                }
+                    Complaint c = new Complaint(mAuth.getCurrentUser().getDisplayName(), cookName,
+                            String.valueOf(LocalTime.now()), complaintTitle, complaintDesc,
+                            cookUID, mAuth.getCurrentUser().getUid());
+
+                    dBase.collection("complaints").add(c)
+                            .addOnSuccessListener(documentReference -> {
+                                Log.d("ClientHome", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                Toast.makeText(context, "Complaint submitted", Toast.LENGTH_SHORT).show();
+                                c.setDocID(documentReference.getId());
+                                documentReference.update("docID", c.getDocID());
                             });
+                    purchase.setComplained();
                     dialog.dismiss();
-                }});
 
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
-        public void rateYourCook(){
-            AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(context);
-            final View ratePopup = LayoutInflater.from(context).inflate(R.layout.ratecook_dialog, null);
-
-            rateTheCook = (TextView) ratePopup.findViewById(R.id.rateTheCook);
-
-            rate = (EditText) ratePopup.findViewById(R.id.rate);
-            submitButton2 =(Button) ratePopup.findViewById(R.id.submitButton2);
-            cancelButton2 = (Button) ratePopup.findViewById(R.id.cancelButton2);
-
-            dialogBuilder2.setView(ratePopup);
-            Purchase_RecyclerViewAdapter.this.dialog = dialogBuilder2.create();
-            Purchase_RecyclerViewAdapter.this.dialog.show();
-
-            submitButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String rateString = rate.getText().toString();
-                    if(!validateRating()) {
-                        return;
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (getBindingAdapter() != null)
+                            getBindingAdapter().notifyItemChanged(position);
                     }
-                    int rateNum = Integer.parseInt(rateString);
-                    clientRef = dBase.collection("users").document(cookUID);
-                    clientRef.update("ratingSum", FieldValue.increment(Long.parseLong(rateString)))
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("ClientHome", "DocumentSnapshot successfully updated!");
-                                     clientRef.update("numReviews", FieldValue.increment(1));
-                                    Toast.makeText(context, "Rating submitted", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("ClientHome", "Error updating document", e);
-                                }
-                            });
-                    Purchase_RecyclerViewAdapter.this.dialog.dismiss();
-                }
+                });
             });
 
-            cancelButton2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Purchase_RecyclerViewAdapter.this.dialog.dismiss();
-                }
+            rateCook.setOnClickListener(view -> {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+                final View ratePopup = LayoutInflater.from(context).inflate(R.layout.ratecook_dialog, null);
+
+                RatingBar ratingBar = ratePopup.findViewById(R.id.ratingBar);
+                Button submitButt = ratePopup.findViewById(R.id.ratingSubmitButt);
+                Button cancelButt = ratePopup.findViewById(R.id.ratingCancelButt);
+
+                dialogBuilder.setView(ratePopup);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.getWindow().setBackgroundDrawableResource(R.color.flour_overlay);
+                dialog.show();
+
+                cancelButt.setOnClickListener(view3 -> dialog.dismiss());
+
+                submitButt.setOnClickListener(view2 -> {
+                    DocumentReference cookRef = dBase.collection("users").document(cookUID);
+                    cookRef.update("ratingSum", FieldValue.increment(ratingBar.getRating()))
+                            .addOnSuccessListener(v -> {
+                                Log.d("ClientHome", "DocumentSnapshot successfully updated!");
+                                cookRef.update("numReviews", FieldValue.increment(1));
+                                Toast.makeText(context, "Rating submitted", Toast.LENGTH_SHORT).show();
+                            });
+                    purchase.setRated();
+                    dialog.dismiss();
+
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (getBindingAdapter() != null)
+                            getBindingAdapter().notifyItemChanged(position);
+                    }
+                });
+
             });
         }
 
-        private boolean validateComplaint(){
+        private boolean validateComplaint() {
             String val = complaint.getText().toString().trim();
 
-            if(val.isEmpty()) {
-                complaint.setError("Field can not be empty");
+            if (val.isEmpty()) {
+                complaint.setError("Field cannot be empty");
                 return false;
             }
-            else{
-                complaint.setError(null);
-                return true;
-            }
+
+            complaint.setError(null);
+            return true;
         }
 
-        private boolean validateTitle(){
-            String val = titleComplaint.getText().toString().trim();
+        private boolean validateTitle() {
+            String val = title.getText().toString().trim();
 
-            if(val.isEmpty()) {
-                titleComplaint.setError("Field can not be empty");
+            if (val.isEmpty()) {
+                title.setError("Field cannot be empty");
                 return false;
             }
-            else{
-                titleComplaint.setError(null);
-                return true;
-            }
+
+            title.setError(null);
+            return true;
         }
-
-        private boolean validateRating(){
-            String val = rate.getText().toString();
-            String numFormat = "[1-5]";
-
-            if(val.isEmpty()) {
-                rate.setError("Field can not be empty");
-                return false;
-            }
-
-            if (!val.matches(numFormat)){
-                rate.setError("Rating must be a number from 1 to 5");
-                return false;
-            }
-            else{
-                rate.setError(null);
-                return true;
-            }
-        }
-
     }
 }
 

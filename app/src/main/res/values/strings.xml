@@ -27,4 +27,5 @@
     <string name="adminNextButtText">VIEW COMPLAINTS</string>
     <string name="enter_pickup">pickup date and time</string>
     <string name="dateTimeFormat">YY/MM/DD-00:00</string>
+    <string name="noRequests">No purchase requests at this time.\nCheck back later for new updates!</string>
 </resources>

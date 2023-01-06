@@ -51,7 +51,6 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
     @Override
     protected void onStart() {
         super.onStart();
-        complaints.clear();
         setUpComplaintModels();
     }
 
@@ -63,6 +62,7 @@ public class AdminHome extends AppCompatActivity implements RecyclerViewInterfac
 
     private void setUpComplaintModels() {
         model.getComplaints().observe(AdminHome.this, list -> {
+            complaints.clear();
             complaints.addAll(list);
             updateView();
         });

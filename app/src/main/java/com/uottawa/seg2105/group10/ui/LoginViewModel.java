@@ -36,7 +36,7 @@ public class LoginViewModel extends AndroidViewModel {
                         Log.d("LoginViewModel", "signInWithEmail:success");
                         Mealer app = (Mealer) getApplication().getApplicationContext();
                         app.initializeUser(result -> {
-                            Log.d("TAG", result.getFirstName());
+                            Log.d("LoginViewModel", result.getFirstName());
                             user.setValue(result);
                         });
                     } else

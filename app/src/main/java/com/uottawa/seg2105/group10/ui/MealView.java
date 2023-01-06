@@ -34,6 +34,8 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
 
 public class MealView extends AppCompatActivity {
 
@@ -199,7 +201,7 @@ public class MealView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 firebaseMeal.get().addOnSuccessListener(snapshot -> {
-                    if (Boolean.TRUE.equals(snapshot.getBoolean("offered"))) {
+                    if (Boolean.TRUE.equals(snapshot.getBoolean("offerStatus"))) {
                         Toast.makeText(MealView.this, "You cannot remove this meal as it is currently being offered.",
                                 Toast.LENGTH_SHORT).show();
                     } else {
@@ -234,12 +236,12 @@ public class MealView extends AppCompatActivity {
                                         clientName = clientSnapshot.getString("firstName") + " " + clientSnapshot.getString("lastName");
 
                                         String pattern = "yy/MM/dd-HH:mm";
-                                        pickUpTime = pickupTimeText.getText().toString();
+                                        pickUpTime = Objects.requireNonNull(pickupTimeText.getText()).toString();
                                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
                                         LocalDateTime pickup = LocalDateTime.from(formatter.parse(pickUpTime));
                                         String docID = System.currentTimeMillis() + "";
                                         try {
-                                            Meal.createPurchase(docID, cookUID, clientUID, mealName, image, pickup, clientName, cookName, Purchase.PENDING);
+                                            Meal.createPurchase(docID, cookUID, clientUID, mealName, image, pickup, cookName, clientName, Purchase.PENDING.toUpperCase(Locale.ROOT), false, false);
                                             Toast.makeText(MealView.this, "Purchase request submitted!", Toast.LENGTH_SHORT).show();
                                         } catch (Exception e) {
                                             Toast.makeText(MealView.this, "Purchase request failed to submit.", Toast.LENGTH_SHORT).show();
@@ -247,10 +249,6 @@ public class MealView extends AppCompatActivity {
                                     }
                                 }
                             });
-
-
-
-
                         }
                     }
                 });
@@ -265,12 +263,10 @@ public class MealView extends AppCompatActivity {
                     Meal thisMeal = snapshot.toObject(Meal.class);
                     if (offerToggle.isChecked()) {
                         thisMeal.offerMeal();
-                        firebaseMeal.update("offered", true);
-                        offerToggle.setText("Offered");
+                        thisMeal.updateFirestore(MealView.this);
                     } else {
                         thisMeal.stopOffering();
-                        firebaseMeal.update("offered", false);
-                        offerToggle.setText("Not Offered");
+                        thisMeal.updateFirestore(MealView.this);
                     }
                 });
             }
@@ -281,7 +277,7 @@ public class MealView extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebaseMeal.get().addOnSuccessListener(documentSnapshot -> {
-            if (Boolean.TRUE.equals(documentSnapshot.getBoolean("offered"))) {
+            if (Boolean.TRUE.equals(documentSnapshot.getBoolean("offerStatus"))) {
                 offerToggle.setChecked(true);
                 offerToggle.setText("Offered");
             } else {

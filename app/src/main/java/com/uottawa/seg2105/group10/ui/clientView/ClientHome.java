@@ -19,6 +19,7 @@ import com.uottawa.seg2105.group10.repositories.Purchase;
 import com.uottawa.seg2105.group10.repositories.User;
 import com.uottawa.seg2105.group10.ui.Landing;
 import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
+import com.uottawa.seg2105.group10.ui.recyclers.PurchasesViewModel;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
 import java.util.ArrayList;
@@ -57,7 +58,13 @@ public class ClientHome extends AppCompatActivity implements RecyclerViewInterfa
 
         Mealer app = (Mealer) getApplicationContext();
 
-        clientName = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName() + "'s Purchases";
+
+        if (mAuth.getCurrentUser() != null) {
+            clientName = Objects.requireNonNull(mAuth.getCurrentUser()).getDisplayName();
+            if (clientName != null)
+                clientName = clientName.substring(0, clientName.indexOf(" ")) + "'s Purchases";
+            else clientName = "Your Purchases";
+        }
         clientNameHeadline.setText(clientName);
 
         searchButton.setOnClickListener(new View.OnClickListener() {

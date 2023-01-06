@@ -64,8 +64,8 @@ public class Meal {
 	public void setCookUID(String cookUID){this.cookUID = cookUID;}
 
 	//make a purchase of this meal (done like this so its easy to do from adapter position)
-	public static Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, String imageID, LocalDateTime pickTime,String cookName, String clientName, String status) {
-		return new Purchase(docID, cookUID, clientUID, mealName, imageID, pickTime.toString(), cookName, clientName, status);
+	public static Purchase createPurchase(String docID, String cookUID, String clientUID, String mealName, String imageID, LocalDateTime pickTime,String cookName, String clientName, String status, boolean rated, boolean complained) {
+		return new Purchase(docID, cookUID, clientUID, mealName, imageID, pickTime.toString(), cookName, clientName, status, rated, complained);
 	}
 
 	public boolean updateFirestore(Context c) {

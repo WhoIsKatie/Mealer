@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/backgroundCard"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/flour"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
@@ -23,42 +23,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/compMealImgView"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.3">
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/oatmeal" />
 
-                <ImageView
-                    android:id="@+id/compMealImgView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:srcCompat="@drawable/oatmeal" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="0.6"
-                app:layout_constraintBottom_toBottomOf="@+id/menuOfferToggle"
-                app:layout_constraintTop_toBottomOf="@+id/menuOfferToggle">
+            <LinearLayout
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/compMealName"
@@ -68,63 +47,58 @@
                     android:fontFamily="@font/roboto_bold"
                     android:text="Morning Breakfast"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:textSize="17sp" />
 
-                <TextView
-                    android:id="@+id/compMealPrice"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="15.00"
-                    android:textColor="@color/mustard"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/compMealName"
-                    app:layout_constraintTop_toBottomOf="@+id/compMealName" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/dollar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="$"
-                    android:textColor="@color/mustard"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/compMealName" />
+                    <TextView
+                        android:id="@+id/dollar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="$"
+                        android:textColor="@color/mustard" />
+
+                    <TextView
+                        android:id="@+id/compMealPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="15.00"
+                        android:textColor="@color/mustard"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/offerStatusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="@font/roboto"
                     android:text="Offered"
-                    android:textColor="@color/forest_moss"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.802" />
+                    android:textColor="@color/forest_moss" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/menuRemoveButt"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginBottom="8dp"
-                    android:insetTop="16dp"
+                    android:layout_height="45dp"
                     android:text="remove"
                     android:textSize="10sp"
                     app:backgroundTint="@color/main_yellow"
-                    app:cornerRadius="30dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.905"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menuModifyButt"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:cornerRadius="30dp" />
 
                 <Button
                     android:id="@+id/menuModifyButt"
@@ -132,46 +106,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="#00000000"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="modify"
-                    android:textColor="@color/forest_moss"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.91"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Switch
-                    android:id="@+id/menuOfferToggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:fontFamily="@font/roboto"
-                    android:minHeight="48dp"
-                    android:text="Offer"
-                    android:textColor="@color/main_yellow"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/compMealName"
-                    app:layout_constraintVertical_bias="1.0" />
-
-                <TextView
-                    android:id="@+id/compressedCookNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="cookName"
-                    android:textColor="#000000"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/compMealPrice" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textColor="@color/black_overlay"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
         </LinearLayout>
 

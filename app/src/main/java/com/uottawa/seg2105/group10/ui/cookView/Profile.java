@@ -16,7 +16,7 @@ import com.uottawa.seg2105.group10.R;
 import com.uottawa.seg2105.group10.repositories.Cook;
 import com.uottawa.seg2105.group10.repositories.Purchase;
 import com.uottawa.seg2105.group10.repositories.User;
-import com.uottawa.seg2105.group10.ui.clientView.PurchasesViewModel;
+import com.uottawa.seg2105.group10.ui.recyclers.PurchasesViewModel;
 import com.uottawa.seg2105.group10.ui.recyclers.Purchase_RecyclerViewAdapter;
 import com.uottawa.seg2105.group10.ui.recyclers.RecyclerViewInterface;
 
@@ -41,7 +41,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         type = getIntent().getStringExtra("type");
 
-
         recyclerView = findViewById(R.id.purchaseRecyclerView);
         cookName = findViewById(R.id.cookNameTextView);
         cookDescription = findViewById(R.id.cookDescription);
@@ -51,19 +50,16 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
         model.getUser("").observe(Profile.this, user -> {
             if (user == null)
-                Log.d("TAG", "failed to retrieve user object.");
+                Log.d(TAG, "failed to retrieve user object.");
             else {
                 if (Objects.equals(type, "Client")) {
-                    //TextView requestsHeader = findViewById(R.id.requestsHeader);
                     CardView purchaseRequestView = findViewById(R.id.purchaseRequestView);
-                    //requestsHeader.setVisibility(View.GONE);
                     purchaseRequestView.setVisibility(View.GONE);
-                    //recyclerView.setVisibility(View.GONE);
                     String cookUID = getIntent().getStringExtra("cookUID");
 
                     model.getUser(cookUID).observe(Profile.this, cook -> {
                         if (cook == null)
-                            Log.d("TAG", "failed to retrieve user object.");
+                            Log.d(TAG, "failed to retrieve user object.");
                         updateTextViews(cook);
                     });
                 } else updateTextViews(user);
@@ -76,7 +72,6 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
     protected void onStart() {
         super.onStart();
         if (type.equals("Cook")) {
-            purchases.clear();
             setUpPurchaseModels();
         }
     }
@@ -99,8 +94,14 @@ public class Profile extends AppCompatActivity implements RecyclerViewInterface 
 
     private void setUpPurchaseModels() {
         model.getPurchases("Cook").observe(Profile.this, list -> {
+            purchases.clear();
             purchases.addAll(list);
-            updateView();
+            if (purchases.isEmpty()){
+                recyclerView.setVisibility(View.GONE);
+                TextView recyclerAlert = findViewById(R.id.recyclerAlert);
+                recyclerAlert.setVisibility(View.VISIBLE);
+            } else
+                updateView();
         });
     }
 

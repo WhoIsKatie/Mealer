@@ -67,7 +67,6 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
     @Override
     protected void onStart() {
         super.onStart();
-        meals.clear();
         setUpMealModels();
     }
 
@@ -79,6 +78,7 @@ public class CookHome extends AppCompatActivity implements RecyclerViewInterface
 
     private void setUpMealModels() {
         model.getMeals().observe(CookHome.this, list -> {
+            meals.clear();
             meals.addAll(list);
             updateView();
         });

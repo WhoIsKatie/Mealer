@@ -38,7 +38,7 @@ public class MealSearchViewModel extends ViewModel {
                     continue;
                 }
                 Query searchQuery = cook.getReference().collection("meals")
-                        .whereEqualTo("offered", true);
+                        .whereEqualTo("offerStatus", true);
                 if (name != null)
                     if (!name.isEmpty()) searchQuery = searchQuery.whereEqualTo("mealName", name);
                 if (cuisine != null)
