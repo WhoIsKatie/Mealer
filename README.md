@@ -13,8 +13,7 @@
 </div>
 
 An Ottawa-based meal-sharing application where local cooks can sell meals to clients from the
-comfort of their home. Built with Android SDK and <a src="https://firebase.google.com/">Firebase</a>
-.
+comfort of their home. Built with Android SDK and Google Firebase.
 
 This application supports three types of users:
 
