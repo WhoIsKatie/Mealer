@@ -1,14 +1,15 @@
 <div align="center">
-    <img alt="Mealer logo" src="app/src/main/res/drawable/logo.png" width="100" style="border-radius:20%"/>
+     <img alt="Mealer logo" src="app/src/main/res/drawable/logo.png" width="100" style="border-radius:20%"/>
 </div>
 <h1 align="center">Mealer</h1>
 <h4 align="center">SEG 2105 | Fall 2022</h4>
 <h6 align="center">Katie Liu, Tess Harper, Elsa M. Ko, Jacob Maurice, Saranki Mahendran</h6>
 <div align="center">
-    <img alt="landing activity" src="https://bit.ly/3Gv6jGi" width="150" style="border-radius:2%"/>
-    <img alt="client search activity" src="https://bit.ly/3CuCxjA" width="150" style="border-radius:2%"/>
-    <img alt="client home activity" src="https://bit.ly/3Cwv17X" width="150" style="border-radius:2%"/>
-    <img alt="cook profile activity" src="https://bit.ly/3vLiV7e" width="150" style="border-radius:2%"/>
+     <img alt="landing activity" src="screenshots/landing.jpg" width="120" style="border-radius:2%"/>
+     <img alt="client search activity" src="screenshots/search.jpg" width="120" style="border-radius:2%"/>
+     <img alt="client home activity" src="screenshots/clienthome.jpg" width="120" style="border-radius:2%"/>
+     <img alt="cook profile activity" src="screenshots/menu.jpg" width="120" style="border-radius:2%"/>
+     <img alt="cook profile activity" src="screenshots/cookprofile.jpg" width="120" style="border-radius:2%"/>
 </div>
 
 An Ottawa-based meal-sharing application where local cooks can sell meals to clients from the
